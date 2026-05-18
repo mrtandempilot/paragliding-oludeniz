@@ -366,8 +366,6 @@ The photos you see on our website were taken by our pilots during real tandem fl
 It's not just beautiful. It's the kind of view that makes you feel genuinely small — in the best possible way.
     `,
   },
-]
-
   {
     slug: 'is-paragliding-in-oludeniz-safe',
     title: 'Is Paragliding in Ölüdeniz Safe? Everything You Need to Know',
@@ -551,6 +549,7 @@ Weight and age limits exist entirely for safety — not convenience. They are se
 If you have any doubt about whether these limits apply to you, contact us before you travel. We will always give you an honest answer.
     `,
   },
+]
 
 export function getBlogPost(slug: string): BlogPost | undefined {
   return blogPosts.find((post) => post.slug === slug)
