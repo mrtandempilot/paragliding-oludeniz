@@ -374,5 +374,5 @@ export function getBlogPost(slug: string): BlogPost | undefined {
 
 export function getBlogCategories(): string[] {
   const cats = blogPosts.map((p) => p.category)
-  return [...new Set(cats)]
+  return Array.from(new Set(cats))
 }
