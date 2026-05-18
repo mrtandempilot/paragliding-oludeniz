@@ -31,7 +31,12 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // www → non-www (Vercel handles this, but explicit is fine)
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.paragliding-oludeniz.com' }],
+        destination: 'https://paragliding-oludeniz.com/:path*',
+        permanent: true,
+      },
     ]
   },
 }
