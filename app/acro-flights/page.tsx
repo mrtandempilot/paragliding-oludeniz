@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import FAQAccordion from '@/components/shared/FAQAccordion'
-import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Acro Paragliding Ölüdeniz | Aerobatics Babadağ Turkey',
