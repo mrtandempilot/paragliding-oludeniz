@@ -35,6 +35,10 @@ export default function SoloParaglidingPage() {
               { href: '/solo-paragliding/equipment-requirements', title: 'Equipment Requirements', desc: 'What gliders, harnesses, reserves and radios are required to fly from Babadağ.' },
               { href: '/solo-paragliding/insurance-permissions', title: 'Insurance & Passes', desc: 'Where to buy day, weekly and season passes. Insurance requirements explained.' },
               { href: '/cross-country-flights', title: 'Cross Country Flying', desc: 'XC routes, landing zones, and everything about flying cross-country from Babadağ.' },
+              { href: '/acro-flights', title: 'Acro & Aerobatics', desc: 'World-class acro flying over the Blue Lagoon — from wing-overs to infinity tumbling.' },
+              { href: '/training', title: 'Training Courses', desc: 'SIV clinics, XC coaching and guided flying weeks based at Babadağ.' },
+              { href: '/pilot-services', title: 'Pilot Services', desc: 'Equipment rental, local guiding, weather briefings and community for visiting pilots.' },
+              { href: '/community', title: 'Pilot Community', desc: 'Join 200+ local and visiting pilots on WhatsApp groups and at weekly events.' },
             ].map(link => (
               <Link key={link.href} href={link.href} className="card p-5 hover:shadow-md transition-all hover:-translate-y-0.5 group">
                 <h3 className="font-bold text-slate-900 mb-2 group-hover:text-orange-600 transition-colors">{link.title}</h3>

@@ -195,6 +195,27 @@ export default function BabadagGuidePage() {
         </div>
       </section>
 
+      <section className="section-padding bg-slate-50">
+        <div className="container-default max-w-3xl">
+          <h2 className="text-xl font-bold text-slate-900 mb-6">Explore More About Flying at Babadağ</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+            {[
+              { href: '/cross-country-flights', title: 'Cross Country Flying', desc: 'XC routes up to 180km, landing zones and seasonal XC windows from Babadağ.' },
+              { href: '/solo-paragliding', title: 'Solo Pilot Information', desc: 'Licences, pilot passes, airspace rules and site requirements for visiting pilots.' },
+              { href: '/thermals-guide', title: 'Thermals Guide', desc: 'Understand the daily thermal cycle and wind patterns on Babadağ before you fly.' },
+            ].map(link => (
+              <Link key={link.href} href={link.href} className="flex gap-3 p-4 rounded-xl border border-slate-200 hover:border-orange-300 hover:bg-orange-50 transition-all group">
+                <ArrowRight className="w-4 h-4 text-orange-500 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-slate-900 group-hover:text-orange-600 text-sm">{link.title}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">{link.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="section-padding bg-white">
         <div className="container-default max-w-2xl">
           <BookingCTA title="Book a Tandem Flight from Babadağ" subtitle="We handle everything — transfer to launch, equipment, certified pilot, beach landing." />

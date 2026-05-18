@@ -222,7 +222,23 @@ export default function TrainingPage() {
       </section>
 
       <section className="section-padding bg-slate-50">
-        <div className="container-default max-w-2xl">
+        <div className="container-default max-w-3xl">
+          <h2 className="text-xl font-bold text-slate-900 mb-6">Also Useful for Visiting Pilots</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+            {[
+              { href: '/community', label: 'Pilot Community', desc: 'Join WhatsApp groups, meet local pilots, and get daily weather briefings.' },
+              { href: '/pilot-services/equipment-rental', label: 'Equipment Rental', desc: 'Rent EN-B or EN-C gliders and harnesses for your course or flying week.' },
+              { href: '/cross-country-flights', label: 'XC Flying', desc: 'Explore the XC potential of Babadağ — routes, landing zones and thermal maps.' },
+            ].map(link => (
+              <Link key={link.href} href={link.href} className="flex gap-3 p-4 rounded-xl border border-slate-200 hover:border-orange-300 hover:bg-orange-50 transition-all group">
+                <ArrowRight className="w-4 h-4 text-orange-500 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-slate-900 group-hover:text-orange-600 text-sm">{link.label}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">{link.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
           <BookingCTA
             title="Ready to Start Your Training?"
             subtitle="Contact us to check course dates and availability. Small groups — book early."

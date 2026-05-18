@@ -100,6 +100,25 @@ export default function AcroFlightsPage() {
           </div>
 
           <FAQAccordion items={faqItems} title="Acro FAQ" />
+
+          <div className="mt-10 border-t border-slate-200 pt-8">
+            <h3 className="text-lg font-bold text-slate-900 mb-4">Further Reading for Pilots</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                { href: '/training', title: 'SIV & Training Courses', desc: 'SIV clinics over the Blue Lagoon are the essential foundation before acro progression.' },
+                { href: '/solo-paragliding', title: 'Solo Pilot Information', desc: 'Licence requirements, pilot passes, and site regulations for flying at Babadağ.' },
+                { href: '/community', title: 'Pilot Community', desc: 'Connect with acro pilots via WhatsApp groups and the annual Ölüdeniz Acro Show.' },
+              ].map(link => (
+                <Link key={link.href} href={link.href} className="flex gap-3 p-4 rounded-xl border border-slate-200 hover:border-orange-300 hover:bg-orange-50 transition-all group">
+                  <ArrowRight className="w-4 h-4 text-orange-500 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-slate-900 group-hover:text-orange-600 text-sm">{link.title}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">{link.desc}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

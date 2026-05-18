@@ -198,6 +198,16 @@ export default function ThermalsGuidePage() {
               <span className="font-medium text-slate-900 group-hover:text-orange-600 transition-colors">Best Months to Fly</span>
               <ArrowRight className="w-4 h-4 text-orange-500 ml-auto" />
             </Link>
+            <Link href="/cross-country-flights" className="card p-5 hover:shadow-md transition-shadow flex items-center gap-3 group">
+              <Wind className="w-6 h-6 text-orange-500" />
+              <span className="font-medium text-slate-900 group-hover:text-orange-600 transition-colors">Cross Country Flying</span>
+              <ArrowRight className="w-4 h-4 text-orange-500 ml-auto" />
+            </Link>
+            <Link href="/babadag-guide" className="card p-5 hover:shadow-md transition-shadow flex items-center gap-3 group">
+              <Sun className="w-6 h-6 text-slate-500" />
+              <span className="font-medium text-slate-900 group-hover:text-orange-600 transition-colors">Babadağ Mountain Guide</span>
+              <ArrowRight className="w-4 h-4 text-orange-500 ml-auto" />
+            </Link>
           </div>
         </div>
       </section>
