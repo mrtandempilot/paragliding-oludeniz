@@ -368,6 +368,190 @@ It's not just beautiful. It's the kind of view that makes you feel genuinely sma
   },
 ]
 
+  {
+    slug: 'is-paragliding-in-oludeniz-safe',
+    title: 'Is Paragliding in Ölüdeniz Safe? Everything You Need to Know',
+    description: 'Honest, detailed answers about paragliding safety in Ölüdeniz. Accident rates, pilot qualifications, equipment standards, weather checks and what really keeps you safe in the air.',
+    date: '2025-05-10',
+    category: 'Safety',
+    readTime: '7 min read',
+    image: 'https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=1200&q=80',
+    content: `
+## The Honest Answer
+
+Yes — tandem paragliding in Ölüdeniz is safe. But "safe" deserves a proper explanation, not just reassurance.
+
+Paragliding is an adventure sport. Like skiing, scuba diving, or motorcycling, it carries inherent risk. What makes tandem paragliding in Ölüdeniz exceptionally safe is the combination of world-class infrastructure, strict pilot licensing, and over 30 years of operational experience at this site.
+
+Here is everything you need to know to make an informed decision.
+
+### The Numbers: Accident Rates
+
+Tandem paragliding has one of the lowest accident rates of any adventure sport. According to data compiled by the British Hang Gliding and Paragliding Association (BHPA), the fatal accident rate for tandem paragliding is approximately 1 in 250,000 flights — comparable to commercial aviation on a per-journey basis.
+
+Ölüdeniz specifically has an excellent safety record built over three decades. The site's predictable conditions, well-defined landing zone, and mature pilot community contribute to this record.
+
+### Pilot Licensing — What's Required
+
+In Turkey, tandem paragliding pilots must hold a licence issued by the SHGM (Sivil Havacılık Genel Müdürlüğü — Turkish Civil Aviation Authority). This requires:
+
+- Minimum 200 solo logged flights
+- Completion of a certified tandem pilot course
+- Annual licence renewal and medical fitness check
+- Third-party liability insurance
+
+All licensed operators at Ölüdeniz are registered with the Babadağ Paragliding Association, which enforces its own additional standards on top of the national requirements.
+
+**What to check before booking:**
+- Ask to see the pilot's SHGM licence
+- Book with an operator registered with the Babadağ Association
+- Avoid unofficial operators offering bargain prices — licensing exists for your protection
+
+### Equipment Standards
+
+All tandem paragliders used at Ölüdeniz must meet EN certification standards (European Norm), which are the same standards used across the EU and most of the world. Equipment is regularly inspected and replaced on a schedule.
+
+**The tandem system consists of:**
+- The main paraglider wing (EN-certified, tested to carry 200–300kg)
+- Two harnesses — one for the pilot, one for the passenger — connected by certified carabiners
+- A reserve parachute (mandatory, inspected annually)
+- Helmets for both pilot and passenger
+
+Every morning before flying, pilots conduct a pre-flight equipment check. Wings are repacked and inspected. Harness connections are double-checked.
+
+### Weather — The Most Important Safety Factor
+
+Most paragliding incidents worldwide are weather-related. At Ölüdeniz, weather management is taken seriously.
+
+**Daily routine:**
+- Pilots receive a formal weather briefing each morning
+- Wind speed and direction are monitored at the launch site continuously
+- If conditions exceed safe limits (typically above 35km/h sustained, or with strong turbulence), flights are cancelled or delayed
+- The sea breeze pattern is well understood — local pilots know exactly when conditions are safe
+
+**What happens if your flight is cancelled:**
+We offer a free reschedule or full refund if we cannot fly safely. We fly around 300 days per year — cancellations are rare, but when they happen, safety is always the reason.
+
+### The Landing Zone
+
+The main landing zone is the wide, open beach at Ölüdeniz — one of the safest landing areas in Europe. It is flat, sandy, obstacle-free, and large enough for multiple simultaneous landings. There are no power lines, trees, or water hazards in the landing approach.
+
+Pilots fly the same approach path every day. The routine is so well-established that passengers often don't realise they've landed until the pilot tells them.
+
+### Common Passenger Concerns
+
+**"I'm scared of heights — is it safe for me?"**
+Fear of heights is triggered by proximity to edges and drops. In the air, moving away from any surface, most people find the fear disappears almost immediately. Many of our most nervous passengers end up being our most enthusiastic. Tell your pilot — they handle nervous passengers every day.
+
+**"What if the wing collapses?"**
+Modern EN-certified paraglider wings are designed to self-recover from partial collapses. In the event of a serious malfunction, every tandem system carries a reserve parachute deployed in under two seconds. In 30 years of operation at Ölüdeniz, reserve deployments have been extremely rare.
+
+**"What if I feel sick?"**
+Standard tandem flights are smooth — your pilot will not perform aerobatics unless you specifically request mild wing-overs. If you feel unwell during the flight, tell your pilot immediately. They can descend and land quickly. Sea sickness and motion sickness do occur occasionally, but are uncommon on standard flights.
+
+**"What is the weight limit and why?"**
+The maximum passenger weight is 110kg (242 lbs). This is not an arbitrary rule — it is set by the wing manufacturer and the SHGM for structural and performance reasons. Exceeding the weight limit affects the wing's performance envelope and the pilot's ability to control the glider safely.
+
+### How to Choose a Safe Operator
+
+Not all operators are equal. Here is what to look for:
+
+- **Licensed pilot** — ask to see SHGM certification before you book
+- **Registered with the Babadağ Association** — the association enforces safety standards at the site
+- **Proper equipment** — EN-certified wings, reserve parachutes, fitted helmets
+- **Transparent pricing** — operators cutting costs on safety charge less
+- **Cancellation policy** — a safety-focused operator will cancel in bad weather and offer refunds
+
+Avoid anyone who pressures you to fly in marginal conditions, cannot show licensing, or operates from outside the main launch infrastructure.
+
+### The Bottom Line
+
+Tandem paragliding in Ölüdeniz is one of the world's most established adventure sports operations. The combination of professional licensing, EN-certified equipment, 30+ years of site knowledge, and a well-managed landing zone makes it far safer than most adventure activities.
+
+The question is not really "is it safe?" — it is "is this operator safe?" Choose a licensed, registered, reputable operator and you are in very safe hands.
+
+We are happy to answer any safety question before you book. Ask us anything — we would rather you fly informed than not fly at all.
+    `,
+  },
+  {
+    slug: 'tandem-paragliding-weight-age-limits-oludeniz',
+    title: 'Tandem Paragliding Weight & Age Limits in Ölüdeniz — Full Guide',
+    description: 'Exact weight and age limits for paragliding in Ölüdeniz. Why limits exist, what happens if you are close to the limit, and tips for borderline cases.',
+    date: '2025-05-12',
+    category: 'Safety',
+    readTime: '5 min read',
+    image: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200&q=80',
+    content: `
+## The Quick Answer
+
+**Weight limit:** Maximum 110kg (242 lbs)
+**Minimum age:** 5 years old (with parent/guardian consent)
+**Maximum age:** No upper limit — we regularly fly passengers in their 70s and 80s
+
+These are the limits for standard tandem flights from Babadağ. Here is everything you need to know about why they exist and what to do if you are close to them.
+
+### Why There Is a Weight Limit
+
+The 110kg maximum is not an arbitrary rule. It is set for three specific reasons:
+
+**1. Wing performance**
+Every EN-certified tandem paraglider wing has a certified all-up weight range. The total flying weight (pilot + passenger + equipment) must stay within this range for the wing to behave predictably. Above the maximum, the wing becomes over-loaded — it responds more slowly, sinks faster, and is harder to control in turbulence.
+
+**2. Pilot safety and control**
+Tandem flying requires the pilot to physically manage the glider during launch — running into the wind with the passenger attached. Excessive passenger weight affects balance, launch dynamics, and the pilot's ability to abort if needed.
+
+**3. Landing loads**
+At landing, the combined impact forces on harness connections, risers and carabiners are calculated for a maximum total weight. Exceeding this risks equipment failure at the worst possible moment.
+
+### What If You Are Close to the Limit?
+
+If you are between 100–110kg, contact us before booking. We can:
+- Assign you to a heavier pilot (which reduces the combined risk margin)
+- Arrange a specific wing that is certified for a higher all-up weight
+- Schedule your flight for calmer morning conditions when the air is more stable
+
+We want you to fly. Tell us your weight honestly and we will find the best option.
+
+### Age Limits in Detail
+
+**Minimum age: 5 years**
+Children aged 5–12 must fly with a parent or guardian's signed consent. The child must be heavy enough (approximately 15–20kg) for the harness to fit correctly and securely. Very small children cannot be made safe in a standard tandem harness.
+
+**Teenagers (13–17)**
+Parental consent is required for all passengers under 18. Most teenagers have no physical restrictions — the only requirement is the signed consent form on the day.
+
+**Seniors (65+)**
+There is no upper age limit. We ask that passengers have no serious cardiovascular conditions, recent surgery, or conditions affecting their ability to run a few steps at launch. If in doubt, consult your doctor and let us know about any health considerations when booking.
+
+### Medical Conditions — What to Tell Us
+
+Please inform us before booking if you have any of the following:
+- Heart conditions or pacemaker
+- Recent surgery (within 6 months)
+- Epilepsy or seizure history
+- Pregnancy
+- Serious spinal or neck conditions
+- Severe phobias or anxiety disorders requiring medication
+
+None of these are automatic disqualifications — but they require a conversation before we can confirm your flight safely.
+
+### Children: What to Expect
+
+Flying with children is one of our favourite experiences. Kids are often less nervous than adults and frequently the loudest voices in the landing zone. A few practical notes:
+
+- Children sit between the pilot's legs in a specially fitted harness, fully enclosed and secure
+- The pilot talks to them throughout the flight
+- We carry smaller helmets for children
+- Morning flights are best for children — calmer air, shorter wait times
+
+### The Bottom Line
+
+Weight and age limits exist entirely for safety — not convenience. They are set by engineers, certified by aviation authorities, and enforced by pilots who want every flight to go perfectly.
+
+If you have any doubt about whether these limits apply to you, contact us before you travel. We will always give you an honest answer.
+    `,
+  },
+
 export function getBlogPost(slug: string): BlogPost | undefined {
   return blogPosts.find((post) => post.slug === slug)
 }
