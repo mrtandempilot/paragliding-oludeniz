@@ -1,0 +1,447 @@
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { Plus, Sparkles, Edit2, Trash2, Send, Clock, CheckCircle, XCircle, X, Loader2, Instagram, Calendar, Hash, Image as ImageIcon, AlignLeft } from 'lucide-react'
+import type { InstagramPost } from '@/lib/supabase'
+
+const STATUS_COLORS: Record<string, string> = {
+  draft: 'bg-slate-100 text-slate-500',
+  scheduled: 'bg-blue-100 text-blue-700',
+  posted: 'bg-green-100 text-green-700',
+  failed: 'bg-red-100 text-red-700',
+}
+
+const STATUS_ICONS: Record<string, React.ReactNode> = {
+  draft: <Edit2 className="w-3 h-3" />,
+  scheduled: <Clock className="w-3 h-3" />,
+  posted: <CheckCircle className="w-3 h-3" />,
+  failed: <XCircle className="w-3 h-3" />,
+}
+
+const TONE_OPTIONS = [
+  'Exciting & Inspiring',
+  'Calm & Scenic',
+  'Adventure Calling',
+  'First-timer Friendly',
+  'Professional & Trustworthy',
+]
+
+export default function InstagramClient({ posts: initial }: { posts: InstagramPost[] }) {
+  const [posts, setPosts] = useState(initial)
+  const [showForm, setShowForm] = useState(false)
+  const [editPost, setEditPost] = useState<InstagramPost | null>(null)
+  const [generating, setGenerating] = useState(false)
+  const [loading, setLoading] = useState<string | null>(null)
+  const [activeFilter, setActiveFilter] = useState<string>('all')
+  const router = useRouter()
+
+  // AI generator state
+  const [aiDescription, setAiDescription] = useState('')
+  const [aiTone, setAiTone] = useState('Exciting & Inspiring')
+
+  // Form state
+  const [form, setForm] = useState({
+    image_url: '',
+    caption: '',
+    hashtags: '',
+    status: 'draft' as 'draft' | 'scheduled' | 'posted' | 'failed',
+    scheduled_at: '',
+    notes: '',
+    linked_blog_post_id: '',
+  })
+
+  function openNew() {
+    setEditPost(null)
+    setForm({ image_url: '', caption: '', hashtags: '', status: 'draft', scheduled_at: '', notes: '', linked_blog_post_id: '' })
+    setShowForm(true)
+  }
+
+  function openEdit(post: InstagramPost) {
+    setEditPost(post)
+    setForm({
+      image_url: post.image_url || '',
+      caption: post.caption || '',
+      hashtags: post.hashtags || '',
+      status: post.status,
+      scheduled_at: post.scheduled_at ? new Date(post.scheduled_at).toISOString().slice(0, 16) : '',
+      notes: post.notes || '',
+      linked_blog_post_id: post.linked_blog_post_id || '',
+    })
+    setShowForm(true)
+  }
+
+  async function generateCaption() {
+    if (!aiDescription) return
+    setGenerating(true)
+    try {
+      const res = await fetch('/api/admin/generate-caption', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageDescription: aiDescription, tone: aiTone }),
+      })
+      const data = await res.json()
+      if (data.error) { alert('AI error: ' + data.error); return }
+      setForm(prev => ({
+        ...prev,
+        caption: data.caption || prev.caption,
+        hashtags: data.hashtags || prev.hashtags,
+      }))
+      setShowForm(true)
+    } catch {
+      alert('Failed to generate caption')
+    } finally {
+      setGenerating(false)
+    }
+  }
+
+  async function savePost() {
+    setLoading('save')
+    const method = editPost ? 'PATCH' : 'POST'
+    const body = editPost ? { id: editPost.id, ...form } : form
+
+    const res = await fetch('/api/admin/instagram', {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+    const saved = await res.json()
+
+    if (editPost) {
+      setPosts(prev => prev.map(p => p.id === editPost.id ? { ...p, ...form } : p))
+    } else {
+      setPosts(prev => [saved, ...prev])
+    }
+    setShowForm(false)
+    setLoading(null)
+    router.refresh()
+  }
+
+  async function deletePost(id: string) {
+    if (!confirm('Delete this post?')) return
+    setLoading(id)
+    await fetch('/api/admin/instagram', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    })
+    setPosts(prev => prev.filter(p => p.id !== id))
+    setLoading(null)
+  }
+
+  async function updateStatus(post: InstagramPost, status: 'draft' | 'scheduled' | 'posted' | 'failed') {
+    setLoading(post.id)
+    await fetch('/api/admin/instagram', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: post.id, status }),
+    })
+    setPosts(prev => prev.map(p => p.id === post.id ? { ...p, status } : p))
+    setLoading(null)
+  }
+
+  const filtered = activeFilter === 'all' ? posts : posts.filter(p => p.status === activeFilter)
+
+  const counts = {
+    all: posts.length,
+    draft: posts.filter(p => p.status === 'draft').length,
+    scheduled: posts.filter(p => p.status === 'scheduled').length,
+    posted: posts.filter(p => p.status === 'posted').length,
+    failed: posts.filter(p => p.status === 'failed').length,
+  }
+
+  const charCount = form.caption.length + (form.hashtags ? form.hashtags.length + 2 : 0)
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center">
+            <Instagram className="w-5 h-5 text-white" />
+          </div>
+          <h1 className="text-2xl font-bold text-slate-900">Instagram Posts</h1>
+        </div>
+        <button onClick={openNew} className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl text-sm font-bold transition-colors">
+          <Plus className="w-4 h-4" /> New Post
+        </button>
+      </div>
+
+      {/* AI Caption Generator */}
+      <div className="bg-gradient-to-br from-pink-50 to-purple-50 border border-pink-200 rounded-2xl p-6 mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <Sparkles className="w-5 h-5 text-pink-600" />
+          <h2 className="font-bold text-pink-900">Generate Caption with Claude AI</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+          <div className="sm:col-span-2">
+            <label className="block text-xs font-semibold text-pink-700 mb-1">Describe the image *</label>
+            <input
+              value={aiDescription}
+              onChange={e => setAiDescription(e.target.value)}
+              placeholder="e.g. Aerial view of Ölüdeniz lagoon from 1500m altitude, sunset colors"
+              className="w-full px-3 py-2 text-sm border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-pink-700 mb-1">Tone</label>
+            <select
+              value={aiTone}
+              onChange={e => setAiTone(e.target.value)}
+              className="w-full px-3 py-2 text-sm border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white"
+            >
+              {TONE_OPTIONS.map(t => <option key={t}>{t}</option>)}
+            </select>
+          </div>
+        </div>
+        <button
+          onClick={generateCaption}
+          disabled={generating || !aiDescription}
+          className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 disabled:opacity-50 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-colors"
+        >
+          {generating ? <><Loader2 className="w-4 h-4 animate-spin" /> Generating...</> : <><Sparkles className="w-4 h-4" /> Generate Caption</>}
+        </button>
+        {generating && <p className="text-xs text-pink-600 mt-2">Claude is crafting your caption...</p>}
+      </div>
+
+      {/* Filter Tabs */}
+      <div className="flex gap-2 mb-4 overflow-x-auto pb-1">
+        {(['all', 'draft', 'scheduled', 'posted', 'failed'] as const).map(f => (
+          <button
+            key={f}
+            onClick={() => setActiveFilter(f)}
+            className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${activeFilter === f ? 'bg-slate-900 text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+          >
+            {f !== 'all' && STATUS_ICONS[f]}
+            <span className="capitalize">{f}</span>
+            <span className={`text-xs px-1.5 py-0.5 rounded-full ${activeFilter === f ? 'bg-white/20' : 'bg-slate-100'}`}>{counts[f]}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Posts Grid */}
+      {filtered.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-400">
+          No {activeFilter !== 'all' ? activeFilter : ''} posts yet. Generate one with Claude AI above!
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filtered.map(post => (
+            <div key={post.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
+              {/* Image Preview */}
+              <div className="aspect-square bg-gradient-to-br from-slate-100 to-slate-200 relative overflow-hidden">
+                {post.image_url ? (
+                  <img src={post.image_url} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <ImageIcon className="w-12 h-12 text-slate-300" />
+                  </div>
+                )}
+                <div className="absolute top-2 right-2">
+                  <span className={`flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full ${STATUS_COLORS[post.status]}`}>
+                    {STATUS_ICONS[post.status]}
+                    <span className="capitalize">{post.status}</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-4">
+                {post.caption && (
+                  <p className="text-sm text-slate-700 line-clamp-3 mb-2">{post.caption}</p>
+                )}
+                {post.hashtags && (
+                  <p className="text-xs text-blue-500 line-clamp-1 mb-3">{post.hashtags}</p>
+                )}
+
+                {post.scheduled_at && (
+                  <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-3">
+                    <Calendar className="w-3 h-3" />
+                    <span>{new Date(post.scheduled_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+                  </div>
+                )}
+
+                {/* Actions */}
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                  <div className="flex gap-1">
+                    <button
+                      onClick={() => openEdit(post)}
+                      className="p-1.5 hover:bg-slate-100 text-slate-400 hover:text-slate-700 rounded-lg transition-colors"
+                      title="Edit"
+                    >
+                      <Edit2 className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => deletePost(post.id)}
+                      disabled={loading === post.id}
+                      className="p-1.5 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-lg transition-colors"
+                      title="Delete"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  {/* Status change buttons */}
+                  <div className="flex gap-1">
+                    {post.status === 'draft' && (
+                      <button
+                        onClick={() => updateStatus(post, 'scheduled')}
+                        disabled={loading === post.id}
+                        className="flex items-center gap-1 text-xs px-2 py-1 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors font-semibold"
+                      >
+                        <Clock className="w-3 h-3" /> Schedule
+                      </button>
+                    )}
+                    {(post.status === 'draft' || post.status === 'scheduled') && (
+                      <button
+                        onClick={() => updateStatus(post, 'posted')}
+                        disabled={loading === post.id}
+                        className="flex items-center gap-1 text-xs px-2 py-1 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors font-semibold"
+                      >
+                        <Send className="w-3 h-3" /> Mark Posted
+                      </button>
+                    )}
+                    {post.status === 'failed' && (
+                      <button
+                        onClick={() => updateStatus(post, 'draft')}
+                        disabled={loading === post.id}
+                        className="flex items-center gap-1 text-xs px-2 py-1 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-lg transition-colors font-semibold"
+                      >
+                        Reset
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Create/Edit Modal */}
+      {showForm && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl my-8">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+              <h2 className="font-bold text-slate-900">{editPost ? 'Edit Post' : 'New Instagram Post'}</h2>
+              <button onClick={() => setShowForm(false)} className="p-2 hover:bg-slate-100 rounded-lg text-slate-400">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-5">
+              {/* Image URL + Preview */}
+              <div>
+                <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1">
+                  <ImageIcon className="w-4 h-4" /> Image URL *
+                </label>
+                <input
+                  value={form.image_url}
+                  onChange={e => setForm(p => ({ ...p, image_url: e.target.value }))}
+                  placeholder="https://... (paste image URL)"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+                {form.image_url && (
+                  <div className="mt-2 w-24 h-24 rounded-xl overflow-hidden border border-slate-200">
+                    <img src={form.image_url} alt="" className="w-full h-full object-cover" />
+                  </div>
+                )}
+              </div>
+
+              {/* Caption */}
+              <div>
+                <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1">
+                  <AlignLeft className="w-4 h-4" /> Caption *
+                </label>
+                <textarea
+                  value={form.caption}
+                  onChange={e => setForm(p => ({ ...p, caption: e.target.value }))}
+                  rows={4}
+                  placeholder="Write your caption... ✈️"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
+                />
+                <p className={`text-xs mt-1 ${charCount > 2200 ? 'text-red-500' : 'text-slate-400'}`}>{charCount} / 2200 chars</p>
+              </div>
+
+              {/* Hashtags */}
+              <div>
+                <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1">
+                  <Hash className="w-4 h-4" /> Hashtags
+                </label>
+                <textarea
+                  value={form.hashtags}
+                  onChange={e => setForm(p => ({ ...p, hashtags: e.target.value }))}
+                  rows={2}
+                  placeholder="#paragliding #oludeniz #babadagmountain ..."
+                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none font-mono text-blue-600"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                {/* Status */}
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Status</label>
+                  <select
+                    value={form.status}
+                    onChange={e => setForm(p => ({ ...p, status: e.target.value as 'draft' | 'scheduled' | 'posted' | 'failed' }))}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  >
+                    <option value="draft">Draft</option>
+                    <option value="scheduled">Scheduled</option>
+                    <option value="posted">Posted</option>
+                    <option value="failed">Failed</option>
+                  </select>
+                </div>
+
+                {/* Scheduled At */}
+                <div>
+                  <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1">
+                    <Calendar className="w-4 h-4" /> Schedule Date
+                  </label>
+                  <input
+                    type="datetime-local"
+                    value={form.scheduled_at}
+                    onChange={e => setForm(p => ({ ...p, scheduled_at: e.target.value }))}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                </div>
+              </div>
+
+              {/* Notes */}
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">Internal Notes</label>
+                <input
+                  value={form.notes}
+                  onChange={e => setForm(p => ({ ...p, notes: e.target.value }))}
+                  placeholder="Optional notes for yourself..."
+                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+
+              {/* Character preview */}
+              {(form.caption || form.hashtags) && (
+                <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-4 border border-slate-200">
+                  <p className="text-xs font-semibold text-slate-500 mb-2 flex items-center gap-1.5">
+                    <Instagram className="w-3.5 h-3.5" /> Preview
+                  </p>
+                  <p className="text-sm text-slate-700 whitespace-pre-wrap">{form.caption}</p>
+                  {form.hashtags && <p className="text-sm text-blue-500 mt-2">{form.hashtags}</p>}
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-end gap-3 px-6 py-4 border-t border-slate-200">
+              <button onClick={() => setShowForm(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">Cancel</button>
+              <button
+                onClick={savePost}
+                disabled={loading === 'save' || !form.caption}
+                className="flex items-center gap-2 px-6 py-2 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-colors"
+              >
+                {loading === 'save' ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : 'Save Post'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
