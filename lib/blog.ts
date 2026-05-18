@@ -549,6 +549,172 @@ Weight and age limits exist entirely for safety — not convenience. They are se
 If you have any doubt about whether these limits apply to you, contact us before you travel. We will always give you an honest answer.
     `,
   },
+  {
+    slug: 'scared-of-heights-paragliding-oludeniz',
+    title: 'Scared of Heights? What Tandem Paragliding in Ölüdeniz Really Feels Like',
+    description: 'Fear of heights and paragliding — the honest truth. Why most nervous people end up loving it, what the science says, and how to prepare if you are anxious.',
+    date: '2025-05-15',
+    category: 'Beginner Guide',
+    readTime: '6 min read',
+    image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1200&q=80',
+    content: `
+## You Are Not Alone
+
+If you are reading this, you are probably standing in Ölüdeniz, staring up at Babadağ, wondering if you are about to make a terrible mistake. Or maybe you are at home, already booked, quietly panicking.
+
+Here is the truth: the majority of our passengers arrive nervous. Many describe themselves as terrified of heights. And almost all of them — genuinely almost all — land with the biggest smile of their holiday.
+
+This is not a sales pitch. It is what actually happens, and there is a real reason for it.
+
+### Why Fear of Heights and Paragliding Are Different Things
+
+Fear of heights — acrophobia — is triggered by a very specific set of conditions. Standing on a balcony railing. Looking over the edge of a cliff. Being near a drop with nothing between you and it.
+
+What triggers the fear is proximity to an edge combined with the feeling that you might fall.
+
+Paragliding removes both of those triggers almost immediately.
+
+The moment you leave the ground, you are no longer near an edge. You are moving through open air, seated comfortably in a harness that feels more like a reclining chair than anything else. There is no edge to look at. There is no ledge. There is just sky, mountains, and the turquoise water below.
+
+Most people report that the fear simply does not arrive. They expected terror and found something completely different — calm, awe, and a strange sense of peace.
+
+### What the First 10 Seconds Feel Like
+
+This is the part people worry about most: the launch. Here is exactly what happens.
+
+You stand at the edge of the launch area with your pilot behind you, connected to the same wing. The pilot inflates the glider above you. You feel a slight pull. The pilot says "run" — and you take three to five steps forward.
+
+Then your feet leave the ground.
+
+Most people describe those first seconds as surreal rather than frightening. You do not drop. You rise gently. The wing is already generating lift before you leave the ground, so the transition from walking to flying is surprisingly smooth.
+
+Within about 15 seconds, almost everyone relaxes. Within a minute, most people are talking, pointing at things below, and asking questions.
+
+### What the Flight Actually Feels Like
+
+The sensation of paragliding is nothing like a roller coaster, a zip line, or jumping from something. There is no sudden drop. There is no rushing ground. The closest comparison most people make is sitting in a swing — except the view is one of the most beautiful places on earth.
+
+Standard tandem flights from Babadağ last 25 to 45 minutes. During that time you will glide over the Blue Lagoon, along the coast toward Butterfly Valley, and across the beach at Ölüdeniz. Your pilot will narrate the flight, point out landmarks, and keep you comfortable throughout.
+
+If at any point you want to land sooner, tell your pilot. They can descend and land quickly. This almost never happens — but knowing you have that option helps.
+
+### Tips If You Are Nervous
+
+**Tell your pilot.** This is the most important thing. Experienced tandem pilots handle nervous passengers every single day. When they know you are anxious, they adapt — slower movements, more narration, more reassurance. They are very good at this.
+
+**Fly in the morning.** Early morning flights (before 10:00) are the calmest of the day. The thermals are gentle, the air is smooth, and the views are spectacular. If you are nervous, morning is the best time.
+
+**Avoid looking straight down at launch.** Look at the horizon or the sky. The ground disappearing beneath you is the most disorienting moment — redirecting your gaze makes it much easier.
+
+**Focus on breathing.** Slow, deliberate breaths in the moments before launch reduce the physical anxiety response significantly. It sounds obvious, but it works.
+
+**Remember: your pilot has done this thousands of times.** The pilots at Babadağ have collective millions of flights between them. This is completely routine for them. Their calm is contagious — let it be.
+
+### What People Say Afterwards
+
+We hear the same things over and over from passengers who arrived terrified:
+
+*"I can not believe I almost didn't do it."*
+
+*"That was the best thing I have ever done."*
+
+*"I want to go again straight away."*
+
+*"I have been scared of heights my whole life and I felt completely safe."*
+
+Fear of heights does not disqualify you from this experience. If anything, it makes the achievement more meaningful. Many of our most grateful passengers are the ones who pushed through the nervousness and discovered something completely unexpected on the other side.
+
+If you are scared, come anyway. Tell your pilot. Trust the process.
+
+The view from 1,969 metres over Ölüdeniz is one of the great experiences of a lifetime. It would be a shame to miss it over a fear that almost never materialises.
+    `,
+  },
+  {
+    slug: 'what-to-wear-paragliding-oludeniz',
+    title: 'What to Wear Paragliding in Ölüdeniz — Complete Clothing Guide',
+    description: 'Exactly what to wear for your tandem paragliding flight in Ölüdeniz. Shoes, clothes, layers, glasses, jewellery — everything you need to know before your flight day.',
+    date: '2025-05-18',
+    category: 'Beginner Guide',
+    readTime: '4 min read',
+    image: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&q=80',
+    content: `
+## The Short Version
+
+Wear comfortable sports or outdoor clothes, closed-toe shoes, and bring a light jacket. That covers 90% of it. Here is the full breakdown.
+
+### Shoes — The Most Important Item
+
+**Wear:** Trainers, running shoes, hiking boots, or any closed-toe lace-up shoe.
+
+**Do not wear:** Sandals, flip flops, open-toed shoes, high heels, or Crocs.
+
+Your shoes matter more than anything else you wear. At launch, you run a few steps down the slope. At landing, you take a few steps on the beach. Both require a shoe that stays securely on your foot and gives you grip. A sandal that comes off mid-step at launch is a serious problem.
+
+If you have only sandals with you, most operators in Ölüdeniz have spare trainers available. Ask when you check in.
+
+### Trousers or Leggings — Not Shorts
+
+**Wear:** Trousers, jeans, leggings, tracksuit bottoms — anything that covers your legs.
+
+**Avoid:** Shorts.
+
+The tandem harness has leg loops that go around your upper thighs. On bare skin, these can be uncomfortable during a 30–40 minute flight. Trousers or leggings make the harness much more comfortable and protect your skin.
+
+Loose, comfortable trousers work best. Tight jeans are fine but not ideal — movement at launch is easier in something with a bit of stretch.
+
+### Top Layer — Bring a Light Jacket
+
+The temperature at the 1,200m launch area is typically 5–10°C cooler than on the beach. In July and August when the beach reaches 38°C, the launch area is a pleasant 28–30°C. In May, September or October, it can be genuinely cold up there — 15°C or lower.
+
+**Recommended:** Bring a light zip-up jacket or fleece that you can pack into a small bag. You will wear it at launch and during the flight, and remove it when you land on the beach.
+
+A windproof layer is ideal since you are moving through air at 30–40km/h. A thin running jacket is perfect.
+
+### What to Do with Your Hair
+
+**Long hair:** Tie it back securely before your helmet goes on. Loose hair becomes tangled in the harness system and in the glider lines if the wind catches it. A tight ponytail or braid works well. Bring a hair tie.
+
+**Hats:** Leave them on the ground. Hats blow off and cannot be secured under a helmet. Your pilot will give you a helmet to wear — that is your head covering for the flight.
+
+### Glasses and Sunglasses
+
+**Prescription glasses:** You can fly in prescription glasses. Tell your pilot so they can ensure your helmet fits properly over them. Some pilots have a strap they can add to keep glasses secure.
+
+**Sunglasses:** Bring them but expect to hold them or put them in a pocket during launch. Sunglasses can fall off during the dynamic movement of launch. Once you are in the air, they are fine to wear. Ideally bring sunglasses with a strap or wrap-around style.
+
+**Contact lenses:** Fine to wear. The air at altitude can be drying — bring rewetting drops if you wear contacts regularly.
+
+### Jewellery and Accessories
+
+**Remove:** Long necklaces, large hoop earrings, loose bracelets, dangly items. These can catch on the harness or helmet and cause discomfort or minor injury.
+
+**Fine to keep:** Rings, stud earrings, watches, small pendants tucked inside your top.
+
+**Leave on the ground or in your bag:** Scarves, lanyards, anything that hangs loose around your neck.
+
+### Your Phone and Camera
+
+You can bring your phone and take photos during the flight. Most pilots are happy for passengers to hold their phone while flying. A wrist strap is a good idea — phones have been dropped.
+
+We also offer a professional photo and video package taken by your pilot. This is usually worth getting — it is very hard to take good photos of yourself while flying, and the pilot's angle captures the view and your reaction far better than a selfie.
+
+GoPros can be brought but must be mounted to the helmet — not held. Ask your pilot about helmet mounts when you arrive.
+
+### Quick Checklist
+
+Before you leave for your flight day:
+
+- Closed-toe shoes with laces ✓
+- Trousers or leggings (not shorts) ✓
+- Light jacket or fleece ✓
+- Hair tie if needed ✓
+- Sunglasses with strap (optional but useful) ✓
+- Long necklaces removed ✓
+- Phone charged and with a wrist strap ✓
+
+That is everything. The rest — helmet, harness, glider — is provided by your pilot. You just need to show up comfortable and ready to fly.
+    `,
+  },
 ]
 
 export function getBlogPost(slug: string): BlogPost | undefined {
