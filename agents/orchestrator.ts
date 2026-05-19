@@ -59,11 +59,16 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       console.log(`[Orchestrator] Instagram skipped: ${social.error}`)
     }
 
-    // ── Step 5: Push article to GitHub (blog) ──────────────────────────
+    // ── Step 5: Push article to GitHub (optional, non-blocking) ───────
     if (process.env.GITHUB_TOKEN && process.env.GITHUB_OWNER && process.env.GITHUB_REPO) {
-      console.log('[Orchestrator] Step 5: Publishing to GitHub')
-      await pushArticleToGitHub(article, brief)
-      console.log('[Orchestrator] Article published to GitHub')
+      try {
+        console.log('[Orchestrator] Step 5: Publishing to GitHub')
+        await pushArticleToGitHub(article, brief)
+        console.log('[Orchestrator] Article published to GitHub')
+      } catch (githubErr: any) {
+        // GitHub push is non-critical — blog reads from Supabase anyway
+        console.warn('[Orchestrator] GitHub push skipped:', githubErr.message)
+      }
     } else {
       console.log('[Orchestrator] GitHub not configured, skipping blog publish')
     }
