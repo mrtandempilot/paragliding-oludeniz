@@ -19,31 +19,20 @@ const faqItems = [
 ]
 
 export default function SafetyGuidePage() {
-  const jsonLd = {
+  // FAQAccordion komponenti zaten FAQPage schema üretiyor
+  const breadcrumbLd = {
     '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'FAQPage',
-        mainEntity: faqItems.map(item => ({
-          '@type': 'Question',
-          name: item.question,
-          acceptedAnswer: { '@type': 'Answer', text: item.answer },
-        })),
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://paragliding-oludeniz.com' },
-          { '@type': 'ListItem', position: 2, name: 'Tandem Paragliding', item: 'https://paragliding-oludeniz.com/tandem-paragliding' },
-          { '@type': 'ListItem', position: 3, name: 'Safety Guide', item: 'https://paragliding-oludeniz.com/tandem-paragliding/safety-guide' },
-        ],
-      },
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://paragliding-oludeniz.com' },
+      { '@type': 'ListItem', position: 2, name: 'Tandem Paragliding', item: 'https://paragliding-oludeniz.com/tandem-paragliding' },
+      { '@type': 'ListItem', position: 3, name: 'Safety Guide', item: 'https://paragliding-oludeniz.com/tandem-paragliding/safety-guide' },
     ],
   }
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <PageHero title="Tandem Paragliding Safety Guide" subtitle="How we keep every flight safe — equipment, pilots, weather and emergency procedures." badge="Safety First" />
       <div className="bg-slate-50 border-b border-slate-200"><div className="container-default py-3"><BreadcrumbNav items={[{ label: 'Tandem Paragliding', href: '/tandem-paragliding' }, { label: 'Safety Guide' }]} /></div></div>
 
