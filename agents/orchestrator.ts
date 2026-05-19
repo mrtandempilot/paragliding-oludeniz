@@ -49,8 +49,16 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
     image = await runImageAgent(article, brief.keywords)
     console.log(`[Orchestrator] Image ready: ${image.cloudinary_url}`)
 
-    // ── Step 4: Social Media Post ───────────────────────────────────────
-    console.log('[Orchestrator] Step 4: Social Media')
+    // ── Step 4: Publish Article ─────────────────────────────────────────
+    console.log('[Orchestrator] Step 4: Publishing article')
+    await supabase
+      .from('articles')
+      .update({ status: 'published' })
+      .eq('id', article.article_id)
+    console.log(`[Orchestrator] Article published: /blog/${article.slug}`)
+
+    // ── Step 5: Social Media Post ───────────────────────────────────────
+    console.log('[Orchestrator] Step 5: Social Media')
     social = await runSocialAgent(article, image, brief.keywords)
 
     if (social.instagram_post_id) {
