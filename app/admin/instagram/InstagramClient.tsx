@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Sparkles, Edit2, Trash2, Send, Clock, CheckCircle, XCircle, X, Loader2, Instagram, Calendar, Hash, Image as ImageIcon, AlignLeft } from 'lucide-react'
+import { Plus, Sparkles, Edit2, Trash2, Send, Clock, CheckCircle, XCircle, X, Loader2, Instagram, Calendar, Hash, Image as ImageIcon, AlignLeft, Upload } from 'lucide-react'
 import type { InstagramPost } from '@/lib/supabase'
 
 const STATUS_COLORS: Record<string, string> = {
@@ -39,6 +39,26 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
   // AI generator state
   const [aiDescription, setAiDescription] = useState('')
   const [aiTone, setAiTone] = useState('Exciting & Inspiring')
+
+  // Unsplash photo picker state
+  const [unsplashQuery, setUnsplashQuery] = useState('paragliding oludeniz')
+  const [unsplashPhotos, setUnsplashPhotos] = useState<any[]>([])
+  const [unsplashLoading, setUnsplashLoading] = useState(false)
+  const [showPhotoPicker, setShowPhotoPicker] = useState(false)
+
+  async function searchUnsplash() {
+    setUnsplashLoading(true)
+    const res = await fetch(`/api/admin/unsplash-search?query=${encodeURIComponent(unsplashQuery)}`)
+    const data = await res.json()
+    setUnsplashPhotos(data.photos || [])
+    setUnsplashLoading(false)
+    setShowPhotoPicker(true)
+  }
+
+  function selectPhoto(url: string) {
+    setForm(prev => ({ ...prev, image_url: url }))
+    setShowPhotoPicker(false)
+  }
 
   // Form state
   const [form, setForm] = useState({
@@ -95,26 +115,79 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
     }
   }
 
-  async function savePost() {
-    setLoading('save')
-    const method = editPost ? 'PATCH' : 'POST'
-    const body = editPost ? { id: editPost.id, ...form } : form
+  async function savePost(andPublish = false) {
+    setLoading(andPublish ? 'publish_now' : 'save')
+    try {
+      // Adım 1: Supabase'e kaydet
+      const method = editPost ? 'PATCH' : 'POST'
+      const body = editPost ? { id: editPost.id, ...form } : form
 
-    const res = await fetch('/api/admin/instagram', {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-    const saved = await res.json()
+      const res = await fetch('/api/admin/instagram', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
 
-    if (editPost) {
-      setPosts(prev => prev.map(p => p.id === editPost.id ? { ...p, ...form } : p))
-    } else {
-      setPosts(prev => [saved, ...prev])
+      if (!res.ok) {
+        const txt = await res.text()
+        alert(`❌ Kayıt hatası (${res.status}): ${txt}`)
+        setLoading(null)
+        return
+      }
+
+      const saved = await res.json()
+
+      if (saved.error) {
+        alert('❌ Supabase hatası: ' + saved.error)
+        setLoading(null)
+        return
+      }
+
+      if (editPost) {
+        setPosts(prev => prev.map(p => p.id === editPost.id ? { ...p, ...form } : p))
+      } else {
+        setPosts(prev => [saved, ...prev])
+      }
+
+      if (andPublish) {
+        const postId = saved.id || editPost?.id
+        if (!postId) {
+          alert('❌ Post ID alınamadı, Instagram\'a gönderilemedi')
+          setLoading(null)
+          return
+        }
+
+        // Adım 2: Instagram'a gönder (10sn bekler)
+        const pubRes = await fetch('/api/admin/instagram/publish', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: postId }),
+        })
+
+        if (!pubRes.ok) {
+          const txt = await pubRes.text()
+          alert(`❌ Publish hatası (${pubRes.status}): ${txt}`)
+          setLoading(null)
+          return
+        }
+
+        const pubData = await pubRes.json()
+
+        if (pubData.error) {
+          alert('❌ Instagram hatası: ' + pubData.error)
+        } else {
+          setPosts(prev => prev.map(p => p.id === postId ? { ...p, status: 'posted' } : p))
+          alert('✅ Instagram\'a gönderildi! 🪂')
+        }
+      }
+
+      setShowForm(false)
+      router.refresh()
+    } catch (err) {
+      alert('❌ Beklenmeyen hata: ' + String(err))
+    } finally {
+      setLoading(null)
     }
-    setShowForm(false)
-    setLoading(null)
-    router.refresh()
   }
 
   async function deletePost(id: string) {
@@ -138,6 +211,25 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
     })
     setPosts(prev => prev.map(p => p.id === post.id ? { ...p, status } : p))
     setLoading(null)
+  }
+
+  async function publishToInstagram(post: InstagramPost) {
+    if (!confirm('Post this to Instagram now?')) return
+    setLoading(post.id + '_publish')
+    const res = await fetch('/api/admin/instagram/publish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: post.id }),
+    })
+    const data = await res.json()
+    if (data.error) {
+      alert('Instagram error: ' + data.error)
+    } else {
+      setPosts(prev => prev.map(p => p.id === post.id ? { ...p, status: 'posted' } : p))
+      alert('✅ Posted to Instagram!')
+    }
+    setLoading(null)
+    router.refresh()
   }
 
   const filtered = activeFilter === 'all' ? posts : posts.filter(p => p.status === activeFilter)
@@ -292,13 +384,23 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
                       </button>
                     )}
                     {(post.status === 'draft' || post.status === 'scheduled') && (
-                      <button
-                        onClick={() => updateStatus(post, 'posted')}
-                        disabled={loading === post.id}
-                        className="flex items-center gap-1 text-xs px-2 py-1 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors font-semibold"
-                      >
-                        <Send className="w-3 h-3" /> Mark Posted
-                      </button>
+                      <>
+                        <button
+                          onClick={() => publishToInstagram(post)}
+                          disabled={!!loading}
+                          className="flex items-center gap-1 text-xs px-2 py-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg transition-colors font-semibold"
+                          title="Publish directly to Instagram"
+                        >
+                          {loading === post.id + '_publish' ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />} Publish
+                        </button>
+                        <button
+                          onClick={() => updateStatus(post, 'posted')}
+                          disabled={!!loading}
+                          className="flex items-center gap-1 text-xs px-2 py-1 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors font-semibold"
+                        >
+                          <Send className="w-3 h-3" /> Mark Posted
+                        </button>
+                      </>
                     )}
                     {post.status === 'failed' && (
                       <button
@@ -329,15 +431,63 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
             </div>
 
             <div className="p-6 space-y-5">
-              {/* Image URL + Preview */}
+              {/* Image URL + Unsplash Picker */}
               <div>
                 <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1">
-                  <ImageIcon className="w-4 h-4" /> Image URL *
+                  <ImageIcon className="w-4 h-4" /> Image *
                 </label>
+
+                {/* Unsplash search bar */}
+                <div className="flex gap-2 mb-2">
+                  <input
+                    value={unsplashQuery}
+                    onChange={e => setUnsplashQuery(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && searchUnsplash()}
+                    placeholder="e.g. paragliding oludeniz sunset"
+                    className="flex-1 px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={searchUnsplash}
+                    disabled={unsplashLoading}
+                    className="flex items-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold transition-colors disabled:opacity-50"
+                  >
+                    {unsplashLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImageIcon className="w-4 h-4" />}
+                    Unsplash
+                  </button>
+                </div>
+
+                {/* Photo grid picker */}
+                {showPhotoPicker && unsplashPhotos.length > 0 && (
+                  <div className="mb-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-xs font-semibold text-slate-500">Bir fotoğraf seç</p>
+                      <button onClick={() => setShowPhotoPicker(false)} className="text-slate-400 hover:text-slate-600">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-4 gap-1.5">
+                      {unsplashPhotos.map(photo => (
+                        <button
+                          key={photo.id}
+                          type="button"
+                          onClick={() => selectPhoto(photo.url)}
+                          className="aspect-square rounded-lg overflow-hidden border-2 border-transparent hover:border-orange-500 transition-all"
+                          title={photo.alt}
+                        >
+                          <img src={photo.thumb} alt={photo.alt} className="w-full h-full object-cover" />
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-400 mt-2">Photos by Unsplash</p>
+                  </div>
+                )}
+
+                {/* Manual URL input */}
                 <input
                   value={form.image_url}
                   onChange={e => setForm(p => ({ ...p, image_url: e.target.value }))}
-                  placeholder="https://... (paste image URL)"
+                  placeholder="Ya da direkt URL yapıştır..."
                   className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
                 {form.image_url && (
@@ -432,11 +582,20 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
             <div className="flex justify-end gap-3 px-6 py-4 border-t border-slate-200">
               <button onClick={() => setShowForm(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">Cancel</button>
               <button
-                onClick={savePost}
-                disabled={loading === 'save' || !form.caption}
-                className="flex items-center gap-2 px-6 py-2 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-colors"
+                onClick={() => savePost(false)}
+                disabled={!!loading || !form.caption || !form.image_url}
+                className="flex items-center gap-2 px-4 py-2 bg-slate-200 hover:bg-slate-300 disabled:opacity-50 text-slate-700 rounded-xl text-sm font-bold transition-colors"
               >
-                {loading === 'save' ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : 'Save Post'}
+                {loading === 'save' ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : 'Taslak Kaydet'}
+              </button>
+              <button
+                onClick={() => savePost(true)}
+                disabled={!!loading || !form.caption || !form.image_url}
+                className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-colors"
+              >
+                {loading === 'publish_now'
+                  ? <><Loader2 className="w-4 h-4 animate-spin" /> Instagram'a gönderiliyor (~10sn)...</>
+                  : <><Upload className="w-4 h-4" /> Kaydet & Instagram'a At</>}
               </button>
             </div>
           </div>

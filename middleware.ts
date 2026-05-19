@@ -4,25 +4,31 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Only protect /admin routes
-  if (!pathname.startsWith('/admin')) {
-    return NextResponse.next()
-  }
-
   // Allow login page through
   if (pathname === '/admin/login') {
     return NextResponse.next()
   }
 
-  // Check auth cookie
-  const auth = request.cookies.get('admin_auth')
-  if (auth?.value !== 'true') {
-    return NextResponse.redirect(new URL('/admin/login', request.url))
+  // Allow login API through
+  if (pathname === '/api/admin/login') {
+    return NextResponse.next()
+  }
+
+  // Protect all /admin and /api/admin routes
+  if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
+    const session = request.cookies.get('admin_session')
+
+    if (!session || session.value !== process.env.ADMIN_PASSWORD) {
+      if (pathname.startsWith('/api/')) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      }
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
   }
 
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*', '/api/admin/:path*'],
 }
