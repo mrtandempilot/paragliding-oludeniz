@@ -120,7 +120,7 @@ async function createAdSet(body: any, token: string) {
     daily_budget: String(body.daily_budget_try * 100), // in cents
     billing_event: 'IMPRESSIONS',
     optimization_goal: body.optimization_goal || 'LINK_CLICKS',
-    targeting,
+    targeting: JSON.stringify(targeting),
     status: 'PAUSED',
     access_token: token,
   })

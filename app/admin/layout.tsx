@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   LayoutDashboard, CalendarCheck, FileText, Instagram,
-  LogOut, Menu, X, Bot, BookOpen, Target, Activity, Megaphone, Settings
+  LogOut, Menu, X, Bot, BookOpen, Target, Activity, Megaphone, Settings, Search
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -14,6 +14,7 @@ const navItems = [
   { href: '/admin/blog', label: 'Blog', icon: FileText },
   { href: '/admin/instagram', label: 'Instagram', icon: Instagram },
   { href: '/admin/meta-ads', label: 'Meta Ads', icon: Megaphone },
+  { href: '/admin/google-ads', label: 'Google Ads', icon: Search },
 ]
 
 const pilotItems = [
