@@ -9,7 +9,9 @@ export interface BlogPost {
   content: string
 }
 
-export const blogPosts: BlogPost[] = [
+export const blogPosts: BlogPost[] = []
+
+const _unused: BlogPost[] = [
   {
     slug: 'first-time-paragliding-oludeniz-complete-guide',
     title: 'First Time Paragliding in Ölüdeniz — The Complete Guide (2025)',
@@ -716,6 +718,8 @@ That is everything. The rest — helmet, harness, glider — is provided by your
     `,
   },
 ]
+
+void _unused // kullanılmıyor ama TypeScript hatasını önler
 
 export function getBlogPost(slug: string): BlogPost | undefined {
   return blogPosts.find((post) => post.slug === slug)
