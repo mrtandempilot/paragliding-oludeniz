@@ -96,13 +96,23 @@ async function createAdSet(body: any, token: string) {
   const base = `act_${AD_ACCOUNT}`
   const url = `${GRAPH}/${base}/adsets`
 
-  const targeting = JSON.stringify({
+  const includeFacebook = body.include_facebook === true
+
+  const publisherPlatforms = includeFacebook
+    ? ['instagram', 'facebook']
+    : ['instagram']
+
+  const targeting: Record<string, unknown> = {
     geo_locations: { countries: ['TR', 'GB', 'DE', 'NL', 'FR', 'US'] },
     age_min: 22,
     age_max: 55,
-    publisher_platforms: ['instagram'],
+    publisher_platforms: publisherPlatforms,
     instagram_positions: ['stream', 'story', 'reels'],
-  })
+  }
+
+  if (includeFacebook) {
+    targeting.facebook_positions = ['feed', 'story', 'reels']
+  }
 
   const params = new URLSearchParams({
     name: body.name,

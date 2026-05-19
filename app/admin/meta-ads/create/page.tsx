@@ -27,6 +27,7 @@ export default function CreateCampaignPage() {
   // Step 2 — Ad Set
   const [adsetName, setAdsetName] = useState('Instagram — Uluslararası')
   const [dailyBudget, setDailyBudget] = useState('150')
+  const [includeFacebook, setIncludeFacebook] = useState(false)
   const [adsetId, setAdsetId] = useState('')
 
   // Step 3 — Ad Creative
@@ -70,6 +71,7 @@ export default function CreateCampaignPage() {
           campaign_id: campaignId,
           daily_budget_try: parseInt(dailyBudget),
           optimization_goal: 'LINK_CLICKS',
+          include_facebook: includeFacebook,
         }),
       })
       const data = await res.json()
@@ -214,8 +216,50 @@ export default function CreateCampaignPage() {
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5">
           <h2 className="font-bold text-slate-900">2. Reklam Seti Ayarları</h2>
           <p className="text-sm text-slate-500">
-            Hedef: TR, UK, DE, NL, FR, US · Yaş: 22-55 · Platform: Instagram
+            Hedef: TR, UK, DE, NL, FR, US · Yaş: 22-55
           </p>
+
+          {/* Platform seçimi */}
+          <div className="bg-slate-50 rounded-xl p-4 space-y-3">
+            <p className="text-sm font-medium text-slate-700">Platform</p>
+
+            {/* Instagram — her zaman açık */}
+            <div className="flex items-center justify-between px-4 py-3 bg-white rounded-xl border-2 border-pink-400">
+              <div className="flex items-center gap-3">
+                <span className="text-lg">📸</span>
+                <div>
+                  <p className="font-semibold text-slate-900 text-sm">Instagram</p>
+                  <p className="text-xs text-slate-500">Feed · Story · Reels</p>
+                </div>
+              </div>
+              <span className="text-xs bg-pink-100 text-pink-600 px-2 py-1 rounded-full font-medium">Varsayılan</span>
+            </div>
+
+            {/* Facebook — toggle */}
+            <button
+              onClick={() => setIncludeFacebook(!includeFacebook)}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border-2 transition-all ${
+                includeFacebook
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-slate-200 bg-white hover:border-slate-300'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-lg">📘</span>
+                <div className="text-left">
+                  <p className="font-semibold text-slate-900 text-sm">Facebook</p>
+                  <p className="text-xs text-slate-500">Feed · Story · Reels</p>
+                </div>
+              </div>
+              <div className={`relative inline-flex h-6 w-10 items-center rounded-full transition-colors ${
+                includeFacebook ? 'bg-blue-500' : 'bg-slate-300'
+              }`}>
+                <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
+                  includeFacebook ? 'translate-x-5' : 'translate-x-1'
+                }`} />
+              </div>
+            </button>
+          </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">Reklam Seti Adı</label>
