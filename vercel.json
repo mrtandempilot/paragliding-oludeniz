@@ -1,8 +1,16 @@
 {
   "crons": [
     {
-      "path": "/api/cron/orchestrator",
+      "path": "/api/cron/orchestrator?slot=06:00",
       "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/orchestrator?slot=12:00",
+      "schedule": "0 12 * * *"
+    },
+    {
+      "path": "/api/cron/orchestrator?slot=18:00",
+      "schedule": "0 18 * * *"
     }
   ]
 }

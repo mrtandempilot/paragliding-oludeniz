@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   LayoutDashboard, CalendarCheck, FileText, Instagram,
-  LogOut, Menu, X, Bot, BookOpen, Target, Activity, Megaphone
+  LogOut, Menu, X, Bot, BookOpen, Target, Activity, Megaphone, Settings
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -21,6 +21,7 @@ const pilotItems = [
   { href: '/admin/content-pilot/articles', label: 'Articles', icon: BookOpen },
   { href: '/admin/content-pilot/topics', label: 'SEO Topics', icon: Target },
   { href: '/admin/content-pilot/logs', label: 'Agent Logs', icon: Activity },
+  { href: '/admin/content-pilot/settings', label: 'Settings', icon: Settings },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
