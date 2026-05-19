@@ -1,19 +1,53 @@
+'use client'
+
 import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
-import { BookOpen, ExternalLink, ArrowLeft } from 'lucide-react'
+import { BookOpen, ExternalLink, ArrowLeft, ImageOff, Loader2, CheckCircle } from 'lucide-react'
+import { useEffect, useState } from 'react'
+
+type Article = {
+  id: string
+  title: string
+  slug: string
+  meta_description: string
+  keywords: string[]
+  word_count: number
+  status: string
+  hero_image_url: string
+  created_at: string
+}
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
-export default async function ArticlesPage() {
-  const { data: articles } = await supabase
-    .from('articles')
-    .select('*')
-    .order('created_at', { ascending: false })
+export default function ArticlesPage() {
+  const [articles, setArticles] = useState<Article[]>([])
+  const [fixing, setFixing] = useState(false)
+  const [fixResult, setFixResult] = useState<{ fixed: number; total: number } | null>(null)
 
-  const all = articles || []
+  useEffect(() => {
+    supabase
+      .from('articles')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .then(({ data }) => setArticles(data || []))
+  }, [fixResult])
+
+  async function handleFixImages() {
+    setFixing(true)
+    setFixResult(null)
+    try {
+      const res = await fetch('/api/admin/fix-images', { method: 'POST', credentials: 'include' })
+      const data = await res.json()
+      setFixResult({ fixed: data.fixed, total: data.total })
+    } finally {
+      setFixing(false)
+    }
+  }
+
+  const all = articles
   const published = all.filter(a => a.status === 'published').length
   const drafts = all.filter(a => a.status === 'draft').length
 
@@ -23,7 +57,7 @@ export default async function ArticlesPage() {
         <Link href="/admin/content-pilot" className="text-slate-400 hover:text-slate-700">
           <ArrowLeft className="w-5 h-5" />
         </Link>
-        <div>
+        <div className="flex-1">
           <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <BookOpen className="w-6 h-6 text-sky-600" />
             AI Articles
@@ -31,6 +65,26 @@ export default async function ArticlesPage() {
           <p className="text-sm text-slate-500 mt-0.5">
             {all.length} total · {published} published · {drafts} drafts
           </p>
+        </div>
+
+        {/* Resimleri Onar butonu */}
+        <div className="flex items-center gap-3">
+          {fixResult && (
+            <span className="flex items-center gap-1.5 text-sm text-green-600 font-medium">
+              <CheckCircle className="w-4 h-4" />
+              {fixResult.fixed} resim onarıldı
+            </span>
+          )}
+          <button
+            onClick={handleFixImages}
+            disabled={fixing}
+            className="flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-sm font-medium transition-colors disabled:opacity-60"
+          >
+            {fixing
+              ? <><Loader2 className="w-4 h-4 animate-spin" /> Kontrol ediliyor...</>
+              : <><ImageOff className="w-4 h-4" /> Bozuk Resimleri Onar</>
+            }
+          </button>
         </div>
       </div>
 

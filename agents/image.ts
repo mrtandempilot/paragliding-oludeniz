@@ -75,7 +75,7 @@ export async function runImageAgent(article: ArticleResult, keywords: string[]):
   return imageResult
 }
 
-// Cloudinary'deki "oludeniz-photos" klasöründen rastgele bir fotoğraf seç
+// Cloudinary'deki "oludeniz-photos" klasöründen sırayla fotoğraf seç
 async function getOwnPhotoFromCloudinary(keywords: string[]): Promise<{ secure_url: string; public_id: string; context?: { alt?: string } } | null> {
   if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
     return null
@@ -85,11 +85,11 @@ async function getOwnPhotoFromCloudinary(keywords: string[]): Promise<{ secure_u
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME
     const apiKey = process.env.CLOUDINARY_API_KEY
     const apiSecret = process.env.CLOUDINARY_API_SECRET
-
-    // Cloudinary Admin API: klasördeki tüm fotoğrafları listele
-    const folder = 'oludeniz-photos'
-    const url = `https://api.cloudinary.com/v1_1/${cloudName}/resources/image?folder=${folder}&max_results=50`
     const auth = Buffer.from(`${apiKey}:${apiSecret}`).toString('base64')
+
+    // Cloudinary Admin API: klasördeki tüm fotoğrafları listele (max 500)
+    const folder = 'oludeniz-photos'
+    const url = `https://api.cloudinary.com/v1_1/${cloudName}/resources/image?folder=${folder}&max_results=500`
 
     const response = await fetch(url, {
       headers: { Authorization: `Basic ${auth}` },
@@ -102,14 +102,22 @@ async function getOwnPhotoFromCloudinary(keywords: string[]): Promise<{ secure_u
 
     if (resources.length === 0) return null
 
-    // Keyword'e göre eşleşen fotoğraf ara, yoksa rastgele seç
-    const keyword = keywords[0]?.toLowerCase() || ''
-    const matched = resources.find(r =>
-      r.public_id.toLowerCase().includes(keyword) ||
-      r.context?.alt?.toLowerCase().includes(keyword)
-    )
+    // Supabase'den son kullanılan index'i al
+    const { data: setting } = await supabase
+      .from('settings')
+      .select('value')
+      .eq('key', 'photo_index')
+      .single()
 
-    return matched || resources[Math.floor(Math.random() * resources.length)]
+    const lastIndex = parseInt(setting?.value || '-1', 10)
+    const nextIndex = (lastIndex + 1) % resources.length  // 100 foto varsa 99'dan sonra 0'a döner
+
+    // Index'i güncelle
+    await supabase
+      .from('settings')
+      .upsert({ key: 'photo_index', value: String(nextIndex) }, { onConflict: 'key' })
+
+    return resources[nextIndex]
   } catch {
     return null
   }
