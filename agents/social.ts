@@ -32,7 +32,7 @@ export async function runSocialAgent(
   const caption = await generateCaption(article, keywords)
 
   // 2. Save social post draft to Supabase
-  const { data: socialPost } = await supabase
+  const { data: socialPost, error: insertError } = await supabase
     .from('social_posts')
     .insert({
       article_id: article.article_id,
@@ -40,10 +40,14 @@ export async function runSocialAgent(
       caption: caption.text,
       hashtags: caption.hashtags,
       image_url: image.cloudinary_url,
-      status: 'draft',
+      status: 'pending',
     })
     .select()
     .single()
+
+  if (insertError) {
+    console.error('[Social] Failed to save social post to Supabase:', insertError.message)
+  }
 
   // 3. Post to Instagram (if Cloudinary is configured — Instagram requires HTTPS public URLs)
   let instagramPostId: string | undefined
