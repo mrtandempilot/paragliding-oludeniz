@@ -23,34 +23,96 @@ export async function runImageAgent(article: ArticleResult, keywords: string[]):
 
   await logAgent('image', 'start', 'running', { article_id: article.article_id })
 
-  // 1. Search Unsplash for relevant photo
-  const query = buildSearchQuery(keywords)
-  const unsplashPhoto = await searchUnsplash(query)
+  // 1. Önce Cloudinary'deki kendi fotoğraflarına bak (oludeniz-photos klasörü)
+  const ownPhoto = await getOwnPhotoFromCloudinary(keywords)
 
-  // 2. Upload to Cloudinary (makes it publicly accessible for Instagram)
-  const cloudinaryResult = await uploadToCloudinary(unsplashPhoto.urls.regular, article.slug)
+  let imageUrl: string
+  let altText: string
+  let unsplashId = ''
+  let unsplashAuthor = ''
+  let unsplashAuthorUrl = ''
+  let publicId: string
 
-  // 3. Update article with image info
+  if (ownPhoto) {
+    // Kendi fotoğrafı bulundu — direkt kullan, Unsplash'a gitme
+    imageUrl = ownPhoto.secure_url
+    publicId = ownPhoto.public_id
+    altText = ownPhoto.context?.alt || `${article.title} - Paragliding Ölüdeniz`
+    await logAgent('image', 'own_photo', 'running', { public_id: publicId })
+  } else {
+    // Kendi fotoğraf yok → Unsplash'tan çek ve Cloudinary'e yükle
+    const query = buildSearchQuery(keywords)
+    const unsplashPhoto = await searchUnsplash(query)
+    const cloudinaryResult = await uploadToCloudinary(unsplashPhoto.urls.regular, article.slug)
+    imageUrl = cloudinaryResult.secure_url
+    publicId = cloudinaryResult.public_id
+    altText = unsplashPhoto.alt_description || `${article.title} - Paragliding Ölüdeniz`
+    unsplashId = unsplashPhoto.id
+    unsplashAuthor = unsplashPhoto.user.name
+    unsplashAuthorUrl = unsplashPhoto.user.links.html
+  }
+
+  // 2. Makaleyi güncelle
   await supabase
     .from('articles')
     .update({
-      hero_image_url: cloudinaryResult.secure_url,
-      hero_image_alt: unsplashPhoto.alt_description || `${article.title} - Paragliding Ölüdeniz`,
+      hero_image_url: imageUrl,
+      hero_image_alt: altText,
     })
     .eq('id', article.article_id)
 
   const imageResult: ImageResult = {
-    cloudinary_url: cloudinaryResult.secure_url,
-    cloudinary_public_id: cloudinaryResult.public_id,
-    unsplash_id: unsplashPhoto.id,
-    unsplash_author: unsplashPhoto.user.name,
-    unsplash_author_url: unsplashPhoto.user.links.html,
-    alt_text: unsplashPhoto.alt_description || `${article.title} - Paragliding Ölüdeniz`,
+    cloudinary_url: imageUrl,
+    cloudinary_public_id: publicId,
+    unsplash_id: unsplashId,
+    unsplash_author: unsplashAuthor,
+    unsplash_author_url: unsplashAuthorUrl,
+    alt_text: altText,
   }
 
   await logAgent('image', 'done', 'done', imageResult, Date.now() - startTime)
 
   return imageResult
+}
+
+// Cloudinary'deki "oludeniz-photos" klasöründen rastgele bir fotoğraf seç
+async function getOwnPhotoFromCloudinary(keywords: string[]): Promise<{ secure_url: string; public_id: string; context?: { alt?: string } } | null> {
+  if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+    return null
+  }
+
+  try {
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME
+    const apiKey = process.env.CLOUDINARY_API_KEY
+    const apiSecret = process.env.CLOUDINARY_API_SECRET
+
+    // Cloudinary Admin API: klasördeki tüm fotoğrafları listele
+    const folder = 'oludeniz-photos'
+    const url = `https://api.cloudinary.com/v1_1/${cloudName}/resources/image?folder=${folder}&max_results=50`
+    const auth = Buffer.from(`${apiKey}:${apiSecret}`).toString('base64')
+
+    const response = await fetch(url, {
+      headers: { Authorization: `Basic ${auth}` },
+    })
+
+    if (!response.ok) return null
+
+    const data = await response.json()
+    const resources: Array<{ secure_url: string; public_id: string; context?: { alt?: string } }> = data.resources || []
+
+    if (resources.length === 0) return null
+
+    // Keyword'e göre eşleşen fotoğraf ara, yoksa rastgele seç
+    const keyword = keywords[0]?.toLowerCase() || ''
+    const matched = resources.find(r =>
+      r.public_id.toLowerCase().includes(keyword) ||
+      r.context?.alt?.toLowerCase().includes(keyword)
+    )
+
+    return matched || resources[Math.floor(Math.random() * resources.length)]
+  } catch {
+    return null
+  }
 }
 
 function buildSearchQuery(keywords: string[]): string {
