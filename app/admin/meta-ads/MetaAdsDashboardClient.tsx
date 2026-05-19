@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { TrendingUp, MousePointerClick, Eye, DollarSign, Users, RefreshCw, Play, Pause } from 'lucide-react'
+import { TrendingUp, MousePointerClick, Eye, DollarSign, Users, RefreshCw, Play, Pause, Megaphone } from 'lucide-react'
 
 interface Campaign {
   id: string
