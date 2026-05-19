@@ -24,7 +24,11 @@ export async function runWriterAgent(brief: SEOBrief): Promise<ArticleResult> {
 
   await logAgent('writer', 'start', 'running', { topic_id: brief.topic_id, title: brief.title })
 
+  const currentYear = new Date().getFullYear()
+
   const prompt = `You are an expert travel and adventure content writer for paragliding-oludeniz.com, a paragliding company in Ölüdeniz, Turkey.
+
+IMPORTANT: The current year is ${currentYear}. Use ${currentYear} in titles and content where a year is referenced — never use past years.
 
 Write a complete, SEO-optimized blog article based on this brief:
 

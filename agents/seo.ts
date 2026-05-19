@@ -41,7 +41,11 @@ export async function runSEOAgent(): Promise<SEOBrief> {
   await logAgent('seo', 'start', 'running', { topic_id: topic.id, title: topic.title })
 
   // 2. Research with Claude
+  const currentYear = new Date().getFullYear()
+
   const prompt = `You are an expert SEO researcher for paragliding-oludeniz.com, a paragliding company in Ölüdeniz, Turkey.
+
+IMPORTANT: The current year is ${currentYear}. If the article title or meta title includes a year, always use ${currentYear}.
 
 Research this topic and create a detailed SEO brief:
 Topic: "${topic.title}"
