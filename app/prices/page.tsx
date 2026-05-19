@@ -6,9 +6,9 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import FAQAccordion from '@/components/shared/FAQAccordion'
 
 export const metadata: Metadata = {
-  title: 'Paragliding Prices Ölüdeniz 2025 | Tandem Flight Costs',
+  title: 'Paragliding Prices Ölüdeniz 2026 | Tandem Flight Costs',
   description:
-    'Full price guide for paragliding in Ölüdeniz 2025. Tandem flights from €80. Sunset flights, group discounts, XC pilot passes. What\'s included, how to book.',
+    'Full price guide for paragliding in Ölüdeniz 2026. Tandem flights from €80. Sunset flights, group discounts, XC pilot passes. What\'s included, how to book.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/prices' },
 }
 
@@ -89,11 +89,54 @@ const faqItems = [
 export default function PricesPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'PriceSpecification',
-    name: 'Tandem Paragliding Ölüdeniz Prices',
-    price: '80',
-    priceCurrency: 'EUR',
-    description: 'Tandem paragliding flights from Babadağ Mountain, Ölüdeniz',
+    '@graph': [
+      {
+        '@type': 'Product',
+        name: 'Tandem Paragliding Ölüdeniz',
+        description: 'Tandem paragliding flights over the Blue Lagoon from Babadağ Mountain, Ölüdeniz, Turkey.',
+        image: 'https://paragliding-oludeniz.com/images/og-default.jpg',
+        brand: { '@type': 'Brand', name: 'Paragliding Ölüdeniz' },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '4.9',
+          reviewCount: '2400',
+          bestRating: '5',
+        },
+        offers: [
+          {
+            '@type': 'Offer',
+            name: 'Standard Tandem Flight (1200m)',
+            price: '80',
+            priceCurrency: 'EUR',
+            availability: 'https://schema.org/InStock',
+            url: 'https://paragliding-oludeniz.com/book-now',
+          },
+          {
+            '@type': 'Offer',
+            name: 'High Altitude Flight (1700m)',
+            price: '100',
+            priceCurrency: 'EUR',
+            availability: 'https://schema.org/InStock',
+            url: 'https://paragliding-oludeniz.com/book-now',
+          },
+          {
+            '@type': 'Offer',
+            name: 'Summit Flight (1960m)',
+            price: '130',
+            priceCurrency: 'EUR',
+            availability: 'https://schema.org/InStock',
+            url: 'https://paragliding-oludeniz.com/book-now',
+          },
+        ],
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://paragliding-oludeniz.com' },
+          { '@type': 'ListItem', position: 2, name: 'Prices', item: 'https://paragliding-oludeniz.com/prices' },
+        ],
+      },
+    ],
   }
 
   return (
@@ -101,7 +144,7 @@ export default function PricesPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <PageHero
-        title="Paragliding Prices Ölüdeniz 2025"
+        title="Paragliding Prices Ölüdeniz 2026"
         subtitle="Transparent pricing. No hidden fees. Everything included."
         badge="Full Price Guide"
         size="sm"

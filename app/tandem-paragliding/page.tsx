@@ -86,22 +86,48 @@ const faqItems = [
 export default function TandemParaglidingPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: 'Tandem Paragliding Ölüdeniz',
-    provider: {
-      '@type': 'LocalBusiness',
-      name: 'Paragliding Ölüdeniz',
-      url: 'https://paragliding-oludeniz.com',
-    },
-    description:
-      'Tandem paragliding flights over the Blue Lagoon in Ölüdeniz from Babadağ Mountain. No experience needed. Certified pilots.',
-    areaServed: 'Ölüdeniz, Fethiye, Turkey',
-    offers: {
-      '@type': 'Offer',
-      priceCurrency: 'EUR',
-      price: '80',
-      availability: 'https://schema.org/InStock',
-    },
+    '@graph': [
+      {
+        '@type': 'Service',
+        name: 'Tandem Paragliding Ölüdeniz',
+        provider: {
+          '@type': 'LocalBusiness',
+          name: 'Paragliding Ölüdeniz',
+          url: 'https://paragliding-oludeniz.com',
+        },
+        description:
+          'Tandem paragliding flights over the Blue Lagoon in Ölüdeniz from Babadağ Mountain. No experience needed. Certified pilots.',
+        areaServed: 'Ölüdeniz, Fethiye, Turkey',
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'EUR',
+          price: '80',
+          availability: 'https://schema.org/InStock',
+        },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '4.9',
+          reviewCount: '2400',
+          bestRating: '5',
+          worstRating: '1',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map(item => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: item.answer },
+        })),
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://paragliding-oludeniz.com' },
+          { '@type': 'ListItem', position: 2, name: 'Tandem Paragliding', item: 'https://paragliding-oludeniz.com/tandem-paragliding' },
+        ],
+      },
+    ],
   }
 
   return (

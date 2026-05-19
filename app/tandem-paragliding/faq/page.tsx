@@ -28,8 +28,22 @@ const faqItems = [
 ]
 
 export default function TandemFAQPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map(item => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  }
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <PageHero title="Tandem Paragliding FAQ" subtitle="Every question answered — from weight limits to what to wear." badge="FAQ" size="sm" />
       <div className="bg-slate-50 border-b border-slate-200"><div className="container-default py-3"><BreadcrumbNav items={[{ label: 'Tandem Paragliding', href: '/tandem-paragliding' }, { label: 'FAQ' }]} /></div></div>
       <section className="section-padding bg-white"><div className="container-default max-w-3xl"><FAQAccordion items={faqItems} title="Tandem Paragliding — All Questions Answered" /></div></section>
