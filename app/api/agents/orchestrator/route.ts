@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { runOrchestrator } from '@/agents/orchestrator'
 
 export async function POST(request: Request) {
@@ -14,6 +15,13 @@ export async function POST(request: Request) {
     }
 
     const result = await runOrchestrator()
+
+    // Makale başarıyla yayınlandıysa blog cache'ini anında temizle
+    if (result.success && result.article?.slug) {
+      revalidatePath('/blog')
+      revalidatePath(`/blog/${result.article.slug}`)
+    }
+
     const status = result.success ? 200 : 500
     return NextResponse.json(result, { status })
   } catch (err: any) {

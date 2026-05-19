@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@supabase/supabase-js'
 import { runOrchestrator } from '@/agents/orchestrator'
 
@@ -44,6 +45,11 @@ export async function GET(request: Request) {
 
   try {
     const result = await runOrchestrator()
+
+    if (result.success && result.article?.slug) {
+      revalidatePath('/blog')
+      revalidatePath(`/blog/${result.article.slug}`)
+    }
 
     if (result.success) {
       return NextResponse.json({
