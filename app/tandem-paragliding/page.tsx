@@ -88,21 +88,20 @@ export default function TandemParaglidingPage() {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'Service',
+        '@type': 'Product',
         name: 'Tandem Paragliding Ölüdeniz',
-        provider: {
-          '@type': 'LocalBusiness',
+        description: 'Tandem paragliding flights over the Blue Lagoon in Ölüdeniz from Babadağ Mountain. No experience needed. Certified pilots.',
+        image: 'https://paragliding-oludeniz.com/images/og-default.jpg',
+        brand: {
+          '@type': 'Brand',
           name: 'Paragliding Ölüdeniz',
-          url: 'https://paragliding-oludeniz.com',
         },
-        description:
-          'Tandem paragliding flights over the Blue Lagoon in Ölüdeniz from Babadağ Mountain. No experience needed. Certified pilots.',
-        areaServed: 'Ölüdeniz, Fethiye, Turkey',
         offers: {
           '@type': 'Offer',
           priceCurrency: 'EUR',
           price: '80',
           availability: 'https://schema.org/InStock',
+          url: 'https://paragliding-oludeniz.com/book-now',
         },
         aggregateRating: {
           '@type': 'AggregateRating',
