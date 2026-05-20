@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { Resend } from 'resend'
 
 function getSupabase() {
   return createClient(
@@ -89,9 +88,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to save booking' }, { status: 500 })
     }
 
-    // Send email notification via Resend
+    // Send email notification via Resend REST API
     try {
-      const resend = new Resend(process.env.RESEND_API_KEY || 're_B9Znp19x_AFhPhbmcoSG1uhcgLzRe6Lon')
+      const RESEND_KEY = process.env.RESEND_API_KEY || 're_B9Znp19x_AFhPhbmcoSG1uhcgLzRe6Lon'
+      const OWNER_EMAIL = process.env.OWNER_EMAIL || 'mrtandempilot@gmail.com'
 
       const addons = []
       if (addon_bundle) addons.push('Photo + Video Bundle (+€45)')
@@ -104,9 +104,9 @@ export async function POST(request: Request) {
         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
       })
 
-      const { error: emailError } = await resend.emails.send({
-        from: 'onboarding@resend.dev',
-        to: process.env.OWNER_EMAIL || 'mrtandempilot@gmail.com',
+      const emailPayload = {
+        from: 'Paragliding Oludeniz <onboarding@resend.dev>',
+        to: [OWNER_EMAIL],
         subject: `New Booking: ${first_name} ${last_name} — ${dateStr} — €${totalPrice}`,
         html: `
           <h2>New Booking Request</h2>
@@ -126,15 +126,29 @@ export async function POST(request: Request) {
           <br>
           <a href="https://paragliding-oludeniz.com/admin/bookings" style="display:inline-block; background:#f97316; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">View in Admin Panel →</a>
         `,
+      }
+
+      console.log('[Bookings] Sending email to', OWNER_EMAIL, 'via Resend...')
+      const emailRes = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${RESEND_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailPayload),
       })
 
-      if (emailError) {
-        console.error('[Bookings] Resend error:', emailError)
-      } else {
+      const emailData = await emailRes.json()
+      console.log('[Bookings] Resend response status:', emailRes.status, JSON.stringify(emailData))
+
+      if (emailRes.ok) {
         await supabase
           .from('bookings')
           .update({ notified_at: new Date().toISOString() })
           .eq('id', booking.id)
+        console.log('[Bookings] Email sent successfully, id:', emailData.id)
+      } else {
+        console.error('[Bookings] Resend error:', emailData)
       }
     } catch (emailErr) {
       console.error('[Bookings] Email send failed:', emailErr)
