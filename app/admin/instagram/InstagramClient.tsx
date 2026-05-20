@@ -2,8 +2,17 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Sparkles, Edit2, Trash2, Send, Clock, CheckCircle, XCircle, X, Loader2, Instagram, Calendar, Hash, Image as ImageIcon, AlignLeft, Upload } from 'lucide-react'
+import { Plus, Sparkles, Edit2, Trash2, Send, Clock, CheckCircle, XCircle, X, Loader2, Instagram, Calendar, Hash, Image as ImageIcon, AlignLeft, Upload, Film, BookImage, Tv2 } from 'lucide-react'
 import type { InstagramPost } from '@/lib/supabase'
+
+type PostType = 'image' | 'reel' | 'story' | 'carousel'
+
+const POST_TYPES: { type: PostType; label: string; icon: React.ReactNode; desc: string; color: string }[] = [
+  { type: 'image',    label: 'Photo',    icon: <ImageIcon className="w-5 h-5" />, desc: 'Single image post',        color: 'border-orange-400 bg-orange-50 text-orange-700' },
+  { type: 'reel',     label: 'Reel',     icon: <Film className="w-5 h-5" />,      desc: 'Short video (Reels)',       color: 'border-purple-400 bg-purple-50 text-purple-700' },
+  { type: 'story',    label: 'Story',    icon: <Tv2 className="w-5 h-5" />,       desc: 'Story (image or video)',    color: 'border-sky-400 bg-sky-50 text-sky-700' },
+  { type: 'carousel', label: 'Carousel', icon: <BookImage className="w-5 h-5" />, desc: 'Multiple images (2–10)',    color: 'border-green-400 bg-green-50 text-green-700' },
+]
 
 const STATUS_COLORS: Record<string, string> = {
   draft: 'bg-slate-100 text-slate-500',
@@ -61,32 +70,39 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
   }
 
   // Form state
+  const [postType, setPostType] = useState<PostType>('image')
   const [form, setForm] = useState({
     image_url: '',
+    video_url: '',
+    cover_url: '',
+    carousel_urls: '' as string, // newline-separated
     caption: '',
     hashtags: '',
     status: 'draft' as 'draft' | 'scheduled' | 'posted' | 'failed',
     scheduled_at: '',
     notes: '',
-    linked_blog_post_id: '',
   })
 
   function openNew() {
     setEditPost(null)
-    setForm({ image_url: '', caption: '', hashtags: '', status: 'draft', scheduled_at: '', notes: '', linked_blog_post_id: '' })
+    setPostType('image')
+    setForm({ image_url: '', video_url: '', cover_url: '', carousel_urls: '', caption: '', hashtags: '', status: 'draft', scheduled_at: '', notes: '' })
     setShowForm(true)
   }
 
   function openEdit(post: InstagramPost) {
     setEditPost(post)
+    setPostType((post as any).post_type || 'image')
     setForm({
       image_url: post.image_url || '',
+      video_url: (post as any).video_url || '',
+      cover_url: (post as any).cover_url || '',
+      carousel_urls: ((post as any).carousel_urls || []).join('\n'),
       caption: post.caption || '',
       hashtags: post.hashtags || '',
       status: post.status,
       scheduled_at: post.scheduled_at ? new Date(post.scheduled_at).toISOString().slice(0, 16) : '',
       notes: post.notes || '',
-      linked_blog_post_id: post.linked_blog_post_id || '',
     })
     setShowForm(true)
   }
@@ -120,7 +136,10 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
     try {
       // Adım 1: Supabase'e kaydet
       const method = editPost ? 'PATCH' : 'POST'
-      const body = editPost ? { id: editPost.id, ...form } : form
+      const carouselArr = form.carousel_urls.split('\n').map(s => s.trim()).filter(Boolean)
+      const body = editPost
+        ? { id: editPost.id, ...form, post_type: postType, carousel_urls: carouselArr }
+        : { ...form, post_type: postType, carousel_urls: carouselArr }
 
       const res = await fetch('/api/admin/instagram', {
         method,
@@ -431,71 +450,143 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
             </div>
 
             <div className="p-6 space-y-5">
-              {/* Image URL + Unsplash Picker */}
+
+              {/* Post Type Selector */}
               <div>
-                <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1">
-                  <ImageIcon className="w-4 h-4" /> Image *
-                </label>
-
-                {/* Unsplash search bar */}
-                <div className="flex gap-2 mb-2">
-                  <input
-                    value={unsplashQuery}
-                    onChange={e => setUnsplashQuery(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && searchUnsplash()}
-                    placeholder="e.g. paragliding oludeniz sunset"
-                    className="flex-1 px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  />
-                  <button
-                    type="button"
-                    onClick={searchUnsplash}
-                    disabled={unsplashLoading}
-                    className="flex items-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold transition-colors disabled:opacity-50"
-                  >
-                    {unsplashLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImageIcon className="w-4 h-4" />}
-                    Unsplash
-                  </button>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Post Type</label>
+                <div className="grid grid-cols-4 gap-2">
+                  {POST_TYPES.map(pt => (
+                    <button
+                      key={pt.type}
+                      type="button"
+                      onClick={() => setPostType(pt.type)}
+                      className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all text-center ${
+                        postType === pt.type ? pt.color + ' border-current' : 'border-slate-200 text-slate-500 hover:border-slate-300'
+                      }`}
+                    >
+                      {pt.icon}
+                      <span className="text-xs font-bold">{pt.label}</span>
+                      <span className="text-xs opacity-70 leading-tight">{pt.desc}</span>
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                {/* Photo grid picker */}
-                {showPhotoPicker && unsplashPhotos.length > 0 && (
-                  <div className="mb-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-xs font-semibold text-slate-500">Bir fotoğraf seç</p>
-                      <button onClick={() => setShowPhotoPicker(false)} className="text-slate-400 hover:text-slate-600">
-                        <X className="w-4 h-4" />
-                      </button>
+              {/* Media Fields — based on post type */}
+              {(postType === 'image') && (
+                <div>
+                  <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1">
+                    <ImageIcon className="w-4 h-4" /> Image URL *
+                  </label>
+                  <div className="flex gap-2 mb-2">
+                    <input
+                      value={unsplashQuery}
+                      onChange={e => setUnsplashQuery(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && searchUnsplash()}
+                      placeholder="Search Unsplash..."
+                      className="flex-1 px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    />
+                    <button type="button" onClick={searchUnsplash} disabled={unsplashLoading}
+                      className="flex items-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold transition-colors disabled:opacity-50">
+                      {unsplashLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImageIcon className="w-4 h-4" />} Unsplash
+                    </button>
+                  </div>
+                  {showPhotoPicker && unsplashPhotos.length > 0 && (
+                    <div className="mb-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-xs font-semibold text-slate-500">Bir fotoğraf seç</p>
+                        <button onClick={() => setShowPhotoPicker(false)}><X className="w-4 h-4 text-slate-400" /></button>
+                      </div>
+                      <div className="grid grid-cols-4 gap-1.5">
+                        {unsplashPhotos.map(photo => (
+                          <button key={photo.id} type="button" onClick={() => selectPhoto(photo.url)}
+                            className="aspect-square rounded-lg overflow-hidden border-2 border-transparent hover:border-orange-500 transition-all">
+                            <img src={photo.thumb} alt={photo.alt} className="w-full h-full object-cover" />
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                    <div className="grid grid-cols-4 gap-1.5">
-                      {unsplashPhotos.map(photo => (
-                        <button
-                          key={photo.id}
-                          type="button"
-                          onClick={() => selectPhoto(photo.url)}
-                          className="aspect-square rounded-lg overflow-hidden border-2 border-transparent hover:border-orange-500 transition-all"
-                          title={photo.alt}
-                        >
-                          <img src={photo.thumb} alt={photo.alt} className="w-full h-full object-cover" />
-                        </button>
+                  )}
+                  <input value={form.image_url} onChange={e => setForm(p => ({ ...p, image_url: e.target.value }))}
+                    placeholder="https://... or paste Cloudinary URL"
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500" />
+                  {form.image_url && (
+                    <div className="mt-2 w-24 h-24 rounded-xl overflow-hidden border border-slate-200">
+                      <img src={form.image_url} alt="" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {(postType === 'reel') && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1">
+                      <Film className="w-4 h-4" /> Video URL * <span className="font-normal text-slate-400">(public MP4)</span>
+                    </label>
+                    <input value={form.video_url} onChange={e => setForm(p => ({ ...p, video_url: e.target.value }))}
+                      placeholder="https://res.cloudinary.com/.../video.mp4"
+                      className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+                    <p className="text-xs text-slate-400 mt-1">Must be a public URL. Use Cloudinary for video hosting.</p>
+                  </div>
+                  <div>
+                    <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1">
+                      <ImageIcon className="w-4 h-4" /> Cover Image <span className="font-normal text-slate-400">(optional)</span>
+                    </label>
+                    <input value={form.cover_url} onChange={e => setForm(p => ({ ...p, cover_url: e.target.value }))}
+                      placeholder="https://... thumbnail image URL"
+                      className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+                  </div>
+                </div>
+              )}
+
+              {(postType === 'story') && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1">
+                      <ImageIcon className="w-4 h-4" /> Image URL
+                    </label>
+                    <input value={form.image_url} onChange={e => setForm(p => ({ ...p, image_url: e.target.value }))}
+                      placeholder="https://... image URL for story"
+                      className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" />
+                  </div>
+                  <p className="text-xs text-slate-400 text-center">— or —</p>
+                  <div>
+                    <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1">
+                      <Film className="w-4 h-4" /> Video URL
+                    </label>
+                    <input value={form.video_url} onChange={e => setForm(p => ({ ...p, video_url: e.target.value }))}
+                      placeholder="https://... video URL for story"
+                      className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" />
+                  </div>
+                </div>
+              )}
+
+              {(postType === 'carousel') && (
+                <div>
+                  <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1">
+                    <BookImage className="w-4 h-4" /> Image URLs * <span className="font-normal text-slate-400">(2–10, one per line)</span>
+                  </label>
+                  <textarea value={form.carousel_urls}
+                    onChange={e => setForm(p => ({ ...p, carousel_urls: e.target.value }))}
+                    rows={5}
+                    placeholder={"https://image1.jpg\nhttps://image2.jpg\nhttps://image3.jpg"}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500 font-mono resize-none" />
+                  <p className="text-xs text-slate-400 mt-1">
+                    {form.carousel_urls.split('\n').filter(s => s.trim()).length} / 10 images
+                  </p>
+                  {/* Preview thumbnails */}
+                  {form.carousel_urls.split('\n').filter(s => s.trim()).length > 0 && (
+                    <div className="flex gap-2 mt-2 flex-wrap">
+                      {form.carousel_urls.split('\n').filter(s => s.trim()).slice(0, 10).map((url, i) => (
+                        <div key={i} className="w-14 h-14 rounded-lg overflow-hidden border border-slate-200 bg-slate-100">
+                          <img src={url.trim()} alt="" className="w-full h-full object-cover" onError={e => (e.currentTarget.style.opacity = '0.3')} />
+                        </div>
                       ))}
                     </div>
-                    <p className="text-xs text-slate-400 mt-2">Photos by Unsplash</p>
-                  </div>
-                )}
-
-                {/* Manual URL input */}
-                <input
-                  value={form.image_url}
-                  onChange={e => setForm(p => ({ ...p, image_url: e.target.value }))}
-                  placeholder="Ya da direkt URL yapıştır..."
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-                {form.image_url && (
-                  <div className="mt-2 w-24 h-24 rounded-xl overflow-hidden border border-slate-200">
-                    <img src={form.image_url} alt="" className="w-full h-full object-cover" />
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              )}
 
               {/* Caption */}
               <div>
@@ -583,14 +674,14 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
               <button onClick={() => setShowForm(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">Cancel</button>
               <button
                 onClick={() => savePost(false)}
-                disabled={!!loading || !form.caption || !form.image_url}
+                disabled={!!loading || !form.caption}
                 className="flex items-center gap-2 px-4 py-2 bg-slate-200 hover:bg-slate-300 disabled:opacity-50 text-slate-700 rounded-xl text-sm font-bold transition-colors"
               >
                 {loading === 'save' ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : 'Taslak Kaydet'}
               </button>
               <button
                 onClick={() => savePost(true)}
-                disabled={!!loading || !form.caption || !form.image_url}
+                disabled={!!loading || !form.caption}
                 className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-colors"
               >
                 {loading === 'publish_now'
