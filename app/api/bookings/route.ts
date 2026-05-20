@@ -120,19 +120,27 @@ Reply to confirm or contact the guest.
 View in admin: https://paragliding-oludeniz.com/admin/bookings
         `.trim()
 
-        await fetch('https://api.resend.com/emails', {
+        const fromAddress = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'
+        const toAddress = process.env.OWNER_EMAIL || 'mrtandempilot@gmail.com'
+
+        const emailRes = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            from: 'bookings@paragliding-oludeniz.com',
-            to: process.env.OWNER_EMAIL || 'mrtandempilot@gmail.com',
+            from: fromAddress,
+            to: toAddress,
             subject: `New Booking: ${first_name} ${last_name} — ${new Date(flight_date).toLocaleDateString('en-GB')} — €${totalPrice}`,
             text: emailBody,
           }),
         })
+
+        if (!emailRes.ok) {
+          const errText = await emailRes.text()
+          console.error('[Bookings] Resend error:', errText)
+        }
 
         // Update notified_at
         await supabase
