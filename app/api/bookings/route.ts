@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import nodemailer from 'nodemailer'
 
 function getSupabase() {
   return createClient(
@@ -88,67 +89,59 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to save booking' }, { status: 500 })
     }
 
-    // Send email notification via Resend REST API
+    // Send email notification via Gmail SMTP
     try {
-      const RESEND_KEY = process.env.RESEND_API_KEY || 're_B9Znp19x_AFhPhbmcoSG1uhcgLzRe6Lon'
-      const OWNER_EMAIL = process.env.OWNER_EMAIL || 'mrtandempilot@gmail.com'
+      const GMAIL_USER = process.env.GMAIL_USER || 'mrtandempilot@gmail.com'
+      const GMAIL_PASS = process.env.GMAIL_APP_PASSWORD
 
-      const addons = []
-      if (addon_bundle) addons.push('Photo + Video Bundle (+€45)')
-      else {
-        if (addon_photo) addons.push('Photo Package (+€25)')
-        if (addon_video) addons.push('Video Package (+€30)')
-      }
+      if (!GMAIL_PASS) {
+        console.error('[Bookings] GMAIL_APP_PASSWORD not set — skipping email')
+      } else {
+        const addons = []
+        if (addon_bundle) addons.push('Photo + Video Bundle (+EUR45)')
+        else {
+          if (addon_photo) addons.push('Photo Package (+EUR25)')
+          if (addon_video) addons.push('Video Package (+EUR30)')
+        }
 
-      const dateStr = new Date(flight_date).toLocaleDateString('en-GB', {
-        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
-      })
+        const dateStr = new Date(flight_date).toLocaleDateString('en-GB', {
+          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+        })
 
-      const emailPayload = {
-        from: 'Paragliding Oludeniz <onboarding@resend.dev>',
-        to: [OWNER_EMAIL],
-        subject: `New Booking: ${first_name} ${last_name} — ${dateStr} — €${totalPrice}`,
-        html: `
-          <h2>New Booking Request</h2>
-          <table style="border-collapse:collapse; width:100%; font-family:sans-serif; font-size:14px;">
-            <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Flight</td><td style="padding:8px;">${FLIGHT_LABELS[flight_type]}</td></tr>
-            <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Date</td><td style="padding:8px;">${dateStr}</td></tr>
-            <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Guests</td><td style="padding:8px;">${guestCount}</td></tr>
-            ${addons.length ? `<tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Add-ons</td><td style="padding:8px;">${addons.join(', ')}</td></tr>` : ''}
-            <tr><td colspan="2" style="padding:8px; border-top:2px solid #e9ecef;"></td></tr>
-            <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Name</td><td style="padding:8px;">${first_name} ${last_name}</td></tr>
-            <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Email</td><td style="padding:8px;"><a href="mailto:${email}">${email}</a></td></tr>
-            <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Phone</td><td style="padding:8px;">${phone ? `<a href="https://wa.me/${phone.replace(/\D/g, '')}">${phone}</a>` : 'Not provided'}</td></tr>
-            ${notes ? `<tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Notes</td><td style="padding:8px;">${notes}</td></tr>` : ''}
-            <tr><td colspan="2" style="padding:8px; border-top:2px solid #e9ecef;"></td></tr>
-            <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Total</td><td style="padding:8px; font-size:18px; font-weight:bold; color:#f97316;">€${totalPrice}${guestCount >= 4 ? ' <span style="font-size:12px; color:#16a34a;">(group discount applied)</span>' : ''}</td></tr>
-          </table>
-          <br>
-          <a href="https://paragliding-oludeniz.com/admin/bookings" style="display:inline-block; background:#f97316; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">View in Admin Panel →</a>
-        `,
-      }
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: { user: GMAIL_USER, pass: GMAIL_PASS },
+        })
 
-      console.log('[Bookings] Sending email to', OWNER_EMAIL, 'via Resend...')
-      const emailRes = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${RESEND_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: Buffer.from(JSON.stringify(emailPayload), 'utf-8'),
-      })
+        await transporter.sendMail({
+          from: `"Paragliding Oludeniz" <${GMAIL_USER}>`,
+          to: GMAIL_USER,
+          subject: `New Booking: ${first_name} ${last_name} - ${dateStr} - EUR${totalPrice}`,
+          html: `
+            <h2>New Booking Request</h2>
+            <table style="border-collapse:collapse; width:100%; font-family:sans-serif; font-size:14px;">
+              <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Flight</td><td style="padding:8px;">${FLIGHT_LABELS[flight_type]}</td></tr>
+              <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Date</td><td style="padding:8px;">${dateStr}</td></tr>
+              <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Guests</td><td style="padding:8px;">${guestCount}</td></tr>
+              ${addons.length ? `<tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Add-ons</td><td style="padding:8px;">${addons.join(', ')}</td></tr>` : ''}
+              <tr><td colspan="2" style="padding:8px; border-top:2px solid #e9ecef;"></td></tr>
+              <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Name</td><td style="padding:8px;">${first_name} ${last_name}</td></tr>
+              <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Email</td><td style="padding:8px;"><a href="mailto:${email}">${email}</a></td></tr>
+              <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Phone</td><td style="padding:8px;">${phone || 'Not provided'}</td></tr>
+              ${notes ? `<tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Notes</td><td style="padding:8px;">${notes}</td></tr>` : ''}
+              <tr><td colspan="2" style="padding:8px; border-top:2px solid #e9ecef;"></td></tr>
+              <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Total</td><td style="padding:8px; font-size:18px; font-weight:bold; color:#f97316;">EUR${totalPrice}${guestCount >= 4 ? ' (group discount applied)' : ''}</td></tr>
+            </table>
+            <br>
+            <a href="https://paragliding-oludeniz.com/admin/bookings" style="display:inline-block; background:#f97316; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">View in Admin Panel</a>
+          `,
+        })
 
-      const emailData = await emailRes.json()
-      console.log('[Bookings] Resend response status:', emailRes.status, JSON.stringify(emailData))
-
-      if (emailRes.ok) {
+        console.log('[Bookings] Email sent via Gmail to', GMAIL_USER)
         await supabase
           .from('bookings')
           .update({ notified_at: new Date().toISOString() })
           .eq('id', booking.id)
-        console.log('[Bookings] Email sent successfully, id:', emailData.id)
-      } else {
-        console.error('[Bookings] Resend error:', emailData)
       }
     } catch (emailErr) {
       console.error('[Bookings] Email send failed:', emailErr)
