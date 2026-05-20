@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+}
 
 const FLIGHT_PRICES: Record<string, number> = {
   standard: 80,
@@ -20,6 +22,7 @@ const FLIGHT_LABELS: Record<string, string> = {
 
 export async function POST(request: Request) {
   try {
+    const supabase = getSupabase()
     const body = await request.json()
 
     const {
@@ -179,6 +182,7 @@ View in admin: https://paragliding-oludeniz.com/admin/bookings
 }
 
 export async function GET(request: Request) {
+  const supabase = getSupabase()
   // Admin only — list bookings
   const { searchParams } = new URL(request.url)
   const status = searchParams.get('status')
@@ -199,6 +203,7 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+  const supabase = getSupabase()
   // Admin: update booking status
   const body = await request.json()
   const { id, status, admin_notes } = body
