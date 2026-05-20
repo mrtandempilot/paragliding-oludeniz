@@ -10,6 +10,28 @@ function getSupabase() {
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
+// Search Facebook Places for Ölüdeniz and return the place ID
+async function getOludenizLocationId(accessToken: string): Promise<string | null> {
+  try {
+    const res = await fetch(
+      `https://graph.facebook.com/v19.0/pages/search?q=Oludeniz&fields=id,name,location&type=place&access_token=${accessToken}`
+    )
+    const data = await res.json()
+    if (data.data && data.data.length > 0) {
+      // Find the best match — prefer entries with "ludeniz" in the name
+      const match = data.data.find((p: any) =>
+        p.name?.toLowerCase().includes('ludeniz') ||
+        p.location?.city?.toLowerCase().includes('ludeniz')
+      ) || data.data[0]
+      console.log('[Instagram] Location found:', match.name, match.id)
+      return match.id
+    }
+  } catch (e) {
+    console.error('[Instagram] Location search failed:', e)
+  }
+  return null
+}
+
 export async function POST(request: Request) {
   const { id } = await request.json()
   const supabase = getSupabase()
@@ -37,6 +59,9 @@ export async function POST(request: Request) {
   const caption = [post.caption, post.hashtags].filter(Boolean).join('\n\n')
   const postType = post.post_type || 'image'
 
+  // Get Ölüdeniz location ID
+  const locationId = await getOludenizLocationId(accessToken)
+
   try {
     let containerId: string
 
@@ -44,10 +69,13 @@ export async function POST(request: Request) {
     if (postType === 'image') {
       if (!post.image_url) return NextResponse.json({ error: 'No image URL' }, { status: 400 })
 
+      const body: Record<string, any> = { image_url: post.image_url, caption, access_token: accessToken }
+      if (locationId) body.location_id = locationId
+
       const res = await fetch(`https://graph.facebook.com/v19.0/${igAccountId}/media`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image_url: post.image_url, caption, access_token: accessToken }),
+        body: JSON.stringify(body),
       })
       const data = await res.json()
       if (data.error) return NextResponse.json({ error: data.error.message }, { status: 500 })
@@ -66,6 +94,7 @@ export async function POST(request: Request) {
         access_token: accessToken,
       }
       if (post.cover_url) body.cover_url = post.cover_url
+      if (locationId) body.location_id = locationId
 
       const res = await fetch(`https://graph.facebook.com/v19.0/${igAccountId}/media`, {
         method: 'POST',
@@ -144,6 +173,7 @@ export async function POST(request: Request) {
           children: childIds.join(','),
           caption,
           access_token: accessToken,
+          ...(locationId ? { location_id: locationId } : {}),
         }),
       })
       const data = await res.json()
