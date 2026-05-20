@@ -135,7 +135,7 @@ export async function POST(request: Request) {
           'Authorization': `Bearer ${RESEND_KEY}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(emailPayload),
+        body: Buffer.from(JSON.stringify(emailPayload), 'utf-8'),
       })
 
       const emailData = await emailRes.json()
