@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { Phone, Mail, MapPin, Instagram, Facebook } from 'lucide-react'
 
 export default function Footer() {
@@ -35,47 +34,34 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Social + CTA */}
-          <div className="flex flex-col gap-4">
-            <div className="flex gap-3">
-              <a
-                href="https://instagram.com/paragliding.oludeniz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-slate-800 hover:bg-orange-500 rounded-xl flex items-center justify-center transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5 text-white" />
-              </a>
-              <a
-                href="https://facebook.com/paraglidingoludeniz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-slate-800 hover:bg-blue-600 rounded-xl flex items-center justify-center transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-5 h-5 text-white" />
-              </a>
-            </div>
-            <Link
-              href="/book-now"
-              className="inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
+          {/* Social */}
+          <div className="flex gap-3">
+            <a
+              href="https://instagram.com/paragliding.oludeniz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 bg-slate-800 hover:bg-orange-500 rounded-xl flex items-center justify-center transition-colors"
+              aria-label="Instagram"
             >
-              Book Now
-            </Link>
+              <Instagram className="w-5 h-5 text-white" />
+            </a>
+            <a
+              href="https://facebook.com/paraglidingoludeniz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 bg-slate-800 hover:bg-blue-600 rounded-xl flex items-center justify-center transition-colors"
+              aria-label="Facebook"
+            >
+              <Facebook className="w-5 h-5 text-white" />
+            </a>
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
       <div className="border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
-          <p>© {new Date().getFullYear()} Paragliding Ölüdeniz. All rights reserved.</p>
-          <div className="flex items-center gap-5">
-            <Link href="/about-us" className="hover:text-slate-300 transition-colors">About</Link>
-            <Link href="/faq" className="hover:text-slate-300 transition-colors">FAQ</Link>
-            <Link href="/contact" className="hover:text-slate-300 transition-colors">Contact</Link>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-slate-500">
+          © {new Date().getFullYear()} Paragliding Ölüdeniz. All rights reserved.
         </div>
       </div>
     </footer>
