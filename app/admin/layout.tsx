@@ -10,7 +10,7 @@ import { useState } from 'react'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
-  { href: '/admin/reservations', label: 'Reservations', icon: CalendarCheck },
+  { href: '/admin/bookings', label: 'Bookings', icon: CalendarCheck },
   { href: '/admin/blog', label: 'Blog', icon: FileText },
   { href: '/admin/instagram', label: 'Instagram', icon: Instagram },
   { href: '/admin/meta-ads', label: 'Meta Ads', icon: Megaphone },
