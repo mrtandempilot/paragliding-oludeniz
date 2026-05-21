@@ -1,125 +1,122 @@
-import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
-import { CalendarCheck, FileText, Instagram, Clock, CheckCircle, XCircle } from 'lucide-react'
+import {
+  CalendarCheck, Instagram, FileText, Megaphone,
+  Search, Bot, Clock
+} from 'lucide-react'
+import { createClient } from '@supabase/supabase-js'
 
-async function getStats() {
-  const [reservations, blogs, instagram] = await Promise.all([
-    supabase.from('reservations').select('status'),
-    supabase.from('blog_posts').select('published'),
-    supabase.from('instagram_posts').select('status'),
-  ])
-
-  const res = reservations.data || []
-  const pending = res.filter(r => r.status === 'pending').length
-  const confirmed = res.filter(r => r.status === 'confirmed').length
-  const total = res.length
-
-  const publishedBlogs = (blogs.data || []).filter(b => b.published).length
-  const draftBlogs = (blogs.data || []).filter(b => !b.published).length
-
-  const scheduledIG = (instagram.data || []).filter(i => i.status === 'scheduled').length
-  const postedIG = (instagram.data || []).filter(i => i.status === 'posted').length
-
-  return { pending, confirmed, total, publishedBlogs, draftBlogs, scheduledIG, postedIG }
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 }
 
-async function getRecentReservations() {
-  const { data } = await supabase
-    .from('reservations')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(5)
-  return data || []
+async function getPendingCount() {
+  const supabase = getSupabase()
+  const { count } = await supabase
+    .from('bookings')
+    .select('*', { count: 'exact', head: true })
+    .eq('status', 'pending')
+  return count || 0
 }
+
+const sections = [
+  {
+    href: '/admin/bookings',
+    label: 'Bookings',
+    description: 'Rezervasyonları gör ve yönet',
+    icon: CalendarCheck,
+    color: 'bg-orange-50 text-orange-500',
+    border: 'border-orange-100 hover:border-orange-300',
+  },
+  {
+    href: '/admin/instagram',
+    label: 'Instagram',
+    description: 'Post, Reel, Story ve Carousel paylaş',
+    icon: Instagram,
+    color: 'bg-pink-50 text-pink-500',
+    border: 'border-pink-100 hover:border-pink-300',
+  },
+  {
+    href: '/admin/blog',
+    label: 'Blog',
+    description: 'Makale yaz ve yayınla',
+    icon: FileText,
+    color: 'bg-sky-50 text-sky-500',
+    border: 'border-sky-100 hover:border-sky-300',
+  },
+  {
+    href: '/admin/meta-ads',
+    label: 'Meta Ads',
+    description: 'Facebook ve Instagram reklamları',
+    icon: Megaphone,
+    color: 'bg-blue-50 text-blue-500',
+    border: 'border-blue-100 hover:border-blue-300',
+  },
+  {
+    href: '/admin/google-ads',
+    label: 'Google Ads',
+    description: 'Google arama ve görüntülü reklamlar',
+    icon: Search,
+    color: 'bg-green-50 text-green-500',
+    border: 'border-green-100 hover:border-green-300',
+  },
+  {
+    href: '/admin/content-pilot',
+    label: 'ContentPilot AI',
+    description: 'Yapay zeka ile içerik üret',
+    icon: Bot,
+    color: 'bg-purple-50 text-purple-500',
+    border: 'border-purple-100 hover:border-purple-300',
+  },
+]
 
 export default async function AdminDashboard() {
-  const [stats, recent] = await Promise.all([getStats(), getRecentReservations()])
-
-  const cards = [
-    {
-      label: 'Pending Reservations',
-      value: stats.pending,
-      icon: Clock,
-      color: 'bg-amber-50 text-amber-600',
-      href: '/admin/reservations?status=pending',
-    },
-    {
-      label: 'Confirmed Reservations',
-      value: stats.confirmed,
-      icon: CheckCircle,
-      color: 'bg-green-50 text-green-600',
-      href: '/admin/reservations?status=confirmed',
-    },
-    {
-      label: 'Published Blog Posts',
-      value: stats.publishedBlogs,
-      icon: FileText,
-      color: 'bg-sky-50 text-sky-600',
-      href: '/admin/blog',
-    },
-    {
-      label: 'Instagram Scheduled',
-      value: stats.scheduledIG,
-      icon: Instagram,
-      color: 'bg-purple-50 text-purple-600',
-      href: '/admin/instagram',
-    },
-  ]
+  const pending = await getPendingCount()
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-slate-900 mb-8">Dashboard</h1>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-        {cards.map(card => {
-          const Icon = card.icon
-          return (
-            <Link key={card.label} href={card.href} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow group">
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${card.color}`}>
-                <Icon className="w-6 h-6" />
-              </div>
-              <div className="text-3xl font-bold text-slate-900 mb-1">{card.value}</div>
-              <div className="text-sm text-slate-500">{card.label}</div>
-            </Link>
-          )
-        })}
+    <div className="max-w-4xl mx-auto">
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
+        <p className="text-slate-500 text-sm mt-1">
+          {new Date().toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+        </p>
       </div>
 
-      {/* Recent Reservations */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-          <h2 className="font-bold text-slate-900">Recent Reservations</h2>
-          <Link href="/admin/reservations" className="text-sm text-orange-500 hover:text-orange-600 font-medium">
-            View all →
-          </Link>
-        </div>
+      {/* Pending alert */}
+      {pending > 0 && (
+        <Link href="/admin/bookings?status=pending"
+          className="flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 mb-8 hover:bg-amber-100 transition-colors">
+          <div className="w-9 h-9 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <Clock className="w-5 h-5 text-amber-600" />
+          </div>
+          <div>
+            <p className="font-semibold text-amber-800">
+              {pending} bekleyen rezervasyon var
+            </p>
+            <p className="text-sm text-amber-600">Onay için tıkla →</p>
+          </div>
+        </Link>
+      )}
 
-        {recent.length === 0 ? (
-          <div className="p-12 text-center text-slate-400">
-            <CalendarCheck className="w-10 h-10 mx-auto mb-3 opacity-30" />
-            <p>No reservations yet</p>
-          </div>
-        ) : (
-          <div className="divide-y divide-slate-100">
-            {recent.map(r => (
-              <div key={r.id} className="px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
-                <div>
-                  <p className="font-semibold text-slate-900">{r.name}</p>
-                  <p className="text-sm text-slate-500">{r.date} · {r.flight_type} · {r.passengers} pax</p>
-                </div>
-                <span className={`text-xs font-bold px-3 py-1 rounded-full ${
-                  r.status === 'pending' ? 'bg-amber-100 text-amber-700' :
-                  r.status === 'confirmed' ? 'bg-green-100 text-green-700' :
-                  r.status === 'cancelled' ? 'bg-red-100 text-red-700' :
-                  'bg-slate-100 text-slate-600'
-                }`}>
-                  {r.status}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
+      {/* Section cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {sections.map(({ href, label, description, icon: Icon, color, border }) => (
+          <Link
+            key={href}
+            href={href}
+            className={`bg-white rounded-2xl border-2 ${border} p-6 flex flex-col gap-4 transition-all hover:shadow-md`}
+          >
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${color}`}>
+              <Icon className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="font-bold text-slate-900 text-lg">{label}</p>
+              <p className="text-sm text-slate-500 mt-0.5">{description}</p>
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   )

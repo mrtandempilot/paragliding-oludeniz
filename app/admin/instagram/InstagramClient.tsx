@@ -71,6 +71,7 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
 
   // Form state
   const [postType, setPostType] = useState<PostType>('image')
+  const [postToTikTok, setPostToTikTok] = useState(false)
   const [form, setForm] = useState({
     image_url: '',
     video_url: '',
@@ -86,6 +87,7 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
   function openNew() {
     setEditPost(null)
     setPostType('image')
+    setPostToTikTok(false)
     setForm({ image_url: '', video_url: '', cover_url: '', carousel_urls: '', caption: '', hashtags: '', status: 'draft', scheduled_at: '', notes: '' })
     setShowForm(true)
   }
@@ -138,8 +140,8 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
       const method = editPost ? 'PATCH' : 'POST'
       const carouselArr = form.carousel_urls.split('\n').map(s => s.trim()).filter(Boolean)
       const body = editPost
-        ? { id: editPost.id, ...form, post_type: postType, carousel_urls: carouselArr }
-        : { ...form, post_type: postType, carousel_urls: carouselArr }
+        ? { id: editPost.id, ...form, post_type: postType, carousel_urls: carouselArr, post_to_tiktok: postToTikTok }
+        : { ...form, post_type: postType, carousel_urls: carouselArr, post_to_tiktok: postToTikTok }
 
       const res = await fetch('/api/admin/instagram', {
         method,
@@ -537,6 +539,16 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
                       placeholder="https://... thumbnail image URL"
                       className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
                   </div>
+                  {/* TikTok cross-post */}
+                  <label className="flex items-center gap-3 p-3 border-2 rounded-xl cursor-pointer transition-all border-slate-200 hover:border-slate-300">
+                    <input
+                      type="checkbox"
+                      checked={postToTikTok}
+                      onChange={e => setPostToTikTok(e.target.checked)}
+                      className="w-4 h-4 accent-black"
+                    />
+                    <span className="text-sm font-semibold text-slate-700">🎵 Aynı anda TikTok'a da at</span>
+                  </label>
                 </div>
               )}
 

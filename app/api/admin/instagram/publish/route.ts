@@ -10,6 +10,49 @@ function getSupabase() {
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
+// Post video to TikTok via Content Posting API
+async function postToTikTok(videoUrl: string, caption: string): Promise<{ success: boolean; error?: string }> {
+  const accessToken = process.env.TIKTOK_ACCESS_TOKEN
+  const openId = process.env.TIKTOK_OPEN_ID
+
+  if (!accessToken || !openId) {
+    return { success: false, error: 'TikTok not configured (TIKTOK_ACCESS_TOKEN, TIKTOK_OPEN_ID)' }
+  }
+
+  try {
+    const res = await fetch('https://open.tiktokapis.com/v2/post/publish/video/init/', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify({
+        post_info: {
+          title: caption.slice(0, 2200),
+          privacy_level: 'PUBLIC_TO_EVERYONE',
+          disable_duet: false,
+          disable_comment: false,
+          disable_stitch: false,
+        },
+        source_info: {
+          source: 'PULL_FROM_URL',
+          video_url: videoUrl,
+        },
+      }),
+    })
+
+    const data = await res.json()
+    console.log('[TikTok] Publish response:', JSON.stringify(data))
+
+    if (data.error?.code && data.error.code !== 'ok') {
+      return { success: false, error: data.error.message || 'TikTok error' }
+    }
+    return { success: true }
+  } catch (e) {
+    return { success: false, error: String(e) }
+  }
+}
+
 // Search Facebook Places for Ölüdeniz and return the place ID
 async function getOludenizLocationId(accessToken: string): Promise<string | null> {
   try {
@@ -33,7 +76,7 @@ async function getOludenizLocationId(accessToken: string): Promise<string | null
 }
 
 export async function POST(request: Request) {
-  const { id } = await request.json()
+  const { id, post_to_tiktok } = await request.json()
   const supabase = getSupabase()
 
   const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN
@@ -202,7 +245,23 @@ export async function POST(request: Request) {
       .update({ status: 'posted', posted_at: new Date().toISOString(), instagram_id: publishData.id })
       .eq('id', id)
 
-    return NextResponse.json({ success: true, instagram_id: publishData.id })
+    // ─── TIKTOK (optional) ───────────────────────────────────
+    let tiktokResult = null
+    if (post_to_tiktok && postType === 'reel' && post.video_url) {
+      const caption = [post.caption, post.hashtags].filter(Boolean).join('\n\n')
+      tiktokResult = await postToTikTok(post.video_url, caption)
+      if (!tiktokResult.success) {
+        console.error('[TikTok] Failed:', tiktokResult.error)
+      } else {
+        console.log('[TikTok] Posted successfully')
+      }
+    }
+
+    return NextResponse.json({
+      success: true,
+      instagram_id: publishData.id,
+      tiktok: tiktokResult,
+    })
 
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 500 })
