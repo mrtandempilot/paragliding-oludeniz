@@ -682,23 +682,32 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
               )}
             </div>
 
-            <div className="flex justify-end gap-3 px-6 py-4 border-t border-slate-200">
-              <button onClick={() => setShowForm(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">Cancel</button>
+            <div className="flex justify-end gap-3 px-6 py-4 border-t border-slate-200 flex-wrap">
+              <button onClick={() => setShowForm(false)} className="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">İptal</button>
               <button
                 onClick={() => savePost(false)}
                 disabled={!!loading || !form.caption}
                 className="flex items-center gap-2 px-4 py-2 bg-slate-200 hover:bg-slate-300 disabled:opacity-50 text-slate-700 rounded-xl text-sm font-bold transition-colors"
               >
-                {loading === 'save' ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : 'Taslak Kaydet'}
+                {loading === 'save' ? <><Loader2 className="w-4 h-4 animate-spin" /> Kaydediliyor...</> : 'Taslak Kaydet'}
               </button>
+              {form.scheduled_at && (
+                <button
+                  onClick={() => { setForm(p => ({ ...p, status: 'scheduled' })); savePost(false) }}
+                  disabled={!!loading || !form.caption}
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-colors"
+                >
+                  {loading === 'save' ? <><Loader2 className="w-4 h-4 animate-spin" /> Zamanlanıyor...</> : <><Calendar className="w-4 h-4" /> Zamanla</>}
+                </button>
+              )}
               <button
                 onClick={() => savePost(true)}
                 disabled={!!loading || !form.caption}
                 className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-colors"
               >
                 {loading === 'publish_now'
-                  ? <><Loader2 className="w-4 h-4 animate-spin" /> Instagram'a gönderiliyor (~10sn)...</>
-                  : <><Upload className="w-4 h-4" /> Kaydet & Instagram'a At</>}
+                  ? <><Loader2 className="w-4 h-4 animate-spin" /> Gönderiliyor (~10sn)...</>
+                  : <><Upload className="w-4 h-4" /> Şimdi Yayınla</>}
               </button>
             </div>
           </div>

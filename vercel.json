@@ -11,6 +11,10 @@
     {
       "path": "/api/cron/orchestrator?slot=18:00",
       "schedule": "0 18 * * *"
+    },
+    {
+      "path": "/api/cron/publish-scheduled",
+      "schedule": "*/30 * * * *"
     }
   ]
 }
