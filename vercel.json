@@ -5,6 +5,10 @@
       "schedule": "0 6 * * *"
     },
     {
+      "path": "/api/cron/daily-instagram-post",
+      "schedule": "0 6 * * *"
+    },
+    {
       "path": "/api/cron/orchestrator?slot=12:00",
       "schedule": "0 12 * * *"
     },
@@ -15,6 +19,10 @@
     {
       "path": "/api/cron/publish-scheduled",
       "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/cron/sync-instagram-analytics",
+      "schedule": "0 10 * * *"
     }
   ]
 }

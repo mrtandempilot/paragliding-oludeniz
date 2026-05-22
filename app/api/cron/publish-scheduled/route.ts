@@ -37,7 +37,7 @@ export async function GET(request: Request) {
   }
 
   const results: { id: string; status: 'published' | 'failed'; error?: string }[] = []
-  const igAccountId = process.env.INSTAGRAM_ACCOUNT_ID!
+  const igAccountId = (process.env.INSTAGRAM_ACCOUNT_ID || process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID)!
   const igToken = process.env.INSTAGRAM_ACCESS_TOKEN!
 
   for (const post of posts) {

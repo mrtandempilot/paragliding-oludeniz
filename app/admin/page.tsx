@@ -62,6 +62,8 @@ async function getDashboardData() {
     scheduledCount,
     recentPosted,         // Last 6 posted
     nextScheduled,        // Next single scheduled
+    // Top posts by engagement
+    topPostsRaw,
     // Agent / ContentPilot stats
     settings,
     lastOrchestratorRun,
@@ -146,6 +148,14 @@ async function getDashboardData() {
       .eq('status', 'posted')
       .order('posted_at', { ascending: false })
       .limit(6),
+    // Top posts by likes (analytics)
+    supabase
+      .from('instagram_posts')
+      .select('id, caption, image_url, post_type, posted_at, instagram_id, likes, comments, reach, impressions, saves')
+      .eq('status', 'posted')
+      .gt('likes', 0)
+      .order('likes', { ascending: false })
+      .limit(5),
     // Next scheduled (single)
     supabase
       .from('instagram_posts')
@@ -155,6 +165,13 @@ async function getDashboardData() {
       .order('scheduled_at', { ascending: true })
       .limit(1)
       .maybeSingle(),
+    // Top 5 posts by likes
+    supabase
+      .from('instagram_posts')
+      .select('id, caption, image_url, post_type, posted_at, instagram_id, likes, comments, reach, impressions, saves')
+      .eq('status', 'posted')
+      .order('likes', { ascending: false })
+      .limit(5),
     // Settings (pilot_enabled, slots)
     supabase
       .from('settings')
@@ -196,6 +213,7 @@ async function getDashboardData() {
     scheduledCount: scheduledCount.count || 0,
     recentPosted: recentPosted.data || [],
     nextScheduled: nextScheduled.data || null,
+    topPosts: topPostsRaw.data || [],
     // Agent
     settings: settings.data || [],
     lastOrchestratorRun: lastOrchestratorRun.data || null,
@@ -804,6 +822,101 @@ export default async function AdminDashboard() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* ─── EN İYİ INSTAGRAM POSTLARI ─── */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-gradient-to-br from-pink-100 to-orange-100 rounded-xl flex items-center justify-center">
+              <TrendingUp className="w-4 h-4 text-pink-600" />
+            </div>
+            <h2 className="font-bold text-slate-900">En İyi Instagram Postları</h2>
+            <span className="text-xs bg-pink-100 text-pink-700 font-bold px-2 py-0.5 rounded-full">like sırası</span>
+          </div>
+          <Link href="/admin/instagram" className="text-sm text-pink-500 hover:text-pink-600 font-semibold">
+            Hepsi →
+          </Link>
+        </div>
+
+        {data.topPosts.length === 0 ? (
+          <div className="px-6 py-10 text-center">
+            <p className="text-slate-400 text-sm">Analytics verisi henüz yok — sistem her gün 13:00'da günceller.</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-slate-100">
+            {data.topPosts.map((p: any, i: number) => {
+              const engagement = (p.likes || 0) + (p.comments || 0) + (p.saves || 0)
+              const reachRate = p.reach > 0 ? ((engagement / p.reach) * 100).toFixed(1) : '—'
+              const medals = ['🥇', '🥈', '🥉', '4.', '5.']
+              const igUrl = p.instagram_id ? `https://www.instagram.com/p/${p.instagram_id}/` : null
+              return (
+                <div key={p.id} className="px-5 py-3 flex items-center gap-3 hover:bg-slate-50 transition-colors">
+                  {/* Rank */}
+                  <span className="text-base w-8 text-center flex-shrink-0 font-bold text-slate-500">
+                    {medals[i]}
+                  </span>
+
+                  {/* Thumbnail */}
+                  {p.image_url ? (
+                    <img src={p.image_url} alt="" className="w-12 h-12 rounded-xl object-cover flex-shrink-0 border border-slate-100" />
+                  ) : (
+                    <div className="w-12 h-12 rounded-xl bg-slate-100 flex-shrink-0 flex items-center justify-center">
+                      <Instagram className="w-5 h-5 text-slate-300" />
+                    </div>
+                  )}
+
+                  {/* Caption */}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-slate-900 truncate">
+                      {p.caption || '(caption yok)'}
+                    </p>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      {p.posted_at && new Date(p.posted_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      {' · '}
+                      <span className="text-slate-500">Etkileşim {reachRate}%</span>
+                    </p>
+                  </div>
+
+                  {/* Metrics */}
+                  <div className="flex items-center gap-4 flex-shrink-0 text-xs">
+                    <div className="text-center">
+                      <p className="font-bold text-slate-900 text-base leading-none">
+                        {(p.likes || 0).toLocaleString('tr-TR')}
+                      </p>
+                      <p className="text-slate-400 mt-0.5">like</p>
+                    </div>
+                    <div className="text-center hidden sm:block">
+                      <p className="font-bold text-slate-900 text-base leading-none">
+                        {(p.comments || 0).toLocaleString('tr-TR')}
+                      </p>
+                      <p className="text-slate-400 mt-0.5">yorum</p>
+                    </div>
+                    <div className="text-center hidden md:block">
+                      <p className="font-bold text-slate-900 text-base leading-none">
+                        {(p.reach || 0).toLocaleString('tr-TR')}
+                      </p>
+                      <p className="text-slate-400 mt-0.5">reach</p>
+                    </div>
+                    <div className="text-center hidden md:block">
+                      <p className="font-bold text-slate-900 text-base leading-none">
+                        {(p.saves || 0).toLocaleString('tr-TR')}
+                      </p>
+                      <p className="text-slate-400 mt-0.5">kaydet</p>
+                    </div>
+                    {igUrl && (
+                      <a href={igUrl} target="_blank" rel="noopener noreferrer"
+                        className="w-8 h-8 rounded-lg bg-pink-50 hover:bg-pink-100 flex items-center justify-center transition-colors"
+                        title="Instagram'da gör">
+                        <ExternalLink className="w-3.5 h-3.5 text-pink-500" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
       </div>
 
       {/* Recent activity feed */}
