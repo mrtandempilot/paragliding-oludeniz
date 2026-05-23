@@ -849,7 +849,7 @@ export default async function AdminDashboard() {
           </div>
         ) : (
           <div className="divide-y divide-slate-100">
-            {data.topPosts.map((p: any, i: number) => {
+            {(data.topPosts as any[]).map((p: any, i: number) => {
               const engagement = (p.likes || 0) + (p.comments || 0) + (p.saves || 0)
               const reachRate = p.reach > 0 ? ((engagement / p.reach) * 100).toFixed(1) : '—'
               const medals = ['🥇', '🥈', '🥉', '4.', '5.']
