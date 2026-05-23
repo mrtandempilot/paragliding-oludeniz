@@ -316,7 +316,7 @@ export default function DashboardPilotControl({
               <p className="text-xs text-slate-400 italic px-3 py-2">Log yok</p>
             ) : (
               <div className="space-y-1">
-                {recentLogs.slice(0, 4).map((log: any) => (
+                {(Array.isArray(recentLogs) ? recentLogs : []).slice(0, 4).map((log: any) => (
                   <div key={log.id} className="flex items-center gap-2 text-xs">
                     <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${
                       log.status === 'done' ? 'bg-green-500' :

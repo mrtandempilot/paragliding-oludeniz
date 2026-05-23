@@ -106,7 +106,7 @@ export default function DashboardSocialPanel({ stats }: { stats: PostStats }) {
               </div>
             </div>
             <div className="space-y-1.5 ml-7">
-              {stats.failedPosts.slice(0, 3).map((p: any) => {
+              {(Array.isArray(stats.failedPosts) ? stats.failedPosts : []).slice(0, 3).map((p: any) => {
                 const Meta = POST_TYPE_META[p.post_type || 'image']
                 const Icon = Meta?.icon || ImageIcon
                 return (
@@ -266,7 +266,7 @@ export default function DashboardSocialPanel({ stats }: { stats: PostStats }) {
               </Link>
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-              {stats.recentPosted.slice(0, 6).map((p: any) => {
+              {(Array.isArray(stats.recentPosted) ? stats.recentPosted : []).slice(0, 6).map((p: any) => {
                 const Meta = POST_TYPE_META[p.post_type || 'image']
                 const Icon = Meta?.icon || ImageIcon
                 const igUrl = p.instagram_id

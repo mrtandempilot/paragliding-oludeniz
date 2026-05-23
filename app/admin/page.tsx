@@ -1033,7 +1033,7 @@ export default async function AdminDashboard() {
                       </p>
                     </div>
                     <div className="mt-1 flex flex-wrap gap-0.5">
-                      {dayPosts.slice(0, 4).map((p: any) => {
+                      {(Array.isArray(dayPosts) ? dayPosts : []).slice(0, 4).map((p: any) => {
                         const type = p.post_type || 'image'
                         const bg = type === 'image' ? 'bg-orange-400' :
                                   type === 'reel' ? 'bg-purple-500' :
