@@ -379,7 +379,7 @@ export default async function AdminDashboard() {
 
   // ----- AGENT / PILOT STATS -----
   const settingsMap: Record<string, string> = {}
-  for (const s of data.settings) settingsMap[s.key] = s.value
+  for (const s of data.settings) settingsMap[(s as any).key] = (s as any).value
   const pilotEnabled = settingsMap['pilot_enabled'] !== 'false'
   const activeSlots = (settingsMap['pilot_active_slots'] || '06:00')
     .split(',').map(s => s.trim()).filter(Boolean)
