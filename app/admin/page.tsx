@@ -10,6 +10,7 @@ import {
 import { createClient } from '@supabase/supabase-js'
 import DashboardPilotControl from './DashboardPilotControl'
 import DashboardSocialPanel from './DashboardSocialPanel'
+import DashboardCronPanel from './DashboardCronPanel'
 
 function getSupabase() {
   return createClient(
@@ -594,6 +595,9 @@ export default async function AdminDashboard() {
           recentLogs={data.recentAgentLogs}
         />
       </div>
+
+      {/* ─── CRON JOB TAKVİMİ ─── */}
+      <DashboardCronPanel />
 
       {/* Today's Schedule + Upcoming + Weather */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
