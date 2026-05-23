@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import Link from 'next/link'
 import {
   CalendarCheck, Instagram, FileText, Megaphone,
@@ -349,7 +351,19 @@ function getGreeting() {
 
 // ----- MAIN COMPONENT -----
 export default async function AdminDashboard() {
-  const data = await getDashboardData()
+  let data
+  try {
+    data = await getDashboardData()
+  } catch (e) {
+    console.error('Dashboard data error:', e)
+    data = {
+      allBookings: [], todayBookings: [], upcomingBookings: [], scheduledPosts: [],
+      recentBookings: [], articlesCount: 0, pendingTopics: 0, monthPosts: [],
+      failedPosts: [], draftsCount: 0, scheduledCount: 0, recentPosted: [],
+      nextScheduled: null, topPosts: [], settings: [], lastOrchestratorRun: null,
+      recentAgentLogs: [], todayUsage: [],
+    }
+  }
   const metrics = calcMetrics(data.allBookings)
   const greeting = getGreeting()
 

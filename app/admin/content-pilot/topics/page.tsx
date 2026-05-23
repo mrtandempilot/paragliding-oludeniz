@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { Target, ArrowLeft } from 'lucide-react'
