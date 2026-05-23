@@ -843,7 +843,7 @@ export default async function AdminDashboard() {
           </Link>
         </div>
 
-        {data.topPosts.length === 0 ? (
+        {(data.topPosts as any[]).length === 0 ? (
           <div className="px-6 py-10 text-center">
             <p className="text-slate-400 text-sm">Analytics verisi henüz yok — sistem her gün 13:00'da günceller.</p>
           </div>
