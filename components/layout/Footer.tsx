@@ -16,7 +16,7 @@ const footerLinks = {
     { label: 'Landing Zones', href: '/babadag-guide/landing-main-beach' },
     { label: 'Cable Car Guide', href: '/babadag-teleferik' },
     { label: 'Road Guide', href: '/babadag-road-guide' },
-    { label: 'Altitude Info', href: '/babadag-altitude-sickness' },
+    { label: 'Altitude Info', href: '/babadag-guide/babadag-altitude-sickness' },
   ],
   'Flying & Pilots': [
     { label: 'Solo Paragliding', href: '/solo-paragliding' },

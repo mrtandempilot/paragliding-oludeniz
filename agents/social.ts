@@ -153,20 +153,46 @@ Return ONLY valid JSON.`
   return result
 }
 
+async function getLocationId(accessToken: string): Promise<string | null> {
+  try {
+    const res = await fetch(
+      `https://graph.facebook.com/v19.0/pages/search?q=Oludeniz&fields=id,name,location&type=place&access_token=${accessToken}`
+    )
+    const data = await res.json()
+    if (data.data && data.data.length > 0) {
+      const match = data.data.find((p: any) =>
+        p.name?.toLowerCase().includes('ludeniz') ||
+        p.location?.city?.toLowerCase().includes('ludeniz')
+      ) || data.data[0]
+      console.log('[Social] Location found:', match.name, match.id)
+      return match.id
+    }
+  } catch (e) {
+    console.error('[Social] Location search failed:', e)
+  }
+  return null
+}
+
 async function postToInstagram(imageUrl: string, caption: string): Promise<string> {
   const accountId = process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID
-  const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN
+  const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN!
+
+  // Get Ölüdeniz location ID
+  const locationId = await getLocationId(accessToken)
 
   // Step 1: Create media container
   const createUrl = `${INSTAGRAM_API}/${accountId}/media`
+  const containerBody: Record<string, any> = {
+    image_url: imageUrl,
+    caption: caption,
+    access_token: accessToken,
+  }
+  if (locationId) containerBody.location_id = locationId
+
   const createResponse = await fetch(createUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      image_url: imageUrl,
-      caption: caption,
-      access_token: accessToken,
-    }),
+    body: JSON.stringify(containerBody),
   })
 
   const createData = await createResponse.json()

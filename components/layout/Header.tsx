@@ -148,11 +148,11 @@ export default function Header() {
             ))}
             <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
               <a
-                href="tel:+905551234567"
+                href="tel:+905364616674"
                 className="flex items-center gap-2 px-4 py-3 text-slate-700 font-medium"
               >
                 <Phone className="w-4 h-4 text-orange-500" />
-                +90 555 123 4567
+                +90 536 461 6674
               </a>
               <Link
                 href="/book-now"

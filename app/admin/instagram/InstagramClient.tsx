@@ -344,17 +344,41 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
               <div className="aspect-square bg-gradient-to-br from-slate-100 to-slate-200 relative overflow-hidden">
                 {post.image_url ? (
                   <img src={post.image_url} alt="" className="w-full h-full object-cover" />
+                ) : (post as any).video_url ? (
+                  <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-slate-900">
+                    <Film className="w-10 h-10 text-purple-400" />
+                    <span className="text-xs text-purple-300 font-semibold">Reel</span>
+                  </div>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <ImageIcon className="w-12 h-12 text-slate-300" />
                   </div>
                 )}
+                {/* Status badge — top right */}
                 <div className="absolute top-2 right-2">
                   <span className={`flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full ${STATUS_COLORS[post.status]}`}>
                     {STATUS_ICONS[post.status]}
                     <span className="capitalize">{post.status}</span>
                   </span>
                 </div>
+                {/* Post type badge — top left */}
+                {(() => {
+                  const type = (post as any).post_type || 'image'
+                  const typeConfig: Record<string, { icon: React.ReactNode; label: string; cls: string }> = {
+                    reel:     { icon: <Film className="w-3 h-3" />,      label: 'Reel',     cls: 'bg-purple-600 text-white' },
+                    story:    { icon: <Tv2 className="w-3 h-3" />,       label: 'Story',    cls: 'bg-sky-600 text-white' },
+                    carousel: { icon: <BookImage className="w-3 h-3" />, label: 'Carousel', cls: 'bg-green-600 text-white' },
+                  }
+                  const cfg = typeConfig[type]
+                  if (!cfg) return null
+                  return (
+                    <div className="absolute top-2 left-2">
+                      <span className={`flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full ${cfg.cls}`}>
+                        {cfg.icon}{cfg.label}
+                      </span>
+                    </div>
+                  )
+                })()}
               </div>
 
               {/* Content */}

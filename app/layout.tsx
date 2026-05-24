@@ -1,105 +1,43 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Script from 'next/script'
 import './globals.css'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
-import WhatsAppButton from '@/components/shared/WhatsAppButton'
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-})
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://paragliding-oludeniz.com'),
   title: {
-    default: 'Paragliding Ölüdeniz | Tandem Flights from Babadağ Mountain',
-    template: '%s | Paragliding Ölüdeniz',
+    default: 'Paragliding Oludeniz | Tandem Flights from Babadağ',
+    template: '%s | Paragliding Oludeniz',
   },
   description:
-    'Experience world-class tandem paragliding in Ölüdeniz, Turkey. Fly over the Blue Lagoon from Babadağ Mountain. Book your flight today — safe, certified, unforgettable.',
+    'Book tandem paragliding flights in Oludeniz, Turkey. Launch from Babadağ at 1960m and soar over the Blue Lagoon. Certified pilots, 25+ years experience.',
   keywords: [
     'paragliding oludeniz',
-    'tandem paragliding turkey',
-    'babadag paragliding',
-    'oludeniz blue lagoon',
+    'tandem paragliding oludeniz',
     'paragliding fethiye',
+    'babadag paragliding',
+    'oludeniz paragliding booking',
   ],
-  authors: [{ name: 'Paragliding Ölüdeniz' }],
-  creator: 'Paragliding Ölüdeniz',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://paragliding-oludeniz.com',
-    siteName: 'Paragliding Ölüdeniz',
-    title: 'Paragliding Ölüdeniz | Tandem Flights from Babadağ Mountain',
-    description:
-      'Experience world-class tandem paragliding in Ölüdeniz, Turkey. Fly over the Blue Lagoon from Babadağ Mountain.',
-    images: [
-      {
-        url: '/images/og-default.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Paragliding over the Blue Lagoon in Ölüdeniz, Turkey',
-      },
-    ],
+    siteName: 'Paragliding Oludeniz',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Tandem Paragliding Oludeniz' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Paragliding Ölüdeniz | Tandem Flights from Babadağ Mountain',
-    description:
-      'Experience world-class tandem paragliding in Ölüdeniz, Turkey. Fly over the Blue Lagoon from Babadağ Mountain.',
-    images: ['/images/og-default.jpg'],
+    title: 'Paragliding Oludeniz | Tandem Flights from Babadağ',
+    description: 'Soar over the Blue Lagoon. Book your tandem paragliding flight today.',
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  robots: { index: true, follow: true },
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <head>
-        <Script
-          id="gtm-script"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-T2575LK4');`,
-          }}
-        />
-      </head>
-      <body className={`${inter.className} min-h-screen flex flex-col`}>
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-T2575LK4"
-            height="0"
-            width="0"
-            style={{ display: 'none', visibility: 'hidden' }}
-          />
-        </noscript>
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <WhatsAppButton />
-      </body>
+    <html lang="en">
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }

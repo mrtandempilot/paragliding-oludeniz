@@ -12,6 +12,27 @@ function getSupabase() {
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
+// Ölüdeniz Facebook Place ID'sini API'den çek
+async function getOludenizLocationId(accessToken: string): Promise<string | null> {
+  try {
+    const res = await fetch(
+      `https://graph.facebook.com/v19.0/pages/search?q=Oludeniz&fields=id,name,location&type=place&access_token=${accessToken}`
+    )
+    const data = await res.json()
+    if (data.data && data.data.length > 0) {
+      const match = data.data.find((p: any) =>
+        p.name?.toLowerCase().includes('ludeniz') ||
+        p.location?.city?.toLowerCase().includes('ludeniz')
+      ) || data.data[0]
+      console.log('[Daily IG] Location found:', match.name, match.id)
+      return match.id
+    }
+  } catch (e) {
+    console.error('[Daily IG] Location search failed:', e)
+  }
+  return null
+}
+
 // Vercel Cron — her gün 06:00 UTC (= 09:00 İstanbul)
 // 1) Scheduled post varsa yayınlar
 // 2) Yoksa → son makaleden otomatik caption üretip Instagram'a atar
@@ -137,12 +158,17 @@ Requirements:
   const imageUrl = article.hero_image_url!
 
   // ── 4. Instagram'a gönder ─────────────────────────────────────────────
+  const locationId = await getOludenizLocationId(igToken)
+
   try {
     // Container oluştur
+    const containerBody: Record<string, any> = { image_url: imageUrl, caption: fullCaption, access_token: igToken }
+    if (locationId) containerBody.location_id = locationId
+
     const containerRes = await fetch(`https://graph.facebook.com/v19.0/${igAccountId}/media`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ image_url: imageUrl, caption: fullCaption, access_token: igToken }),
+      body: JSON.stringify(containerBody),
     })
     const containerData = await containerRes.json()
     if (containerData.error) throw new Error(containerData.error.message)

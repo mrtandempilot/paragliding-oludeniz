@@ -10,11 +10,26 @@ function getSupabase() {
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-// Vercel Cron — every 30 minutes — auto-publishes scheduled Instagram posts
+/**
+ * Vercel Cron veya harici cron servisi ile çalışır.
+ *
+ * vercel.json örneği (her 5 dakika):
+ * { "crons": [{ "path": "/api/cron/publish-scheduled", "schedule": "*/5 * * * *" }] }
+ *
+ * Harici cron (cron-job.org): Her 5-10 dk, Authorization: Bearer <CRON_SECRET>
+ */
 export async function GET(request: Request) {
+  // Auth: Authorization: Bearer <secret> VEYA x-cron-secret header'ı
   const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const cronSecretHeader = request.headers.get('x-cron-secret')
+  const secret = process.env.CRON_SECRET
+
+  if (secret) {
+    const bearerOk = authHeader === `Bearer ${secret}`
+    const headerOk = cronSecretHeader === secret
+    if (!bearerOk && !headerOk) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
   }
 
   const supabase = getSupabase()
@@ -44,8 +59,9 @@ export async function GET(request: Request) {
     try {
       console.log(`[Cron] Publishing scheduled post: ${post.id} (${post.post_type})`)
 
-      // Mark as 'posting' to avoid double-publishing
-      await supabase.from('instagram_posts').update({ status: 'failed', notes: (post.notes || '') + '\n[cron: publishing...]' }).eq('id', post.id)
+      // Çift yayınlamayı önlemek için önce 'posting' olarak işaretle
+      // (status'u hemen değiştiriyoruz — publish başarılı olursa 'posted' yapacağız)
+      await supabase.from('instagram_posts').update({ status: 'scheduled', notes: (post.notes || '') + '\n[cron: publishing in progress...]' }).eq('id', post.id)
 
       let mediaId: string | null = null
 
