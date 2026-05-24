@@ -1,28 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/cron/orchestrator?slot=06:00",
-      "schedule": "0 6 * * *"
-    },
-    {
-      "path": "/api/cron/daily-instagram-post",
-      "schedule": "0 6 * * *"
-    },
-    {
-      "path": "/api/cron/orchestrator?slot=12:00",
-      "schedule": "0 12 * * *"
-    },
-    {
-      "path": "/api/cron/orchestrator?slot=18:00",
-      "schedule": "0 18 * * *"
-    },
-    {
       "path": "/api/cron/publish-scheduled",
-      "schedule": "0 * * * *"
-    },
-    {
-      "path": "/api/cron/sync-instagram-analytics",
-      "schedule": "0 10 * * *"
+      "schedule": "0 11 * * *"
     }
   ]
 }
