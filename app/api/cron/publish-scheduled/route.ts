@@ -10,14 +10,10 @@ function getSupabase() {
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-/**
- * Vercel Cron veya harici cron servisi ile çalışır.
- *
- * vercel.json örneği (her 5 dakika):
- * { "crons": [{ "path": "/api/cron/publish-scheduled", "schedule": "*/5 * * * *" }] }
- *
- * Harici cron (cron-job.org): Her 5-10 dk, Authorization: Bearer <CRON_SECRET>
- */
+// Vercel Cron veya harici cron servisi ile çalışır.
+// vercel.json örneği (her 5 dakika):
+// { "crons": [{ "path": "/api/cron/publish-scheduled", "schedule": "*/5 * * * *" }] }
+// Harici cron (cron-job.org): Her 5-10 dk, Authorization: Bearer <CRON_SECRET>
 export async function GET(request: Request) {
   // Auth: Authorization: Bearer <secret> VEYA x-cron-secret header'ı
   const authHeader = request.headers.get('authorization')
