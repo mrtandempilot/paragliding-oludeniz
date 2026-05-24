@@ -10,33 +10,43 @@ export async function GET() {
     return NextResponse.json({ error: 'Missing INSTAGRAM_BUSINESS_ACCOUNT_ID or INSTAGRAM_ACCESS_TOKEN' }, { status: 500 })
   }
 
-  // Subscribe the Instagram account to webhook fields
-  const res = await fetch(
-    `https://graph.facebook.com/v19.0/${igAccountId}/subscribed_apps`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        subscribed_fields: 'comments,messages,mentions',
-        access_token: igToken,
-      }),
-    }
+  // Step 1: Get connected Facebook Pages
+  const pagesRes = await fetch(
+    `https://graph.facebook.com/v19.0/me/accounts?access_token=${igToken}`
   )
+  const pagesData = await pagesRes.json()
 
-  const data = await res.json()
+  if (pagesData.error) {
+    return NextResponse.json({ error: pagesData.error.message, step: 'get_pages' }, { status: 400 })
+  }
 
-  if (data.error) {
-    // Try with page ID approach
-    return NextResponse.json({
-      error: data.error.message,
-      hint: 'You may need a Page access token instead of a User access token',
-      igAccountId,
-    }, { status: 400 })
+  const pages = pagesData.data || []
+  if (pages.length === 0) {
+    return NextResponse.json({ error: 'No Facebook Pages found for this token', pages: [] }, { status: 400 })
+  }
+
+  // Step 2: Subscribe each page to webhook
+  const results = []
+  for (const page of pages) {
+    const subRes = await fetch(
+      `https://graph.facebook.com/v19.0/${page.id}/subscribed_apps`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subscribed_fields: 'feed,mention,name,picture,category,description,conversations,instagram_manage_comments,instagram_manage_insights,leadgen,location,messages,messaging_optins,messaging_postbacks,standby,tab_added,user_action',
+          access_token: page.access_token,
+        }),
+      }
+    )
+    const subData = await subRes.json()
+    results.push({ pageId: page.id, pageName: page.name, result: subData })
   }
 
   return NextResponse.json({
     success: true,
-    result: data,
-    message: 'Instagram account subscribed to webhook events: comments, messages, mentions',
+    pages: pages.map((p: any) => ({ id: p.id, name: p.name })),
+    subscriptions: results,
+    message: 'Pages subscribed to webhook',
   })
 }
