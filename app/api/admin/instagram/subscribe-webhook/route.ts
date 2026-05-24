@@ -34,7 +34,7 @@ export async function GET() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          subscribed_fields: 'feed,mention,name,picture,category,description,conversations,instagram_manage_comments,instagram_manage_insights,leadgen,location,messages,messaging_optins,messaging_postbacks,standby,tab_added,user_action',
+          subscribed_fields: 'feed,messages,mention,leadgen',
           access_token: page.access_token,
         }),
       }
