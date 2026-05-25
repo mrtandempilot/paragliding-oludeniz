@@ -9,8 +9,6 @@ function getSupabase() {
 }
 
 // ─── Webhook Verification (GET) ─────────────────────────────────────────────
-// Facebook calls this when you register the webhook in the App Dashboard.
-// It sends hub.challenge that you must echo back.
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const mode = searchParams.get('hub.mode')
@@ -37,112 +35,72 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  // Each entry can contain multiple changes
+  console.log('[IG Webhook] Received:', JSON.stringify(body).slice(0, 500))
+
   for (const entry of body.entry || []) {
     for (const change of entry.changes || []) {
-      // ── Comment on a post ──────────────────────────────────────────────
+      // Instagram comment event
       if (change.field === 'comments') {
         await handleComment(change.value)
       }
-      // ── DM / Messaging ─────────────────────────────────────────────────
-      if (change.field === 'messages') {
-        await handleMessage(change.value)
-      }
-    }
-
-    // Also handle messaging events at top level (Messenger format)
-    for (const messaging of entry.messaging || []) {
-      if (messaging.message && !messaging.message.is_echo) {
-        await handleIncomingDM(messaging)
+      // Facebook Page feed event (also captures Instagram comments via Page)
+      if (change.field === 'feed' && change.value?.item === 'comment') {
+        await handlePageComment(change.value)
       }
     }
   }
 
-  // Always return 200 quickly — Facebook will retry if you don't
   return NextResponse.json({ status: 'ok' })
 }
 
-// ─── Handle a new comment ────────────────────────────────────────────────────
+// ─── Handle Instagram comment (reply to comment) ─────────────────────────────
 async function handleComment(value: any) {
-  const supabase = getSupabase()
   const commentId: string = value.id
   const commentText: string = value.text || ''
-  const senderId: string = value.from?.id
-  const senderName: string = value.from?.username || value.from?.name || ''
-  const mediaId: string = value.media?.id
+  const senderUsername: string = value.from?.username || ''
 
-  console.log(`[IG Webhook] New comment on ${mediaId} from @${senderName}: "${commentText}"`)
+  console.log(`[IG Webhook] Comment from @${senderUsername}: "${commentText}"`)
 
-  // Check if DM automation is enabled in settings
-  const { data: settingsRows } = await supabase
-    .from('settings')
-    .select('key,value')
-    .in('key', ['ig_dm_enabled', 'ig_dm_trigger_words', 'ig_dm_message'])
+  if (!await isDMEnabled()) return
+  if (!isTriggerWord(commentText)) return
 
-  const settings: Record<string, string> = {}
-  for (const row of (settingsRows || [])) settings[row.key] = row.value
-
-  if (settings['ig_dm_enabled'] !== 'true') return
-
-  // Check trigger words
-  const triggerWords: string[] = settings['ig_dm_trigger_words']
-    ? settings['ig_dm_trigger_words'].split(',').map(w => w.trim().toLowerCase()).filter(Boolean)
-    : []
-
-  const lowerComment = commentText.toLowerCase()
-  const triggered = triggerWords.length === 0
-    || triggerWords.some(word => lowerComment.includes(word))
-
-  if (!triggered) return
-
-  const dmMessage = settings['ig_dm_message'] || 'Merhaba! Yazan için teşekkürler. Size özel teklifimizi görmek ister misiniz? 🪂'
-
-  // Send DM via Instagram Graph API
-  await sendDM(senderId, dmMessage)
-
-  // Log to DB
-  await supabase.from('instagram_dm_log').insert({
-    trigger_type: 'comment',
-    comment_id: commentId,
-    comment_text: commentText,
-    sender_id: senderId,
-    sender_username: senderName,
-    media_id: mediaId,
-    dm_sent: dmMessage,
-    created_at: new Date().toISOString(),
-  }).select()
+  const replyText = await getReplyMessage(senderUsername)
+  await replyToComment(commentId, replyText)
+  await logActivity('comment', commentId, commentText, senderUsername, replyText)
 }
 
-// ─── Handle incoming DM ──────────────────────────────────────────────────────
-async function handleMessage(value: any) {
-  console.log('[IG Webhook] Message event:', JSON.stringify(value).slice(0, 200))
+// ─── Handle Facebook Page feed comment ───────────────────────────────────────
+async function handlePageComment(value: any) {
+  const commentId: string = value.comment_id
+  const commentText: string = value.message || ''
+  const senderName: string = value.from?.name || ''
+
+  console.log(`[IG Webhook] Page comment from ${senderName}: "${commentText}"`)
+
+  if (!await isDMEnabled()) return
+  if (!isTriggerWord(commentText)) return
+
+  const replyText = await getReplyMessage(senderName)
+  await replyToComment(commentId, replyText)
+  await logActivity('comment', commentId, commentText, senderName, replyText)
 }
 
-async function handleIncomingDM(messaging: any) {
-  const senderId: string = messaging.sender?.id
-  const messageText: string = messaging.message?.text || ''
-  console.log(`[IG Webhook] DM from ${senderId}: "${messageText}"`)
-  // Future: auto-reply logic can go here
-}
-
-// ─── Send DM via Instagram Graph API ────────────────────────────────────────
-async function sendDM(recipientId: string, message: string) {
-  const igAccountId = process.env.INSTAGRAM_ACCOUNT_ID || process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID
+// ─── Reply to a comment ───────────────────────────────────────────────────────
+async function replyToComment(commentId: string, message: string) {
   const igToken = process.env.INSTAGRAM_ACCESS_TOKEN
 
-  if (!igAccountId || !igToken) {
-    console.error('[IG Webhook] Missing INSTAGRAM_ACCOUNT_ID or INSTAGRAM_ACCESS_TOKEN')
+  if (!igToken || !commentId) {
+    console.error('[IG Webhook] Missing token or commentId')
     return
   }
 
   const res = await fetch(
-    `https://graph.facebook.com/v19.0/${igAccountId}/messages`,
+    `https://graph.facebook.com/v19.0/${commentId}/replies`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        recipient: { id: recipientId },
-        message: { text: message },
+        message,
         access_token: igToken,
       }),
     }
@@ -150,8 +108,49 @@ async function sendDM(recipientId: string, message: string) {
 
   const data = await res.json()
   if (data.error) {
-    console.error('[IG Webhook] DM send failed:', data.error.message)
+    console.error('[IG Webhook] Reply failed:', data.error.message)
   } else {
-    console.log(`[IG Webhook] ✅ DM sent to ${recipientId}`)
+    console.log(`[IG Webhook] ✅ Replied to comment ${commentId}`)
   }
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+async function isDMEnabled(): Promise<boolean> {
+  const supabase = getSupabase()
+  const { data } = await supabase
+    .from('settings')
+    .select('value')
+    .eq('key', 'ig_dm_enabled')
+    .single()
+  return data?.value === 'true'
+}
+
+async function getReplyMessage(username: string): Promise<string> {
+  const supabase = getSupabase()
+  const { data } = await supabase
+    .from('settings')
+    .select('value')
+    .eq('key', 'ig_dm_message')
+    .single()
+
+  const template = data?.value || 'Merhaba! 🪂 Fiyat ve rezervasyon için: https://wa.me/905364616674 veya https://paragliding-oludeniz.com'
+  return username ? `@${username} ${template}` : template
+}
+
+function isTriggerWord(text: string): boolean {
+  const triggers = ['fiyat', 'price', 'ücret', 'ucret', 'cost', 'ne kadar', 'how much', 'booking', 'rezervasyon', 'book', 'kaç', 'kac', 'para']
+  const lower = text.toLowerCase()
+  return triggers.some(t => lower.includes(t))
+}
+
+async function logActivity(type: string, commentId: string, text: string, username: string, reply: string) {
+  const supabase = getSupabase()
+  await supabase.from('instagram_dm_log').insert({
+    trigger_type: type,
+    comment_id: commentId,
+    comment_text: text,
+    sender_username: username,
+    dm_sent: reply,
+    created_at: new Date().toISOString(),
+  })
 }
