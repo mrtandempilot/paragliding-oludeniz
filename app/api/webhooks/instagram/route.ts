@@ -47,6 +47,17 @@ export async function POST(request: Request) {
       if (change.field === 'feed' && change.value?.item === 'comment') {
         await handlePageComment(change.value)
       }
+      // Instagram DM event
+      if (change.field === 'messages') {
+        await handleIncomingDM(change.value)
+      }
+    }
+
+    // Messenger-format DM events
+    for (const msg of entry.messaging || []) {
+      if (msg.message && !msg.message.is_echo) {
+        await handleIncomingDM(msg)
+      }
     }
   }
 
@@ -141,6 +152,43 @@ function isTriggerWord(text: string): boolean {
   const triggers = ['fiyat', 'price', 'ücret', 'ucret', 'cost', 'ne kadar', 'how much', 'booking', 'rezervasyon', 'book', 'kaç', 'kac', 'para']
   const lower = text.toLowerCase()
   return triggers.some(t => lower.includes(t))
+}
+
+// ─── Handle incoming DM (auto-reply bot) ────────────────────────────────────
+async function handleIncomingDM(messaging: any) {
+  const senderId: string = messaging.sender?.id || messaging.from?.id
+  const messageText: string = messaging.message?.text || messaging.text || ''
+  if (!senderId || !messageText) return
+  console.log(`[IG Webhook] DM from ${senderId}: "${messageText}"`)
+  if (!await isDMEnabled()) return
+  const replyText = await getReplyMessage('')
+  await sendDM(senderId, replyText)
+  await logActivity('dm', senderId, messageText, senderId, replyText)
+}
+
+// ─── Send DM via Instagram Graph API ────────────────────────────────────────
+async function sendDM(recipientId: string, message: string) {
+  const igAccountId = process.env.INSTAGRAM_ACCOUNT_ID || process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID
+  const igToken = process.env.INSTAGRAM_ACCESS_TOKEN
+  if (!igAccountId || !igToken) return
+  const res = await fetch(
+    `https://graph.facebook.com/v19.0/${igAccountId}/messages`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        recipient: { id: recipientId },
+        message: { text: message },
+        access_token: igToken,
+      }),
+    }
+  )
+  const data = await res.json()
+  if (data.error) {
+    console.error('[IG Webhook] DM send failed:', data.error.message)
+  } else {
+    console.log(`[IG Webhook] ✅ DM sent to ${recipientId}`)
+  }
 }
 
 async function logActivity(type: string, commentId: string, text: string, username: string, reply: string) {
