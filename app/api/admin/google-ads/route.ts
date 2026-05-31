@@ -148,6 +148,9 @@ export async function POST(request: Request) {
     if (action === 'create_campaign') {
       return await createCampaign(body, customerId, headers)
     }
+    if (action === 'create_maps_campaign') {
+      return await createMapsCampaign(body, customerId, headers)
+    }
     if (action === 'toggle_campaign') {
       return await toggleCampaign(body, customerId, headers)
     }
@@ -261,6 +264,118 @@ async function createCampaign(body: any, customerId: string, headers: Record<str
   }
 
   return NextResponse.json({ success: true, campaign_resource: campaignResourceName })
+}
+
+async function createMapsCampaign(body: any, customerId: string, headers: Record<string, string>) {
+  const dailyBudgetMicros = (body.daily_budget_try || 200) * 1_000_000
+
+  // 1. Budget
+  const budgetRes = await fetch(`${GOOGLE_ADS_API}/customers/${customerId}/campaignBudgets:mutate`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      operations: [{
+        create: {
+          name: `${body.campaign_name} Budget`,
+          amountMicros: dailyBudgetMicros,
+          deliveryMethod: 'STANDARD',
+        },
+      }],
+    }),
+  })
+  const budgetData = await budgetRes.json()
+  if (budgetData.partialFailureError) {
+    return NextResponse.json({ error: budgetData.partialFailureError.message }, { status: 400 })
+  }
+  const budgetResourceName = budgetData.results?.[0]?.resourceName
+  if (!budgetResourceName) {
+    return NextResponse.json({ error: 'Budget oluşturulamadı: ' + JSON.stringify(budgetData) }, { status: 400 })
+  }
+
+  // 2. LOCAL kampanya oluştur (Maps-Only = LOCAL channel type)
+  const campaignPayload: Record<string, any> = {
+    name: body.campaign_name,
+    status: 'PAUSED',
+    advertisingChannelType: 'LOCAL',
+    campaignBudget: budgetResourceName,
+    localCampaignSetting: {
+      locationSourceType: 'GOOGLE_MY_BUSINESS',
+    },
+    optimizationGoalSetting: {
+      optimizationGoalTypes: ['CALL_CLICKS', 'DRIVING_DIRECTIONS'],
+    },
+    targetingSetting: {
+      targetRestrictions: [{
+        targetingDimension: 'LOCATION',
+        bidOnly: false,
+      }],
+    },
+  }
+
+  const campRes = await fetch(`${GOOGLE_ADS_API}/customers/${customerId}/campaigns:mutate`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ operations: [{ create: campaignPayload }] }),
+  })
+  const campData = await campRes.json()
+  if (campData.partialFailureError) {
+    return NextResponse.json({ error: campData.partialFailureError.message }, { status: 400 })
+  }
+  const campaignResourceName = campData.results?.[0]?.resourceName
+  if (!campaignResourceName) {
+    return NextResponse.json({ error: 'Kampanya oluşturulamadı: ' + JSON.stringify(campData) }, { status: 400 })
+  }
+
+  // 3. Ad group
+  const adGroupRes = await fetch(`${GOOGLE_ADS_API}/customers/${customerId}/adGroups:mutate`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      operations: [{
+        create: {
+          name: `${body.campaign_name} — Maps Group`,
+          campaign: campaignResourceName,
+          status: 'ENABLED',
+          type: 'LOCAL',
+        },
+      }],
+    }),
+  })
+  const adGroupData = await adGroupRes.json()
+  const adGroupResourceName = adGroupData.results?.[0]?.resourceName
+
+  // 4. Local ad
+  if (adGroupResourceName) {
+    await fetch(`${GOOGLE_ADS_API}/customers/${customerId}/ads:mutate`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        operations: [{
+          create: {
+            adGroup: adGroupResourceName,
+            status: 'ENABLED',
+            ad: {
+              localAd: {
+                headlines: [
+                  { text: body.business_name },
+                  { text: 'Paragliding Ölüdeniz' },
+                  { text: 'Babadağ\'dan Uç — Rezervasyon Yap' },
+                ],
+                descriptions: [
+                  { text: '25+ yıl deneyim · Sertifikalı pilot · Mavi Lagün üzerinde uç' },
+                  { text: 'Ücretsiz transfer · Anında rezervasyon · En iyi fiyat garantisi' },
+                ],
+                callToActions: [{ text: 'Rezervasyon Yap' }],
+              },
+            },
+          },
+        }],
+      }),
+    })
+  }
+
+  const campaignId = campaignResourceName.split('/').pop()
+  return NextResponse.json({ success: true, campaign_id: campaignId, campaign_resource: campaignResourceName })
 }
 
 async function toggleCampaign(body: any, customerId: string, headers: Record<string, string>) {
