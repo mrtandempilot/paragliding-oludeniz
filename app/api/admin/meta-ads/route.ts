@@ -22,7 +22,9 @@ export async function GET(request: Request) {
     let url = ''
     const base = `act_${AD_ACCOUNT}`
 
-    if (type === 'account') {
+    if (type === 'billing') {
+      url = `${GRAPH}/${base}?fields=funding_source_details,is_prepay_account,account_status&access_token=${token}`
+    } else if (type === 'account') {
       url = `${GRAPH}/${base}?fields=name,account_status,currency,balance,spend_cap,amount_spent,min_daily_budget&access_token=${token}`
     } else if (type === 'campaigns') {
       url = `${GRAPH}/${base}/campaigns?fields=id,name,status,objective,daily_budget,lifetime_budget,start_time,stop_time&access_token=${token}&limit=50`

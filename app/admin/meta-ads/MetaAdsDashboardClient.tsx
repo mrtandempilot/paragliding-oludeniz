@@ -28,19 +28,26 @@ export default function MetaAdsDashboardClient() {
   const [datePreset, setDatePreset] = useState('last_30d')
   const [loading, setLoading] = useState(true)
   const [toggling, setToggling] = useState<string | null>(null)
+  const [hasPayment, setHasPayment] = useState<boolean | null>(null)
 
   async function fetchData() {
     setLoading(true)
     try {
-      const [camRes, insRes] = await Promise.all([
+      const [camRes, insRes, billingRes] = await Promise.all([
         fetch('/api/admin/meta-ads?type=campaigns', { credentials: 'include' }),
         fetch(`/api/admin/meta-ads?type=insights&date_preset=${datePreset}`, { credentials: 'include' }),
+        fetch('/api/admin/meta-ads?type=billing', { credentials: 'include' }),
       ])
       const camData = await camRes.json()
       const insData = await insRes.json()
+      const billingData = await billingRes.json()
 
       setCampaigns(camData.data || [])
       setInsights(insData.data?.[0] || {})
+
+      // funding_source_details varsa ödeme yöntemi eklenmiş demektir
+      const hasFunding = !!billingData.funding_source_details?.id
+      setHasPayment(hasFunding)
     } catch (err) {
       console.error(err)
     } finally {
@@ -158,25 +165,33 @@ export default function MetaAdsDashboardClient() {
         })}
       </div>
 
-      {/* No payment method warning */}
-      <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
-        <div className="text-amber-500 text-xl shrink-0">⚠️</div>
-        <div>
-          <p className="font-semibold text-amber-800 text-sm">Ödeme yöntemi eklenmemiş</p>
-          <p className="text-amber-700 text-xs mt-0.5">
-            Reklam yayınlamak için{' '}
-            <a
-              href="https://www.facebook.com/ads/manager/billing"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline font-medium"
-            >
-              Meta Business Manager → Faturalandırma
-            </a>
-            {' '}sayfasından ödeme yöntemi ekle.
-          </p>
+      {/* Payment method status */}
+      {hasPayment === false && (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
+          <div className="text-amber-500 text-xl shrink-0">⚠️</div>
+          <div>
+            <p className="font-semibold text-amber-800 text-sm">Ödeme yöntemi eklenmemiş</p>
+            <p className="text-amber-700 text-xs mt-0.5">
+              Reklam yayınlamak için{' '}
+              <a
+                href="https://www.facebook.com/ads/manager/billing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline font-medium"
+              >
+                Meta Business Manager → Faturalandırma
+              </a>
+              {' '}sayfasından ödeme yöntemi ekle.
+            </p>
+          </div>
         </div>
-      </div>
+      )}
+      {hasPayment === true && (
+        <div className="bg-green-50 border border-green-200 rounded-2xl p-4 flex items-center gap-3">
+          <div className="text-green-500 text-xl shrink-0">✅</div>
+          <p className="font-semibold text-green-800 text-sm">Ödeme yöntemi aktif — reklam yayınlamaya hazır</p>
+        </div>
+      )}
 
       {/* Campaigns table */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
