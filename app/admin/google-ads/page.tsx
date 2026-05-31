@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Search, Plus } from 'lucide-react'
-import GoogleAdsDashboardClient from './GoogleAdsDashboardClient'
+import GoogleAdsTabs from './GoogleAdsTabs'
 
 export default function GoogleAdsPage() {
   return (
@@ -11,7 +11,7 @@ export default function GoogleAdsPage() {
             <Search className="w-6 h-6 text-green-600" />
             Google Ads
           </h1>
-          <p className="text-sm text-slate-500 mt-0.5">Search & Display kampanya yönetimi</p>
+          <p className="text-sm text-slate-500 mt-0.5">Kampanya yönetimi & rakip analizi</p>
         </div>
         <Link
           href="/admin/google-ads/create"
@@ -22,7 +22,7 @@ export default function GoogleAdsPage() {
         </Link>
       </div>
 
-      <GoogleAdsDashboardClient />
+      <GoogleAdsTabs />
     </div>
   )
 }
