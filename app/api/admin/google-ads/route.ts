@@ -33,24 +33,28 @@ function getHeaders(accessToken: string) {
 }
 
 async function authCheck() {
-  const cookieStore = await cookies()
-  const session = cookieStore.get('admin_session')
-  return session?.value === process.env.ADMIN_PASSWORD
+  try {
+    const cookieStore = cookies()
+    const session = cookieStore.get('admin_session')
+    return session?.value === process.env.ADMIN_PASSWORD
+  } catch {
+    return false
+  }
 }
 
 // ─── GET ─────────────────────────────────────────────────────────────────────
 export async function GET(request: Request) {
-  if (!(await authCheck())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-  const { searchParams } = new URL(request.url)
-  const type = searchParams.get('type') || 'campaigns'
-  const customerId = getCustomerId()
-
-  if (!customerId || !process.env.GOOGLE_ADS_DEVELOPER_TOKEN) {
-    return NextResponse.json({ error: 'Google Ads credentials not configured', configured: false }, { status: 200 })
-  }
-
   try {
+    if (!(await authCheck())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+    const { searchParams } = new URL(request.url)
+    const type = searchParams.get('type') || 'campaigns'
+    const customerId = getCustomerId()
+
+    if (!customerId || !process.env.GOOGLE_ADS_DEVELOPER_TOKEN) {
+      return NextResponse.json({ error: 'Google Ads credentials not configured', configured: false }, { status: 200 })
+    }
+
     const accessToken = await getAccessToken()
     const headers = getHeaders(accessToken)
 
@@ -125,12 +129,14 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ error: 'Unknown type' }, { status: 400 })
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 })
+    console.error('[google-ads GET error]', err)
+    return NextResponse.json({ error: err?.message || String(err) }, { status: 500 })
   }
 }
 
 // ─── POST ─────────────────────────────────────────────────────────────────────
 export async function POST(request: Request) {
+  try {
   if (!(await authCheck())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const customerId = getCustomerId()
@@ -157,7 +163,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 })
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 })
+    console.error('[google-ads POST error]', err)
+    return NextResponse.json({ error: err?.message || String(err) }, { status: 500 })
   }
 }
 
