@@ -137,17 +137,16 @@ export async function GET(request: Request) {
 // ─── POST ─────────────────────────────────────────────────────────────────────
 export async function POST(request: Request) {
   try {
-  if (!(await authCheck())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!(await authCheck())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const customerId = getCustomerId()
-  if (!customerId || !process.env.GOOGLE_ADS_DEVELOPER_TOKEN) {
-    return NextResponse.json({ error: 'Google Ads credentials not configured' }, { status: 400 })
-  }
+    const customerId = getCustomerId()
+    if (!customerId || !process.env.GOOGLE_ADS_DEVELOPER_TOKEN) {
+      return NextResponse.json({ error: 'Google Ads credentials not configured' }, { status: 400 })
+    }
 
-  const body = await request.json()
-  const { action } = body
+    const body = await request.json()
+    const { action } = body
 
-  try {
     const accessToken = await getAccessToken()
     const headers = getHeaders(accessToken)
 
