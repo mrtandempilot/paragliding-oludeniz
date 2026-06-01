@@ -12,6 +12,20 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/babadag-road-guide',
+        destination: '/babadag-guide/babadag-road-guide',
+        permanent: true,
+      },
+      {
+        source: '/babadag-teleferik',
+        destination: '/babadag-guide/babadag-teleferik',
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       {

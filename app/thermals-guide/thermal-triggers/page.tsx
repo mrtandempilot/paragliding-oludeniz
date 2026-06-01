@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Thermal Trigger Points Babadağ | Where Thermals Start Ölüdeniz',
+  title: 'Thermal Trigger Points Babadağ | Where Thermals Start',
   description: 'The specific thermal trigger points around Babadağ and Ölüdeniz. Which terrain features generate thermals, when they fire and how to connect them for XC flights.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/thermals-guide/thermal-triggers' },
 }

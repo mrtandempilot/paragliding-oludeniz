@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Acro Paragliding Spectator Spots Ölüdeniz | Best Viewing Points',
+  title: 'Acro Paragliding Spectator Spots Ölüdeniz | Viewing Points',
   description: 'Best spots to watch acro paragliding at Ölüdeniz. Beach positions, photography angles, and when to be there to see the best aerial acrobatics.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/acro-flights/meeting-points' },
 }

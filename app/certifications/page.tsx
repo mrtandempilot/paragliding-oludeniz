@@ -6,7 +6,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Certifications | Paragliding Ölüdeniz — Licensed & Insured Tandem Pilots',
+  title: 'Certifications | Licensed & Insured Tandem Pilots Ölüdeniz',
   description:
     'View the official certifications of Paragliding Ölüdeniz. Turkish Civil Aviation Authority licensed pilots, full passenger liability insurance, certified equipment. Fly with confidence.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/certifications' },

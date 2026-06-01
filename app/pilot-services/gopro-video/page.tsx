@@ -4,7 +4,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'GoPro Video Paragliding Ölüdeniz | Flight Video Package Babadağ',
+  title: 'GoPro Video Paragliding Ölüdeniz | Flight Video Package',
   description: 'GoPro video and photo package for tandem paragliding at Ölüdeniz. What is included, video quality, delivery format and how to add the video option to your booking.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/pilot-services/gopro-video' },
 }

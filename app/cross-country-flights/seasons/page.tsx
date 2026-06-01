@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Best XC Seasons Babadağ | Cross Country Paragliding Conditions Ölüdeniz',
+  title: 'Best XC Seasons Babadağ | Cross Country Conditions',
   description: 'Month by month XC paragliding conditions from Babadağ. Best seasons for cross country flying, wind patterns and historic XC windows.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/cross-country-flights/seasons' },
 }

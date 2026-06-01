@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Solo Paragliding Flight Rules Ölüdeniz | Babadağ Airspace Rules',
+  title: 'Solo Paragliding Flight Rules Ölüdeniz | Babadağ Airspace',
   description: 'Turkish aviation rules and Babadağ-specific flight regulations for solo paragliders. Airspace limits, mandatory approach paths, and local rules explained.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/solo-paragliding/flight-rules' },
 }

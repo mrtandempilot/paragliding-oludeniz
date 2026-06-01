@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Babadağ 1700m Launch | Main Tandem Takeoff Ölüdeniz Paragliding',
+  title: 'Babadağ 1700m Launch | Main Tandem Takeoff Ölüdeniz',
   description: 'Babadağ 1700m launch — the primary takeoff point for tandem and solo paragliding. Facilities, wind requirements, timing and what to expect at the main launch.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-guide/takeoff-1700m' },
 }

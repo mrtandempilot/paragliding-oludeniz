@@ -6,7 +6,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Sunset Paragliding Flight Ölüdeniz | Golden Hour Over the Blue Lagoon',
+  title: 'Sunset Paragliding Ölüdeniz | Golden Hour Blue Lagoon',
   description: 'Watch the sun set over the Blue Lagoon from 1,200m during a tandem sunset paragliding flight in Ölüdeniz. Limited slots — book early.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/tandem-paragliding/sunset-flight' },
 }

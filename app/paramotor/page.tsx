@@ -6,7 +6,7 @@ import FAQAccordion from '@/components/shared/FAQAccordion'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Paramotor Flying Ölüdeniz | Powered Paragliding Fethiye Turkey',
+  title: 'Paramotor Flying Ölüdeniz | Powered Paragliding Fethiye',
   description: 'Paramotor and powered paragliding at Ölüdeniz and Fethiye. Flat beaches, launch sites, local operators and training courses for powered paragliding.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/paramotor' },
 }

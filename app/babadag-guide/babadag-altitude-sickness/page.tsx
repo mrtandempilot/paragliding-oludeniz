@@ -4,7 +4,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import FAQAccordion from '@/components/shared/FAQAccordion'
 
 export const metadata: Metadata = {
-  title: 'Altitude Sickness at Babadağ | AMS Prevention Ölüdeniz Paragliding',
+  title: 'Altitude Sickness at Babadağ | AMS Prevention Ölüdeniz',
   description: 'Can you get altitude sickness at Babadağ (1966m)? Symptoms, prevention and what to do if you feel unwell at the paragliding launch area at 1700m.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-guide/babadag-altitude-sickness' },
 }

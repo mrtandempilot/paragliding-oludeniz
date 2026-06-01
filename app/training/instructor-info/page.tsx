@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Paragliding Instructors Ölüdeniz | Find a Qualified Instructor Turkey',
+  title: 'Paragliding Instructors Ölüdeniz | Qualified Instructors',
   description: 'How to find a qualified paragliding instructor at Ölüdeniz. Turkish instructor qualifications, what to check and how the Babadağ training community is organised.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/training/instructor-info' },
 }

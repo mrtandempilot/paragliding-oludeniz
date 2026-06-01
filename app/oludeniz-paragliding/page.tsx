@@ -7,7 +7,7 @@ import FAQAccordion from '@/components/shared/FAQAccordion'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Ölüdeniz Paragliding | Complete Guide to Flying in Ölüdeniz Turkey',
+  title: 'Ölüdeniz Paragliding | Complete Guide to Flying in Turkey',
   description: 'Everything about paragliding in Ölüdeniz, Turkey. Why it\'s world-famous, how to book, what to expect, and what makes the Blue Lagoon flight so special.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/oludeniz-paragliding' },
 }

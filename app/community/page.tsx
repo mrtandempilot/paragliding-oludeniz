@@ -5,7 +5,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Ölüdeniz Paragliding Community | Pilots, Events & Local Flying',
+  title: 'Ölüdeniz Paragliding Community | Pilots & Events',
   description:
     'Connect with the Ölüdeniz paragliding community. WhatsApp groups, daily weather briefings, fly coordination, local events, and the Babadağ pilot scene.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/community' },

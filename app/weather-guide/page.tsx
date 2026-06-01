@@ -6,7 +6,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import FAQAccordion from '@/components/shared/FAQAccordion'
 
 export const metadata: Metadata = {
-  title: 'Paragliding Weather Guide Ölüdeniz | Best Months & Conditions',
+  title: 'Paragliding Weather Guide Ölüdeniz | Best Months',
   description:
     'Complete weather guide for paragliding in Ölüdeniz. Best months to fly, wind directions, thermal conditions, and what to expect season by season on Babadağ.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/weather-guide' },

@@ -7,7 +7,7 @@ import FAQAccordion from '@/components/shared/FAQAccordion'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Paragliding Training Ölüdeniz | CP, SIV, XC Courses on Babadağ',
+  title: 'Paragliding Training Ölüdeniz | CP, SIV & XC on Babadağ',
   description:
     'Paragliding training courses in Ölüdeniz at Babadağ Mountain. CP beginner courses, SIV clinics, XC coaching, and guided flying weeks. All levels welcome.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/training' },

@@ -4,7 +4,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Tandem Pilot Training Ölüdeniz | Become a Tandem Paragliding Pilot Turkey',
+  title: 'Tandem Pilot Training Ölüdeniz | Become a Tandem Pilot',
   description: 'How to become a tandem paragliding pilot at Ölüdeniz. Tandem conversion course requirements, Turkish commercial licence, and career path at Babadağ.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/training/tandem-conversion' },
 }

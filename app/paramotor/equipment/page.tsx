@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Paramotor Equipment Guide Turkey | PPG Gear for Hot Conditions',
+  title: 'Paramotor Equipment Turkey | PPG Gear for Hot Conditions',
   description: 'Paramotor equipment guide for flying in Turkey. Wing selection, motor choice, harness and accessories for hot-weather PPG flying near Ölüdeniz.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/paramotor/equipment' },
 }

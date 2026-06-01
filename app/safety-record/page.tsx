@@ -6,7 +6,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Safety Record | Paragliding Ölüdeniz — 25 Years, Zero Serious Incidents',
+  title: 'Safety Record | 25 Years, Zero Serious Incidents',
   description:
     'Our safety record at Paragliding Ölüdeniz. 25+ years of tandem flights from Babadağ Mountain with zero serious incidents. Certified pilots, maintained equipment, rigorous standards.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/safety-record' },

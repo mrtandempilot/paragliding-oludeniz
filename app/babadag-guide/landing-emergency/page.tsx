@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Emergency Landing Babadağ | Paragliding Emergency Procedures Ölüdeniz',
+  title: 'Emergency Landing Babadağ | Paragliding Procedures',
   description: 'Emergency landing procedures for Babadağ paragliding. Tree landing recovery, water landing protocol, reserve deployment and emergency contacts in Ölüdeniz.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-guide/landing-emergency' },
 }

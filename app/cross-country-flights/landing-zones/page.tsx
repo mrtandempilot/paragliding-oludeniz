@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'XC Landing Zones Babadağ | Cross Country Paragliding Landing Areas',
+  title: 'XC Landing Zones Babadağ | Cross Country Landing Areas',
   description: 'All cross country landing zones for Babadağ XC pilots. GPS coordinates, access info, field conditions and emergency contacts for each landing zone.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/cross-country-flights/landing-zones' },
 }

@@ -6,7 +6,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Reviews | Paragliding Ölüdeniz — 2,400+ Five-Star Guest Reviews',
+  title: 'Reviews | 2,400+ Five-Star Paragliding Guest Reviews',
   description:
     'Read 2,400+ genuine reviews from guests who have flown with Paragliding Ölüdeniz. Rated 4.9/5 across Google, TripAdvisor and Viator. Tandem paragliding from Babadağ Mountain.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/reviews' },

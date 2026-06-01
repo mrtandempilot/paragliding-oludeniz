@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Pilot Retrieval Service Babadağ | XC Retrieve Ölüdeniz Turkey',
+  title: 'Pilot Retrieval Service Babadağ | XC Retrieve Ölüdeniz',
   description: 'Pilot retrieval service for XC paraglider pilots at Ölüdeniz. How to organise a retrieve from Kayaköy, Göcek and other XC landing zones around Babadağ.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/pilot-services/retrieval' },
 }

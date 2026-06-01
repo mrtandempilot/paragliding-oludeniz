@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Paragliding Licence Recognition Turkey | Foreign Pilots at Babadağ',
+  title: 'Paragliding Licence Recognition | Foreign Pilots Babadağ',
   description: 'Are foreign paragliding licences recognised at Babadağ? BHPA, FFVL, DHV, DULV and other European licences at Ölüdeniz — what is accepted and what you need to fly.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/training/licence-recognition' },
 }

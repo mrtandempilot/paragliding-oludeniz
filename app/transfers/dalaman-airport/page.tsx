@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Dalaman Airport to Ölüdeniz Transfer | Paragliding Airport Guide',
+  title: 'Dalaman Airport to Ölüdeniz Transfer | Airport Guide',
   description: 'All transfer options from Dalaman airport (DLM) to Ölüdeniz. Havataş bus, taxi, private transfer costs, journey times and arrival tips for paragliding visitors.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/transfers/dalaman-airport' },
 }

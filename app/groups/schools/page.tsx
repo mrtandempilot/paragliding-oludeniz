@@ -5,7 +5,7 @@ import BookingCTA from '@/components/shared/BookingCTA'
 import FAQAccordion from '@/components/shared/FAQAccordion'
 
 export const metadata: Metadata = {
-  title: 'School & University Paragliding Ölüdeniz | Educational Group Flights',
+  title: 'School & University Paragliding Ölüdeniz | Group Flights',
   description: 'Educational paragliding experiences for school and university groups at Ölüdeniz. Supervised tandem flights from Babadağ with safety briefings and group coordination.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/groups/schools' },
 }

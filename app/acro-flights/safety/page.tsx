@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Acro Paragliding Safety Ölüdeniz | SIV Training Reserve Parachute',
+  title: 'Acro Paragliding Safety Ölüdeniz | SIV & Reserve Parachute',
   description: 'Acro paragliding safety at Ölüdeniz. Reserve parachute requirements, SIV training, safety culture and risk management for aerobatic pilots.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/acro-flights/safety' },
 }

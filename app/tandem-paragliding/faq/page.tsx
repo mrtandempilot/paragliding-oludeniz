@@ -5,7 +5,7 @@ import FAQAccordion from '@/components/shared/FAQAccordion'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Tandem Paragliding FAQ Ölüdeniz | All Your Questions Answered',
+  title: 'Tandem Paragliding FAQ Ölüdeniz | Your Questions Answered',
   description: '20+ questions answered about tandem paragliding in Ölüdeniz. Weight limits, age, health conditions, what to bring, booking, cancellation and more.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/tandem-paragliding/faq' },
 }

@@ -4,7 +4,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Beginner Paragliding Courses Ölüdeniz | Learn to Paraglide Turkey',
+  title: 'Beginner Paragliding Courses Ölüdeniz | Learn to Fly',
   description: 'Beginner paragliding courses near Ölüdeniz. P1/CP licence training, what to expect on a beginner course, duration, cost and how to get started in Turkey.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/training/beginner-courses' },
 }

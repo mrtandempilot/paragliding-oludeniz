@@ -5,7 +5,7 @@ import BookingCTA from '@/components/shared/BookingCTA'
 import FAQAccordion from '@/components/shared/FAQAccordion'
 
 export const metadata: Metadata = {
-  title: 'Tour Operator Paragliding Ölüdeniz | Trade Rates & Group Coordination',
+  title: 'Tour Operator Paragliding Ölüdeniz | Trade Rates',
   description: 'Trade rates and group coordination for tour operators sending clients to Ölüdeniz paragliding. Babadağ tandem flights for package holidays, excursion desks and incoming agents.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/groups/tour-operators' },
 }

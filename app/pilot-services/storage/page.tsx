@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Equipment Storage Babadağ | Paragliding Gear Storage Ölüdeniz',
+  title: 'Equipment Storage Babadağ | Paragliding Gear Ölüdeniz',
   description: 'Equipment storage facilities at Babadağ for visiting paraglider pilots. Daily and weekly storage rates, security, access hours and what can be stored.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/pilot-services/storage' },
 }

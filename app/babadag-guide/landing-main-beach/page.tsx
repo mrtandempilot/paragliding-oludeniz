@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Ölüdeniz Main Beach Landing Zone | Paragliding Landing Area Guide',
+  title: 'Ölüdeniz Main Beach Landing Zone | Landing Guide',
   description: 'Complete guide to the Ölüdeniz main beach landing zone. Approach corridor, right of way rules, landing markers, crowd awareness and what happens after you land.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-guide/landing-main-beach' },
 }

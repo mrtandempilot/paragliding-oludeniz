@@ -6,7 +6,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Babadağ Mountain Road Guide | Driving to the Paragliding Launch',
+  title: 'Babadağ Mountain Road Guide | Driving to the Launch',
   description:
     'Complete driving guide to Babadağ Mountain in Ölüdeniz. Road conditions, parking, directions, distance from Fethiye, and tips for solo pilots driving to launch.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-road-guide' },

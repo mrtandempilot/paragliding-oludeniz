@@ -7,7 +7,7 @@ import FAQAccordion from '@/components/shared/FAQAccordion'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Babadağ Mountain Guide | Paragliding Launch Points & Landing Zones',
+  title: 'Babadağ Mountain Guide | Launch Points & Landing Zones',
   description:
     'Complete guide to Babadağ Mountain for paragliding. All 4 launch points (1200m–1900m), landing zones, cable car info, road access and weather conditions.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-guide' },

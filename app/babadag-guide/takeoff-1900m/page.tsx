@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Babadağ 1900m Summit Launch | Highest Takeoff Paragliding Turkey',
+  title: 'Babadağ 1900m Summit Launch | Highest Takeoff Turkey',
   description: 'Babadağ 1900m near-summit launch. The highest paragliding takeoff point at Babadağ. Hike route, conditions, altitude sickness risks and who this launch is for.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-guide/takeoff-1900m' },
 }

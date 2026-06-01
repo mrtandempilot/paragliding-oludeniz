@@ -4,7 +4,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Paragliding Equipment Requirements Babadağ | What You Need to Fly',
+  title: 'Solo Paragliding Gear Requirements | What You Need to Fly',
   description: 'Equipment requirements for solo paragliders at Babadağ, Ölüdeniz. Glider certification, harness, reserve, radio and instrument requirements.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/solo-paragliding/equipment-requirements' },
 }

@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Winter Paragliding Ölüdeniz | Off-Season Flying Babadağ November–March',
+  title: 'Winter Paragliding Ölüdeniz | Off-Season Flying Babadağ',
   description: 'Can you paraglide at Ölüdeniz in winter? Off-season flying conditions at Babadağ from November to March — what to expect and whether it is worth it.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/weather-guide/winter-flying' },
 }

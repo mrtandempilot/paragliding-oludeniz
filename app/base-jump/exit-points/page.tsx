@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'BASE Jump Exit Points Babadağ | Cliff Jump Locations Ölüdeniz',
+  title: 'BASE Jump Exit Points Babadağ | Cliff Locations Ölüdeniz',
   description: 'BASE jumping exit points on Babadağ, Ölüdeniz. Cliff locations, altitudes, clearances and access routes for experienced BASE jumpers.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/base-jump/exit-points' },
 }

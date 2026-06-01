@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Summer Thermals Babadağ | Peak Season Thermal Conditions Ölüdeniz',
+  title: 'Summer Thermals Babadağ | Peak Season Conditions Ölüdeniz',
   description: 'Summer thermal conditions at Babadağ. How July and August thermals behave, best flight times, heat effects on flying and staying safe in strong summer conditions.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/weather-guide/summer-thermals' },
 }

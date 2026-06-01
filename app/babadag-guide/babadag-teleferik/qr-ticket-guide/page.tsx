@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Babadağ Cable Car QR Ticket | How to Buy Online Teleferik Tickets',
+  title: 'Babadağ Cable Car QR Ticket | Buy Teleferik Online',
   description: 'How to buy Babadağ teleferik QR tickets online. Step-by-step guide to purchasing cable car tickets in advance and skipping the queue at Ölüdeniz.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-guide/babadag-teleferik/qr-ticket-guide' },
 }

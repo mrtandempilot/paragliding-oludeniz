@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Light Wind Landing Babadağ | Calm Conditions Approach Ölüdeniz',
+  title: 'Light Wind Landing Babadağ | Calm Conditions Approach',
   description: 'Landing at Ölüdeniz in light and calm wind conditions. Downwind approach risks, high speed at touchdown and landing technique for low-wind days.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-guide/landing-light-wind' },
 }

@@ -47,9 +47,22 @@ const currentConditions = [
   { label: 'Humidity', value: '52%', icon: Droplets, color: 'text-blue-600', bg: 'bg-blue-50', note: 'Comfortable' },
 ]
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://paragliding-oludeniz.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Live Weather', item: 'https://paragliding-oludeniz.com/live-weather' },
+  ],
+}
+
 export default function LiveWeatherPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Page Header (static since this is client component) */}
       <div className="relative py-28 md:py-36 flex items-center justify-center overflow-hidden">
         <div

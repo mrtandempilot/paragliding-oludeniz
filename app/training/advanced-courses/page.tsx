@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Advanced Paragliding Courses Ölüdeniz | P3 EP Training Turkey',
+  title: 'Advanced Paragliding Courses Ölüdeniz | P3 EP Training',
   description: 'Advanced paragliding training at Ölüdeniz. P3/EP licence courses, XC coaching, speed flying training and guided flying weeks at Babadağ Turkey.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/training/advanced-courses' },
 }

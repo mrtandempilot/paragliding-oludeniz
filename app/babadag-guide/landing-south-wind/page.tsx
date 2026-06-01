@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'South Wind Landing Babadağ | Ölüdeniz Southerly Approach Guide',
+  title: 'South Wind Landing Babadağ | Southerly Approach Guide',
   description: 'Landing at Ölüdeniz in south wind conditions. Approach modifications, turbulence areas to avoid, and alternative landing options in southerly wind.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-guide/landing-south-wind' },
 }

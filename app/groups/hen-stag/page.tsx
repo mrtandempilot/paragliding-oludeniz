@@ -5,7 +5,7 @@ import BookingCTA from '@/components/shared/BookingCTA'
 import FAQAccordion from '@/components/shared/FAQAccordion'
 
 export const metadata: Metadata = {
-  title: 'Hen & Stag Party Paragliding Ölüdeniz | Group Flights Babadağ',
+  title: 'Hen & Stag Paragliding Ölüdeniz | Group Flights Babadağ',
   description: 'Paragliding for hen and stag parties at Ölüdeniz. Tandem flights from Babadağ for groups, group discounts, photo packages and beach landing celebrations.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/groups/hen-stag' },
 }

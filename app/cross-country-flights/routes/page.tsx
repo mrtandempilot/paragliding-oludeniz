@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'XC Paragliding Routes Ölüdeniz | Cross Country Route Maps Babadağ',
+  title: 'XC Paragliding Routes Ölüdeniz | Route Maps Babadağ',
   description: 'Full cross country paragliding routes from Babadağ, Ölüdeniz. Route maps, distances, landing zones, difficulty ratings and GPS waypoints.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/cross-country-flights/routes' },
 }

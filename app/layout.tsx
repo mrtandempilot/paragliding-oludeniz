@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://paragliding-oludeniz.com'),
   title: {
     default: 'Paragliding Oludeniz | Tandem Flights from Babadağ',
-    template: '%s | Paragliding Oludeniz',
+    template: '%s',
   },
   description:
     'Book tandem paragliding flights in Oludeniz, Turkey. Launch from Babadağ at 1960m and soar over the Blue Lagoon. Certified pilots, 25+ years experience.',
@@ -26,7 +26,6 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://paragliding-oludeniz.com',
     siteName: 'Paragliding Oludeniz',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Tandem Paragliding Oludeniz' }],
   },
   twitter: {
     card: 'summary_large_image',

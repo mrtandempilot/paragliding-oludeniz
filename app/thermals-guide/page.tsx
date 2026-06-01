@@ -7,7 +7,7 @@ import FAQAccordion from '@/components/shared/FAQAccordion'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Thermals Guide for Babadağ & Ölüdeniz | Paragliding Conditions',
+  title: 'Thermals Guide Babadağ & Ölüdeniz | Paragliding Conditions',
   description:
     'Understanding thermals at Babadağ Mountain, Ölüdeniz. Daily thermal cycles, trigger points, cloud base, XC potential, and conditions by season.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/thermals-guide' },

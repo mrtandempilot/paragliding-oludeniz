@@ -4,7 +4,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import FAQAccordion from '@/components/shared/FAQAccordion'
 
 export const metadata: Metadata = {
-  title: 'SIV Clinic Ölüdeniz | Paragliding SIV Over Blue Lagoon Turkey',
+  title: 'SIV Clinic Ölüdeniz | Paragliding SIV Over Blue Lagoon',
   description: 'SIV paragliding clinics over the Blue Lagoon at Ölüdeniz. What is SIV, what to expect, who should attend and how to book a clinic at Babadağ.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/training/siv-clinic' },
 }

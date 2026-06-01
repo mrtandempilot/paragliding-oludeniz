@@ -6,7 +6,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import FAQAccordion from '@/components/shared/FAQAccordion'
 
 export const metadata: Metadata = {
-  title: 'Solo Paragliding Ölüdeniz | Licensed Pilot Information & Passes',
+  title: 'Solo Paragliding Ölüdeniz | Licensed Pilot Info & Passes',
   description: 'Guide for licensed solo paragliders visiting Ölüdeniz and Babadağ. Pilot passes, flight rules, equipment requirements, insurance, and community info.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/solo-paragliding' },
 }

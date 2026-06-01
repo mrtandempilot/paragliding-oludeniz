@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Thermal Map Babadağ Ölüdeniz | Best Thermal Locations for XC Flying',
+  title: 'Thermal Map Babadağ Ölüdeniz | Best XC Thermal Spots',
   description: 'Interactive thermal guide for Babadağ and the Fethiye region. Best thermal trigger points, altitude bands, time of day guide and reading the sky.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/cross-country-flights/thermal-maps' },
 }

@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Alternative Landing Zones Babadağ | Secondary Paragliding Landing Areas',
+  title: 'Alternative Landing Zones Babadağ | Secondary Areas',
   description: 'Alternative landing zones for Babadağ paragliding. When to use secondary landing areas, locations, access and conditions for each alternative landing site.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-guide/landing-alternatives' },
 }

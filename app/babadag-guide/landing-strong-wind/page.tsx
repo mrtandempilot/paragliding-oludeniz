@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Strong Wind Landing Babadağ | High Wind Paragliding Procedures Ölüdeniz',
+  title: 'Strong Wind Landing Babadağ | High Wind Procedures',
   description: 'How to land at Ölüdeniz in strong wind conditions. Approach adjustments, speed management, landing technique for high-wind days at Babadağ.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-guide/landing-strong-wind' },
 }

@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Cloudbase Guide Babadağ | Thermal Ceiling and Cloudbase Ölüdeniz',
+  title: 'Cloudbase Guide Babadağ | Thermal Ceiling Ölüdeniz',
   description: 'Cloudbase and thermal ceiling guide for Babadağ paragliding. How high you can fly, seasonal cloudbase heights and what determines the thermal ceiling each day.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/thermals-guide/cloudbase-guide' },
 }

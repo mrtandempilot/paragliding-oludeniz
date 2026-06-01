@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Weather Forecasting Tools Babadağ | Paragliding Meteorology Ölüdeniz',
+  title: 'Weather Forecasting Tools Babadağ | Paragliding Ölüdeniz',
   description: 'Best weather forecast resources for paragliding at Babadağ and Ölüdeniz. Windguru, Meteogram, XCSkies, Skysight and how to read paragliding-specific forecasts.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/pilot-services/meteorology' },
 }

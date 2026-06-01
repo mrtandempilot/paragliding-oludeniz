@@ -70,10 +70,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page('/babadag-guide/landing-south-wind', 0.7, 'monthly'),
     page('/babadag-guide/landing-strong-wind', 0.7, 'monthly'),
 
-    // Redirect legacy URLs (still exist as pages)
-    page('/babadag-road-guide', 0.5, 'monthly'),
-    page('/babadag-teleferik', 0.5, 'monthly'),
-
     // Weather guide
     page('/weather-guide', 0.8, 'monthly'),
     page('/weather-guide/best-months', 0.75, 'monthly'),

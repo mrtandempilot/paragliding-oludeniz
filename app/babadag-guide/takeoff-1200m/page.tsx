@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Babadağ 1200m Launch | Lower Takeoff Point Ölüdeniz Paragliding',
+  title: 'Babadağ 1200m Launch | Lower Takeoff Point Ölüdeniz',
   description: 'Babadağ 1200m launch point guide. How to access, wind conditions, who uses the lower launch, and when the 1200m takeoff is preferred over higher launches.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/babadag-guide/takeoff-1200m' },
 }

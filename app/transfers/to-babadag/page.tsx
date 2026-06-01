@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Getting to Babadağ Launch | Transport from Ölüdeniz to Paragliding Site',
+  title: 'Getting to Babadağ Launch | Transport from Ölüdeniz',
   description: 'How to get from Ölüdeniz to the Babadağ paragliding launch. Cable car, minibus, private car options and what is included in tandem flight packages.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/transfers/to-babadag' },
 }

@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Reading Thermals Babadağ | How to Find and Use Thermals Ölüdeniz',
+  title: 'Reading Thermals Babadağ | Find & Use Thermals Ölüdeniz',
   description: 'How to find, enter and use thermals at Babadağ. Visual cues, bird behaviour, terrain features and in-flight indicators for reading the thermal atmosphere.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/thermals-guide/reading-thermals' },
 }

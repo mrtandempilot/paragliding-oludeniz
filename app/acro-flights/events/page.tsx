@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Acro Paragliding Events Ölüdeniz | Competitions & Festivals Turkey',
+  title: 'Acro Paragliding Events Ölüdeniz | Competitions & Festivals',
   description: 'Acro paragliding events, competitions and festivals at Ölüdeniz. Annual acro contests, slalom courses and free-flying festivals in Turkey.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/acro-flights/events' },
 }

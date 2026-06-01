@@ -6,7 +6,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import FAQAccordion from '@/components/shared/FAQAccordion'
 
 export const metadata: Metadata = {
-  title: 'Paragliding Equipment Rental Ölüdeniz | Gliders, Harnesses & Reserves',
+  title: 'Paragliding Equipment Rental Ölüdeniz | Gliders & Reserves',
   description:
     'Rent paragliding equipment in Ölüdeniz for flying Babadağ. EN-B and EN-C gliders, harnesses, variometers and GPS. Daily and weekly rates. All equipment EN-tested.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/pilot-services/equipment-rental' },

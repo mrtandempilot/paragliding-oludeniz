@@ -4,7 +4,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 
 export const metadata: Metadata = {
-  title: 'Private Transfer to Ölüdeniz | Airport & Hotel Transfer Service',
+  title: 'Private Transfer to Ölüdeniz | Airport & Hotel Service',
   description: 'Private transfer service to Ölüdeniz from Dalaman airport, Fethiye and Marmaris. Fixed price, door-to-door, air-conditioned vehicles for paragliding visitors.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/transfers/private-transfer' },
 }

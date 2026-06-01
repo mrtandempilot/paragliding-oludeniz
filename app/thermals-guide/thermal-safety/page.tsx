@@ -3,7 +3,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Thermal Safety Babadağ | Paragliding Turbulence & Collapse Safety',
+  title: 'Thermal Safety Babadağ | Turbulence & Collapse Safety',
   description: 'Thermal safety for paraglider pilots at Babadağ. Handling collapses, avoiding strong thermals, turbulence management and when to fly conservatively at Ölüdeniz.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/thermals-guide/thermal-safety' },
 }

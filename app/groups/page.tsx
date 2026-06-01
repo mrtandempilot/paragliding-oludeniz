@@ -6,7 +6,7 @@ import FAQAccordion from '@/components/shared/FAQAccordion'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Group Paragliding Ölüdeniz | Group Flights & Bookings Babadağ',
+  title: 'Group Paragliding Ölüdeniz | Group Flights & Bookings',
   description: 'Group paragliding at Ölüdeniz for hen parties, stag dos, corporate teams, schools and tour groups. Group discounts, coordination and what to expect flying as a group.',
   alternates: { canonical: 'https://paragliding-oludeniz.com/groups' },
 }
