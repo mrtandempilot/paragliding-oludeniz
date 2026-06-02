@@ -98,9 +98,11 @@
     "floatingLabel": "Über dem Meeresspiegel"
   },
   "reviews": {
-    "badge": "Was Gäste sagen",
+    "badge": "Bewertungen",
     "title": "Über 2.400 Fünf-Sterne-Bewertungen",
-    "cta": "Alle Bewertungen lesen"
+    "cta": "Alle Bewertungen lesen",
+    "pageTitle": "Gästebewertungen",
+    "pageSubtitle": "Echte Bewertungen von echten Fliegern."
   },
   "prices": {
     "title": "Paragliding Preise Ölüdeniz 2026",
@@ -196,15 +198,72 @@
   },
   "tandem": {
     "title": "Tandem-Paragliding Ölüdeniz",
-    "subtitle": "Keine Erfahrung nötig. Einfach kommen und fliegen.",
+    "subtitle": "Keine Erfahrung nötig. Fliegen Sie mit einem zertifizierten Piloten über die Blaue Lagune.",
     "badge": "Tandemflüge",
-    "howItWorks": "So funktioniert es",
-    "step1": "Wir holen Sie am Strand von Ölüdeniz ab",
-    "step2": "Transfer zum Babadağ-Startplatz",
-    "step3": "Kurze Sicherheitseinweisung (5 Min.)",
-    "step4": "Abheben und den Flug genießen",
-    "step5": "Landung am Ölüdeniz-Strand",
+    "included": "Inklusive",
+    "inc1": "Vollständige Sicherheitseinweisung vor dem Flug",
+    "inc2": "Zertifizierter, erfahrener Tandempilot",
+    "inc3": "Gesamte Ausrüstung (Gurt, Helm, Gleitschirm)",
+    "inc4": "Transfer von Ölüdeniz zum Babadağ-Startplatz",
+    "inc5": "Ca. 25–45 Minuten Flug",
+    "inc6": "Landung am Ölüdeniz-Strand",
+    "inc7": "Haftpflichtversicherung",
     "bookNow": "Jetzt buchen",
-    "viewPrices": "Preise ansehen"
+    "viewPrices": "Preise ansehen",
+    "firstTime": "Erstmals Fliegen",
+    "firstTimeDesc": "Vollständiger Leitfaden für Anfänger — was erwartet Sie, was anziehen.",
+    "sunsetTitle": "Sonnenuntergangsflüge",
+    "sunsetDesc": "Beobachten Sie den Sonnenuntergang über der Blauen Lagune aus 1200m.",
+    "groupTitle": "Gruppenflüge",
+    "groupDesc": "Mit Freunden oder Familie? Wir betreuen Gruppen jeder Größe.",
+    "safetyTitle": "Sicherheitsleitfaden",
+    "safetyDesc": "Alles über unsere Sicherheitsbilanz und Pilotenqualifikationen."
+  },
+  "safety": {
+    "title": "Sicherheitsbilanz",
+    "subtitle": "Über 25 Jahre. Null ernste Zwischenfälle. So machen wir es.",
+    "badge": "Sicherheit zuerst",
+    "certified": "Zertifizierte Piloten",
+    "equipment": "Ausrüstung",
+    "record": "Sicherheitsbilanz",
+    "procedures": "Verfahren"
+  },
+  "weather": {
+    "title": "Wetterführer Paragliding Ölüdeniz",
+    "subtitle": "Alles über die Flugbedingungen.",
+    "badge": "Wetterführer",
+    "best": "Beste Monate",
+    "wind": "Windrichtungen",
+    "thermals": "Thermik"
+  },
+  "liveWeather": {
+    "title": "Live-Wetter Ölüdeniz",
+    "subtitle": "Aktuelle Bedingungen am Babadağ-Startplatz.",
+    "badge": "Live-Wetter"
+  },
+  "acro": {
+    "title": "Akro-Paragliding Ölüdeniz",
+    "subtitle": "Eines der weltbesten Akro-Ziele.",
+    "badge": "Akrofliegen"
+  },
+  "training": {
+    "title": "Paragliding-Ausbildung Ölüdeniz",
+    "subtitle": "Lernen Sie mit unseren zertifizierten Lehrern fliegen.",
+    "badge": "Ausbildungskurse"
+  },
+  "solo": {
+    "title": "Solo-Paragliding Ölüdeniz",
+    "subtitle": "Für lizenzierte Piloten, die Ölüdeniz besuchen.",
+    "badge": "Soloflug"
+  },
+  "groups": {
+    "title": "Gruppenparagliding Ölüdeniz",
+    "subtitle": "Wir betreuen Gruppen jeder Größe.",
+    "badge": "Gruppenbuchungen"
+  },
+  "transfers": {
+    "title": "Transfers zum Babadağ",
+    "subtitle": "Von Ölüdeniz, Fethiye und Umgebung zum Babadağ.",
+    "badge": "Transfers"
   }
 }

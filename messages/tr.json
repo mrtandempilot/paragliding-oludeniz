@@ -98,9 +98,11 @@
     "floatingLabel": "Deniz Seviyesinin Üstünde"
   },
   "reviews": {
-    "badge": "Misafirlerimiz Ne Diyor",
+    "badge": "Yorumlar",
     "title": "2.400'den Fazla Beş Yıldızlı Yorum",
-    "cta": "Tüm Yorumları Oku"
+    "cta": "Tüm Yorumları Oku",
+    "pageTitle": "Misafir Yorumları",
+    "pageSubtitle": "Gerçek uçuculardan gerçek yorumlar."
   },
   "prices": {
     "title": "Ölüdeniz Yamaç Paraşütü Fiyatları 2026",
@@ -196,15 +198,72 @@
   },
   "tandem": {
     "title": "Ölüdeniz Tandem Yamaç Paraşütü",
-    "subtitle": "Deneyim gerekmez. Sadece gelin ve uçun.",
+    "subtitle": "Deneyim gerekmez. Sertifikalı bir pilotla Mavi Lagün üzerinde uçun.",
     "badge": "Tandem Uçuşlar",
-    "howItWorks": "Nasıl İşler",
-    "step1": "Sizi Ölüdeniz plajından alıyoruz",
-    "step2": "Babadağ kalkış noktasına transfer",
-    "step3": "Kısa güvenlik tanıtımı (5 dk)",
-    "step4": "Havalanın ve uçuşun tadını çıkarın",
-    "step5": "Ölüdeniz plajına iniş",
+    "included": "Dahil Olanlar",
+    "inc1": "Uçuş öncesi tam güvenlik brifing",
+    "inc2": "Sertifikalı, deneyimli tandem pilot",
+    "inc3": "Tüm ekipman (harness, kask, glider)",
+    "inc4": "Ölüdeniz'den Babadağ kalkışına transfer",
+    "inc5": "Yaklaşık 25–45 dakikalık uçuş",
+    "inc6": "Ölüdeniz plajına iniş",
+    "inc7": "Üçüncü şahıs sorumluluk sigortası",
     "bookNow": "Rezervasyon Yap",
-    "viewPrices": "Fiyatları Gör"
+    "viewPrices": "Fiyatları Gör",
+    "firstTime": "İlk Uçuş",
+    "firstTimeDesc": "Yeni başlayanlar için rehber — ne beklemeli, ne giymeli.",
+    "sunsetTitle": "Gün Batımı Uçuşları",
+    "sunsetDesc": "1200m yükseklikten Mavi Lagün üzerinde gün batımını izleyin.",
+    "groupTitle": "Grup Uçuşları",
+    "groupDesc": "Arkadaşlarınız veya ailenizle mi geliyorsunuz? Her boyuttaki gruba hizmet veriyoruz.",
+    "safetyTitle": "Güvenlik Rehberi",
+    "safetyDesc": "Güvenlik rekorumuz, ekipmanlarımız ve pilot sertifikasyonları hakkında her şey."
+  },
+  "safety": {
+    "title": "Güvenlik Rekoru",
+    "subtitle": "25 yılı aşkın süre. Sıfır ciddi kaza. İşte nasıl yapıyoruz.",
+    "badge": "Önce Güvenlik",
+    "certified": "Sertifikalı Pilotlar",
+    "equipment": "Ekipman",
+    "record": "Güvenlik Rekoru",
+    "procedures": "Prosedürler"
+  },
+  "weather": {
+    "title": "Ölüdeniz Paraşüt Hava Rehberi",
+    "subtitle": "Uçuş koşulları hakkında bilmeniz gereken her şey.",
+    "badge": "Hava Rehberi",
+    "best": "En İyi Aylar",
+    "wind": "Rüzgar Yönleri",
+    "thermals": "Termikler"
+  },
+  "liveWeather": {
+    "title": "Ölüdeniz Canlı Hava Durumu",
+    "subtitle": "Babadağ kalkış noktası ve Ölüdeniz plajındaki güncel koşullar.",
+    "badge": "Canlı Hava"
+  },
+  "acro": {
+    "title": "Ölüdeniz Akro Paraşüt",
+    "subtitle": "Dünyanın en iyi akro destinasyonlarından biri.",
+    "badge": "Akro Uçuş"
+  },
+  "training": {
+    "title": "Ölüdeniz Paraşüt Eğitimi",
+    "subtitle": "Sertifikalı eğitmenlerimizle uçmayı öğrenin.",
+    "badge": "Eğitim Kursları"
+  },
+  "solo": {
+    "title": "Ölüdeniz Solo Paraşüt",
+    "subtitle": "Ölüdeniz'i ziyaret eden lisanslı pilotlar için.",
+    "badge": "Solo Uçuş"
+  },
+  "groups": {
+    "title": "Grup Paraşüt Ölüdeniz",
+    "subtitle": "Her boyuttaki gruba hizmet veriyoruz.",
+    "badge": "Grup Rezervasyonları"
+  },
+  "transfers": {
+    "title": "Babadağ Transferleri",
+    "subtitle": "Ölüdeniz, Fethiye ve çevreden Babadağ'a ulaşım.",
+    "badge": "Transferler"
   }
 }

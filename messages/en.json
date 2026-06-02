@@ -98,9 +98,11 @@
     "floatingLabel": "Above Sea Level"
   },
   "reviews": {
-    "badge": "What Guests Say",
+    "badge": "Reviews",
     "title": "2,400+ Five-Star Reviews",
-    "cta": "Read All Reviews"
+    "cta": "Read All Reviews",
+    "pageTitle": "Guest Reviews",
+    "pageSubtitle": "Real reviews from real flyers."
   },
   "prices": {
     "title": "Paragliding Prices Ölüdeniz 2026",
@@ -196,15 +198,72 @@
   },
   "tandem": {
     "title": "Tandem Paragliding Ölüdeniz",
-    "subtitle": "No experience needed. Just show up and fly.",
+    "subtitle": "No experience needed. Fly with a certified pilot over the Blue Lagoon.",
     "badge": "Tandem Flights",
-    "howItWorks": "How It Works",
-    "step1": "We pick you up from Ölüdeniz beach",
-    "step2": "Transfer to Babadağ launch point",
-    "step3": "Brief safety introduction (5 mins)",
-    "step4": "Take off and enjoy the flight",
-    "step5": "Land on Ölüdeniz beach",
+    "included": "What's Included",
+    "inc1": "Full safety briefing before flight",
+    "inc2": "Certified, experienced tandem pilot",
+    "inc3": "All equipment (harness, helmet, glider)",
+    "inc4": "Transfer from Ölüdeniz to Babadağ launch",
+    "inc5": "Approximately 25–45 minute flight",
+    "inc6": "Landing on Ölüdeniz beach",
+    "inc7": "Third-party liability insurance",
     "bookNow": "Book Now",
-    "viewPrices": "View Prices"
+    "viewPrices": "View Prices",
+    "firstTime": "First Time Flying",
+    "firstTimeDesc": "Complete guide for beginners — what to expect, what to wear, tips.",
+    "sunsetTitle": "Sunset Flights",
+    "sunsetDesc": "Watch the sun set over the Blue Lagoon from 1200m.",
+    "groupTitle": "Group Flights",
+    "groupDesc": "Coming with friends or family? We cater for groups of all sizes.",
+    "safetyTitle": "Safety Guide",
+    "safetyDesc": "Everything about our safety record, equipment and pilot qualifications."
+  },
+  "safety": {
+    "title": "Safety Record",
+    "subtitle": "Over 25 years. Zero serious incidents. Here is how we do it.",
+    "badge": "Safety First",
+    "certified": "Certified Pilots",
+    "equipment": "Equipment",
+    "record": "Safety Record",
+    "procedures": "Procedures"
+  },
+  "weather": {
+    "title": "Weather Guide for Paragliding Ölüdeniz",
+    "subtitle": "Everything you need to know about flying conditions.",
+    "badge": "Weather Guide",
+    "best": "Best Months",
+    "wind": "Wind Directions",
+    "thermals": "Thermals"
+  },
+  "liveWeather": {
+    "title": "Live Weather Ölüdeniz",
+    "subtitle": "Current conditions at Babadağ launch and Ölüdeniz beach.",
+    "badge": "Live Weather"
+  },
+  "acro": {
+    "title": "Acro Paragliding Ölüdeniz",
+    "subtitle": "One of the world's top acro destinations.",
+    "badge": "Acro Flying"
+  },
+  "training": {
+    "title": "Paragliding Training Ölüdeniz",
+    "subtitle": "Learn to fly with our certified instructors.",
+    "badge": "Training Courses"
+  },
+  "solo": {
+    "title": "Solo Paragliding Ölüdeniz",
+    "subtitle": "For licensed pilots visiting Ölüdeniz.",
+    "badge": "Solo Flying"
+  },
+  "groups": {
+    "title": "Group Paragliding Ölüdeniz",
+    "subtitle": "From stag parties to school trips — we handle groups of all sizes.",
+    "badge": "Group Bookings"
+  },
+  "transfers": {
+    "title": "Transfers to Babadağ",
+    "subtitle": "Getting to Babadağ from Ölüdeniz, Fethiye and beyond.",
+    "badge": "Transfers"
   }
 }
