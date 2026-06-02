@@ -13,29 +13,53 @@
     "learnMore": "Mehr erfahren",
     "viewAll": "Alle anzeigen",
     "readMore": "Weiterlesen",
-    "back": "Zurück",
-    "close": "Schließen",
-    "loading": "Laden...",
     "perPerson": "pro Person",
     "from": "ab",
-    "minutes": "Minuten",
-    "hours": "Stunden",
-    "altitude": "Höhe",
     "phone": "+90 536 461 6674"
   },
   "hero": {
-    "badge": "Babadağ 1960m • Blaue Lagune",
-    "title": "Paragliding in Ölüdeniz",
-    "subtitle": "Über die Blaue Lagune gleiten",
-    "description": "Starten Sie vom Babadağ-Berg auf 1960m und erleben Sie den landschaftlich schönsten Paragliding-Flug der Türkei. Zertifizierte Piloten, 25+ Jahre Erfahrung.",
+    "badge": "Weltbestes Paragliding-Ziel · Babadağ 1960m",
+    "title1": "Über die",
+    "titleHighlight": "Blaue Lagune",
+    "title2": "von Ölüdeniz fliegen",
+    "description": "Erleben Sie den atemberaubendsten Tandem-Paragliding-Flug der Türkei. Starten Sie vom Babadağ-Berg und gleiten Sie über türkisfarbenes Wasser, antike Ruinen und die weltberühmte Blaue Lagune.",
     "bookFlight": "Flug Buchen",
-    "watchVideo": "Video ansehen",
-    "stats": {
-      "flights": "Flüge",
-      "experience": "Jahre Erfahrung",
-      "rating": "Bewertung",
-      "safety": "Sicherheitsrekord"
-    }
+    "learnMore": "Mehr erfahren",
+    "trust1": "Vollständig zertifiziert & versichert",
+    "trust2": "4,9 / 5 — über 2.400 Bewertungen",
+    "trust3": "25+ Jahre Erfahrung"
+  },
+  "whyOludeniz": {
+    "badge": "Warum Ölüdeniz?",
+    "title": "Das schönste Paragliding der Welt",
+    "subtitle": "Ölüdeniz ist nicht nur ein Ziel — es ist der Maßstab, an dem alle anderen Paragliding-Orte gemessen werden.",
+    "altitude": "Startaltitude",
+    "altitudeDesc": "Der Babadağ-Berg bietet einen der höchsten kommerziellen Tandemstarts in Europa",
+    "flight": "Flugdauer",
+    "flightDesc": "Lange, ruhige Thermik bedeutet mehr Flugzeit und mehr Ausblicke als an den meisten Standorten",
+    "landing": "Strandlandung",
+    "landingDesc": "Landen Sie direkt am Ölüdeniz-Strand, wenige Schritte von der berühmten Blauen Lagune entfernt",
+    "weather": "Flugtage/Jahr",
+    "weatherDesc": "Über 300 Flugtage pro Jahr dank des außergewöhnlichen Mikroklimas von Ölüdeniz",
+    "safety": "Sicherheitsrekord",
+    "safetyDesc": "Jahrzehntelanger sicherer Betrieb mit vollständig zertifizierten, international lizenzierten Piloten",
+    "views": "Ikonische Aussichten",
+    "viewsDesc": "Blaue Lagune, Schmetterlingstal, Gemiler Insel — alles von oben sichtbar"
+  },
+  "flightTypes": {
+    "badge": "Ihr Erlebnis wählen",
+    "title": "Jeder Flug, perfekt maßgeschneidert",
+    "subtitle": "Von Erstfliegern bis zu erfahrenen Piloten — wir haben den richtigen Flug für Sie.",
+    "tandem": "Tandem-Paragliding",
+    "tandemDesc": "Fliegen Sie mit einem zertifizierten Fluglehrer. Keine Erfahrung nötig.",
+    "acro": "Akro-Flüge",
+    "acroDesc": "Herzrasen garantiert — akrobatische Manöver mit Expertenpiloten.",
+    "sunset": "Sonnenuntergangsflüge",
+    "sunsetDesc": "Goldene Stunde über der Blauen Lagune — unvergesslich.",
+    "xc": "Streckenflüge",
+    "xcDesc": "Langstreckenflüge für lizenzierte Solopiloten.",
+    "bookNow": "Jetzt Buchen",
+    "learnMore": "Mehr erfahren"
   },
   "footer": {
     "rights": "Alle Rechte vorbehalten.",
@@ -43,46 +67,12 @@
     "babadag": "Babadağ Berg",
     "flyingPilots": "Fliegen & Piloten",
     "infoHelp": "Info & Hilfe",
-    "contact": "Kontakt",
     "followUs": "Folgen Sie uns"
   },
   "booking": {
     "title": "Paragliding-Flug Buchen",
-    "selectFlight": "Flugtyp wählen",
-    "selectDate": "Datum wählen",
-    "yourName": "Ihr Name",
-    "email": "E-Mail-Adresse",
-    "phone": "Telefonnummer",
-    "passengers": "Anzahl der Passagiere",
-    "message": "Nachricht (optional)",
     "submit": "Jetzt Buchen",
     "success": "Buchungsanfrage gesendet! Wir melden uns innerhalb von 24 Stunden.",
     "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder rufen Sie uns an."
-  },
-  "weather": {
-    "title": "Live-Wetter",
-    "wind": "Wind",
-    "temperature": "Temperatur",
-    "humidity": "Luftfeuchtigkeit",
-    "visibility": "Sichtweite",
-    "flyable": "Flugbereit",
-    "notFlyable": "Heute nicht flugbereit",
-    "checkBack": "Später wieder prüfen"
-  },
-  "prices": {
-    "title": "Paragliding Preise",
-    "tandem": "Tandemflug",
-    "acro": "Akroflug",
-    "sunset": "Sonnenuntergangsflug",
-    "includes": "Inklusive",
-    "bookNow": "Diesen Flug buchen"
-  },
-  "faq": {
-    "title": "Häufig gestellte Fragen",
-    "subtitle": "Alles was Sie vor Ihrem Flug wissen müssen"
-  },
-  "about": {
-    "title": "Über uns",
-    "subtitle": "25+ Jahre sicheres Paragliding in Ölüdeniz"
   }
 }

@@ -13,29 +13,53 @@
     "learnMore": "Daha Fazla",
     "viewAll": "Tümünü Gör",
     "readMore": "Devamını Oku",
-    "back": "Geri",
-    "close": "Kapat",
-    "loading": "Yükleniyor...",
     "perPerson": "kişi başı",
-    "from": "den itibaren",
-    "minutes": "dakika",
-    "hours": "saat",
-    "altitude": "rakım",
+    "from": "itibaren",
     "phone": "+90 536 461 6674"
   },
   "hero": {
-    "badge": "Babadağ 1960m • Mavi Lagün",
-    "title": "Ölüdeniz Yamaç Paraşütü",
-    "subtitle": "Mavi Lagün Üzerinde Süzülün",
-    "description": "1960m yüksekliğindeki Babadağ'dan havalanın ve Türkiye'nin en güzel paraşüt deneyimini yaşayın. Sertifikalı pilotlar, 25+ yıl deneyim.",
+    "badge": "Dünyanın En İyi Yamaç Paraşütü Destinasyonu · Babadağ 1960m",
+    "title1": "Ölüdeniz'in",
+    "titleHighlight": "Mavi Lagünü",
+    "title2": "Üzerinde Süzülün",
+    "description": "Türkiye'nin en nefes kesici tandem paraşütü deneyimini yaşayın. Babadağ'dan havalanın ve turkuaz sular, antik kalıntılar ve dünyaca ünlü Mavi Lagün üzerinde süzülün.",
     "bookFlight": "Uçuşunuzu Rezerve Edin",
-    "watchVideo": "Video İzle",
-    "stats": {
-      "flights": "Uçuş",
-      "experience": "Yıl Deneyim",
-      "rating": "Değerlendirme",
-      "safety": "Güvenlik Rekoru"
-    }
+    "learnMore": "Daha Fazla Bilgi",
+    "trust1": "Tam Sertifikalı & Sigortalı",
+    "trust2": "4.9 / 5 — 2.400'den Fazla Yorum",
+    "trust3": "25+ Yıl Deneyim"
+  },
+  "whyOludeniz": {
+    "badge": "Neden Ölüdeniz?",
+    "title": "Dünyanın En Güzel Yamaç Paraşütü",
+    "subtitle": "Ölüdeniz sadece bir destinasyon değil — tüm paraşüt alanlarının kendisiyle karşılaştırıldığı bir referans noktası.",
+    "altitude": "Kalkış İrtifası",
+    "altitudeDesc": "Babadağ, Avrupa'daki en yüksek ticari tandem kalkışlarından birini sunar",
+    "flight": "Uçuş Süresi",
+    "flightDesc": "Uzun ve düzgün termikler, çoğu alana kıyasla daha fazla hava süresi ve manzara anlamına gelir",
+    "landing": "Plaj İnişi",
+    "landingDesc": "Doğrudan ünlü Mavi Lagün'ün birkaç adım ötesindeki Ölüdeniz plajına inin",
+    "weather": "Uçuş Günü/Yıl",
+    "weatherDesc": "Ölüdeniz'in olağanüstü mikrokliması sayesinde yılda 300'den fazla uçuş günü",
+    "safety": "Güvenlik Rekoru",
+    "safetyDesc": "Tam sertifikalı, uluslararası lisanslı pilotlarla onlarca yıllık güvenli operasyon",
+    "views": "İkonik Manzaralar",
+    "viewsDesc": "Mavi Lagün, Kelebek Vadisi, Gemiler Adası — hepsi yukarıdan görülebilir"
+  },
+  "flightTypes": {
+    "badge": "Deneyiminizi Seçin",
+    "title": "Her Uçuş, Mükemmel Şekilde Kişiselleştirilmiş",
+    "subtitle": "İlk kez uçanlardan deneyimli pilotlara — size uygun uçuşu bulacaksınız.",
+    "tandem": "Tandem Paraşüt",
+    "tandemDesc": "Sertifikalı bir eğitmenle uçun. Deneyim gerekmez.",
+    "acro": "Akro Uçuşlar",
+    "acroDesc": "Uzman pilotlarla heyecan verici akrobatik manevra uçuşları.",
+    "sunset": "Gün Batımı Uçuşları",
+    "sunsetDesc": "Mavi Lagün üzerinde altın saat — unutulmaz bir deneyim.",
+    "xc": "Kros Uçuşlar",
+    "xcDesc": "Lisanslı solo pilotlar için uzun mesafeli uçuşlar.",
+    "bookNow": "Rezervasyon Yap",
+    "learnMore": "Daha Fazla Bilgi"
   },
   "footer": {
     "rights": "Tüm hakları saklıdır.",
@@ -43,46 +67,12 @@
     "babadag": "Babadağ Dağı",
     "flyingPilots": "Uçuş & Pilotlar",
     "infoHelp": "Bilgi & Yardım",
-    "contact": "Bize Ulaşın",
     "followUs": "Bizi Takip Edin"
   },
   "booking": {
     "title": "Yamaç Paraşütü Uçuşu Rezervasyonu",
-    "selectFlight": "Uçuş Türü Seçin",
-    "selectDate": "Tarih Seçin",
-    "yourName": "Adınız",
-    "email": "E-posta Adresi",
-    "phone": "Telefon Numarası",
-    "passengers": "Yolcu Sayısı",
-    "message": "Mesaj (isteğe bağlı)",
     "submit": "Rezervasyon Yap",
     "success": "Rezervasyon talebiniz alındı! 24 saat içinde sizinle iletişime geçeceğiz.",
     "error": "Bir hata oluştu. Lütfen tekrar deneyin veya bizi arayın."
-  },
-  "weather": {
-    "title": "Canlı Hava Durumu",
-    "wind": "Rüzgar",
-    "temperature": "Sıcaklık",
-    "humidity": "Nem",
-    "visibility": "Görüş",
-    "flyable": "Uçuşa Uygun",
-    "notFlyable": "Bugün Uçuşa Uygun Değil",
-    "checkBack": "Daha sonra tekrar kontrol edin"
-  },
-  "prices": {
-    "title": "Yamaç Paraşütü Fiyatları",
-    "tandem": "Tandem Uçuş",
-    "acro": "Akro Uçuş",
-    "sunset": "Gün Batımı Uçuşu",
-    "includes": "Dahil olanlar",
-    "bookNow": "Bu Uçuşu Rezerve Et"
-  },
-  "faq": {
-    "title": "Sıkça Sorulan Sorular",
-    "subtitle": "Uçuşunuzdan önce bilmeniz gereken her şey"
-  },
-  "about": {
-    "title": "Hakkımızda",
-    "subtitle": "Ölüdeniz'de 25+ yıllık güvenli paraşüt deneyimi"
   }
 }

@@ -13,29 +13,53 @@
     "learnMore": "Learn More",
     "viewAll": "View All",
     "readMore": "Read More",
-    "back": "Back",
-    "close": "Close",
-    "loading": "Loading...",
     "perPerson": "per person",
     "from": "from",
-    "minutes": "minutes",
-    "hours": "hours",
-    "altitude": "altitude",
     "phone": "+90 536 461 6674"
   },
   "hero": {
-    "badge": "Babadağ 1960m • Blue Lagoon",
-    "title": "Paragliding in Ölüdeniz",
-    "subtitle": "Soar over the Blue Lagoon",
-    "description": "Launch from Babadağ Mountain at 1960m and experience the most scenic paragliding flight in Turkey. Certified pilots, 25+ years of experience.",
+    "badge": "World's Top Paragliding Destination · Babadağ 1960m",
+    "title1": "Fly Over the",
+    "titleHighlight": "Blue Lagoon",
+    "title2": "of Ölüdeniz",
+    "description": "Experience the most breathtaking tandem paragliding flight in Turkey. Launch from Babadağ Mountain and soar above turquoise waters, ancient ruins and the world-famous Blue Lagoon.",
     "bookFlight": "Book Your Flight",
-    "watchVideo": "Watch Video",
-    "stats": {
-      "flights": "Flights",
-      "experience": "Years Experience",
-      "rating": "Rating",
-      "safety": "Safety Record"
-    }
+    "learnMore": "Learn More",
+    "trust1": "Fully Certified & Insured",
+    "trust2": "4.9 / 5 — 2,400+ Reviews",
+    "trust3": "25+ Years of Experience"
+  },
+  "whyOludeniz": {
+    "badge": "Why Ölüdeniz?",
+    "title": "The World's Most Beautiful Paragliding",
+    "subtitle": "Ölüdeniz isn't just a destination — it's the benchmark against which all other paragliding sites are measured.",
+    "altitude": "Launch Altitude",
+    "altitudeDesc": "Babadağ Mountain gives you one of the highest commercial tandem launches in Europe",
+    "flight": "Flight Duration",
+    "flightDesc": "Long, smooth thermals mean more air time and more views compared to most sites",
+    "landing": "Beach Landing",
+    "landingDesc": "Land directly on Ölüdeniz beach, steps from the famous Blue Lagoon",
+    "weather": "Flying Days/Year",
+    "weatherDesc": "300+ flyable days per year thanks to Ölüdeniz's exceptional microclimate",
+    "safety": "Safety Record",
+    "safetyDesc": "Decades of safe operations with fully certified, internationally licensed pilots",
+    "views": "Iconic Views",
+    "viewsDesc": "Blue Lagoon, Butterfly Valley, Gemiler Island — all visible from above"
+  },
+  "flightTypes": {
+    "badge": "Choose Your Experience",
+    "title": "Every Flight, Perfectly Tailored",
+    "subtitle": "From first-timers to seasoned pilots — we have the right flight for you.",
+    "tandem": "Tandem Paragliding",
+    "tandemDesc": "Fly with a certified instructor. No experience needed.",
+    "acro": "Acro Flights",
+    "acroDesc": "Heart-pumping acrobatic manoeuvres with expert pilots.",
+    "sunset": "Sunset Flights",
+    "sunsetDesc": "Golden hour over the Blue Lagoon — unforgettable.",
+    "xc": "Cross Country",
+    "xcDesc": "Long-distance flights for licensed solo pilots.",
+    "bookNow": "Book Now",
+    "learnMore": "Learn More"
   },
   "footer": {
     "rights": "All rights reserved.",
@@ -43,46 +67,12 @@
     "babadag": "Babadağ Mountain",
     "flyingPilots": "Flying & Pilots",
     "infoHelp": "Info & Help",
-    "contact": "Contact Us",
     "followUs": "Follow Us"
   },
   "booking": {
     "title": "Book Your Paragliding Flight",
-    "selectFlight": "Select Flight Type",
-    "selectDate": "Select Date",
-    "yourName": "Your Name",
-    "email": "Email Address",
-    "phone": "Phone Number",
-    "passengers": "Number of Passengers",
-    "message": "Message (optional)",
     "submit": "Book Now",
     "success": "Booking request sent! We'll contact you within 24 hours.",
     "error": "Something went wrong. Please try again or call us."
-  },
-  "weather": {
-    "title": "Live Weather",
-    "wind": "Wind",
-    "temperature": "Temperature",
-    "humidity": "Humidity",
-    "visibility": "Visibility",
-    "flyable": "Flyable",
-    "notFlyable": "Not Flyable Today",
-    "checkBack": "Check back later"
-  },
-  "prices": {
-    "title": "Paragliding Prices",
-    "tandem": "Tandem Flight",
-    "acro": "Acro Flight",
-    "sunset": "Sunset Flight",
-    "includes": "What's included",
-    "bookNow": "Book This Flight"
-  },
-  "faq": {
-    "title": "Frequently Asked Questions",
-    "subtitle": "Everything you need to know before your flight"
-  },
-  "about": {
-    "title": "About Us",
-    "subtitle": "25+ years of safe paragliding in Ölüdeniz"
   }
 }
