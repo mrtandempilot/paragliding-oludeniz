@@ -16,6 +16,7 @@ const faqItems = [
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
+  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'tandem' })
   return {
     title: `${t('title')} | Book from Babadağ`,
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function TandemPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'tandem' })
 
   const included = [t('inc1'), t('inc2'), t('inc3'), t('inc4'), t('inc5'), t('inc6'), t('inc7')]
@@ -59,8 +61,8 @@ export default async function TandemPage({ params }: { params: Promise<{ locale:
                 ))}
               </ul>
               <div className="flex gap-4 flex-wrap">
-                <Link href="/book-now" className="btn-primary">{t('bookNow')} <ArrowRight className="w-4 h-4" /></Link>
-                <Link href="/prices" className="btn-secondary">{t('viewPrices')}</Link>
+                <Link href={lp("/book-now")} className="btn-primary">{t('bookNow')} <ArrowRight className="w-4 h-4" /></Link>
+                <Link href={lp("/prices")} className="btn-secondary">{t('viewPrices')}</Link>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

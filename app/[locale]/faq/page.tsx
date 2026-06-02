@@ -36,6 +36,7 @@ const faqs = [
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
+  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'faq' })
   return {
     title: `${t('title')} | Paragliding Ölüdeniz`,
@@ -45,6 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function FAQPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'faq' })
 
   return (
@@ -69,7 +71,7 @@ export default async function FAQPage({ params }: { params: Promise<{ locale: st
 
           <div className="mt-12 bg-orange-50 border border-orange-200 rounded-2xl p-8 text-center">
             <p className="text-slate-700 font-medium mb-4">{t('stillQ')}</p>
-            <Link href="/contact" className="btn-primary">
+            <Link href={lp("/contact")} className="btn-primary">
               {t('contactUs')}
             </Link>
           </div>

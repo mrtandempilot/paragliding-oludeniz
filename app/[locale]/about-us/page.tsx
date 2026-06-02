@@ -18,6 +18,7 @@ const milestones = [
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
+  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'about' })
   return {
     title: `${t('title')} | Paragliding Ölüdeniz`,
@@ -27,6 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function AboutUsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'about' })
 
   const stats = [
@@ -52,7 +54,7 @@ export default async function AboutUsPage({ params }: { params: Promise<{ locale
               <h2 className="text-3xl font-bold text-slate-900 mb-4">{t('story')}</h2>
               <p className="text-slate-600 leading-relaxed mb-4">{t('storyText')}</p>
               <p className="text-slate-600 leading-relaxed mb-8">{t('missionText')}</p>
-              <Link href="/book-now" className="btn-primary">
+              <Link href={lp("/book-now")} className="btn-primary">
                 Book a Flight <ArrowRight className="w-5 h-5" />
               </Link>
             </div>

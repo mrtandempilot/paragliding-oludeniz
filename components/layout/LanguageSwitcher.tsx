@@ -1,7 +1,7 @@
 'use client'
 
 import { useLocale } from 'next-intl'
-import { useRouter, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { useState, useRef, useEffect } from 'react'
 import { ChevronDown } from 'lucide-react'
 
@@ -14,7 +14,6 @@ const languages = [
 
 export default function LanguageSwitcher({ isDark }: { isDark: boolean }) {
   const locale = useLocale()
-  const router = useRouter()
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -31,22 +30,21 @@ export default function LanguageSwitcher({ isDark }: { isDark: boolean }) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  function switchLocale(newLocale: string) {
-    setOpen(false)
-    // Strip current locale prefix from pathname
-    let newPath = pathname
+  function getLocalePath(newLocale: string): string {
+    // Remove current locale prefix from pathname
+    let path = pathname
     for (const lang of languages) {
-      if (pathname.startsWith(`/${lang.code}/`)) {
-        newPath = pathname.slice(lang.code.length + 1)
+      if (path.startsWith(`/${lang.code}/`)) {
+        path = path.slice(lang.code.length + 1) // e.g. /ru/about -> /about
         break
-      } else if (pathname === `/${lang.code}`) {
-        newPath = '/'
+      } else if (path === `/${lang.code}`) {
+        path = '/'
         break
       }
     }
-    // Add new locale prefix (except for English which is default)
-    const prefix = newLocale === 'en' ? '' : `/${newLocale}`
-    router.push(`${prefix}${newPath === '/' && newLocale !== 'en' ? '' : newPath}`)
+    // path is now without locale prefix, e.g. /about or /
+    if (newLocale === 'en') return path || '/'
+    return `/${newLocale}${path === '/' ? '' : path}`
   }
 
   return (
@@ -65,18 +63,19 @@ export default function LanguageSwitcher({ isDark }: { isDark: boolean }) {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-1 w-36 bg-white rounded-xl shadow-xl border border-slate-100 py-1 z-50">
+        <div className="absolute right-0 top-full mt-1 w-36 bg-white rounded-xl shadow-xl border border-slate-100 py-1 z-[100]">
           {languages.map((lang) => (
-            <button
+            <a
               key={lang.code}
-              onClick={() => switchLocale(lang.code)}
+              href={getLocalePath(lang.code)}
               className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-orange-50 hover:text-orange-600 ${
                 lang.code === locale ? 'text-orange-600 font-semibold' : 'text-slate-700'
               }`}
+              onClick={() => setOpen(false)}
             >
               <span>{lang.flag}</span>
               <span>{lang.name}</span>
-            </button>
+            </a>
           ))}
         </div>
       )}

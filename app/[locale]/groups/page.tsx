@@ -8,12 +8,14 @@ import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
+  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'groups' })
   return { title: `${t('title')} | Paragliding Ölüdeniz` }
 }
 
 export default async function GroupsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'groups' })
 
   const types = [
@@ -43,7 +45,7 @@ export default async function GroupsPage({ params }: { params: Promise<{ locale:
           </div>
           <div className="bg-orange-50 border border-orange-200 rounded-2xl p-8 text-center">
             <p className="text-slate-700 mb-4">Groups of 4+ receive 10% discount. Groups of 8+ receive 15% off.</p>
-            <Link href="/contact" className="btn-primary">Get a Group Quote <ArrowRight className="w-4 h-4" /></Link>
+            <Link href={lp("/contact")} className="btn-primary">Get a Group Quote <ArrowRight className="w-4 h-4" /></Link>
           </div>
         </div>
       </section>

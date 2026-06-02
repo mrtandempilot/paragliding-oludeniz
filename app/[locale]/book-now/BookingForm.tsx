@@ -1,3 +1,4 @@
+import { useLocale } from 'next-intl'
 'use client'
 
 import { useState } from 'react'
@@ -34,6 +35,8 @@ function calcTotal(flightType: string, guests: number, addons: Record<string, bo
 }
 
 export default function BookingForm() {
+  const locale = useLocale()
+  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const [form, setForm] = useState({
     flight_type: '',
     flight_date: '',
@@ -125,7 +128,7 @@ export default function BookingForm() {
             <MessageCircle className="w-5 h-5" />
             Confirm via WhatsApp
           </a>
-          <Link href="/" className="text-sm text-slate-500 hover:text-slate-700">
+          <Link href={lp("/")} className="text-sm text-slate-500 hover:text-slate-700">
             ← Back to home
           </Link>
         </div>
@@ -399,7 +402,7 @@ export default function BookingForm() {
                   </div>
                 ))}
               </div>
-              <Link href="/prices" className="text-sm text-sky-600 hover:text-sky-700 mt-3 inline-block">
+              <Link href={lp("/prices")} className="text-sm text-sky-600 hover:text-sky-700 mt-3 inline-block">
                 Full price list →
               </Link>
             </div>

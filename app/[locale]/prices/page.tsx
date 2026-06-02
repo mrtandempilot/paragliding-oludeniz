@@ -7,6 +7,7 @@ import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
+  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'prices' })
   return {
     title: t('title'),
@@ -16,6 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function PricesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'prices' })
 
   const packages = [
@@ -92,7 +94,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
                       ))}
                     </ul>
                   </div>
-                  <Link href="/book-now" className={`flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-semibold transition-colors ${pkg.highlight ? 'bg-orange-500 hover:bg-orange-600 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-800'}`}>
+                  <Link href={lp("/book-now")} className={`flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-semibold transition-colors ${pkg.highlight ? 'bg-orange-500 hover:bg-orange-600 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-800'}`}>
                     {t('bookNow')} <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
@@ -121,7 +123,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
             <Star className="w-8 h-8 text-orange-500 mx-auto mb-3" />
             <h3 className="text-xl font-bold text-slate-900 mb-2">{t('groupDiscount')}</h3>
             <p className="text-slate-600 mb-6">{t('groupDesc')}</p>
-            <Link href="/contact" className="btn-primary">
+            <Link href={lp("/contact")} className="btn-primary">
               {t('bookNow')} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
