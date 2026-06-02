@@ -238,7 +238,7 @@
   },
   "liveWeather": {
     "title": "Live-Wetter Ölüdeniz",
-    "subtitle": "Aktuelle Bedingungen am Babadağ-Startplatz.",
+    "subtitle": "Aktuelle Bedingungen am Babadağ und Ölüdeniz-Strand.",
     "badge": "Live-Wetter"
   },
   "acro": {
@@ -263,7 +263,92 @@
   },
   "transfers": {
     "title": "Transfers zum Babadağ",
-    "subtitle": "Von Ölüdeniz, Fethiye und Umgebung zum Babadağ.",
+    "subtitle": "Von überall in der Region zum Babadağ.",
     "badge": "Transfers"
+  },
+  "babadagGuide": {
+    "title": "Babadağ-Bergführer",
+    "subtitle": "Alles über den legendären Startberg.",
+    "badge": "Babadağ-Führer"
+  },
+  "weatherGuide": {
+    "title": "Paragliding-Wetterführer Ölüdeniz",
+    "subtitle": "Die Flugbedingungen in Ölüdeniz verstehen.",
+    "badge": "Wetterführer"
+  },
+  "paramotor": {
+    "title": "Paramotor Ölüdeniz",
+    "subtitle": "Motorisiertes Paragliding entlang der Ölüdeniz-Küste.",
+    "badge": "Paramotor"
+  },
+  "safetyRecord": {
+    "title": "Unsere Sicherheitsbilanz",
+    "subtitle": "Über 25 Jahre. Null ernste Zwischenfälle.",
+    "badge": "Sicherheit zuerst"
+  },
+  "certifications": {
+    "title": "Pilotenzertifizierungen",
+    "subtitle": "Unsere Piloten haben die höchsten internationalen Zertifizierungen.",
+    "badge": "Zertifizierungen"
+  },
+  "community": {
+    "title": "Paragliding-Community Ölüdeniz",
+    "subtitle": "Treten Sie der globalen Paragliding-Community bei.",
+    "badge": "Community"
+  },
+  "crossCountry": {
+    "title": "Streckenflug Ölüdeniz",
+    "subtitle": "XC-Fliegen vom Babadağ über die Fethiye-Region.",
+    "badge": "XC-Fliegen"
+  },
+  "oludenizPara": {
+    "title": "Paragliding Ölüdeniz",
+    "subtitle": "Der vollständige Paragliding-Führer für Ölüdeniz.",
+    "badge": "Ölüdeniz"
+  },
+  "fethiyePara": {
+    "title": "Paragliding Fethiye",
+    "subtitle": "Paragliding in und um Fethiye, Türkei.",
+    "badge": "Fethiye"
+  },
+  "blueLagoon": {
+    "title": "Blaue Lagune Paragliding",
+    "subtitle": "Fliegen Sie über die weltberühmte Blaue Lagune.",
+    "badge": "Blaue Lagune"
+  },
+  "butterfly": {
+    "title": "Schmetterlingstal Paragliding",
+    "subtitle": "Gleiten Sie über das atemberaubende Schmetterlingstal.",
+    "badge": "Schmetterlingstal"
+  },
+  "turkey": {
+    "title": "Paragliding Türkei",
+    "subtitle": "Ölüdeniz — das Paragliding-Ziel Nr. 1 in der Türkei.",
+    "badge": "Türkei"
+  },
+  "thermalsGuide": {
+    "title": "Thermikführer Ölüdeniz",
+    "subtitle": "Thermik und Wetter für Paragliding verstehen.",
+    "badge": "Thermik"
+  },
+  "baseJump": {
+    "title": "Base Jumping Ölüdeniz",
+    "subtitle": "Ölüdeniz ist auch ein bekannter Base-Jumping-Standort.",
+    "badge": "Base Jump"
+  },
+  "pilotServices": {
+    "title": "Pilotendienste Ölüdeniz",
+    "subtitle": "Ausrüstung, Wetterbriefing, Retrieve und Lagerung.",
+    "badge": "Pilotendienste"
+  },
+  "turkeyPara": {
+    "title": "Paragliding Türkei",
+    "subtitle": "Das beste Paragliding der Türkei — Ölüdeniz.",
+    "badge": "Türkei"
+  },
+  "blog": {
+    "title": "Paragliding-Blog",
+    "subtitle": "Tipps, Guides und Geschichten von über Ölüdeniz.",
+    "badge": "Blog"
   }
 }

@@ -237,8 +237,8 @@
     "thermals": "Termikler"
   },
   "liveWeather": {
-    "title": "Ölüdeniz Canlı Hava Durumu",
-    "subtitle": "Babadağ kalkış noktası ve Ölüdeniz plajındaki güncel koşullar.",
+    "title": "Ölüdeniz Canlı Hava",
+    "subtitle": "Babadağ ve Ölüdeniz plajındaki güncel koşullar.",
     "badge": "Canlı Hava"
   },
   "acro": {
@@ -263,7 +263,92 @@
   },
   "transfers": {
     "title": "Babadağ Transferleri",
-    "subtitle": "Ölüdeniz, Fethiye ve çevreden Babadağ'a ulaşım.",
+    "subtitle": "Bölgenin her yerinden Babadağ'a ulaşım.",
     "badge": "Transferler"
+  },
+  "babadagGuide": {
+    "title": "Babadağ Rehberi",
+    "subtitle": "Efsanevi kalkış dağı hakkında bilmeniz gereken her şey.",
+    "badge": "Babadağ Rehberi"
+  },
+  "weatherGuide": {
+    "title": "Ölüdeniz Paraşüt Hava Rehberi",
+    "subtitle": "Ölüdeniz'deki uçuş koşullarını anlamak.",
+    "badge": "Hava Rehberi"
+  },
+  "paramotor": {
+    "title": "Ölüdeniz Paramotor",
+    "subtitle": "Ölüdeniz kıyı şeridinde motorlu paraşüt.",
+    "badge": "Paramotor"
+  },
+  "safetyRecord": {
+    "title": "Güvenlik Rekorumuz",
+    "subtitle": "25 yılı aşkın süre. Sıfır ciddi kaza.",
+    "badge": "Önce Güvenlik"
+  },
+  "certifications": {
+    "title": "Pilot Sertifikaları",
+    "subtitle": "Pilotlarımız en yüksek uluslararası sertifikalara sahip.",
+    "badge": "Sertifikalar"
+  },
+  "community": {
+    "title": "Ölüdeniz Paraşüt Topluluğu",
+    "subtitle": "Ölüdeniz'deki küresel paraşüt topluluğuna katılın.",
+    "badge": "Topluluk"
+  },
+  "crossCountry": {
+    "title": "Ölüdeniz Kros Paraşüt",
+    "subtitle": "Babadağ'dan Fethiye bölgesi üzerinde XC uçuşu.",
+    "badge": "XC Uçuş"
+  },
+  "oludenizPara": {
+    "title": "Ölüdeniz Yamaç Paraşütü",
+    "subtitle": "Türkiye, Ölüdeniz'de yamaç paraşütü rehberi.",
+    "badge": "Ölüdeniz"
+  },
+  "fethiyePara": {
+    "title": "Fethiye Yamaç Paraşütü",
+    "subtitle": "Fethiye ve çevresinde yamaç paraşütü.",
+    "badge": "Fethiye"
+  },
+  "blueLagoon": {
+    "title": "Mavi Lagün Paraşütü",
+    "subtitle": "Dünyaca ünlü Ölüdeniz Mavi Lagünü üzerinde uçun.",
+    "badge": "Mavi Lagün"
+  },
+  "butterfly": {
+    "title": "Kelebek Vadisi Paraşütü",
+    "subtitle": "Babadağ'dan muhteşem Kelebek Vadisi üzerinde süzülün.",
+    "badge": "Kelebek Vadisi"
+  },
+  "turkey": {
+    "title": "Türkiye Yamaç Paraşütü",
+    "subtitle": "Ölüdeniz — Türkiye'nin bir numaralı paraşüt destinasyonu.",
+    "badge": "Türkiye"
+  },
+  "thermalsGuide": {
+    "title": "Ölüdeniz Termik Rehberi",
+    "subtitle": "Paraşüt için termikleri ve havayı anlamak.",
+    "badge": "Termikler"
+  },
+  "baseJump": {
+    "title": "Ölüdeniz Base Jumping",
+    "subtitle": "Ölüdeniz aynı zamanda tanınmış bir base jumping lokasyonu.",
+    "badge": "Base Jump"
+  },
+  "pilotServices": {
+    "title": "Ölüdeniz Pilot Hizmetleri",
+    "subtitle": "Lisanslı pilotlar için ekipman, hava brifing, retriv ve depolama.",
+    "badge": "Pilot Hizmetleri"
+  },
+  "turkeyPara": {
+    "title": "Türkiye Paraşüt",
+    "subtitle": "Türkiye'nin en iyi paraşütü — Ölüdeniz.",
+    "badge": "Türkiye"
+  },
+  "blog": {
+    "title": "Paraşüt Blogu",
+    "subtitle": "Ölüdeniz üzerinden ipuçları, rehberler ve hikayeler.",
+    "badge": "Blog"
   }
 }
