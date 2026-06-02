@@ -74,5 +74,22 @@
     "submit": "Jetzt Buchen",
     "success": "Buchungsanfrage gesendet! Wir melden uns innerhalb von 24 Stunden.",
     "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder rufen Sie uns an."
+  },
+  "babadag": {
+    "badge": "Der Startberg",
+    "title": "Babadağ — Eine Paragliding-Legende",
+    "desc1": "Der Babadağ erhebt sich 1.960 Meter über dem türkisfarbenen Wasser von Ölüdeniz und ist nicht nur ein Berg — er ist das Herzstück eines der größten Paragliding-Ziele der Welt.",
+    "desc2": "Mit vier Startpunkten zwischen 1.200m und 1.900m ist der Babadağ für jeden geeignet — von nervösen Erstfliegern bis zu weltklasse Akro- und XC-Piloten.",
+    "stat1": "Gipfelhöhe",
+    "stat2": "Startpunkte",
+    "stat3": "Flugtage / Jahr",
+    "stat4": "Vertretene Länder",
+    "cta": "Babadağ-Guide erkunden",
+    "floatingLabel": "Über dem Meeresspiegel"
+  },
+  "reviews": {
+    "badge": "Was Gäste sagen",
+    "title": "Über 2.400 Fünf-Sterne-Bewertungen",
+    "cta": "Alle Bewertungen lesen"
   }
 }

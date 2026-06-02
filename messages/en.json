@@ -74,5 +74,22 @@
     "submit": "Book Now",
     "success": "Booking request sent! We'll contact you within 24 hours.",
     "error": "Something went wrong. Please try again or call us."
+  },
+  "babadag": {
+    "badge": "The Launch Mountain",
+    "title": "Babadağ Mountain — A Paragliding Legend",
+    "desc1": "Rising to 1,960 metres above the turquoise waters of Ölüdeniz, Babadağ is not just a mountain — it's the heartbeat of one of the world's greatest paragliding destinations.",
+    "desc2": "With four separate launch points ranging from 1,200m to 1,900m, Babadağ caters to every level — from nervous first-timers to world-class acro and XC pilots.",
+    "stat1": "Summit Altitude",
+    "stat2": "Launch Points",
+    "stat3": "Flying Days / Year",
+    "stat4": "Countries Represented",
+    "cta": "Explore Babadağ Guide",
+    "floatingLabel": "Above Sea Level"
+  },
+  "reviews": {
+    "badge": "What Guests Say",
+    "title": "2,400+ Five-Star Reviews",
+    "cta": "Read All Reviews"
   }
 }

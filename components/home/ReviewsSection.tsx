@@ -1,4 +1,7 @@
+'use client'
+
 import { Star } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 const reviews = [
   {
@@ -46,18 +49,18 @@ const reviews = [
 ]
 
 export default function ReviewsSection() {
+  const t = useTranslations('reviews')
+
   return (
     <section className="section-padding bg-white">
       <div className="container-default">
-        {/* Header */}
         <div className="text-center mb-14">
           <span className="text-orange-500 font-semibold text-sm uppercase tracking-widest">
-            What Guests Say
+            {t('badge')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-4">
-            2,400+ Five-Star Reviews
+            {t('title')}
           </h2>
-          {/* Overall Rating */}
           <div className="flex items-center justify-center gap-2">
             {[...Array(5)].map((_, i) => (
               <Star key={i} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
@@ -67,21 +70,17 @@ export default function ReviewsSection() {
           </div>
         </div>
 
-        {/* Reviews Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reviews.map((review) => (
             <div key={review.name} className="card p-6 flex flex-col">
-              {/* Stars */}
               <div className="flex gap-1 mb-4">
                 {[...Array(review.rating)].map((_, i) => (
                   <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                 ))}
               </div>
-              {/* Text */}
               <p className="text-slate-700 text-sm leading-relaxed flex-1 italic mb-4">
                 &ldquo;{review.text}&rdquo;
               </p>
-              {/* Author */}
               <div className="flex items-center justify-between border-t border-slate-100 pt-4 mt-auto">
                 <div>
                   <p className="font-semibold text-slate-900 text-sm">{review.name}</p>
@@ -93,13 +92,9 @@ export default function ReviewsSection() {
           ))}
         </div>
 
-        {/* View More */}
         <div className="text-center mt-10">
-          <a
-            href="/reviews"
-            className="btn-secondary"
-          >
-            Read All Reviews
+          <a href="/reviews" className="btn-secondary">
+            {t('cta')}
           </a>
         </div>
       </div>

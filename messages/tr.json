@@ -74,5 +74,22 @@
     "submit": "Rezervasyon Yap",
     "success": "Rezervasyon talebiniz alındı! 24 saat içinde sizinle iletişime geçeceğiz.",
     "error": "Bir hata oluştu. Lütfen tekrar deneyin veya bizi arayın."
+  },
+  "babadag": {
+    "badge": "Kalkış Dağı",
+    "title": "Babadağ — Yamaç Paraşütünün Efsanesi",
+    "desc1": "Ölüdeniz'in turkuaz sularının 1960 metre üzerinde yükselen Babadağ, sadece bir dağ değil — dünyanın en büyük yamaç paraşütü destinasyonlarından birinin kalbi.",
+    "desc2": "1200m ile 1900m arasında değişen dört ayrı kalkış noktasıyla Babadağ, ilk kez uçanlardan dünya klasmanındaki akro ve XC pilotlarına kadar her seviyeye hitap eder.",
+    "stat1": "Zirve İrtifası",
+    "stat2": "Kalkış Noktası",
+    "stat3": "Uçuş Günü / Yıl",
+    "stat4": "Temsil Edilen Ülke",
+    "cta": "Babadağ Rehberini Keşfet",
+    "floatingLabel": "Deniz Seviyesinin Üstünde"
+  },
+  "reviews": {
+    "badge": "Misafirlerimiz Ne Diyor",
+    "title": "2.400'den Fazla Beş Yıldızlı Yorum",
+    "cta": "Tüm Yorumları Oku"
   }
 }
