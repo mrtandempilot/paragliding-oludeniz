@@ -1,5 +1,6 @@
-import { useLocale } from 'next-intl'
+
 'use client'
+import { useLocale } from 'next-intl'
 
 import { useState } from 'react'
 import Link from 'next/link'
