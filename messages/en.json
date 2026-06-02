@@ -59,7 +59,17 @@
     "xc": "Cross Country",
     "xcDesc": "Long-distance flights for licensed solo pilots.",
     "bookNow": "Book Now",
-    "learnMore": "Learn More"
+    "learnMore": "Learn More",
+    "paramotor": "Paramotor",
+    "paramotorDesc": "Explore the Ölüdeniz coastline by powered paraglider. Available for flights and training.",
+    "paramotorSub": "Motorised freedom",
+    "groups": "Group Flights",
+    "groupsDesc": "Coming with friends, family or a corporate group? We handle groups of all sizes.",
+    "groupsSub": "Fly together",
+    "tandemSub": "No experience needed",
+    "sunsetSub": "Golden hour magic",
+    "xcSub": "Licensed pilots",
+    "acroSub": "Extreme aerobatics"
   },
   "footer": {
     "rights": "All rights reserved.",

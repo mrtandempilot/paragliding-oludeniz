@@ -59,7 +59,17 @@
     "xc": "Streckenflüge",
     "xcDesc": "Langstreckenflüge für lizenzierte Solopiloten.",
     "bookNow": "Jetzt Buchen",
-    "learnMore": "Mehr erfahren"
+    "learnMore": "Mehr erfahren",
+    "paramotor": "Paramotor",
+    "paramotorDesc": "Erkunden Sie die Küste von Ölüdeniz mit dem motorisierten Gleitschirm. Für Flüge und Training verfügbar.",
+    "paramotorSub": "Motorisierte Freiheit",
+    "groups": "Gruppenflüge",
+    "groupsDesc": "Mit Freunden, Familie oder einer Firmengruppe? Wir kümmern uns um Gruppen jeder Größe.",
+    "groupsSub": "Gemeinsam fliegen",
+    "tandemSub": "Keine Erfahrung nötig",
+    "sunsetSub": "Goldene Stunde",
+    "xcSub": "Lizenzierte Piloten",
+    "acroSub": "Extreme Akrobatik"
   },
   "footer": {
     "rights": "Alle Rechte vorbehalten.",

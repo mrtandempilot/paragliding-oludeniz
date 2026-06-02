@@ -10,7 +10,7 @@ export default function FlightTypesGrid() {
   const flightTypes = [
     {
       title: t('tandem'),
-      subtitle: 'No experience needed',
+      subtitle: t('tandemSub') ,
       description: t('tandemDesc'),
       href: '/tandem-paragliding',
       emoji: '🪂',
@@ -20,7 +20,7 @@ export default function FlightTypesGrid() {
     },
     {
       title: t('sunset'),
-      subtitle: 'Golden hour magic',
+      subtitle: t('sunsetSub'),
       description: t('sunsetDesc'),
       href: '/tandem-paragliding/sunset-flight',
       emoji: '🌅',
@@ -30,7 +30,7 @@ export default function FlightTypesGrid() {
     },
     {
       title: t('xc'),
-      subtitle: 'Licensed pilots',
+      subtitle: t('xcSub'),
       description: t('xcDesc'),
       href: '/cross-country-flights',
       emoji: '🏔️',
@@ -40,7 +40,7 @@ export default function FlightTypesGrid() {
     },
     {
       title: t('acro'),
-      subtitle: 'Extreme aerobatics',
+      subtitle: t('acroSub'),
       description: t('acroDesc'),
       href: '/acro-flights',
       emoji: '🌀',
@@ -49,9 +49,9 @@ export default function FlightTypesGrid() {
       gradient: 'from-purple-500 to-indigo-600',
     },
     {
-      title: 'Paramotor',
-      subtitle: 'Motorised freedom',
-      description: 'Explore the Ölüdeniz coastline by powered paraglider.',
+      title: t('paramotor'),
+      subtitle: t('paramotorSub'),
+      description: t('paramotorDesc'),
       href: '/paramotor',
       emoji: '⚙️',
       badge: '',
@@ -59,9 +59,9 @@ export default function FlightTypesGrid() {
       gradient: 'from-rose-500 to-pink-600',
     },
     {
-      title: 'Group Flights',
-      subtitle: 'Fly together',
-      description: 'Coming with friends, family or a corporate group? We handle groups of all sizes.',
+      title: t('groups'),
+      subtitle: t('groupsSub'),
+      description: t('groupsDesc'),
       href: '/tandem-paragliding/group-flights',
       emoji: '👥',
       badge: 'Group Discount',

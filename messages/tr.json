@@ -59,7 +59,17 @@
     "xc": "Kros Uçuşlar",
     "xcDesc": "Lisanslı solo pilotlar için uzun mesafeli uçuşlar.",
     "bookNow": "Rezervasyon Yap",
-    "learnMore": "Daha Fazla Bilgi"
+    "learnMore": "Daha Fazla Bilgi",
+    "paramotor": "Paramotor",
+    "paramotorDesc": "Motorlu paraşütle Ölüdeniz kıyı şeridini keşfedin. Uçuş ve eğitim için uygun.",
+    "paramotorSub": "Motorlu özgürlük",
+    "groups": "Grup Uçuşları",
+    "groupsDesc": "Arkadaşlar, aile veya kurumsal grup olarak mı geliyorsunuz? Her büyüklükteki grubu yönetiyoruz.",
+    "groupsSub": "Birlikte uçun",
+    "tandemSub": "Deneyim gerekmez",
+    "sunsetSub": "Altın saat büyüsü",
+    "xcSub": "Lisanslı pilotlar",
+    "acroSub": "Aşırı akrobasi"
   },
   "footer": {
     "rights": "Tüm hakları saklıdır.",
