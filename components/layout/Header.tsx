@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import { useLocale } from 'next-intl'
 import Link from 'next/link'
 import { Menu, X, ChevronDown, Phone } from 'lucide-react'
 import { navigation } from '@/lib/navigation'
@@ -12,8 +13,12 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const pathname = usePathname()
+  const locale = useLocale()
 
-  const needsOpaqueHeader = pathname.startsWith('/blog')
+  // Build locale-aware href
+  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
+
+  const needsOpaqueHeader = pathname.includes('/blog')
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
@@ -34,12 +39,8 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 z-10">
-            <span
-              className={`text-xl md:text-2xl font-bold transition-colors ${
-                isDark ? 'text-white' : 'text-slate-900'
-              }`}
-            >
+          <Link href={lp('/')} className="flex items-center gap-2 z-10">
+            <span className={`text-xl md:text-2xl font-bold transition-colors ${isDark ? 'text-white' : 'text-slate-900'}`}>
               🪂 <span className="text-orange-500">Paragliding</span>{' '}
               <span className={isDark ? 'text-white' : 'text-slate-900'}>Ölüdeniz</span>
             </span>
@@ -55,7 +56,7 @@ export default function Header() {
                 onMouseLeave={() => setActiveDropdown(null)}
               >
                 <Link
-                  href={item.href}
+                  href={lp(item.href)}
                   className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     isDark
                       ? 'text-white/90 hover:text-white hover:bg-white/10'
@@ -71,7 +72,7 @@ export default function Header() {
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
-                        href={child.href}
+                        href={lp(child.href)}
                         className="block px-4 py-2.5 text-sm text-slate-700 hover:text-orange-600 hover:bg-orange-50 transition-colors"
                       >
                         {child.label}
@@ -95,20 +96,16 @@ export default function Header() {
               <span>+90 536 461 6674</span>
             </a>
 
-            {/* Language Switcher */}
             <LanguageSwitcher isDark={isDark} />
 
-            <Link href="/book-now" className="btn-primary text-sm px-4 py-2">
+            <Link href={lp('/book-now')} className="btn-primary text-sm px-4 py-2">
               Book Now
             </Link>
 
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className={`lg:hidden p-2 rounded-lg transition-colors ${
-                isDark
-                  ? 'text-white hover:bg-white/10'
-                  : 'text-slate-700 hover:bg-slate-100'
+                isDark ? 'text-white hover:bg-white/10' : 'text-slate-700 hover:bg-slate-100'
               }`}
               aria-label="Toggle menu"
             >
@@ -125,7 +122,7 @@ export default function Header() {
             {navigation.map((item) => (
               <div key={item.href}>
                 <Link
-                  href={item.href}
+                  href={lp(item.href)}
                   className="block px-4 py-3 text-slate-700 font-medium hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
                   onClick={() => setMobileOpen(false)}
                 >
@@ -136,7 +133,7 @@ export default function Header() {
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
-                        href={child.href}
+                        href={lp(child.href)}
                         className="block px-4 py-2 text-sm text-slate-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
                         onClick={() => setMobileOpen(false)}
                       >
@@ -148,14 +145,10 @@ export default function Header() {
               </div>
             ))}
             <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
-              <a
-                href="tel:+905364616674"
-                className="flex items-center gap-2 px-4 py-3 text-slate-700 font-medium"
-              >
+              <a href="tel:+905364616674" className="flex items-center gap-2 px-4 py-3 text-slate-700 font-medium">
                 <Phone className="w-4 h-4 text-orange-500" />
                 +90 536 461 6674
               </a>
-              {/* Mobile Language Switcher */}
               <div className="px-4 py-2 flex gap-2">
                 {['en', 'tr', 'de', 'ru'].map((lang) => (
                   <a
@@ -167,11 +160,7 @@ export default function Header() {
                   </a>
                 ))}
               </div>
-              <Link
-                href="/book-now"
-                className="btn-primary justify-center"
-                onClick={() => setMobileOpen(false)}
-              >
+              <Link href={lp('/book-now')} className="btn-primary justify-center" onClick={() => setMobileOpen(false)}>
                 Book Now
               </Link>
             </div>
