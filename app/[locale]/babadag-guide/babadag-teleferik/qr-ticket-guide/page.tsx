@@ -6,34 +6,33 @@ import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'babadagGuide' })
-  return { title: `Teleferik QR Ticket Guide | Paragliding Ölüdeniz` }
+  const t = {en:"Teleferik QR Ticket Guide",tr:"Teleferik QR Bilet Rehberi",de:"Teleferik QR-Ticket Leitfaden",ru:"Гид по QR-билету телеферика"}
+  return { title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'babadagGuide' })
-
-  const titles: Record<string, string> = {
-    en: 'Teleferik QR Ticket Guide',
-    tr: 'Teleferik QR Bilet Rehberi',
-    de: 'Teleferik QR-Ticket',
-    ru: 'QR-билет канатной дороги',
+  await getTranslations({ locale, namespace: 'babadagGuide' })
+  const titles = {en:"Teleferik QR Ticket Guide",tr:"Teleferik QR Bilet Rehberi",de:"Teleferik QR-Ticket Leitfaden",ru:"Гид по QR-билету телеферика"}
+  const subs = {en:"How to buy and use the Babadağ teleferik QR ticket.",tr:"Babadag teleferik QR bilet nasil satin alinir ve kullanilir.",de:"Wie man das Babadağ-Teleferik QR-Ticket kauft und nutzt.",ru:"Как купить и использовать QR-билет телеферика Бабадаг."}
+  const bodies: Record<string,string[]> = {
+    en: ["Babadağ teleferik tickets can be purchased at the base station ticket office or online via the official teleferik website. Online purchases provide a QR code for faster boarding.","To use your QR ticket: download the ticket to your phone before visiting (internet connection may be limited at the site). Scan the QR code at the turnstile. Both single and return tickets are available.","Price information: current prices are available at the ticket office or on the official website. Children under a certain height travel free. Contact us if you need help purchasing tickets in advance."],
+    tr: ["Babadağ teleferik biletleri alt istasyon gişesinden veya resmi teleferik web sitesinden online satın alınabilir.","QR biletinizi kullanmak için: siteye gelmeden önce bileti telefonunuza indirin. Turnike kapısında QR kodu okutun.","Fiyat bilgisi için gişeye veya resmi web sitesine başvurun."],
+    de: ["Babadağ teleferik tickets can be purchased at the base station ticket office or online via the official teleferik website. Online purchases provide a QR code for faster boarding.","To use your QR ticket: download the ticket to your phone before visiting (internet connection may be limited at the site). Scan the QR code at the turnstile. Both single and return tickets are available.","Price information: current prices are available at the ticket office or on the official website. Children under a certain height travel free. Contact us if you need help purchasing tickets in advance."],
+    ru: ["Babadağ teleferik tickets can be purchased at the base station ticket office or online via the official teleferik website. Online purchases provide a QR code for faster boarding.","To use your QR ticket: download the ticket to your phone before visiting (internet connection may be limited at the site). Scan the QR code at the turnstile. Both single and return tickets are available.","Price information: current prices are available at the ticket office or on the official website. Children under a certain height travel free. Contact us if you need help purchasing tickets in advance."],
   }
-
-  const title = titles[locale] || titles.en
-
+  const title = (titles as any)[locale]||titles.en
+  const sub = (subs as any)[locale]||subs.en
+  const body = bodies[locale]||bodies.en
   return (
     <>
-      <PageHero title={title} subtitle={t('subtitle') || ''} badge={t('badge') || ''} size="sm" />
+      <PageHero title={title} subtitle={sub} size="sm" />
       <div className="bg-slate-50 border-b border-slate-200">
-        <div className="container-default py-3">
-          <BreadcrumbNav items={[{ label: title }]} />
-        </div>
+        <div className="container-default py-3"><BreadcrumbNav items={[{ label: title }]} /></div>
       </div>
       <section className="section-padding bg-white">
-        <div className="container-default max-w-3xl">
-          <p className="text-slate-500 text-center py-12">Content coming soon.</p>
+        <div className="container-default max-w-3xl space-y-4">
+          {body.map((p, i) => <p key={i} className="text-slate-600 leading-relaxed">{p}</p>)}
         </div>
       </section>
       <BookingCTA />

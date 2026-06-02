@@ -6,33 +6,33 @@ import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  return { title: "Babadag Road Guide | Paragliding Oludeniz" }
+  const t = {en:"Babadag Road Guide",tr:"Babadag Yol Rehberi",de:"Babadag Strassenführer",ru:"Дорожный гид Бабадаг"}
+  return { title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'babadagGuide' })
-
-  const titles: Record<string, string> = {
-    en: "Babadag Road Guide",
-    tr: "Babadag Yol Rehberi",
-    de: "Babadag Strassenführer",
-    ru: "Дорожный гид Бабадаг",
+  await getTranslations({ locale, namespace: 'babadagGuide' })
+  const titles = {en:"Babadag Road Guide",tr:"Babadag Yol Rehberi",de:"Babadag Strassenführer",ru:"Дорожный гид Бабадаг"}
+  const subs = {en:"How to get to Babadag launch by road.",tr:"Babadag kalki noktasina yolla nasil gidilir.",de:"So gelangen Sie zum Babadag-Start.",ru:"Как добраться до Бабадага по дороге."}
+  const bodies: Record<string,string[]> = {
+    en: ["The mountain road to Babadağ starts from the Oludeniz junction on the main D400 highway and climbs approximately 1700m. The road is well-maintained tarmac with passing places. Drive time from Oludeniz beach: 30-35 minutes.","All tandem flight transfers are included in our packages. Solo pilots can park at designated areas at the 1200m and 1700m launch points. Road opens daily at 07:00 during season."],
+    tr: ["Babadağ dağ yolu, ana D400 karayolundaki Oludeniz kavşağından başlar ve yaklaşık 1700m'ye tırmanır. Oludeniz plajından sürüş süresi 30-35 dakikadır.","Tüm tandem uçuş transferleri paketlerimize dahildir. Solo pilotlar 1200m ve 1700m kalkış noktalarındaki belirlenen alanlara park edebilir."],
+    de: ["The mountain road to Babadağ starts from the Oludeniz junction on the main D400 highway and climbs approximately 1700m. The road is well-maintained tarmac with passing places. Drive time from Oludeniz beach: 30-35 minutes.","All tandem flight transfers are included in our packages. Solo pilots can park at designated areas at the 1200m and 1700m launch points. Road opens daily at 07:00 during season."],
+    ru: ["The mountain road to Babadağ starts from the Oludeniz junction on the main D400 highway and climbs approximately 1700m. The road is well-maintained tarmac with passing places. Drive time from Oludeniz beach: 30-35 minutes.","All tandem flight transfers are included in our packages. Solo pilots can park at designated areas at the 1200m and 1700m launch points. Road opens daily at 07:00 during season."],
   }
-
-  const title = titles[locale] || titles.en
-
+  const title = (titles as any)[locale]||titles.en
+  const sub = (subs as any)[locale]||subs.en
+  const body = bodies[locale]||bodies.en
   return (
     <>
-      <PageHero title={title} size="sm" />
+      <PageHero title={title} subtitle={sub} size="sm" />
       <div className="bg-slate-50 border-b border-slate-200">
-        <div className="container-default py-3">
-          <BreadcrumbNav items={[{ label: title }]} />
-        </div>
+        <div className="container-default py-3"><BreadcrumbNav items={[{ label: title }]} /></div>
       </div>
       <section className="section-padding bg-white">
-        <div className="container-default max-w-3xl">
-          <p className="text-slate-500 text-center py-12">Content coming soon.</p>
+        <div className="container-default max-w-3xl space-y-4">
+          {body.map((p, i) => <p key={i} className="text-slate-600 leading-relaxed">{p}</p>)}
         </div>
       </section>
       <BookingCTA />

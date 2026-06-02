@@ -6,34 +6,29 @@ import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'babadagGuide' })
-  return { title: `Babadağ 1900m Launch | Paragliding Ölüdeniz` }
+  const t = {en:"1960m Summit Launch",tr:"1960m Zirve Kalkışı",de:"1960m Gipfelstart",ru:"Старт с вершины 1960м"}
+  return { title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'babadagGuide' })
-
-  const titles: Record<string, string> = {
-    en: 'Babadağ 1900m Launch',
-    tr: '1900m Kalkış Noktası',
-    de: '1900m Startplatz',
-    ru: 'Старт 1900м',
-  }
-
-  const title = titles[locale] || titles.en
-
+  await getTranslations({ locale, namespace: 'babadagGuide' })
+  const titles = {en:"1960m Summit Launch",tr:"1960m Zirve Kalkışı",de:"1960m Gipfelstart",ru:"Старт с вершины 1960м"}
+  const subs = {en:"The 1960m summit is the highest launch point on Babadağ, used by competition pilots and experienced XC flyers.",tr:"1960m zirve, yarışma pilotları ve deneyimli XC uçucular tarafından kullanılan Babadağ'ın en yüksek kalkış noktasıdır.",de:"Der 1960m Gipfel ist der höchste Startpunkt am Babadağ, genutzt von Wettbewerbspiloten und erfahrenen XC-Fliegern.",ru:"Вершина 1960м — самая высокая стартовая точка на Бабадаге, используемая соревновательными пилотами."}
+  const bodies = {en:["The 1960m summit is the highest launch point on Babadağ, used by competition pilots and experienced XC flyers. Contact us for access requirements and booking."],tr:["1960m zirve, yarışma pilotları ve deneyimli XC uçucular tarafından kullanılan Babadağ'ın en yüksek kalkış noktasıdır. Erişim gereksinimleri ve rezervasyon için bize ulaşın."],de:["Der 1960m Gipfel ist der höchste Startpunkt am Babadağ, genutzt von Wettbewerbspiloten und erfahrenen XC-Fliegern. Kontaktieren Sie uns für Zugangsanforderungen und Buchung."],ru:["Вершина 1960м — самая высокая стартовая точка на Бабадаге, используемая соревновательными пилотами. Свяжитесь с нами для получения информации о доступе и бронировании."]}
+  type L = keyof typeof titles
+  const title = titles[locale as L]||titles.en
+  const sub = subs[locale as L]||subs.en
+  const body = (bodies as any)[locale]||bodies.en
   return (
     <>
-      <PageHero title={title} subtitle={t('subtitle') || ''} badge={t('badge') || ''} size="sm" />
+      <PageHero title={title} subtitle={sub} size="sm" />
       <div className="bg-slate-50 border-b border-slate-200">
-        <div className="container-default py-3">
-          <BreadcrumbNav items={[{ label: title }]} />
-        </div>
+        <div className="container-default py-3"><BreadcrumbNav items={[{ label: title }]} /></div>
       </div>
       <section className="section-padding bg-white">
-        <div className="container-default max-w-3xl">
-          <p className="text-slate-500 text-center py-12">Content coming soon.</p>
+        <div className="container-default max-w-3xl space-y-4">
+          {body.map((p: string, i: number) => <p key={i} className="text-slate-600 leading-relaxed">{p}</p>)}
         </div>
       </section>
       <BookingCTA />

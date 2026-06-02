@@ -6,33 +6,28 @@ import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  return { title: "Transfer from Marmaris | Paragliding Oludeniz" }
+  const t = {en:"Marmaris to Oludeniz Transfer",tr:"Marmaris Oludeniz Transfer",de:"Marmaris to Oludeniz Transfer",ru:"Marmaris to Oludeniz Transfer"}
+  return { title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'transfers' })
-
-  const titles: Record<string, string> = {
-    en: "Transfer from Marmaris",
-    tr: "Marmaris ten Transfer",
-    de: "Transfer von Marmaris",
-    ru: "Трансфер из Мармариса",
-  }
-
-  const title = titles[locale] || titles.en
-
+  await getTranslations({ locale, namespace: 'transfers' })
+  const titles = {en:"Marmaris to Oludeniz Transfer",tr:"Marmaris Oludeniz Transfer",de:"Marmaris to Oludeniz Transfer",ru:"Marmaris to Oludeniz Transfer"}
+  const subs = {en:"Transfer services to and from Oludeniz.",tr:"Oludeniz'e ve oradan transfer hizmetleri.",de:"Transferdienste nach und von Oludeniz.",ru:"Трансферные услуги в Олюдениз и обратно."}
+  const bodies = {en:["Marmaris is approximately 120km from Oludeniz (2 hours by road). We can arrange private transfers for groups or individuals. Alternatively, regular bus services connect Marmaris to Fethiye, then dolmus to Oludeniz.","Contact us to arrange: WhatsApp +90 536 461 6674"],tr:["Marmaris, Oludeniz'e yaklaşık 120 km uzaklıktadır. Gruplar veya bireyler için özel transfer ayarlayabiliriz.","Düzenlemek için bize ulaşın: WhatsApp +90 536 461 6674"],de:["Marmaris is approximately 120km from Oludeniz (2 hours by road). We can arrange private transfers for groups or individuals. Alternatively, regular bus services connect Marmaris to Fethiye, then dolmus to Oludeniz.","Kontaktieren Sie uns: WhatsApp +90 536 461 6674"],ru:["Marmaris is approximately 120km from Oludeniz (2 hours by road). We can arrange private transfers for groups or individuals. Alternatively, regular bus services connect Marmaris to Fethiye, then dolmus to Oludeniz.","Свяжитесь с нами: WhatsApp +90 536 461 6674"]}
+  const title = (titles as any)[locale]||titles.en
+  const sub = (subs as any)[locale]||subs.en
+  const body = (bodies as any)[locale]||bodies.en
   return (
     <>
-      <PageHero title={title} size="sm" />
+      <PageHero title={title} subtitle={sub} size="sm" />
       <div className="bg-slate-50 border-b border-slate-200">
-        <div className="container-default py-3">
-          <BreadcrumbNav items={[{ label: title }]} />
-        </div>
+        <div className="container-default py-3"><BreadcrumbNav items={[{ label: title }]} /></div>
       </div>
       <section className="section-padding bg-white">
-        <div className="container-default max-w-3xl">
-          <p className="text-slate-500 text-center py-12">Content coming soon.</p>
+        <div className="container-default max-w-3xl space-y-4">
+          {body.map((p: string, i: number) => <p key={i} className="text-slate-600 leading-relaxed">{p}</p>)}
         </div>
       </section>
       <BookingCTA />
