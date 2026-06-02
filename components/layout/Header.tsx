@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { Menu, X, ChevronDown, Phone } from 'lucide-react'
 import { navigation } from '@/lib/navigation'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -12,7 +13,6 @@ export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const pathname = usePathname()
 
-  // Pages without a full-bleed dark hero need an opaque header from the start
   const needsOpaqueHeader = pathname.startsWith('/blog')
 
   useEffect(() => {
@@ -66,7 +66,6 @@ export default function Header() {
                   {item.children && <ChevronDown className="w-3.5 h-3.5" />}
                 </Link>
 
-                {/* Dropdown */}
                 {item.children && activeDropdown === item.label && (
                   <div className="absolute top-full left-0 mt-1 w-52 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50">
                     {item.children.map((child) => (
@@ -85,7 +84,7 @@ export default function Header() {
           </nav>
 
           {/* Right Side */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <a
               href="tel:+905364616674"
               className={`hidden md:flex items-center gap-1.5 text-sm font-medium transition-colors ${
@@ -95,12 +94,14 @@ export default function Header() {
               <Phone className="w-4 h-4" />
               <span>+90 536 461 6674</span>
             </a>
-            <Link
-              href="/book-now"
-              className="btn-primary text-sm px-4 py-2"
-            >
+
+            {/* Language Switcher */}
+            <LanguageSwitcher isDark={isDark} />
+
+            <Link href="/book-now" className="btn-primary text-sm px-4 py-2">
               Book Now
             </Link>
+
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -154,6 +155,18 @@ export default function Header() {
                 <Phone className="w-4 h-4 text-orange-500" />
                 +90 536 461 6674
               </a>
+              {/* Mobile Language Switcher */}
+              <div className="px-4 py-2 flex gap-2">
+                {['en', 'tr', 'de', 'ru'].map((lang) => (
+                  <a
+                    key={lang}
+                    href={lang === 'en' ? '/' : `/${lang}`}
+                    className="px-3 py-1.5 text-sm font-medium rounded-lg border border-slate-200 text-slate-700 hover:border-orange-400 hover:text-orange-600 transition-colors uppercase"
+                  >
+                    {lang}
+                  </a>
+                ))}
+              </div>
               <Link
                 href="/book-now"
                 className="btn-primary justify-center"

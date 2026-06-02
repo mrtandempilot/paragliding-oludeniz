@@ -1,0 +1,88 @@
+{
+  "nav": {
+    "bookNow": "Book Now",
+    "flights": "Flights",
+    "babadag": "Babadağ",
+    "pilots": "Pilots",
+    "info": "Info",
+    "prices": "Prices",
+    "contact": "Contact"
+  },
+  "common": {
+    "bookNow": "Book Now",
+    "learnMore": "Learn More",
+    "viewAll": "View All",
+    "readMore": "Read More",
+    "back": "Back",
+    "close": "Close",
+    "loading": "Loading...",
+    "perPerson": "per person",
+    "from": "from",
+    "minutes": "minutes",
+    "hours": "hours",
+    "altitude": "altitude",
+    "phone": "+90 536 461 6674"
+  },
+  "hero": {
+    "badge": "Babadağ 1960m • Blue Lagoon",
+    "title": "Paragliding in Ölüdeniz",
+    "subtitle": "Soar over the Blue Lagoon",
+    "description": "Launch from Babadağ Mountain at 1960m and experience the most scenic paragliding flight in Turkey. Certified pilots, 25+ years of experience.",
+    "bookFlight": "Book Your Flight",
+    "watchVideo": "Watch Video",
+    "stats": {
+      "flights": "Flights",
+      "experience": "Years Experience",
+      "rating": "Rating",
+      "safety": "Safety Record"
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "tandemFlights": "Tandem Flights",
+    "babadag": "Babadağ Mountain",
+    "flyingPilots": "Flying & Pilots",
+    "infoHelp": "Info & Help",
+    "contact": "Contact Us",
+    "followUs": "Follow Us"
+  },
+  "booking": {
+    "title": "Book Your Paragliding Flight",
+    "selectFlight": "Select Flight Type",
+    "selectDate": "Select Date",
+    "yourName": "Your Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "passengers": "Number of Passengers",
+    "message": "Message (optional)",
+    "submit": "Book Now",
+    "success": "Booking request sent! We'll contact you within 24 hours.",
+    "error": "Something went wrong. Please try again or call us."
+  },
+  "weather": {
+    "title": "Live Weather",
+    "wind": "Wind",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "visibility": "Visibility",
+    "flyable": "Flyable",
+    "notFlyable": "Not Flyable Today",
+    "checkBack": "Check back later"
+  },
+  "prices": {
+    "title": "Paragliding Prices",
+    "tandem": "Tandem Flight",
+    "acro": "Acro Flight",
+    "sunset": "Sunset Flight",
+    "includes": "What's included",
+    "bookNow": "Book This Flight"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know before your flight"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "25+ years of safe paragliding in Ölüdeniz"
+  }
+}
