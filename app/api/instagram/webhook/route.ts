@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic'
-
 import { NextRequest, NextResponse } from 'next/server'
 
 const VERIFY_TOKEN = process.env.INSTAGRAM_WEBHOOK_VERIFY_TOKEN || 'oludeniz_paragliding_2024'

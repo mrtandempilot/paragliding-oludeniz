@@ -1,8 +1,5 @@
-'use client'
-
 import Link from 'next/link'
 import { Phone, Mail, MapPin, Instagram, Facebook } from 'lucide-react'
-import { useLocale } from 'next-intl'
 
 const footerLinks = {
   'Tandem Flights': [
@@ -40,22 +37,23 @@ const footerLinks = {
 }
 
 export default function Footer() {
-  const locale = useLocale()
-  const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
-
   return (
     <footer className="bg-slate-900 text-slate-300">
+      {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+          {/* Brand Column */}
           <div className="lg:col-span-1">
-            <Link href={lp('/')} className="inline-block mb-4">
+            <Link href="/" className="inline-block mb-4">
               <span className="text-xl font-bold text-white">
                 🪂 <span className="text-orange-500">Paragliding</span> Ölüdeniz
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed mb-6">
-              World-class tandem paragliding from Babadağ Mountain over the famous Blue Lagoon of Ölüdeniz, Turkey.
+              World-class tandem paragliding from Babadağ Mountain over the famous Blue Lagoon of
+              Ölüdeniz, Turkey.
             </p>
+            {/* Contact */}
             <div className="space-y-2 text-sm">
               <a href="tel:+905364616674" className="flex items-center gap-2 text-slate-400 hover:text-orange-400 transition-colors">
                 <Phone className="w-4 h-4 flex-shrink-0" />
@@ -70,6 +68,7 @@ export default function Footer() {
                 <span>Ölüdeniz, Fethiye, Muğla, Turkey</span>
               </div>
             </div>
+            {/* Social */}
             <div className="flex gap-3 mt-6">
               <a href="https://instagram.com/paragliding.oludeniz" target="_blank" rel="noopener noreferrer"
                 className="w-9 h-9 bg-slate-800 hover:bg-orange-500 rounded-lg flex items-center justify-center transition-colors" aria-label="Instagram">
@@ -82,6 +81,7 @@ export default function Footer() {
             </div>
           </div>
 
+          {/* Link Columns */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
               <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">
@@ -90,7 +90,7 @@ export default function Footer() {
               <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link.href}>
-                    <Link href={lp(link.href)} className="text-sm text-slate-400 hover:text-orange-400 transition-colors">
+                    <Link href={link.href} className="text-sm text-slate-400 hover:text-orange-400 transition-colors">
                       {link.label}
                     </Link>
                   </li>
@@ -101,16 +101,17 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Bottom Bar */}
       <div className="border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-slate-500">
             © {new Date().getFullYear()} Paragliding Ölüdeniz. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-sm text-slate-500">
-            <Link href={lp('/about-us')} className="hover:text-slate-300 transition-colors">About</Link>
-            <Link href={lp('/certifications')} className="hover:text-slate-300 transition-colors">Certifications</Link>
-            <Link href={lp('/safety-record')} className="hover:text-slate-300 transition-colors">Safety</Link>
-            <Link href={lp('/contact')} className="hover:text-slate-300 transition-colors">Contact</Link>
+            <Link href="/about-us" className="hover:text-slate-300 transition-colors">About</Link>
+            <Link href="/certifications" className="hover:text-slate-300 transition-colors">Certifications</Link>
+            <Link href="/safety-record" className="hover:text-slate-300 transition-colors">Safety</Link>
+            <Link href="/contact" className="hover:text-slate-300 transition-colors">Contact</Link>
           </div>
         </div>
       </div>

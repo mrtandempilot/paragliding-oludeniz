@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic'
-
 import { NextResponse } from 'next/server'
 
 const GRAPH = 'https://graph.facebook.com/v18.0'
