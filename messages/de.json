@@ -1,0 +1,354 @@
+{
+  "nav": {
+    "bookNow": "Buchen",
+    "flights": "Flüge",
+    "babadag": "Babadağ",
+    "pilots": "Piloten",
+    "info": "Info",
+    "prices": "Preise",
+    "contact": "Kontakt"
+  },
+  "common": {
+    "bookNow": "Jetzt Buchen",
+    "learnMore": "Mehr erfahren",
+    "viewAll": "Alle anzeigen",
+    "readMore": "Weiterlesen",
+    "perPerson": "pro Person",
+    "from": "ab",
+    "phone": "+90 536 461 6674"
+  },
+  "hero": {
+    "badge": "Weltbestes Paragliding-Ziel · Babadağ 1960m",
+    "title1": "Über die",
+    "titleHighlight": "Blaue Lagune",
+    "title2": "von Ölüdeniz fliegen",
+    "description": "Erleben Sie den atemberaubendsten Tandem-Paragliding-Flug der Türkei. Starten Sie vom Babadağ-Berg und gleiten Sie über türkisfarbenes Wasser, antike Ruinen und die weltberühmte Blaue Lagune.",
+    "bookFlight": "Flug Buchen",
+    "learnMore": "Mehr erfahren",
+    "trust1": "Vollständig zertifiziert & versichert",
+    "trust2": "4,9 / 5 — über 2.400 Bewertungen",
+    "trust3": "25+ Jahre Erfahrung"
+  },
+  "whyOludeniz": {
+    "badge": "Warum Ölüdeniz?",
+    "title": "Das schönste Paragliding der Welt",
+    "subtitle": "Ölüdeniz ist nicht nur ein Ziel — es ist der Maßstab, an dem alle anderen Paragliding-Orte gemessen werden.",
+    "altitude": "Startaltitude",
+    "altitudeDesc": "Der Babadağ-Berg bietet einen der höchsten kommerziellen Tandemstarts in Europa",
+    "flight": "Flugdauer",
+    "flightDesc": "Lange, ruhige Thermik bedeutet mehr Flugzeit und mehr Ausblicke als an den meisten Standorten",
+    "landing": "Strandlandung",
+    "landingDesc": "Landen Sie direkt am Ölüdeniz-Strand, wenige Schritte von der berühmten Blauen Lagune entfernt",
+    "weather": "Flugtage/Jahr",
+    "weatherDesc": "Über 300 Flugtage pro Jahr dank des außergewöhnlichen Mikroklimas von Ölüdeniz",
+    "safety": "Sicherheitsrekord",
+    "safetyDesc": "Jahrzehntelanger sicherer Betrieb mit vollständig zertifizierten, international lizenzierten Piloten",
+    "views": "Ikonische Aussichten",
+    "viewsDesc": "Blaue Lagune, Schmetterlingstal, Gemiler Insel — alles von oben sichtbar"
+  },
+  "flightTypes": {
+    "badge": "Ihr Erlebnis wählen",
+    "title": "Jeder Flug, perfekt maßgeschneidert",
+    "subtitle": "Von Erstfliegern bis zu erfahrenen Piloten — wir haben den richtigen Flug für Sie.",
+    "tandem": "Tandem-Paragliding",
+    "tandemDesc": "Fliegen Sie mit einem zertifizierten Fluglehrer. Keine Erfahrung nötig.",
+    "acro": "Akro-Flüge",
+    "acroDesc": "Herzrasen garantiert — akrobatische Manöver mit Expertenpiloten.",
+    "sunset": "Sonnenuntergangsflüge",
+    "sunsetDesc": "Goldene Stunde über der Blauen Lagune — unvergesslich.",
+    "xc": "Streckenflüge",
+    "xcDesc": "Langstreckenflüge für lizenzierte Solopiloten.",
+    "bookNow": "Jetzt Buchen",
+    "learnMore": "Mehr erfahren",
+    "paramotor": "Paramotor",
+    "paramotorDesc": "Erkunden Sie die Küste von Ölüdeniz mit dem motorisierten Gleitschirm. Für Flüge und Training verfügbar.",
+    "paramotorSub": "Motorisierte Freiheit",
+    "groups": "Gruppenflüge",
+    "groupsDesc": "Mit Freunden, Familie oder einer Firmengruppe? Wir kümmern uns um Gruppen jeder Größe.",
+    "groupsSub": "Gemeinsam fliegen",
+    "tandemSub": "Keine Erfahrung nötig",
+    "sunsetSub": "Goldene Stunde",
+    "xcSub": "Lizenzierte Piloten",
+    "acroSub": "Extreme Akrobatik"
+  },
+  "footer": {
+    "rights": "Alle Rechte vorbehalten.",
+    "tandemFlights": "Tandemflüge",
+    "babadag": "Babadağ Berg",
+    "flyingPilots": "Fliegen & Piloten",
+    "infoHelp": "Info & Hilfe",
+    "followUs": "Folgen Sie uns"
+  },
+  "booking": {
+    "title": "Paragliding-Flug Buchen",
+    "submit": "Jetzt Buchen",
+    "success": "Buchungsanfrage gesendet! Wir melden uns innerhalb von 24 Stunden.",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder rufen Sie uns an."
+  },
+  "babadag": {
+    "badge": "Der Startberg",
+    "title": "Babadağ — Eine Paragliding-Legende",
+    "desc1": "Der Babadağ erhebt sich 1.960 Meter über dem türkisfarbenen Wasser von Ölüdeniz und ist nicht nur ein Berg — er ist das Herzstück eines der größten Paragliding-Ziele der Welt.",
+    "desc2": "Mit vier Startpunkten zwischen 1.200m und 1.900m ist der Babadağ für jeden geeignet — von nervösen Erstfliegern bis zu weltklasse Akro- und XC-Piloten.",
+    "stat1": "Gipfelhöhe",
+    "stat2": "Startpunkte",
+    "stat3": "Flugtage / Jahr",
+    "stat4": "Vertretene Länder",
+    "cta": "Babadağ-Guide erkunden",
+    "floatingLabel": "Über dem Meeresspiegel"
+  },
+  "reviews": {
+    "badge": "Bewertungen",
+    "title": "Über 2.400 Fünf-Sterne-Bewertungen",
+    "cta": "Alle Bewertungen lesen",
+    "pageTitle": "Gästebewertungen",
+    "pageSubtitle": "Echte Bewertungen von echten Fliegern."
+  },
+  "prices": {
+    "title": "Paragliding Preise Ölüdeniz 2026",
+    "subtitle": "Transparente Preise. Keine versteckten Gebühren.",
+    "badge": "Preise & Pakete",
+    "standard": "Standard Tandemflug",
+    "standardLaunch": "1200m Start",
+    "standardDuration": "25–35 Min.",
+    "high": "Hochaltitude Flug",
+    "highLaunch": "1700m Start",
+    "highDuration": "35–50 Min.",
+    "highBadge": "Am beliebtesten",
+    "sunset": "Sonnenuntergangsflug",
+    "sunsetLaunch": "1200m Start",
+    "sunsetDuration": "20–30 Min.",
+    "sunsetBadge": "Premium",
+    "included": "Inklusive",
+    "addOns": "Extras",
+    "bookNow": "Diesen Flug buchen",
+    "feat1": "Zertifizierter Tandempilot",
+    "feat2": "Komplette Sicherheitsausrüstung",
+    "feat3": "Transfer zum Startplatz",
+    "feat4": "Strandlandung",
+    "feat5": "Haftpflichtversicherung",
+    "featHigh": "Höherer Startplatz (1700m)",
+    "featHigher": "Längere Flugzeit",
+    "featSunset": "Nachmittäglicher Abflug",
+    "featSunset2": "Goldene Stunde über der Blauen Lagune",
+    "groupDiscount": "Gruppenrabatt verfügbar",
+    "groupDesc": "Gruppen ab 4 Personen: 10% Rabatt. Ab 8 Personen: 15% Rabatt."
+  },
+  "bookNow": {
+    "title": "Paragliding-Flug buchen",
+    "subtitle": "In Minuten reservieren. Kostenlose Stornierung bis 24 Stunden vor dem Flug.",
+    "badge": "Online buchen",
+    "name": "Ihr Name",
+    "email": "E-Mail-Adresse",
+    "phone": "Telefonnummer",
+    "date": "Gewünschtes Datum",
+    "flightType": "Flugart",
+    "passengers": "Anzahl der Passagiere",
+    "message": "Nachricht (optional)",
+    "submit": "Buchungsanfrage senden",
+    "success": "Danke! Wir bestätigen Ihre Buchung innerhalb von 2 Stunden.",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "whyBook": "Warum bei uns buchen",
+    "certified": "Zertifiziert & versichert",
+    "free": "Kostenlose Stornierung",
+    "daily": "Tägliche Flüge",
+    "instant": "Schnelle Bestätigung"
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Wir antworten innerhalb von 2 Stunden. Per Telefon, WhatsApp oder E-Mail.",
+    "badge": "Kontakt aufnehmen",
+    "getInTouch": "Kontakt aufnehmen",
+    "whatsapp": "WhatsApp (am schnellsten)",
+    "whatsappDesc": "Schreiben Sie uns jederzeit — wir antworten schnell",
+    "phone": "Telefon",
+    "phoneDesc": "Rufen Sie uns direkt an",
+    "email": "E-Mail",
+    "emailDesc": "Wir antworten innerhalb von 2 Stunden",
+    "location": "Standort",
+    "locationDesc": "Ölüdeniz Strand, Fethiye, Türkei",
+    "hours": "Öffnungszeiten",
+    "hoursDesc": "Täglich 07:00 – 20:00 (April – Oktober)",
+    "sendMessage": "Nachricht senden",
+    "yourName": "Ihr Name",
+    "yourEmail": "Ihre E-Mail",
+    "yourMessage": "Ihre Nachricht",
+    "send": "Nachricht senden"
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "subtitle": "Alles, was Sie vor Ihrem Flug wissen müssen.",
+    "badge": "FAQ",
+    "stillQ": "Noch Fragen?",
+    "contactUs": "Kontaktieren Sie uns"
+  },
+  "about": {
+    "title": "Über uns",
+    "subtitle": "25+ Jahre sicheres Paragliding in Ölüdeniz.",
+    "badge": "Unsere Geschichte",
+    "story": "Unsere Geschichte",
+    "storyText": "Wir fliegen seit den Anfängen des Sports Tandem-Paragliding in Ölüdeniz. Gegründet von leidenschaftlichen Piloten, ist unser Team zu einem der vertrauenswürdigsten Paragliding-Betriebe der Türkei gewachsen.",
+    "mission": "Unsere Mission",
+    "missionText": "Jedem Passagier — vom nervösen Erstflieger bis zum Abenteurer — den sichersten und atemberaubendsten Flug seines Lebens zu ermöglichen.",
+    "certified": "Zertifizierte Piloten",
+    "certifiedDesc": "Alle unsere Piloten haben internationale BHPA/DHV-Zertifizierungen.",
+    "experience": "Jahre Erfahrung",
+    "safety": "Sicherheit zuerst",
+    "safetyDesc": "Makellose Sicherheitsbilanz bei Tausenden von Tandemflügen."
+  },
+  "tandem": {
+    "title": "Tandem-Paragliding Ölüdeniz",
+    "subtitle": "Keine Erfahrung nötig. Fliegen Sie mit einem zertifizierten Piloten über die Blaue Lagune.",
+    "badge": "Tandemflüge",
+    "included": "Inklusive",
+    "inc1": "Vollständige Sicherheitseinweisung vor dem Flug",
+    "inc2": "Zertifizierter, erfahrener Tandempilot",
+    "inc3": "Gesamte Ausrüstung (Gurt, Helm, Gleitschirm)",
+    "inc4": "Transfer von Ölüdeniz zum Babadağ-Startplatz",
+    "inc5": "Ca. 25–45 Minuten Flug",
+    "inc6": "Landung am Ölüdeniz-Strand",
+    "inc7": "Haftpflichtversicherung",
+    "bookNow": "Jetzt buchen",
+    "viewPrices": "Preise ansehen",
+    "firstTime": "Erstmals Fliegen",
+    "firstTimeDesc": "Vollständiger Leitfaden für Anfänger — was erwartet Sie, was anziehen.",
+    "sunsetTitle": "Sonnenuntergangsflüge",
+    "sunsetDesc": "Beobachten Sie den Sonnenuntergang über der Blauen Lagune aus 1200m.",
+    "groupTitle": "Gruppenflüge",
+    "groupDesc": "Mit Freunden oder Familie? Wir betreuen Gruppen jeder Größe.",
+    "safetyTitle": "Sicherheitsleitfaden",
+    "safetyDesc": "Alles über unsere Sicherheitsbilanz und Pilotenqualifikationen."
+  },
+  "safety": {
+    "title": "Sicherheitsbilanz",
+    "subtitle": "Über 25 Jahre. Null ernste Zwischenfälle. So machen wir es.",
+    "badge": "Sicherheit zuerst",
+    "certified": "Zertifizierte Piloten",
+    "equipment": "Ausrüstung",
+    "record": "Sicherheitsbilanz",
+    "procedures": "Verfahren"
+  },
+  "weather": {
+    "title": "Wetterführer Paragliding Ölüdeniz",
+    "subtitle": "Alles über die Flugbedingungen.",
+    "badge": "Wetterführer",
+    "best": "Beste Monate",
+    "wind": "Windrichtungen",
+    "thermals": "Thermik"
+  },
+  "liveWeather": {
+    "title": "Live-Wetter Ölüdeniz",
+    "subtitle": "Aktuelle Bedingungen am Babadağ und Ölüdeniz-Strand.",
+    "badge": "Live-Wetter"
+  },
+  "acro": {
+    "title": "Akro-Paragliding Ölüdeniz",
+    "subtitle": "Eines der weltbesten Akro-Ziele.",
+    "badge": "Akrofliegen"
+  },
+  "training": {
+    "title": "Paragliding-Ausbildung Ölüdeniz",
+    "subtitle": "Lernen Sie mit unseren zertifizierten Lehrern fliegen.",
+    "badge": "Ausbildungskurse"
+  },
+  "solo": {
+    "title": "Solo-Paragliding Ölüdeniz",
+    "subtitle": "Für lizenzierte Piloten, die Ölüdeniz besuchen.",
+    "badge": "Soloflug"
+  },
+  "groups": {
+    "title": "Gruppenparagliding Ölüdeniz",
+    "subtitle": "Wir betreuen Gruppen jeder Größe.",
+    "badge": "Gruppenbuchungen"
+  },
+  "transfers": {
+    "title": "Transfers zum Babadağ",
+    "subtitle": "Von überall in der Region zum Babadağ.",
+    "badge": "Transfers"
+  },
+  "babadagGuide": {
+    "title": "Babadağ-Bergführer",
+    "subtitle": "Alles über den legendären Startberg.",
+    "badge": "Babadağ-Führer"
+  },
+  "weatherGuide": {
+    "title": "Paragliding-Wetterführer Ölüdeniz",
+    "subtitle": "Die Flugbedingungen in Ölüdeniz verstehen.",
+    "badge": "Wetterführer"
+  },
+  "paramotor": {
+    "title": "Paramotor Ölüdeniz",
+    "subtitle": "Motorisiertes Paragliding entlang der Ölüdeniz-Küste.",
+    "badge": "Paramotor"
+  },
+  "safetyRecord": {
+    "title": "Unsere Sicherheitsbilanz",
+    "subtitle": "Über 25 Jahre. Null ernste Zwischenfälle.",
+    "badge": "Sicherheit zuerst"
+  },
+  "certifications": {
+    "title": "Pilotenzertifizierungen",
+    "subtitle": "Unsere Piloten haben die höchsten internationalen Zertifizierungen.",
+    "badge": "Zertifizierungen"
+  },
+  "community": {
+    "title": "Paragliding-Community Ölüdeniz",
+    "subtitle": "Treten Sie der globalen Paragliding-Community bei.",
+    "badge": "Community"
+  },
+  "crossCountry": {
+    "title": "Streckenflug Ölüdeniz",
+    "subtitle": "XC-Fliegen vom Babadağ über die Fethiye-Region.",
+    "badge": "XC-Fliegen"
+  },
+  "oludenizPara": {
+    "title": "Paragliding Ölüdeniz",
+    "subtitle": "Der vollständige Paragliding-Führer für Ölüdeniz.",
+    "badge": "Ölüdeniz"
+  },
+  "fethiyePara": {
+    "title": "Paragliding Fethiye",
+    "subtitle": "Paragliding in und um Fethiye, Türkei.",
+    "badge": "Fethiye"
+  },
+  "blueLagoon": {
+    "title": "Blaue Lagune Paragliding",
+    "subtitle": "Fliegen Sie über die weltberühmte Blaue Lagune.",
+    "badge": "Blaue Lagune"
+  },
+  "butterfly": {
+    "title": "Schmetterlingstal Paragliding",
+    "subtitle": "Gleiten Sie über das atemberaubende Schmetterlingstal.",
+    "badge": "Schmetterlingstal"
+  },
+  "turkey": {
+    "title": "Paragliding Türkei",
+    "subtitle": "Ölüdeniz — das Paragliding-Ziel Nr. 1 in der Türkei.",
+    "badge": "Türkei"
+  },
+  "thermalsGuide": {
+    "title": "Thermikführer Ölüdeniz",
+    "subtitle": "Thermik und Wetter für Paragliding verstehen.",
+    "badge": "Thermik"
+  },
+  "baseJump": {
+    "title": "Base Jumping Ölüdeniz",
+    "subtitle": "Ölüdeniz ist auch ein bekannter Base-Jumping-Standort.",
+    "badge": "Base Jump"
+  },
+  "pilotServices": {
+    "title": "Pilotendienste Ölüdeniz",
+    "subtitle": "Ausrüstung, Wetterbriefing, Retrieve und Lagerung.",
+    "badge": "Pilotendienste"
+  },
+  "turkeyPara": {
+    "title": "Paragliding Türkei",
+    "subtitle": "Das beste Paragliding der Türkei — Ölüdeniz.",
+    "badge": "Türkei"
+  },
+  "blog": {
+    "title": "Paragliding-Blog",
+    "subtitle": "Tipps, Guides und Geschichten von über Ölüdeniz.",
+    "badge": "Blog"
+  }
+}
