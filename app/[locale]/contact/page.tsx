@@ -103,6 +103,4 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
           </div>
         </div>
       </section>
-    </>
-  )
-}
+      <section
