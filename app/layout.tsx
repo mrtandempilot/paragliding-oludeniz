@@ -51,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('js', new Date());
 
             gtag('config', 'G-XDHL6LYTX0');
+            gtag('config', 'AW-1048206545');
           `}
         </Script>
         <Header />
