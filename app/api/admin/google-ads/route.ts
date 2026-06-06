@@ -21,8 +21,15 @@ async function getAccessToken(): Promise<string> {
       grant_type: 'refresh_token',
     }),
   })
-  const data = await res.json()
-  if (!data.access_token) throw new Error('Google OAuth2 token alınamadı: ' + JSON.stringify(data))
+  const text = await res.text()
+  let data: any
+  try { data = JSON.parse(text) } catch {
+    throw new Error(`OAuth yanıtı JSON değil (HTTP ${res.status}): ${text.slice(0, 200)}`)
+  }
+  if (!data.access_token) {
+    const reason = data.error_description || data.error || JSON.stringify(data)
+    throw new Error(`Google OAuth2 token hatası: ${reason}`)
+  }
   return data.access_token
 }
 
