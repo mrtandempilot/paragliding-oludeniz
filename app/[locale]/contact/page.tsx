@@ -108,7 +108,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
           <h2 className="text-2xl font-bold text-slate-900 mb-6">Find Us</h2>
           <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-200 w-full h-96">
             <iframe
-              src="https://maps.google.com/maps?q=36.5497,29.1164&z=16&output=embed"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3185.8!2d29.1164!3d36.5497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c040a3b8468e7f%3A0xf8b926c9bf70503f!2sParagliding%20Oludeniz%20-%20Babada%C4%9F!5e0!3m2!1sen!2str!4v1717000000000!5m2!1sen!2str"
               width="100%"
               height="100%"
               style={{ border: 0 }}

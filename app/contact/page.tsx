@@ -137,7 +137,7 @@ export default function ContactPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-6 text-center">Find Us on the Map</h2>
           <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-200">
             <iframe
-              src="https://maps.google.com/maps?q=36.5497,29.1164&z=16&output=embed"
+                            src="https://maps.google.com/maps?q=36.5497,29.1164&z=16&output=embed"
               width="100%"
               height="420"
               style={{ border: 0 }}

@@ -63,7 +63,7 @@ export const navigation: NavItem[] = [
     href: '/blog',
   },
   {
-    label: 'Contact',
-    href: '/contact',
+        label: 'Contact',
+        href: '/contact',
   },
 ]
