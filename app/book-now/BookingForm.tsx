@@ -86,6 +86,10 @@ export default function BookingForm() {
       if (!res.ok) throw new Error(data.error || 'Something went wrong')
 
       setSuccess({ whatsapp_url: data.whatsapp_url, total: data.total_price })
+      // Google Ads conversion tracking
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'conversion', { send_to: 'AW-1048206545/cXNxCN20udQBENG56fMD' })
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to submit booking. Please try WhatsApp or email.')
     } finally {
