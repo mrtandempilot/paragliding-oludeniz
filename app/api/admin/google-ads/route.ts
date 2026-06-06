@@ -92,7 +92,11 @@ export async function GET(request: Request) {
         headers,
         body: JSON.stringify({ query }),
       })
-      const data = await res.json()
+      const rawText = await res.text()
+      let data: any
+      try { data = JSON.parse(rawText) } catch {
+        return NextResponse.json({ error: `Google Ads API (HTTP ${res.status}): ${rawText.slice(0, 300)}` }, { status: 500 })
+      }
       if (data.error) return NextResponse.json({ error: data.error.message }, { status: 400 })
       // searchStream returns array of batches
       const rows = (data || []).flatMap((batch: any) => batch.results || [])
