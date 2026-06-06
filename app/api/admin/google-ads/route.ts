@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 
-const GOOGLE_ADS_API = 'https://googleads.googleapis.com/v16'
+const GOOGLE_ADS_API = 'https://googleads.googleapis.com/v19'
 
 function getCustomerId() {
   // Dashes olmadan: "123-456-7890" → "1234567890"
