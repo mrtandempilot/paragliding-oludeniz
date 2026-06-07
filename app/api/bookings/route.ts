@@ -150,6 +150,42 @@ export async function POST(request: Request) {
       // Don't fail the request — booking is saved
     }
 
+    // Send WhatsApp notification to pilot (via CallMeBot)
+    try {
+      const WA_PHONE = process.env.WHATSAPP_NOTIFY_PHONE
+      const WA_APIKEY = process.env.WHATSAPP_CALLMEBOT_APIKEY
+
+      if (!WA_PHONE || !WA_APIKEY) {
+        console.error('[Bookings] WHATSAPP_NOTIFY_PHONE / WHATSAPP_CALLMEBOT_APIKEY not set — skipping WhatsApp notification')
+      } else {
+        const dateForWa = new Date(flight_date).toLocaleDateString('en-GB', {
+          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+        })
+
+        const notifyText =
+          `New booking request!\n` +
+          `${FLIGHT_LABELS[flight_type]}\n` +
+          `Date: ${dateForWa}\n` +
+          `Guests: ${guestCount}\n` +
+          `Name: ${first_name} ${last_name}\n` +
+          `Phone: ${phone || 'not provided'}\n` +
+          `Total: EUR${totalPrice}\n` +
+          `https://paragliding-oludeniz.com/admin/bookings`
+
+        const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(WA_PHONE)}&text=${encodeURIComponent(notifyText)}&apikey=${encodeURIComponent(WA_APIKEY)}`
+
+        const waRes = await fetch(url)
+        if (!waRes.ok) {
+          console.error('[Bookings] WhatsApp notify failed:', waRes.status, await waRes.text())
+        } else {
+          console.log('[Bookings] WhatsApp notification sent to', WA_PHONE)
+        }
+      }
+    } catch (waErr) {
+      console.error('[Bookings] WhatsApp notify error:', waErr)
+      // Don't fail the request — booking is saved
+    }
+
     // Build WhatsApp pre-fill message for customer
     const dateFormatted = new Date(flight_date).toLocaleDateString('en-GB', {
       weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
