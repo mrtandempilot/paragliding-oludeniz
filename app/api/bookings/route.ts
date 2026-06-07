@@ -147,13 +147,14 @@ export async function POST(request: Request) {
       // Don't fail the request — booking is saved
     }
 
-    // Send WhatsApp notification to pilot (via CallMeBot)
+    // Send WhatsApp notification to pilot (via Meta WhatsApp Cloud API)
     try {
-      const WA_PHONE = process.env.WHATSAPP_NOTIFY_PHONE
-      const WA_APIKEY = process.env.WHATSAPP_CALLMEBOT_APIKEY
+      const WA_PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID
+      const WA_RECIPIENT = process.env.WHATSAPP_NOTIFY_PHONE
+      const WA_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN
 
-      if (!WA_PHONE || !WA_APIKEY) {
-        console.error('[Bookings] WHATSAPP_NOTIFY_PHONE / WHATSAPP_CALLMEBOT_APIKEY not set — skipping WhatsApp notification')
+      if (!WA_PHONE_NUMBER_ID || !WA_RECIPIENT || !WA_TOKEN) {
+        console.error('[Bookings] WHATSAPP_PHONE_NUMBER_ID / WHATSAPP_NOTIFY_PHONE / WHATSAPP_ACCESS_TOKEN not set — skipping WhatsApp notification')
       } else {
         const dateForWa = new Date(flight_date).toLocaleDateString('en-GB', {
           weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
@@ -169,13 +170,24 @@ export async function POST(request: Request) {
           `Total: EUR${totalPrice}\n` +
           `https://paragliding-oludeniz.com/admin/bookings`
 
-        const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(WA_PHONE)}&text=${encodeURIComponent(notifyText)}&apikey=${encodeURIComponent(WA_APIKEY)}`
+        const waRes = await fetch(`https://graph.facebook.com/v21.0/${WA_PHONE_NUMBER_ID}/messages`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${WA_TOKEN}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            messaging_product: 'whatsapp',
+            to: WA_RECIPIENT,
+            type: 'text',
+            text: { body: notifyText },
+          }),
+        })
 
-        const waRes = await fetch(url)
         if (!waRes.ok) {
           console.error('[Bookings] WhatsApp notify failed:', waRes.status, await waRes.text())
         } else {
-          console.log('[Bookings] WhatsApp notification sent to', WA_PHONE)
+          console.log('[Bookings] WhatsApp notification sent to', WA_RECIPIENT)
         }
       }
     } catch (waErr) {
