@@ -7,15 +7,15 @@ import Link from 'next/link'
 import { Phone, Mail, MessageCircle, CheckCircle, Clock, Shield, ArrowRight, AlertCircle } from 'lucide-react'
 
 const FLIGHT_OPTIONS = [
-  { value: 'standard', label: 'Standard Tandem — 1200m', price: 80, duration: '25–35 min' },
+  { value: 'standard', label: 'Standard Tandem — 1200m', price: 100, duration: '25–35 min' },
   { value: 'high', label: 'High Altitude — 1700m', price: 100, duration: '35–50 min' },
   { value: 'sunset', label: 'Sunset Flight — 1200m', price: 110, duration: '20–30 min' },
 ]
 
 const ADDONS = [
-  { id: 'addon_photo', label: 'Professional Photo Package', price: 25 },
-  { id: 'addon_video', label: 'Professional Video Package', price: 30 },
-  { id: 'addon_bundle', label: 'Photo + Video Bundle', price: 45, highlight: true },
+  { id: 'addon_photo', label: 'Professional Photo Package', price: 0 },
+  { id: 'addon_video', label: 'Professional Video Package', price: 0 },
+  { id: 'addon_bundle', label: 'Photo + Video Bundle', price: 0, highlight: true },
 ]
 
 function calcTotal(flightType: string, guests: number, addons: Record<string, boolean>) {
@@ -27,10 +27,10 @@ function calcTotal(flightType: string, guests: number, addons: Record<string, bo
   else if (guests >= 4) base = Math.round(base * 0.90)
 
   let addon = 0
-  if (addons.addon_bundle) addon = 45
-  else if (addons.addon_photo && addons.addon_video) addon = 45
-  else if (addons.addon_photo) addon = 25
-  else if (addons.addon_video) addon = 30
+  if (addons.addon_bundle) addon = 0
+  else if (addons.addon_photo && addons.addon_video) addon = 0
+  else if (addons.addon_photo) addon = 0
+  else if (addons.addon_video) addon = 0
 
   return base + addon
 }
@@ -280,7 +280,7 @@ export default function BookingForm() {
                           <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">Best value</span>
                         )}
                       </span>
-                      <span className="text-orange-500 font-semibold text-sm">+€{addon.price}</span>
+                      <span className="text-green-600 font-semibold text-sm">{addon.price > 0 ? `+€${addon.price}` : 'Free'}</span>
                     </label>
                   ))}
                 </div>
@@ -393,7 +393,7 @@ export default function BookingForm() {
               <h3 className="font-bold text-slate-900 mb-4">Quick Price Guide</h3>
               <div className="space-y-2 text-sm">
                 {[
-                  { name: 'Standard (1200m)', price: '€80' },
+                  { name: 'Standard (1200m)', price: '€100' },
                   { name: 'High Altitude (1700m)', price: '€100' },
                   { name: 'Sunset Flight', price: '€110' },
                 ].map(p => (

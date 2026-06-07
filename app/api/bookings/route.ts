@@ -12,7 +12,7 @@ function getSupabase() {
 }
 
 const FLIGHT_PRICES: Record<string, number> = {
-  standard: 80,
+  standard: 100,
   high: 100,
   sunset: 110,
 }
@@ -50,11 +50,8 @@ export async function POST(request: Request) {
     // Calculate price
     const guestCount = parseInt(guests) || 1
     const basePerPerson = FLIGHT_PRICES[flight_type] || 80
+    // Add-ons are currently offered free of charge
     let addonPrice = 0
-    if (addon_bundle) addonPrice = 45
-    else if (addon_photo && addon_video) addonPrice = 45
-    else if (addon_photo) addonPrice = 25
-    else if (addon_video) addonPrice = 30
 
     // Group discount
     let basePrice = basePerPerson * guestCount
@@ -100,10 +97,10 @@ export async function POST(request: Request) {
         console.error('[Bookings] GMAIL_APP_PASSWORD not set — skipping email')
       } else {
         const addons = []
-        if (addon_bundle) addons.push('Photo + Video Bundle (+EUR45)')
+        if (addon_bundle) addons.push('Photo + Video Bundle (Free)')
         else {
-          if (addon_photo) addons.push('Photo Package (+EUR25)')
-          if (addon_video) addons.push('Video Package (+EUR30)')
+          if (addon_photo) addons.push('Photo Package (Free)')
+          if (addon_video) addons.push('Video Package (Free)')
         }
 
         const dateStr = new Date(flight_date).toLocaleDateString('en-GB', {
