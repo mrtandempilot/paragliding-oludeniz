@@ -31,6 +31,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // Don't run i18n middleware on any other API routes — they return JSON,
+  // not localized pages, and intl rewriting breaks them (returns HTML 404s).
+  if (pathname.startsWith('/api/')) {
+    return NextResponse.next()
+  }
+
   // Handle i18n routing for all other routes
   return intlMiddleware(request)
 }
