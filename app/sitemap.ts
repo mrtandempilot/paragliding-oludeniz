@@ -43,6 +43,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page('/blue-lagoon-paragliding', 0.85, 'monthly'),
     page('/butterfly-valley-paragliding', 0.85, 'monthly'),
     page('/turkey-paragliding', 0.8, 'monthly'),
+    page('/babadag-road-guide', 0.7, 'monthly'),
+    page('/babadag-teleferik', 0.7, 'monthly'),
 
     // Tandem paragliding sub-pages
     page('/tandem-paragliding/first-time', 0.8, 'monthly'),
