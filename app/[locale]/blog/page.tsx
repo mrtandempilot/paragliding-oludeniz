@@ -26,7 +26,7 @@ async function getArticles() {
     )
     const { data } = await supabase
       .from('articles')
-      .select('slug, title, meta_description, published_at, word_count, category')
+      .select('slug, title, meta_description, published_at, word_count')
       .eq('status', 'published')
       .order('published_at', { ascending: false })
       .limit(20)
