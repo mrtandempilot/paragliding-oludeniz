@@ -26,7 +26,7 @@ async function getArticles() {
     )
     const { data } = await supabase
       .from('articles')
-      .select('slug, title, meta_description, published_at, word_count')
+      .select('slug, title, meta_description, published_at, word_count, hero_image_url, hero_image_alt')
       .eq('status', 'published')
       .order('published_at', { ascending: false })
       .limit(20)
@@ -59,6 +59,15 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((post: any) => (
               <Link key={post.slug} href={`/blog/${post.slug}`} className="card overflow-hidden group hover:shadow-lg transition-shadow">
+                {post.hero_image_url && (
+                  <div className="aspect-[16/9] overflow-hidden">
+                    <img
+                      src={post.hero_image_url}
+                      alt={post.hero_image_alt || post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                )}
                 <div className="p-6">
                   {post.category && (
                     <span className="text-xs font-semibold text-orange-500 uppercase tracking-wider">{post.category}</span>
