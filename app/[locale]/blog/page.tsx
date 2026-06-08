@@ -26,11 +26,15 @@ async function getArticles() {
     )
     const { data } = await supabase
       .from('articles')
-      .select('slug, title, excerpt, published_at, read_time, category')
+      .select('slug, title, meta_description, published_at, word_count, category')
       .eq('status', 'published')
       .order('published_at', { ascending: false })
       .limit(20)
-    return data || []
+    return (data || []).map((a: any) => ({
+      ...a,
+      excerpt: a.meta_description,
+      read_time: a.word_count ? `${Math.max(1, Math.round(a.word_count / 200))} min read` : '5 min read',
+    }))
   } catch {
     return []
   }
