@@ -51,7 +51,7 @@ export default async function FAQPage({ params }: { params: Promise<{ locale: st
 
   return (
     <>
-      <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" />
+      <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" bgImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=85" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
           <BreadcrumbNav items={[{ label: t('title') }]} />

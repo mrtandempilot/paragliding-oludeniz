@@ -19,7 +19,7 @@ export default async function BookNowPage({ params }: { params: Promise<{ locale
 
   return (
     <>
-      <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" />
+      <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" bgImage="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1600&q=85" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
           <BreadcrumbNav items={[{ label: t('title') }]} />

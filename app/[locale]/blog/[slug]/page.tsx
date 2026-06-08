@@ -41,7 +41,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
 
   return (
     <>
-      <PageHero title={article.title} subtitle={article.excerpt || ''} size="sm" />
+      <PageHero title={article.title} subtitle={article.excerpt || ''} size="sm" bgImage="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?w=1600&q=85" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
           <BreadcrumbNav items={[{ label: t('title'), href: '/blog' }, { label: article.title }]} />

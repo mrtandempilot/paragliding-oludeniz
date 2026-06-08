@@ -40,7 +40,7 @@ export default async function AboutUsPage({ params }: { params: Promise<{ locale
 
   return (
     <>
-      <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" />
+      <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" bgImage="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1600&q=85" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
           <BreadcrumbNav items={[{ label: t('title') }]} />

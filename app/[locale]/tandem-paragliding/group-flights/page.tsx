@@ -26,7 +26,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const body = bodies[locale]||bodies.en
   return (
     <>
-      <PageHero title={title} subtitle={sub} size="sm" />
+      <PageHero title={title} subtitle={sub} size="sm" bgImage="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1600&q=85" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3"><BreadcrumbNav items={[{ label: title }]} /></div>
       </div>
