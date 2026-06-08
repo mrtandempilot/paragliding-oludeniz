@@ -39,8 +39,16 @@ export async function runImageAgent(article: ArticleResult, keywords: string[]):
     publicId = ownPhoto.public_id
     altText = ownPhoto.context?.alt || `${article.title} - Paragliding Ölüdeniz`
     await logAgent('image', 'own_photo', 'running', { public_id: publicId })
+  } else if (process.env.FAL_KEY) {
+    // Kendi fotoğraf yok → fal.ai (FLUX) ile özel, Ölüdeniz/Türkiye temalı görsel üret, Cloudinary'e yükle
+    const prompt = buildFalPrompt(keywords, article.title)
+    const generated = await generateWithFalAI(prompt)
+    const cloudinaryResult = await uploadToCloudinary(generated.url, article.slug)
+    imageUrl = cloudinaryResult.secure_url
+    publicId = cloudinaryResult.public_id
+    altText = `${article.title} - Paragliding Ölüdeniz`
   } else {
-    // Kendi fotoğraf yok → Unsplash'tan çek ve Cloudinary'e yükle
+    // Son çare → Unsplash'tan çek ve Cloudinary'e yükle
     const query = buildSearchQuery(keywords)
     const unsplashPhoto = await searchUnsplash(query)
     const cloudinaryResult = await uploadToCloudinary(unsplashPhoto.urls.regular, article.slug)
@@ -141,6 +149,51 @@ function buildSearchQuery(keywords: string[]): string {
   }
 
   return `paragliding turkey mediterranean ${topKeyword.split(' ')[0]}`
+}
+
+// Makale konusuna göre Ölüdeniz/Türkiye/yamaç paraşütü temalı fal.ai prompt'u oluştur
+function buildFalPrompt(keywords: string[], title: string): string {
+  const topKeyword = (keywords[0] || title || 'paragliding').toLowerCase()
+  const scenery = keywords.some(k => /view|sunset|beach|sea|lagoon|landscape/i.test(k))
+  const action = keywords.some(k => /tandem|flight|flying|launch|takeoff|landing|pilot/i.test(k))
+
+  let scene: string
+  if (scenery) {
+    scene = 'a breathtaking aerial view of the turquoise Blue Lagoon and Ölüdeniz beach in Turkey, pine-covered mountains meeting the Mediterranean Sea, paragliders floating in the sky'
+  } else if (action) {
+    scene = `a tandem paraglider in flight high above Ölüdeniz, Turkey, with the turquoise Blue Lagoon and Babadağ mountain visible below, golden sunlight, sense of adventure`
+  } else {
+    scene = `paragliding over Ölüdeniz, Turkey — Babadağ mountain, turquoise Blue Lagoon, Mediterranean coastline, related to "${topKeyword}"`
+  }
+
+  return `Professional travel photography, ${scene}. Vibrant natural colors, sharp focus, golden-hour lighting, wide landscape composition, photorealistic, high detail, no text or watermarks.`
+}
+
+// fal.ai FLUX (schnell) ile görsel üret — döner: { url }
+async function generateWithFalAI(prompt: string): Promise<{ url: string }> {
+  const response = await fetch('https://fal.run/fal-ai/flux/schnell', {
+    method: 'POST',
+    headers: {
+      Authorization: `Key ${process.env.FAL_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      prompt,
+      image_size: 'landscape_16_9',
+      num_images: 1,
+    }),
+  })
+
+  if (!response.ok) {
+    const err = await response.text()
+    throw new Error(`fal.ai generation failed: ${err}`)
+  }
+
+  const data = await response.json()
+  const image = data?.images?.[0]
+  if (!image?.url) throw new Error('fal.ai returned no image')
+
+  return { url: image.url }
 }
 
 async function searchUnsplash(query: string) {

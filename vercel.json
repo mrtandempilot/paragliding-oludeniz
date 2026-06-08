@@ -7,6 +7,10 @@
     {
       "path": "/api/cron/publish-scheduled",
       "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/cron/orchestrator?slot=06:00",
+      "schedule": "0 6 * * *"
     }
   ]
 }
