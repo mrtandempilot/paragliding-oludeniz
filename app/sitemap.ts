@@ -43,6 +43,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page('/blue-lagoon-paragliding', 0.85, 'monthly'),
     page('/butterfly-valley-paragliding', 0.85, 'monthly'),
     page('/turkey-paragliding', 0.8, 'monthly'),
+    page('/babadag-road-guide', 0.7, 'monthly'),
+    page('/babadag-teleferik', 0.7, 'monthly'),
 
     // Tandem paragliding sub-pages
     page('/tandem-paragliding/first-time', 0.8, 'monthly'),
@@ -163,13 +165,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const { data: articles } = await supabase
       .from('articles')
-      .select('slug, updated_at, created_at')
+      .select('slug, published_at, created_at')
       .eq('status', 'published')
       .order('created_at', { ascending: false })
 
     const articlePages: MetadataRoute.Sitemap = (articles || []).map(article => ({
       url: `${BASE_URL}/blog/${article.slug}`,
-      lastModified: new Date(article.updated_at || article.created_at),
+      lastModified: new Date(article.published_at || article.created_at),
       changeFrequency: 'monthly' as const,
       priority: 0.75,
     }))

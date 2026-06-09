@@ -27,7 +27,7 @@ export default async function GroupsPage({ params }: { params: Promise<{ locale:
 
   return (
     <>
-      <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} />
+      <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} bgImage="https://v3b.fal.media/files/b/0a9d7c09/2htlcwkJ6pcLBY7gPtf7z.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
           <BreadcrumbNav items={[{ label: t('title') }]} />

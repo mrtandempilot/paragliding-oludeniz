@@ -29,7 +29,7 @@ export default async function ReviewsPage({ params }: { params: Promise<{ locale
 
   return (
     <>
-      <PageHero title={t('pageTitle')} subtitle={t('pageSubtitle')} badge={t('badge')} size="sm" />
+      <PageHero title={t('pageTitle')} subtitle={t('pageSubtitle')} badge={t('badge')} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c09/2htlcwkJ6pcLBY7gPtf7z.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
           <BreadcrumbNav items={[{ label: t('pageTitle') }]} />

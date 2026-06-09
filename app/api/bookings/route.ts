@@ -12,7 +12,7 @@ function getSupabase() {
 }
 
 const FLIGHT_PRICES: Record<string, number> = {
-  standard: 80,
+  standard: 100,
   high: 100,
   sunset: 110,
 }
@@ -50,11 +50,8 @@ export async function POST(request: Request) {
     // Calculate price
     const guestCount = parseInt(guests) || 1
     const basePerPerson = FLIGHT_PRICES[flight_type] || 80
+    // Add-ons are currently offered free of charge
     let addonPrice = 0
-    if (addon_bundle) addonPrice = 45
-    else if (addon_photo && addon_video) addonPrice = 45
-    else if (addon_photo) addonPrice = 25
-    else if (addon_video) addonPrice = 30
 
     // Group discount
     let basePrice = basePerPerson * guestCount
@@ -100,10 +97,10 @@ export async function POST(request: Request) {
         console.error('[Bookings] GMAIL_APP_PASSWORD not set — skipping email')
       } else {
         const addons = []
-        if (addon_bundle) addons.push('Photo + Video Bundle (+EUR45)')
+        if (addon_bundle) addons.push('Photo + Video Bundle (Free)')
         else {
-          if (addon_photo) addons.push('Photo Package (+EUR25)')
-          if (addon_video) addons.push('Video Package (+EUR30)')
+          if (addon_photo) addons.push('Photo Package (Free)')
+          if (addon_video) addons.push('Video Package (Free)')
         }
 
         const dateStr = new Date(flight_date).toLocaleDateString('en-GB', {
@@ -147,6 +144,54 @@ export async function POST(request: Request) {
       }
     } catch (emailErr) {
       console.error('[Bookings] Email send failed:', emailErr)
+      // Don't fail the request — booking is saved
+    }
+
+    // Send WhatsApp notification to pilot (via Meta WhatsApp Cloud API)
+    try {
+      const WA_PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID
+      const WA_RECIPIENT = process.env.WHATSAPP_NOTIFY_PHONE
+      const WA_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN
+
+      if (!WA_PHONE_NUMBER_ID || !WA_RECIPIENT || !WA_TOKEN) {
+        console.error('[Bookings] WHATSAPP_PHONE_NUMBER_ID / WHATSAPP_NOTIFY_PHONE / WHATSAPP_ACCESS_TOKEN not set — skipping WhatsApp notification')
+      } else {
+        const dateForWa = new Date(flight_date).toLocaleDateString('en-GB', {
+          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+        })
+
+        const notifyText =
+          `New booking request!\n` +
+          `${FLIGHT_LABELS[flight_type]}\n` +
+          `Date: ${dateForWa}\n` +
+          `Guests: ${guestCount}\n` +
+          `Name: ${first_name} ${last_name}\n` +
+          `Phone: ${phone || 'not provided'}\n` +
+          `Total: EUR${totalPrice}\n` +
+          `https://paragliding-oludeniz.com/admin/bookings`
+
+        const waRes = await fetch(`https://graph.facebook.com/v21.0/${WA_PHONE_NUMBER_ID}/messages`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${WA_TOKEN}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            messaging_product: 'whatsapp',
+            to: WA_RECIPIENT,
+            type: 'text',
+            text: { body: notifyText },
+          }),
+        })
+
+        if (!waRes.ok) {
+          console.error('[Bookings] WhatsApp notify failed:', waRes.status, await waRes.text())
+        } else {
+          console.log('[Bookings] WhatsApp notification sent to', WA_RECIPIENT)
+        }
+      }
+    } catch (waErr) {
+      console.error('[Bookings] WhatsApp notify error:', waErr)
       // Don't fail the request — booking is saved
     }
 

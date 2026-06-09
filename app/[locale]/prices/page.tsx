@@ -24,7 +24,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
     {
       name: t('standard'),
       launch: t('standardLaunch'),
-      price: '€80',
+      price: '€100',
       duration: t('standardDuration'),
       highlight: false,
       badge: '',
@@ -51,15 +51,15 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
   ]
 
   const addOns = [
-    { name: 'Professional Photo Package', price: '€25', desc: 'Photos taken by your pilot during flight' },
-    { name: 'Professional Video Package', price: '€30', desc: 'HD video of your entire flight' },
-    { name: 'Photo + Video Bundle', price: '€45', desc: 'Best value — both photo and video' },
+    { name: 'Professional Photo Package', price: 'Free', desc: 'Photos taken by your pilot during flight' },
+    { name: 'Professional Video Package', price: 'Free', desc: 'HD video of your entire flight' },
+    { name: 'Photo + Video Bundle', price: 'Free', desc: 'Best value — both photo and video' },
     { name: 'GoPro Mount', price: '€10', desc: 'Mount for your own GoPro or phone' },
   ]
 
   return (
     <>
-      <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" />
+      <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c0d/dOEuj7ebfM-MdyvUcunPD.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
           <BreadcrumbNav items={[{ label: t('title') }]} />
