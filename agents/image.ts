@@ -179,34 +179,34 @@ function buildFalPrompt(keywords: string[], title: string): string {
   let scene: string
 
   if (isGoPro) {
-    scene = 'a tandem paraglider pilot wearing a GoPro camera on helmet, soaring high above the turquoise Blue Lagoon of Ölüdeniz Turkey, first-person perspective from the cockpit, crystal clear water and white sandy beach far below, vibrant colors'
+    scene = 'a GoPro camera mounted on a paragliding helmet, aerial first-person view soaring above the turquoise Blue Lagoon of Ölüdeniz Turkey, paraglider control bars and lines visible, crystal clear water and white sandy Ölüdeniz beach far below, vibrant colors'
   } else if (isSunset) {
     scene = 'a paraglider silhouetted against a dramatic golden-orange sunset sky above Ölüdeniz Turkey, the Blue Lagoon glowing amber below, warm cinematic light, breathtaking atmosphere'
   } else if (isBeginner) {
-    scene = 'a happy first-time tandem paragliding passenger with wide smile and arms stretched out, soaring above the turquoise Blue Lagoon of Ölüdeniz Turkey, sense of pure joy and freedom, Babadağ mountain in background'
+    scene = 'tandem paraglider wing and control bars soaring above the turquoise Blue Lagoon of Ölüdeniz Turkey, Babadağ mountain in background, sense of pure freedom and adventure, stunning aerial view of white sandy beach'
   } else if (isWear) {
-    scene = 'a tandem paragliding pilot and passenger in proper paragliding gear — helmets, harnesses, comfortable sportswear — ready for takeoff on Babadağ mountain above Ölüdeniz Turkey, professional equipment clearly visible'
+    scene = 'paragliding equipment laid out on Babadağ mountain takeoff site above Ölüdeniz Turkey — helmet, harness, wing — with stunning turquoise Blue Lagoon and Mediterranean Sea visible in the background'
   } else if (isGoPro || isWeather) {
     scene = 'dramatic paragliding conditions above Ölüdeniz Turkey — puffy white clouds, thermals rising from Babadağ mountain, a paraglider navigating the blue sky, Mediterranean coastline stretching to the horizon'
   } else if (isSafety) {
-    scene = 'a certified tandem paragliding instructor checking equipment before flight at Babadağ takeoff site above Ölüdeniz Turkey, safety harness and helmet clearly visible, professional and reassuring atmosphere'
+    scene = 'professional paragliding safety equipment — harness, helmet, reserve parachute — arranged on the Babadağ takeoff platform above Ölüdeniz Turkey, turquoise Blue Lagoon visible below, reassuring and professional'
   } else if (isAcro) {
-    scene = 'an acro paraglider performing a dramatic spiral dive above the Blue Lagoon of Ölüdeniz Turkey, wing fully banked, turquoise water far below, action-packed and dynamic composition'
+    scene = 'a colorful acro paraglider wing in a dramatic spiral dive above the Blue Lagoon of Ölüdeniz Turkey, wing fully banked, turquoise water far below, action-packed dynamic composition'
   } else if (isGroup) {
-    scene = 'multiple colorful paragliders flying in formation above the Blue Lagoon of Ölüdeniz Turkey, group flying experience, Mediterranean coastline and pine forests below, festive adventure atmosphere'
+    scene = 'multiple colorful paraglider wings flying in formation above the Blue Lagoon of Ölüdeniz Turkey, Mediterranean coastline and pine forests below, festive adventure atmosphere'
   } else if (isBabadag) {
     scene = 'the majestic Babadağ mountain above Ölüdeniz Turkey at 1969 meters, pine forests clinging to steep slopes, paragliding takeoff platforms visible, turquoise Blue Lagoon and Mediterranean Sea stretching below'
   } else if (isLanding) {
-    scene = 'a tandem paraglider coming in to land on the famous Ölüdeniz beach next to the Blue Lagoon, white sand, turquoise water, crowds watching, perfect Mediterranean setting'
+    scene = 'a colorful paraglider wing coming in to land on the famous Ölüdeniz beach next to the Blue Lagoon, white sand, turquoise water, perfect Mediterranean setting'
   } else if (isScenery) {
     scene = 'breathtaking aerial view of the turquoise Blue Lagoon and Ölüdeniz beach Turkey from a paraglider perspective, pine-covered mountains meeting the Mediterranean Sea, crystal clear water, postcard-perfect landscape'
   } else if (isAction) {
-    scene = 'a tandem paraglider in full flight high above Ölüdeniz Turkey, Blue Lagoon and Babadağ mountain visible below, golden sunlight, dynamic sense of speed and freedom'
+    scene = 'a colorful tandem paraglider wing in full flight high above Ölüdeniz Turkey, turquoise Blue Lagoon and Babadağ mountain visible below, golden sunlight, dynamic sense of speed and freedom'
   } else {
     scene = `paragliding over Ölüdeniz Turkey — turquoise Blue Lagoon, Babadağ mountain, Mediterranean coastline, adventure and freedom in the sky`
   }
 
-  return `Professional travel photography, ${scene}. Vibrant natural colors, sharp focus, wide landscape composition, photorealistic, ultra high detail, no text, no watermarks, no logos.`
+  return `Professional aerial travel photography, ${scene}. No people, no humans, no body parts. Only landscape, equipment, and nature. Vibrant natural colors, sharp focus, wide landscape composition, photorealistic, ultra high detail, no text, no watermarks, no logos.`
 }
 
 // fal.ai FLUX (schnell) ile görsel üret — döner: { url }
