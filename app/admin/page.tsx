@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import DashboardPilotControl from './DashboardPilotControl'
 import DashboardSocialPanel from './DashboardSocialPanel'
 import DashboardCronPanel from './DashboardCronPanel'
+import DashboardActivityPanel from './DashboardActivityPanel'
 
 function getSupabase() {
   return createClient(
@@ -18,7 +19,7 @@ export default async function AdminDashboardPage() {
   const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
 
   // ── ContentPilot settings ───────────────────────────────────────────────
-  const [settingsRes, lastRunRes, todayCostRes, pendingTopicsRes, articlesRes, recentLogsRes] =
+  const [settingsRes, lastRunRes, todayCostRes, pendingTopicsRes, articlesRes, recentLogsRes, recentArticlesRes] =
     await Promise.allSettled([
       supabase.from('settings').select('key,value').in('key', ['pilot_enabled', 'pilot_slots']),
       supabase.from('agent_logs').select('*').eq('agent', 'orchestrator').order('created_at', { ascending: false }).limit(1).single(),
@@ -26,6 +27,7 @@ export default async function AdminDashboardPage() {
       supabase.from('topics').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
       supabase.from('articles').select('id', { count: 'exact', head: true }).gte('created_at', weekAgo),
       supabase.from('agent_logs').select('id,agent,action,status,created_at').order('created_at', { ascending: false }).limit(8),
+      supabase.from('articles').select('id,title,slug,image_url,created_at,status').eq('status', 'published').order('created_at', { ascending: false }).limit(4),
     ])
 
   const settings: Record<string, string> = {}
@@ -46,6 +48,9 @@ export default async function AdminDashboardPage() {
   const recentLogs = recentLogsRes.status === 'fulfilled' && recentLogsRes.value.data
     ? recentLogsRes.value.data
     : []
+  const recentArticles = recentArticlesRes.status === 'fulfilled' && recentArticlesRes.value.data
+    ? recentArticlesRes.value.data
+    : []
 
   // ── Instagram / Social stats ────────────────────────────────────────────
   const [
@@ -57,7 +62,7 @@ export default async function AdminDashboardPage() {
     supabase.from('instagram_posts').select('id', { count: 'exact', head: true }).eq('status', 'draft'),
     supabase.from('instagram_posts').select('id', { count: 'exact', head: true }).eq('status', 'scheduled'),
     supabase.from('instagram_posts').select('id,caption,post_type,notes').eq('status', 'failed').order('created_at', { ascending: false }).limit(5),
-    supabase.from('instagram_posts').select('id,image_url,post_type,posted_at,instagram_id').eq('status', 'posted').order('posted_at', { ascending: false }).limit(6),
+    supabase.from('instagram_posts').select('id,image_url,caption,post_type,posted_at,instagram_id').eq('status', 'posted').order('posted_at', { ascending: false }).limit(4),
     supabase.from('instagram_posts').select('id,caption,image_url,scheduled_at').eq('status', 'scheduled').gte('scheduled_at', now.toISOString()).order('scheduled_at', { ascending: true }).limit(1).single(),
     supabase.from('instagram_posts').select('post_type').eq('status', 'posted').gte('posted_at', monthAgo),
     supabase.from('instagram_posts').select('posted_at').eq('status', 'posted').order('posted_at', { ascending: false }).limit(1).single(),
@@ -106,7 +111,7 @@ export default async function AdminDashboardPage() {
         <p className="text-slate-500 mt-1">İşte bugünün özeti</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
         <DashboardPilotControl
           initialEnabled={pilotEnabled}
           initialSlots={pilotSlots}
@@ -117,6 +122,10 @@ export default async function AdminDashboardPage() {
           recentLogs={recentLogs}
         />
         <DashboardSocialPanel stats={postStats} />
+        <DashboardActivityPanel
+          articles={recentArticles as any[]}
+          instaPosts={recentPosted as any[]}
+        />
       </div>
 
       <DashboardCronPanel />
