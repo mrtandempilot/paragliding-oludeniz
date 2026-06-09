@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 import { createClient } from '@supabase/supabase-js'
 import { Bot, Image as ImageIcon, Search, Share2, Cpu, Activity, Zap, Clock, CheckCircle2, AlertCircle, Circle, RefreshCw } from 'lucide-react'
 
