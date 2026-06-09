@@ -9,10 +9,12 @@ import {
   Bot,
   Megaphone,
   Search,
+  Radar,
 } from 'lucide-react'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/mission-control', label: 'Mission Control', icon: Radar },
   { href: '/admin/bookings', label: 'Rezervasyonlar', icon: CalendarCheck },
   { href: '/admin/content-pilot', label: 'ContentPilot AI', icon: Bot },
   { href: '/admin/instagram', label: 'Instagram', icon: Instagram },
@@ -40,14 +42,22 @@ export default function AdminSidebar() {
       <nav className="flex-1 px-3 py-4 space-y-1">
         {navItems.map((item) => {
           const Icon = item.icon
+          const isMission = item.href === '/admin/mission-control'
           return (
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-150"
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
+                isMission
+                  ? 'text-violet-300 hover:text-violet-100 hover:bg-violet-900/40'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+              }`}
             >
               <Icon className="w-4 h-4 flex-shrink-0" />
               <span>{item.label}</span>
+              {isMission && (
+                <span className="ml-auto w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              )}
             </Link>
           )
         })}
