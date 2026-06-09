@@ -38,20 +38,20 @@ export async function runImageAgent(article: ArticleResult, keywords: string[]):
   let unsplashAuthorUrl = ''
   let publicId: string
 
-  if (ownPhoto) {
-    // Kendi fotoğrafı bulundu — direkt kullan, Unsplash'a gitme
-    imageUrl = ownPhoto.secure_url
-    publicId = ownPhoto.public_id
-    altText = ownPhoto.context?.alt || `${article.title} - Paragliding Ölüdeniz`
-    await logAgent('image', 'own_photo', 'running', { public_id: publicId })
-  } else if (process.env.FAL_KEY) {
-    // Kendi fotoğraf yok → fal.ai (FLUX) ile özel, Ölüdeniz/Türkiye temalı görsel üret, Cloudinary'e yükle
+  if (process.env.FAL_KEY) {
+    // fal.ai (FLUX) ile blog yazısına özel, Ölüdeniz/Türkiye temalı görsel üret
     const prompt = buildFalPrompt(keywords, article.title)
     const generated = await generateWithFalAI(prompt)
     const cloudinaryResult = await uploadToCloudinary(generated.url, article.slug)
     imageUrl = cloudinaryResult.secure_url
     publicId = cloudinaryResult.public_id
     altText = `${article.title} - Paragliding Ölüdeniz`
+  } else if (ownPhoto) {
+    // fal.ai yok → kendi fotoğraflarına bak
+    imageUrl = ownPhoto.secure_url
+    publicId = ownPhoto.public_id
+    altText = ownPhoto.context?.alt || `${article.title} - Paragliding Ölüdeniz`
+    await logAgent('image', 'own_photo', 'running', { public_id: publicId })
   } else {
     // Son çare → Unsplash'tan çek ve Cloudinary'e yükle
     const query = buildSearchQuery(keywords)
