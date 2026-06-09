@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Clock, ArrowRight } from 'lucide-react'
 import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
@@ -60,11 +61,13 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
             {posts.map((post: any) => (
               <Link key={post.slug} href={`/blog/${post.slug}`} className="card overflow-hidden group hover:shadow-lg transition-shadow">
                 {post.hero_image_url && (
-                  <div className="aspect-[16/9] overflow-hidden">
-                    <img
+                  <div className="aspect-[16/9] overflow-hidden relative">
+                    <Image
                       src={post.hero_image_url}
                       alt={post.hero_image_alt || post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                 )}

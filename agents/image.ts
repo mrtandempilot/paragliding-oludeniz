@@ -16,6 +16,11 @@ export interface ImageResult {
 }
 
 const UNSPLASH_BASE = 'https://api.unsplash.com'
+function optimizeCloudinaryUrl(url: string): string {
+  if (!url.includes("res.cloudinary.com")) return url
+  return url.replace("/image/upload/", "/image/upload/q_auto,f_auto,w_1200,c_limit/")
+}
+
 const CLOUDINARY_BASE = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}`
 
 export async function runImageAgent(article: ArticleResult, keywords: string[]): Promise<ImageResult> {
@@ -268,7 +273,7 @@ async function uploadToCloudinary(imageUrl: string, publicId: string): Promise<{
 
   const data = await response.json()
   return {
-    secure_url: data.secure_url,
+    secure_url: optimizeCloudinaryUrl(data.secure_url),
     public_id: data.public_id,
   }
 }

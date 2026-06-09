@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import Image from 'next/image'
 import { createClient } from '@supabase/supabase-js'
 import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
@@ -50,11 +51,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       <section className="section-padding bg-white">
         <div className="container-default max-w-3xl">
           {article.hero_image_url && (
-            <img
-              src={article.hero_image_url}
-              alt={article.hero_image_alt || article.title}
-              className="w-full h-auto rounded-xl mb-8 object-cover max-h-[480px]"
-            />
+            <div className="relative w-full h-[360px] sm:h-[480px] rounded-xl overflow-hidden mb-8">
+              <Image
+                src={article.hero_image_url}
+                alt={article.hero_image_alt || article.title}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 768px"
+                className="object-cover"
+              />
+            </div>
           )}
           <article
             className="prose prose-slate max-w-none"
