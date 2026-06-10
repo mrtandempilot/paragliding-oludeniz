@@ -31,8 +31,6 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Paragliding Oludeniz | Tandem Flights from Babadağ',
-    description: 'Soar over the Blue Lagoon. Book your tandem paragliding flight today.',
   },
   robots: { index: true, follow: true },
 }

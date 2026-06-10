@@ -47,6 +47,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       siteName: 'Paragliding Oludeniz',
       title: m.title,
       description: m.description,
+      images: [
+        {
+          url: '/opengraph-image',
+          width: 1200,
+          height: 630,
+          alt: 'Paragliding \u00d6l\u00fcdeniz \u2014 Tandem Flights from Babada\u011f Mountain',
+        },
+      ],
     },
   }
 }
