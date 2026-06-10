@@ -1,6 +1,5 @@
 'use client'
 
-import { useLocale } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import { useState, useRef, useEffect } from 'react'
 import { ChevronDown } from 'lucide-react'
@@ -13,8 +12,9 @@ const languages = [
 ]
 
 export default function LanguageSwitcher({ isDark }: { isDark: boolean }) {
-  const locale = useLocale()
   const pathname = usePathname()
+  const firstSeg = pathname.split('/')[1]
+  const locale = ['tr', 'de', 'ru'].includes(firstSeg) ? firstSeg : 'en'
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
