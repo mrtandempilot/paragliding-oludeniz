@@ -4,11 +4,14 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
 import { localeAlternates } from '@/lib/seo'
+import ServiceSchema from '@/components/shared/ServiceSchema'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Cross Country Paragliding Oludeniz",tr:"Oludeniz Kros Paraşüt",de:"Streckenflug Paragliding Oludeniz",ru:"Маршрутный парапланеризм Олюдениз"}
+  const d = {en:"XC flying from Babadağ across the Fethiye region.",tr:"Babadağ'dan Fethiye bölgesi üzerinde XC uçuşu.",de:"XC-Fliegen vom Babadağ über die Fethiye-Region.",ru:"XC полёты с Бабадага над регионом Фетхие."}
   return {
+    description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/cross-country-flights'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
@@ -23,6 +26,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const body = (bodies as any)[locale]||bodies.en
   return (
     <>
+      <ServiceSchema name="Cross Country Paragliding" description="XC paragliding from Babadağ: routes, thermal maps and landing zones for licensed pilots." path="/cross-country-flights" serviceType="Cross Country Paragliding" />
       <PageHero title={title} subtitle={sub} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7bd4/rtDjiycQ-CNoCYjmlrN3-.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3"><BreadcrumbNav items={[{ label: title }]} /></div>

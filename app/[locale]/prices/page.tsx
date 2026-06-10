@@ -10,7 +10,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'prices' })
+  const d: Record<string, string> = {"en": "Tandem paragliding prices in Oludeniz: standard, sunset and VIP flight packages with photo & video options. Transparent pricing, no hidden fees.", "tr": "Ölüdeniz tandem yamaç paraşütü fiyatları: standart, gün batımı ve VIP uçuş paketleri, foto & video seçenekleri. Şeffaf fiyat, gizli ücret yok.", "de": "Preise für Tandem-Paragliding in Ölüdeniz: Standard-, Sunset- und VIP-Pakete mit Foto- und Videooptionen. Transparente Preise.", "ru": "Цены на тандемные полёты в Олюденизе: стандартные, закатные и VIP-пакеты с фото и видео. Прозрачные цены без скрытых платежей."}
   return {
+    description: d[locale] || d.en,
     title: t('title'),
     alternates: localeAlternates(locale, '/prices'),
   }

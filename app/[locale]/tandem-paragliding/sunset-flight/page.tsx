@@ -4,11 +4,14 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
 import { localeAlternates } from '@/lib/seo'
+import ServiceSchema from '@/components/shared/ServiceSchema'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const titles: Record<string,string> = {en:"Sunset Paragliding Oludeniz",tr:"Gün Batımı Paraşüt Uçuşu",de:"Sonnenuntergangs-Paragliding",ru:"Закатный полёт на параплане"}
+  const d: Record<string, string> = {"en": "Sunset tandem paragliding over the Blue Lagoon — golden hour flights from Babadağ. The most magical way to experience Oludeniz.", "tr": "Mavi Lagün üzerinde gün batımı tandem uçuşu — Babadağ'dan altın saat uçuşları. Ölüdeniz'i deneyimlemenin en büyülü yolu.", "de": "Sunset-Tandemflug über der Blauen Lagune — Flüge zur goldenen Stunde vom Babadağ. Das magischste Erlebnis in Ölüdeniz.", "ru": "Закатный тандемный полёт над Голубой лагуной — полёты в золотой час с Бабадага. Самый волшебный способ увидеть Олюдениз."}
   return {
+    description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/tandem-paragliding/sunset-flight'), title: `${titles[locale]||titles.en} | Paragliding Oludeniz` }
 }
 
@@ -24,6 +27,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
 
   return (
     <>
+      <ServiceSchema name="Sunset Tandem Paragliding Flight" description="Golden hour tandem paragliding flight over the Blue Lagoon from Babadağ." path="/tandem-paragliding/sunset-flight" serviceType="Tandem Paragliding Flight" />
       <PageHero title={title} subtitle={subtitle} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c09/2htlcwkJ6pcLBY7gPtf7z.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">

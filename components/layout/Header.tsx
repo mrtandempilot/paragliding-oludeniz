@@ -13,6 +13,11 @@ export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const pathname = usePathname()
 
+  const firstSeg = pathname.split('/')[1]
+  const curLocale = ['tr', 'de', 'ru'].includes(firstSeg) ? firstSeg : 'en'
+  const lp = (href: string) =>
+    curLocale === 'en' ? href : href === '/' ? `/${curLocale}` : `/${curLocale}${href}`
+
   // Pages without a full-bleed dark hero need an opaque header from the start
   const needsOpaqueHeader = pathname.startsWith('/blog')
 
@@ -35,7 +40,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 z-10">
+          <Link href={lp('/')} className="flex items-center gap-2 z-10">
             <span
               className={`text-xl md:text-2xl font-bold transition-colors ${
                 isDark ? 'text-white' : 'text-slate-900'
@@ -56,7 +61,7 @@ export default function Header() {
                 onMouseLeave={() => setActiveDropdown(null)}
               >
                 <Link
-                  href={item.href}
+                  href={lp(item.href)}
                   className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     isDark
                       ? 'text-white/90 hover:text-white hover:bg-white/10'
@@ -73,7 +78,7 @@ export default function Header() {
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
-                        href={child.href}
+                        href={lp(child.href)}
                         className="block px-4 py-2.5 text-sm text-slate-700 hover:text-orange-600 hover:bg-orange-50 transition-colors"
                       >
                         {child.label}
@@ -98,7 +103,7 @@ export default function Header() {
               <span>+90 536 461 6674</span>
             </a>
             <Link
-              href="/book-now"
+              href={lp('/book-now')}
               className="btn-primary text-sm px-4 py-2"
             >
               Book Now
@@ -126,7 +131,7 @@ export default function Header() {
             {navigation.map((item) => (
               <div key={item.href}>
                 <Link
-                  href={item.href}
+                  href={lp(item.href)}
                   className="block px-4 py-3 text-slate-700 font-medium hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
                   onClick={() => setMobileOpen(false)}
                 >
@@ -137,7 +142,7 @@ export default function Header() {
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
-                        href={child.href}
+                        href={lp(child.href)}
                         className="block px-4 py-2 text-sm text-slate-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
                         onClick={() => setMobileOpen(false)}
                       >
@@ -157,7 +162,7 @@ export default function Header() {
                 +90 536 461 6674
               </a>
               <Link
-                href="/book-now"
+                href={lp('/book-now')}
                 className="btn-primary justify-center"
                 onClick={() => setMobileOpen(false)}
               >

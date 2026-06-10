@@ -4,11 +4,14 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
 import { localeAlternates } from '@/lib/seo'
+import ServiceSchema from '@/components/shared/ServiceSchema'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Pilot Services Oludeniz",tr:"Oludeniz Pilot Hizmetleri",de:"Pilotendienste Oludeniz",ru:"Услуги пилотам Олюдениз"}
+  const d = {en:"Everything a visiting pilot needs at Babadağ.",tr:"Babadağ'ı ziyaret eden bir pilotun ihtiyacı olan her şey.",de:"Alles, was ein Gastpilot am Babadağ braucht.",ru:"Всё, что нужно приезжему пилоту на Бабадаге."}
   return {
+    description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/pilot-services'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
@@ -23,6 +26,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const body = (bodies as any)[locale]||bodies.en
   return (
     <>
+      <ServiceSchema name="Pilot Services Oludeniz" description="Equipment rental, storage, retrieval, radio hire and photography services for visiting pilots." path="/pilot-services" serviceType="Pilot Services" />
       <PageHero title={title} subtitle={sub} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c13/VVJ_THDhVNeRP66pu_Ew8.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3"><BreadcrumbNav items={[{ label: title }]} /></div>

@@ -8,7 +8,9 @@ import { localeAlternates } from '@/lib/seo'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Tandem Paragliding FAQ",tr:"Tandem Paraşüt SSS",de:"Tandem-Paragliding FAQ",ru:"Вопросы и ответы о тандемном парапланеризме"}
+  const d = {en:"Answers to the most common questions about tandem paragliding in Oludeniz.",tr:"Oludeniz'de tandem paraşüt hakkında en sık sorulan soruların yanıtları.",de:"Antworten auf die häufigsten Fragen zum Tandem-Paragliding in Oludeniz.",ru:"Ответы на самые распространённые вопросы о тандемном парапланеризме в Олюдениз."}
   return {
+    description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/tandem-paragliding/faq'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 

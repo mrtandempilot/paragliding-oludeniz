@@ -4,11 +4,14 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
 import { localeAlternates } from '@/lib/seo'
+import ServiceSchema from '@/components/shared/ServiceSchema'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Paramotor Oludeniz",tr:"Oludeniz Paramotor",de:"Paramotor Oludeniz",ru:"Паратрайк Олюдениз"}
+  const d = {en:"Motorised paragliding along the Oludeniz coastline.",tr:"Oludeniz kıyı şeridinde motorlu paraşüt.",de:"Motorisiertes Paragliding entlang der Oludeniz-Küste.",ru:"Моторизованный парапланеризм вдоль побережья Олюдениз."}
   return {
+    description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/paramotor'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
@@ -28,6 +31,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const body = bodies[locale]||bodies.en
   return (
     <>
+      <ServiceSchema name="Paramotor Flight Oludeniz" description="Powered paragliding flights and training along the Oludeniz coastline." path="/paramotor" serviceType="Paramotor Flight" />
       <PageHero title={title} subtitle={sub} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c0d/dOEuj7ebfM-MdyvUcunPD.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3"><BreadcrumbNav items={[{ label: title }]} /></div>

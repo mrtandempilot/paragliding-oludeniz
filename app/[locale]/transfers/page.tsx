@@ -4,11 +4,14 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
 import { localeAlternates } from '@/lib/seo'
+import ServiceSchema from '@/components/shared/ServiceSchema'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Transfers to Oludeniz and Babadag",tr:"Oludeniz ve Babadag Transferleri",de:"Transfers nach Oludeniz und Babadag",ru:"Трансферы в Олюдениз и Бабадаг"}
+  const d = {en:"Getting to Oludeniz from Dalaman Airport, Fethiye, Marmaris and beyond.",tr:"Dalaman Havalimanı, Fethiye, Marmaris ve ötesinden Oludeniz'e ulaşım.",de:"Von Dalaman Flughafen, Fethiye, Marmaris nach Oludeniz.",ru:"Из аэропорта Даламан, Фетхие, Мармариса и других мест в Олюдениз."}
   return {
+    description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/transfers'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
@@ -28,6 +31,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const body = bodies[locale]||bodies.en
   return (
     <>
+      <ServiceSchema name="Babadağ & Airport Transfers" description="Transfers to Babadağ launch points, Dalaman airport, Fethiye and Marmaris." path="/transfers" serviceType="Transfer Service" />
       <PageHero title={title} subtitle={sub} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c08/BbYEw0ihhZaLcaN29vTrs.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3"><BreadcrumbNav items={[{ label: title }]} /></div>

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Phone, Mail, MapPin, Instagram, Facebook } from 'lucide-react'
+import { getLocale } from 'next-intl/server'
 
 const footerLinks = {
   'Tandem Flights': [
@@ -36,7 +37,15 @@ const footerLinks = {
   ],
 }
 
-export default function Footer() {
+export default async function Footer() {
+  let locale = 'en'
+  try {
+    locale = await getLocale()
+  } catch {
+    // outside next-intl context (e.g. admin routes)
+  }
+  const lp = (href: string) =>
+    locale === 'en' ? href : href === '/' ? `/${locale}` : `/${locale}${href}`
   return (
     <footer className="bg-slate-900 text-slate-300">
       {/* Main Footer */}
@@ -44,7 +53,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block mb-4">
+            <Link href={lp('/')} className="inline-block mb-4">
               <span className="text-xl font-bold text-white">
                 🪂 <span className="text-orange-500">Paragliding</span> Ölüdeniz
               </span>
@@ -90,7 +99,7 @@ export default function Footer() {
               <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} className="text-sm text-slate-400 hover:text-orange-400 transition-colors">
+                    <Link href={lp(link.href)} className="text-sm text-slate-400 hover:text-orange-400 transition-colors">
                       {link.label}
                     </Link>
                   </li>
@@ -108,10 +117,10 @@ export default function Footer() {
             © {new Date().getFullYear()} Paragliding Ölüdeniz. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-sm text-slate-500">
-            <Link href="/about-us" className="hover:text-slate-300 transition-colors">About</Link>
-            <Link href="/certifications" className="hover:text-slate-300 transition-colors">Certifications</Link>
-            <Link href="/safety-record" className="hover:text-slate-300 transition-colors">Safety</Link>
-            <Link href="/contact" className="hover:text-slate-300 transition-colors">Contact</Link>
+            <Link href={lp('/about-us')} className="hover:text-slate-300 transition-colors">About</Link>
+            <Link href={lp('/certifications')} className="hover:text-slate-300 transition-colors">Certifications</Link>
+            <Link href={lp('/safety-record')} className="hover:text-slate-300 transition-colors">Safety</Link>
+            <Link href={lp('/contact')} className="hover:text-slate-300 transition-colors">Contact</Link>
           </div>
         </div>
       </div>

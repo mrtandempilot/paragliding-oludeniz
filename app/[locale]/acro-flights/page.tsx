@@ -6,11 +6,14 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
 import { localeAlternates } from '@/lib/seo'
+import ServiceSchema from '@/components/shared/ServiceSchema'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'acro' })
+  const d: Record<string, string> = {"en": "Extreme acro paragliding in Oludeniz: spirals, infinity tumbling and heart-pumping manoeuvres with world-class acro pilots over the Blue Lagoon.", "tr": "Ölüdeniz'de ekstrem akro yamaç paraşütü: dünya klasmanında akro pilotlarla spiral, infinity tumbling ve nefes kesen manevralar.", "de": "Extremes Acro-Paragliding in Ölüdeniz: Spiralen, Infinity Tumbling und atemberaubende Manöver mit Weltklasse-Acro-Piloten.", "ru": "Экстремальный акро-парапланеризм в Олюденизе: спирали, infinity tumbling и захватывающие манёвры с пилотами мирового класса."}
   return {
+    description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/acro-flights'), title: `${t('title')} | Paragliding Oludeniz` }
 }
 
@@ -25,6 +28,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
 
   return (
     <>
+      <ServiceSchema name="Acro Paragliding Flight" description="Acrobatic tandem paragliding with spirals and extreme manoeuvres over Oludeniz." path="/acro-flights" serviceType="Acro Paragliding Flight" />
       <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} bgImage="https://v3b.fal.media/files/b/0a9d7c0b/Ma1uD1AUlcpoxL-48cgg4.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">

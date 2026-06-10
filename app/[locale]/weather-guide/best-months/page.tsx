@@ -8,7 +8,9 @@ import { localeAlternates } from '@/lib/seo'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Best Months to Paraglide in Oludeniz",tr:"Oludeniz Paraşüt İçin En İyi Aylar",de:"Beste Monate zum Paragliding in Oludeniz",ru:"Лучшие месяцы для парапланеризма в Олюдениз"}
+  const d = {en:"May-June and September-October are perfect. July-August are busy but still excellent.",tr:"Mayıs-Haziran ve Eylül-Ekim mükemmeldir. Temmuz-Ağustos yoğun ama hâlâ mükemmel.",de:"Mai-Juni und September-Oktober sind perfekt. Juli-August sind belebt, aber immer noch ausgezeichnet.",ru:"Май-июнь и сентябрь-октябрь идеальны. Июль-август — оживлённо, но всё равно отлично."}
   return {
+    description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/weather-guide/best-months'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 

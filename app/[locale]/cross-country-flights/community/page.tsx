@@ -8,7 +8,9 @@ import { localeAlternates } from '@/lib/seo'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"XC Flying Community Oludeniz",tr:"Oludeniz XC Uçuş Topluluğu",de:"XC-Flieger-Community Oludeniz",ru:"Сообщество XC Олюдениз"}
+  const d = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов."}
   return {
+    description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/cross-country-flights/community'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 

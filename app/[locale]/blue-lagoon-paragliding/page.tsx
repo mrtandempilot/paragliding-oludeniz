@@ -8,7 +8,9 @@ import { localeAlternates } from '@/lib/seo'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Paragliding over the Blue Lagoon",tr:"Mavi Lagün Üzerinde Paraşüt",de:"Paragliding über die Blaue Lagune",ru:"Парапланеризм над Голубой Лагуной"}
+  const d = {en:"The Blue Lagoon of Oludeniz from 1200 metres above — one of the most photographed views in the world.",tr:"1200 metre yukarıdan Oludeniz Mavi Lagünü — dünyanın en çok fotoğraflanan manzaralarından biri.",de:"Die Blaue Lagune von Oludeniz aus 1200 Metern Höhe — eine der meistfotografierten Aussichten der Welt.",ru:"Голубая Лагуна Олюдениза с высоты 1200 метров — один из самых фотографируемых видов в мире."}
   return {
+    description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/blue-lagoon-paragliding'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 

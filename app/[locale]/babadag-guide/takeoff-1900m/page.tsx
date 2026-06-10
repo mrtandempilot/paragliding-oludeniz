@@ -8,7 +8,9 @@ import { localeAlternates } from '@/lib/seo'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"1960m Summit Launch",tr:"1960m Zirve Kalkışı",de:"1960m Gipfelstart",ru:"Старт с вершины 1960м"}
+  const d = {en:"The 1960m summit is the highest launch point on Babadağ, used by competition pilots and experienced XC flyers.",tr:"1960m zirve, yarışma pilotları ve deneyimli XC uçucular tarafından kullanılan Babadağ'ın en yüksek kalkış noktasıdır.",de:"Der 1960m Gipfel ist der höchste Startpunkt am Babadağ, genutzt von Wettbewerbspiloten und erfahrenen XC-Fliegern.",ru:"Вершина 1960м — самая высокая стартовая точка на Бабадаге, используемая соревновательными пилотами."}
   return {
+    description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/babadag-guide/takeoff-1900m'), title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
 }
 

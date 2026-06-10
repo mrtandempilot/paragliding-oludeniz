@@ -14,7 +14,9 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'blog' })
+  const d: Record<string, string> = {"en": "Paragliding news, guides and stories from Oludeniz — flight tips, Babadağ conditions, travel advice and more from local tandem pilots.", "tr": "Ölüdeniz'den yamaç paraşütü haberleri, rehberler ve hikayeler — uçuş ipuçları, Babadağ koşulları ve yerel pilotlardan tavsiyeler.", "de": "Paragliding-News, Guides und Geschichten aus Ölüdeniz — Flugtipps, Babadağ-Bedingungen und Reisetipps von lokalen Tandempiloten.", "ru": "Новости, гиды и истории о парапланеризме из Олюдениза — советы по полётам, условия на Бабадаге и рекомендации местных пилотов."}
   return {
+    description: d[locale] || d.en,
     title: `${t('title')} | Paragliding Ölüdeniz`,
     alternates: localeAlternates(locale, '/blog'),
   }

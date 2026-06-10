@@ -7,6 +7,7 @@ import FAQAccordion from '@/components/shared/FAQAccordion'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
 import { localeAlternates } from '@/lib/seo'
+import ServiceSchema from '@/components/shared/ServiceSchema'
 
 const faqItems = [
   { question: 'Do I need any experience to do tandem paragliding?', answer: 'No experience is needed at all. In a tandem flight, you are attached to a certified pilot who controls everything. Your only job is to run a few steps at launch and enjoy the flight.' },
@@ -19,7 +20,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'tandem' })
+  const d: Record<string, string> = {"en": "Tandem paragliding in Oludeniz with certified pilots. No experience needed — full briefing, all equipment, transfers and beach landing included.", "tr": "Sertifikalı pilotlarla Ölüdeniz'de tandem yamaç paraşütü. Deneyim gerekmez — brifing, tüm ekipman, transfer ve plaja iniş dahil.", "de": "Tandem-Paragliding in Ölüdeniz mit zertifizierten Piloten. Keine Erfahrung nötig — Briefing, Ausrüstung, Transfer und Strandlandung inklusive.", "ru": "Тандемные полёты на параплане в Олюденизе с сертифицированными пилотами. Опыт не нужен — инструктаж, снаряжение и трансфер включены."}
   return {
+    description: d[locale] || d.en,
     title: `${t('title')} | Book from Babadağ`,
     alternates: localeAlternates(locale, '/tandem-paragliding'),
   }
@@ -41,6 +44,7 @@ export default async function TandemPage({ params }: { params: Promise<{ locale:
 
   return (
     <>
+      <ServiceSchema name="Tandem Paragliding Flight in Oludeniz" description="Tandem paragliding flight from Babadağ with a certified pilot, including briefing, equipment, transfer and beach landing." path="/tandem-paragliding" serviceType="Tandem Paragliding Flight" />
       <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} bgImage="https://v3b.fal.media/files/b/0a9d7c09/2htlcwkJ6pcLBY7gPtf7z.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">

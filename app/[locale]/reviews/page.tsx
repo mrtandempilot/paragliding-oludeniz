@@ -21,7 +21,9 @@ const reviews = [
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'reviews' })
+  const d: Record<string, string> = {"en": "2,400+ five-star reviews from paragliding passengers in Oludeniz. Read real experiences of tandem flights from Babadağ over the Blue Lagoon.", "tr": "Ölüdeniz'de yamaç paraşütü yapan misafirlerden 2.400+ beş yıldızlı yorum. Babadağ'dan Mavi Lagün üzerine gerçek uçuş deneyimleri.", "de": "Über 2.400 Fünf-Sterne-Bewertungen von Paragliding-Passagieren in Ölüdeniz. Echte Erfahrungen von Tandemflügen vom Babadağ.", "ru": "Более 2400 пятизвёздочных отзывов пассажиров в Олюденизе. Реальные истории тандемных полётов с Бабадага над Голубой лагуной."}
   return {
+    description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/reviews'), title: `${t('pageTitle')} | Paragliding Ölüdeniz` }
 }
 

@@ -11,7 +11,9 @@ export const revalidate = 900 // 15 minutes
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Live Weather Oludeniz",tr:"Oludeniz Canli Hava",de:"Live-Wetter Oludeniz",ru:"Погода Олюдениз онлайн"}
+  const d = {en:"Current conditions at Babadağ and Oludeniz beach.",tr:"Babadağ ve Oludeniz plajındaki güncel koşullar.",de:"Aktuelle Bedingungen am Babadağ und Oludeniz-Strand.",ru:"Текущие условия на Бабадаге и пляже Олюдениз."}
   return {
+    description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/live-weather'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 

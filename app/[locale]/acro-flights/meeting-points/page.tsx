@@ -8,7 +8,9 @@ import { localeAlternates } from '@/lib/seo'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Acro Pilots Meeting Point",tr:"Akro Pilot Buluşma Noktaları",de:"Acro Pilots Meeting Point",ru:"Acro Pilots Meeting Point"}
+  const d = {en:"Advanced paragliding for experienced pilots.",tr:"Deneyimli pilotlar için ileri düzey paraşüt.",de:"Fortgeschrittenes Paragliding für erfahrene Piloten.",ru:"Продвинутый парапланеризм для опытных пилотов."}
   return {
+    description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/acro-flights/meeting-points'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 

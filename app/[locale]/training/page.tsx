@@ -6,11 +6,14 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
 import { localeAlternates } from '@/lib/seo'
+import ServiceSchema from '@/components/shared/ServiceSchema'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'training' })
+  const d: Record<string, string> = {"en": "Paragliding courses in Oludeniz: beginner to advanced training, SIV clinics and tandem conversion with certified instructors on Babadağ.", "tr": "Ölüdeniz'de yamaç paraşütü kursları: başlangıçtan ileri seviyeye eğitim, SIV klinikleri ve sertifikalı eğitmenlerle tandem dönüşümü.", "de": "Paragliding-Kurse in Ölüdeniz: Training vom Anfänger bis Fortgeschrittenen, SIV-Kurse und Tandem-Umschulung mit zertifizierten Lehrern.", "ru": "Курсы парапланеризма в Олюденизе: обучение от начального до продвинутого уровня, SIV-клиники с сертифицированными инструкторами."}
   return {
+    description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/training'), title: `${t('title')} | Paragliding Ölüdeniz` }
 }
 
@@ -27,6 +30,7 @@ export default async function TrainingPage({ params }: { params: Promise<{ local
 
   return (
     <>
+      <ServiceSchema name="Paragliding Training Courses" description="Paragliding courses from beginner to advanced, SIV clinics and tandem conversion in Oludeniz." path="/training" serviceType="Paragliding Training" />
       <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} bgImage="https://v3b.fal.media/files/b/0a9d7c0c/Dn0br3flHariTrqYqhISR.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">

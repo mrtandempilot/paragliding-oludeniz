@@ -8,7 +8,9 @@ import { localeAlternates } from '@/lib/seo'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t: Record<string,string> = {en:"Babadag Mountain — Complete Guide",tr:"Babadağ Dağı — Eksiksiz Rehber",de:"Babadağ-Berg — Vollständiger Leitfaden",ru:"Гора Бабадаг — Полный гид"}
+  const d = {en:"Rising to 1960m above Oludeniz, Babadag is a world-class paragliding mountain.",tr:"1960m yüksekliğiyle Oludeniz\'in üzerindeki Babadağ, dünya klasmanında bir paraşüt dağıdır.",de:"Der Babadağ ragt 1960m über Oludeniz auf — ein Paragliding-Berg von Weltklasse.",ru:"Поднимаясь на 1960м над Олюдениз, Бабадаг — гора мирового класса для парапланеризма."}
   return {
+    description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/babadag-guide/babadag-mountain'), title: `${t[locale]||t.en} | Paragliding Oludeniz` }
 }
 

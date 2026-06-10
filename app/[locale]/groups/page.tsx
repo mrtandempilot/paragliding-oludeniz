@@ -11,7 +11,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'groups' })
+  const d: Record<string, string> = {"en": "Group paragliding in Oludeniz for families, friends, corporate events, hen & stag parties and schools. Group discounts and full logistics.", "tr": "Aileler, arkadaş grupları, kurumsal etkinlikler ve okullar için Ölüdeniz'de grup yamaç paraşütü. Grup indirimi ve tam lojistik destek.", "de": "Gruppen-Paragliding in Ölüdeniz für Familien, Freunde, Firmenevents und Schulen. Gruppenrabatte und komplette Logistik.", "ru": "Групповые полёты на параплане в Олюденизе для семей, друзей, корпоративов и школ. Скидки для групп и полная логистика."}
   return {
+    description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/groups'), title: `${t('title')} | Paragliding Ölüdeniz` }
 }
 
