@@ -3,11 +3,13 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
+import { localeAlternates } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"1700m Launch Point",tr:"1700m Kalkış Noktası",de:"1700m Startplatz",ru:"Стартовая площадка 1700м"}
-  return { title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
+  return {
+    alternates: localeAlternates(locale, '/babadag-guide/takeoff-1700m'), title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

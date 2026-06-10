@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import WhatsAppButton from '@/components/shared/WhatsAppButton'
 import Script from 'next/script'
+import { getLocale } from 'next-intl/server'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,7 +27,6 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://paragliding-oludeniz.com',
     siteName: 'Paragliding Oludeniz',
   },
   twitter: {
@@ -37,9 +37,15 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  let locale = 'en'
+  try {
+    locale = await getLocale()
+  } catch {
+    // outside next-intl context (e.g. admin routes) -> default to en
+  }
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className={inter.className}>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-XDHL6LYTX0"

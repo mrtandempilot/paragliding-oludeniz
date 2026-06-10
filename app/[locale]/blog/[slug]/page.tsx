@@ -6,6 +6,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
+import { localeAlternates } from '@/lib/seo'
 
 async function getArticle(slug: string) {
   try {
@@ -26,10 +27,12 @@ async function getArticle(slug: string) {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
-  const { slug } = await params
+  const { locale, slug } = await params
   const article = await getArticle(slug)
   return {
     title: article ? `${article.title} | Paragliding Ölüdeniz Blog` : 'Blog | Paragliding Ölüdeniz',
+    description: article?.meta_description || undefined,
+    alternates: localeAlternates(locale, `/blog/${slug}`),
   }
 }
 

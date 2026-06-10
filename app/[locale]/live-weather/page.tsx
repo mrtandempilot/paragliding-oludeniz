@@ -4,13 +4,15 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
 import { getOludenizWeather, weatherCodeLabel, windDirectionCompass } from '@/lib/weather'
+import { localeAlternates } from '@/lib/seo'
 
 export const revalidate = 900 // 15 minutes
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Live Weather Oludeniz",tr:"Oludeniz Canli Hava",de:"Live-Wetter Oludeniz",ru:"Погода Олюдениз онлайн"}
-  return { title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+  return {
+    alternates: localeAlternates(locale, '/live-weather'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

@@ -7,6 +7,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import { blogPosts } from '@/lib/blog'
 import { createClient } from '@supabase/supabase-js'
 import { getTranslations } from 'next-intl/server'
+import { localeAlternates } from '@/lib/seo'
 
 export const revalidate = 3600
 
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: 'blog' })
   return {
     title: `${t('title')} | Paragliding Ölüdeniz`,
-    alternates: { canonical: 'https://paragliding-oludeniz.com/blog' },
+    alternates: localeAlternates(locale, '/blog'),
   }
 }
 

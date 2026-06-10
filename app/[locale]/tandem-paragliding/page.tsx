@@ -6,6 +6,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import FAQAccordion from '@/components/shared/FAQAccordion'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
+import { localeAlternates } from '@/lib/seo'
 
 const faqItems = [
   { question: 'Do I need any experience to do tandem paragliding?', answer: 'No experience is needed at all. In a tandem flight, you are attached to a certified pilot who controls everything. Your only job is to run a few steps at launch and enjoy the flight.' },
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: 'tandem' })
   return {
     title: `${t('title')} | Book from Babadağ`,
-    alternates: { canonical: 'https://paragliding-oludeniz.com/tandem-paragliding' },
+    alternates: localeAlternates(locale, '/tandem-paragliding'),
   }
 }
 

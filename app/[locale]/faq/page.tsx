@@ -5,6 +5,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import FAQAccordion from '@/components/shared/FAQAccordion'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
+import { localeAlternates } from '@/lib/seo'
 
 const faqs = [
   {
@@ -40,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: 'faq' })
   return {
     title: `${t('title')} | Paragliding Ölüdeniz`,
-    alternates: { canonical: 'https://paragliding-oludeniz.com/faq' },
+    alternates: localeAlternates(locale, '/faq'),
   }
 }
 

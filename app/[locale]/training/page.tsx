@@ -5,11 +5,13 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
+import { localeAlternates } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'training' })
-  return { title: `${t('title')} | Paragliding Ölüdeniz` }
+  return {
+    alternates: localeAlternates(locale, '/training'), title: `${t('title')} | Paragliding Ölüdeniz` }
 }
 
 export default async function TrainingPage({ params }: { params: Promise<{ locale: string }> }) {

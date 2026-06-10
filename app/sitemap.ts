@@ -9,15 +9,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
 
   // Helper to create a sitemap entry
+  const langUrls = (path: string) => ({
+    en: `${BASE_URL}${path === '/' ? '' : path}`,
+    tr: `${BASE_URL}/tr${path === '/' ? '' : path}`,
+    de: `${BASE_URL}/de${path === '/' ? '' : path}`,
+    ru: `${BASE_URL}/ru${path === '/' ? '' : path}`,
+  })
+
   const page = (
     path: string,
     priority: number,
     changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] = 'monthly'
   ): MetadataRoute.Sitemap[number] => ({
-    url: `${BASE_URL}${path}`,
+    url: `${BASE_URL}${path === '/' ? '' : path}` || BASE_URL,
     lastModified: now,
     changeFrequency,
     priority,
+    alternates: { languages: langUrls(path) },
   })
 
   // Statik sayfalar
@@ -174,6 +182,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(article.published_at || article.created_at),
       changeFrequency: 'monthly' as const,
       priority: 0.75,
+      alternates: { languages: langUrls(`/blog/${article.slug}`) },
     }))
 
     return [...staticPages, ...articlePages]

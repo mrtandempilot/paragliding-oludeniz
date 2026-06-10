@@ -3,11 +3,13 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
+import { localeAlternates } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t: Record<string,string> = {en:"Babadag Mountain — Complete Guide",tr:"Babadağ Dağı — Eksiksiz Rehber",de:"Babadağ-Berg — Vollständiger Leitfaden",ru:"Гора Бабадаг — Полный гид"}
-  return { title: `${t[locale]||t.en} | Paragliding Oludeniz` }
+  return {
+    alternates: localeAlternates(locale, '/babadag-guide/babadag-mountain'), title: `${t[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

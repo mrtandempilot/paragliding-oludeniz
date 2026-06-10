@@ -4,6 +4,7 @@ import { CheckCircle, ArrowRight, Star } from 'lucide-react'
 import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import { getTranslations } from 'next-intl/server'
+import { localeAlternates } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
@@ -11,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: 'prices' })
   return {
     title: t('title'),
-    alternates: { canonical: 'https://paragliding-oludeniz.com/prices' },
+    alternates: localeAlternates(locale, '/prices'),
   }
 }
 

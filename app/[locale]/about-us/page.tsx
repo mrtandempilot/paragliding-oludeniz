@@ -5,6 +5,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
+import { localeAlternates } from '@/lib/seo'
 
 const milestones = [
   { year: '1999', event: 'First tandem flights from Babadağ Mountain' },
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: 'about' })
   return {
     title: `${t('title')} | Paragliding Ölüdeniz`,
-    alternates: { canonical: 'https://paragliding-oludeniz.com/about-us' },
+    alternates: localeAlternates(locale, '/about-us'),
   }
 }
 

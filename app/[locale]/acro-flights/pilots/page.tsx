@@ -3,11 +3,13 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
+import { localeAlternates } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Acro Pilots Oludeniz",tr:"Oludeniz Akro Pilotları",de:"Acro Pilots Oludeniz",ru:"Acro Pilots Oludeniz"}
-  return { title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+  return {
+    alternates: localeAlternates(locale, '/acro-flights/pilots'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

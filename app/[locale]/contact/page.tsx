@@ -3,13 +3,14 @@ import { Phone, Mail, MapPin, MessageCircle, Clock } from 'lucide-react'
 import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import { getTranslations } from 'next-intl/server'
+import { localeAlternates } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'contact' })
   return {
     title: `${t('title')} | Paragliding Ölüdeniz`,
-    alternates: { canonical: 'https://paragliding-oludeniz.com/contact' },
+    alternates: localeAlternates(locale, '/contact'),
   }
 }
 
