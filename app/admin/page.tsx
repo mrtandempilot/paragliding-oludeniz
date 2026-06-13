@@ -4,6 +4,9 @@ import DashboardSocialPanel from './DashboardSocialPanel'
 import DashboardCronPanel from './DashboardCronPanel'
 import DashboardActivityPanel from './DashboardActivityPanel'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 function getSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -18,7 +21,6 @@ export default async function AdminDashboardPage() {
   const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
   const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
 
-  // ── ContentPilot settings ───────────────────────────────────────────────
   const [settingsRes, lastRunRes, todayCostRes, pendingTopicsRes, articlesRes, recentLogsRes, recentArticlesRes] =
     await Promise.allSettled([
       supabase.from('settings').select('key,value').in('key', ['pilot_enabled', 'pilot_slots']),
@@ -27,7 +29,7 @@ export default async function AdminDashboardPage() {
       supabase.from('topics').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
       supabase.from('articles').select('id', { count: 'exact', head: true }).gte('created_at', weekAgo),
       supabase.from('agent_logs').select('id,agent,action,status,created_at').order('created_at', { ascending: false }).limit(8),
-      supabase.from('articles').select('id,title,slug,image_url,created_at,status').eq('status', 'published').order('created_at', { ascending: false }).limit(4),
+      supabase.from('articles').select('id,title,slug,hero_image_url,created_at,status').eq('status', 'published').order('created_at', { ascending: false }).limit(4),
     ])
 
   const settings: Record<string, string> = {}
@@ -46,11 +48,13 @@ export default async function AdminDashboardPage() {
   const pendingTopics = pendingTopicsRes.status === 'fulfilled' ? (pendingTopicsRes.value.count || 0) : 0
   const articlesThisWeek = articlesRes.status === 'fulfilled' ? (articlesRes.value.count || 0) : 0
   const recentLogs = recentLogsRes.status === 'fulfilled' && recentLogsRes.value.data
-    ? recentLogsRes.value.data
-    : []
-  const recentArticles = recentArticlesRes.status === 'fulfilled' && recentArticlesRes.value.data
-    ? recentArticlesRes.value.data
-    : []
+    ? recentLogsRes.value.data : []
+  const recentArticlesRaw = recentArticlesRes.status === 'fulfilled' && recentArticlesRes.value.data
+    ? recentArticlesRes.value.data : []
+  const recentArticles = recentArticlesRaw.map((a: any) => ({
+    ...a,
+    image_url: a.hero_image_url,
+  }))
 
   // ── Instagram / Social stats ────────────────────────────────────────────
   const [
@@ -87,21 +91,12 @@ export default async function AdminDashboardPage() {
   let postingGapDays = 0
   if (lastPostedRes.status === 'fulfilled' && lastPostedRes.value.data) {
     const lastPostedAt = (lastPostedRes.value.data as any).posted_at
-    if (lastPostedAt) {
-      postingGapDays = Math.floor((Date.now() - new Date(lastPostedAt).getTime()) / 86400000)
-    }
+    if (lastPostedAt) postingGapDays = Math.floor((Date.now() - new Date(lastPostedAt).getTime()) / 86400000)
   }
 
   const postStats = {
-    postedThisWeek,
-    postedThisMonth,
-    draftsCount,
-    scheduledCount,
-    failedPosts,
-    recentPosted,
-    nextScheduled,
-    typeBreakdown,
-    postingGapDays,
+    postedThisWeek, postedThisMonth, draftsCount, scheduledCount,
+    failedPosts, recentPosted, nextScheduled, typeBreakdown, postingGapDays,
   }
 
   return (
