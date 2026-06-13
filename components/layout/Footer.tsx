@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import { Phone, Mail, MapPin, Instagram, Facebook } from 'lucide-react'
+import { Phone, Mail, MapPin } from 'lucide-react'
 import { getLocale } from 'next-intl/server'
+import Image from 'next/image'
 
 const footerLinks = {
   'Tandem Flights': [
@@ -77,17 +78,6 @@ export default async function Footer() {
                 <span>Ölüdeniz, Fethiye, Muğla, Turkey</span>
               </div>
             </div>
-            {/* Social */}
-            <div className="flex gap-3 mt-6">
-              <a href="https://instagram.com/paragliding.oludeniz" target="_blank" rel="noopener noreferrer"
-                className="w-9 h-9 bg-slate-800 hover:bg-orange-500 rounded-lg flex items-center justify-center transition-colors" aria-label="Instagram">
-                <Instagram className="w-4 h-4 text-white" />
-              </a>
-              <a href="https://facebook.com/paraglidingoludeniz" target="_blank" rel="noopener noreferrer"
-                className="w-9 h-9 bg-slate-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors" aria-label="Facebook">
-                <Facebook className="w-4 h-4 text-white" />
-              </a>
-            </div>
           </div>
 
           {/* Link Columns */}
@@ -113,9 +103,32 @@ export default async function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-slate-500">
-            © {new Date().getFullYear()} Paragliding Ölüdeniz. All rights reserved.
-          </p>
+          {/* Left: copyright + TURSAB badge */}
+          <div className="flex items-center gap-4">
+            <p className="text-sm text-slate-500">
+              © {new Date().getFullYear()} Paragliding Ölüdeniz. All rights reserved.
+            </p>
+            {/* TURSAB Badge */}
+            <a
+              href="https://www.tursab.org.tr/belgem/6819"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="TURSAB Üye Belgesi - 6819"
+              className="flex-shrink-0"
+            >
+              <div className="flex items-center gap-1.5 bg-black border border-slate-700 rounded px-2 py-1">
+                {/* 50 circle */}
+                <div className="flex items-center justify-center w-8 h-8 rounded-full border-2 border-red-600 bg-black">
+                  <span className="text-white font-black text-xs leading-none">50</span>
+                </div>
+                {/* TURSAB text */}
+                <div className="flex flex-col leading-none">
+                  <span className="text-red-500 font-black text-sm tracking-wider">TURSAB</span>
+                  <span className="text-slate-400 text-[9px] tracking-wide">NO: 6819</span>
+                </div>
+              </div>
+            </a>
+          </div>
           <div className="flex items-center gap-6 text-sm text-slate-500">
             <Link href={lp('/about-us')} className="hover:text-slate-300 transition-colors">About</Link>
             <Link href={lp('/certifications')} className="hover:text-slate-300 transition-colors">Certifications</Link>
