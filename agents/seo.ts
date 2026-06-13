@@ -1,4 +1,4 @@
-import Anthropic from '@anthropic-ai/sdk'
+import Anthropic from '@anthropic/sdk'
 import { createClient } from '@supabase/supabase-js'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
@@ -21,19 +21,87 @@ export interface SEOBrief {
   schema_type: string
 }
 
+// ── Auto-generate new topics when none are pending ──────────────────────────
+async function generateNewTopics(): Promise<void> {
+  console.log('[SEO] No pending topics — auto-generating new ones...')
+
+  // Fetch existing topic titles to avoid duplicates
+  const { data: existingTopics } = await supabase
+    .from('topics')
+    .select('title')
+    .limit(100)
+
+  const existingTitles = (existingTopics || []).map((t: any) => t.title).join('\n')
+
+  const currentYear = new Date().getFullYear()
+
+  const prompt = `You are an SEO content strategist for paragliding-oludeniz.com, a tandem paragliding company in Ölüdeniz, Turkey.
+
+Generate 10 NEW blog topic ideas that:
+- Target tourists searching for paragliding in Ölüdeniz / Turkey
+- Are NOT already in this list of existing topics:
+${existingTitles}
+- Mix of: beginner questions, experience descriptions, comparison articles, local tips, safety, pricing, booking, seasonal content
+- High search intent (people about to book or researching)
+- Current year if year is needed: ${currentYear}
+
+Return ONLY a JSON array of objects, no other text:
+[
+  { "title": "Topic title here", "keywords": ["keyword1", "keyword2", "keyword3"] },
+  ...10 items total
+]`
+
+  const message = await anthropic.messages.create({
+    model: process.env.CLAUDE_MODEL || 'claude-haiku-4-5-20251001',
+    max_tokens: 1000,
+    messages: [{ role: 'user', content: prompt }],
+  })
+
+  const text = message.content[0].type === 'text' ? message.content[0].text : '[]'
+  const newTopics = JSON.parse(text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim())
+
+  // Insert into DB
+  const rows = newTopics.map((t: any) => ({
+    title: t.title,
+    keywords: t.keywords || [],
+    status: 'pending',
+  }))
+
+  await supabase.from('topics').insert(rows)
+  console.log(`[SEO] Auto-generated ${rows.length} new topics`)
+
+  // Log cost (haiku is cheap)
+  const cost = (message.usage.input_tokens * 0.0000008) + (message.usage.output_tokens * 0.000004)
+  await logUsage('seo', message.usage.input_tokens, message.usage.output_tokens, cost, 'auto-generate topics')
+}
+
 export async function runSEOAgent(): Promise<SEOBrief> {
   const startTime = Date.now()
 
   // 1. Fetch highest priority pending topic
-  const { data: topics } = await supabase
+  let { data: topics } = await supabase
     .from('topics')
     .select('*')
     .eq('status', 'pending')
     .order('priority', { ascending: false })
     .limit(1)
 
+  // Auto-generate topics if none pending
   if (!topics || topics.length === 0) {
-    throw new Error('No pending topics found')
+    await generateNewTopics()
+
+    const { data: freshTopics } = await supabase
+      .from('topics')
+      .select('*')
+      .eq('status', 'pending')
+      .order('priority', { ascending: false })
+      .limit(1)
+
+    topics = freshTopics
+  }
+
+  if (!topics || topics.length === 0) {
+    throw new Error('Failed to generate topics')
   }
 
   const topic = topics[0]
