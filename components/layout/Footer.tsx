@@ -112,13 +112,16 @@ export default async function Footer() {
               title="TÜRSAB Üye Belgesi No: 6819"
               className="flex-shrink-0 bg-white rounded px-2 py-1 opacity-90 hover:opacity-100 transition-opacity"
             >
-              <Image
-                src="/images/tursab-50.png"
-                alt="TÜRSAB 50. Yıl Üye Belgesi"
-                width={160}
-                height={55}
-                className="h-10 w-auto"
-              />
+              <div className="flex flex-col items-center gap-0.5">
+                <span className="text-[10px] text-slate-400 font-medium tracking-wide">Acrux Travel 6819</span>
+                <Image
+                  src="/images/tursab-50.png"
+                  alt="TÜRSAB 50. Yıl Üye Belgesi"
+                  width={160}
+                  height={55}
+                  className="h-10 w-auto"
+                />
+              </div>
             </a>
             <p className="text-sm text-slate-500">
               © {new Date().getFullYear()} Paragliding Ölüdeniz. All rights reserved.
