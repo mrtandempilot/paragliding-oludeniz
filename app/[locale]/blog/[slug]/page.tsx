@@ -45,8 +45,29 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
 
   if (!article) notFound()
 
+  const articleUrl = `https://paragliding-oludeniz.com/${locale}/blog/${slug}`
+  const blogSchema = article ? {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: article.title,
+    description: article.meta_description || '',
+    image: article.hero_image_url || '',
+    datePublished: article.published_at || article.created_at,
+    dateModified: article.published_at || article.created_at,
+    url: articleUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+    author: { '@type': 'Person', name: 'Ceyhun', url: 'https://paragliding-oludeniz.com/en/about-us' },
+    publisher: { '@type': 'Organization', name: 'Paragliding Oludeniz', url: 'https://paragliding-oludeniz.com' },
+  } : null
+
   return (
     <>
+      {blogSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+        />
+      )}
       <PageHero title={article.title} subtitle={article.excerpt || ''} size="sm" bgImage={article.hero_image_url || 'https://v3b.fal.media/files/b/0a9d7c0c/Dn0br3flHariTrqYqhISR.jpg'} />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
