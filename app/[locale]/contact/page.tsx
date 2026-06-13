@@ -3,7 +3,7 @@ import { Phone, Mail, MapPin, MessageCircle, Clock } from 'lucide-react'
 import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import { getTranslations } from 'next-intl/server'
-import { localeAlternates } from '@/lib/seo'
+import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: d[locale] || d.en,
     title: `${t('title')} | Paragliding Ölüdeniz`,
     alternates: localeAlternates(locale, '/contact'),
-    openGraph: { url: localeAlternates(locale, '/contact').canonical! },
+    openGraph: { url: localeUrl(locale, '/contact') },
   }
 }
 

@@ -4,7 +4,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { Star } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
-import { localeAlternates } from '@/lib/seo'
+import { localeAlternates, localeUrl } from '@/lib/seo'
 
 const reviews = [
   { name: 'Sarah M.', country: '🇬🇧 United Kingdom', rating: 5, text: 'Absolutely the most incredible experience of my life. The views over the Blue Lagoon are indescribable.', date: 'May 2025' },
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/reviews'),
-    openGraph: { url: localeAlternates(locale, '/reviews').canonical! }, title: `${t('pageTitle')} | Paragliding Ölüdeniz` }
+    openGraph: { url: localeUrl(locale, '/reviews') }, title: `${t('pageTitle')} | Paragliding Ölüdeniz` }
 }
 
 export default async function ReviewsPage({ params }: { params: Promise<{ locale: string }> }) {

@@ -6,7 +6,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import FAQAccordion from '@/components/shared/FAQAccordion'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
-import { localeAlternates } from '@/lib/seo'
+import { localeAlternates, localeUrl } from '@/lib/seo'
 import ServiceSchema from '@/components/shared/ServiceSchema'
 
 const faqItems = [
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: d[locale] || d.en,
     title: `${t('title')} | Book from Babadağ`,
     alternates: localeAlternates(locale, '/tandem-paragliding'),
-    openGraph: { url: localeAlternates(locale, '/tandem-paragliding').canonical! },
+    openGraph: { url: localeUrl(locale, '/tandem-paragliding') },
   }
 }
 

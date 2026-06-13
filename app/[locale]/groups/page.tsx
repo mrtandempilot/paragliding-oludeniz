@@ -5,7 +5,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
-import { localeAlternates } from '@/lib/seo'
+import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/groups'),
-    openGraph: { url: localeAlternates(locale, '/groups').canonical! }, title: `${t('title')} | Paragliding Ölüdeniz` }
+    openGraph: { url: localeUrl(locale, '/groups') }, title: `${t('title')} | Paragliding Ölüdeniz` }
 }
 
 export default async function GroupsPage({ params }: { params: Promise<{ locale: string }> }) {

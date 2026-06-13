@@ -6,7 +6,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
-import { localeAlternates } from '@/lib/seo'
+import { localeAlternates, localeUrl } from '@/lib/seo'
 
 async function getArticle(slug: string) {
   try {
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: article ? `${article.title} | Paragliding Ölüdeniz Blog` : 'Blog | Paragliding Ölüdeniz',
     description: article?.meta_description || undefined,
     alternates: localeAlternates(locale, `/blog/${slug}`),
-    openGraph: { url: localeAlternates(locale, `/blog/${slug}`).canonical! },
+    openGraph: { url: localeUrl(locale, `/blog/${slug}`) },
   }
 }
 

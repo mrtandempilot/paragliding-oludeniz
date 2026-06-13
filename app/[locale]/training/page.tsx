@@ -5,7 +5,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
-import { localeAlternates } from '@/lib/seo'
+import { localeAlternates, localeUrl } from '@/lib/seo'
 import ServiceSchema from '@/components/shared/ServiceSchema'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/training'),
-    openGraph: { url: localeAlternates(locale, '/training').canonical! }, title: `${t('title')} | Paragliding Ölüdeniz` }
+    openGraph: { url: localeUrl(locale, '/training') }, title: `${t('title')} | Paragliding Ölüdeniz` }
 }
 
 export default async function TrainingPage({ params }: { params: Promise<{ locale: string }> }) {

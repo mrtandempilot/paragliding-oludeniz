@@ -7,7 +7,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import { blogPosts } from '@/lib/blog'
 import { supabase } from '@/lib/supabase'
 import { getTranslations } from 'next-intl/server'
-import { localeAlternates } from '@/lib/seo'
+import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export const revalidate = 300
 
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: d[locale] || d.en,
     title: `${t('title')} | Paragliding Ölüdeniz`,
     alternates: localeAlternates(locale, '/blog'),
-    openGraph: { url: localeAlternates(locale, '/blog').canonical! },
+    openGraph: { url: localeUrl(locale, '/blog') },
   }
 }
 

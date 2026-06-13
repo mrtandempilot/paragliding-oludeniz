@@ -5,7 +5,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
-import { localeAlternates } from '@/lib/seo'
+import { localeAlternates, localeUrl } from '@/lib/seo'
 
 const milestones = [
   { year: '1999', event: 'First tandem flights from Babadağ Mountain' },
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: d[locale] || d.en,
     title: `${t('title')} | Paragliding Ölüdeniz`,
     alternates: localeAlternates(locale, '/about-us'),
-    openGraph: { url: localeAlternates(locale, '/about-us').canonical! },
+    openGraph: { url: localeUrl(locale, '/about-us') },
   }
 }
 
