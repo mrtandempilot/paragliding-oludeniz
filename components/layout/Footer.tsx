@@ -113,11 +113,11 @@ export default async function Footer() {
               className="flex-shrink-0 bg-white rounded px-2 py-1 opacity-90 hover:opacity-100 transition-opacity"
             >
               <Image
-                src="/images/tursab-50.svg"
+                src="/images/tursab-50.png"
                 alt="TÜRSAB 50. Yıl Üye Belgesi"
-                width={120}
-                height={41}
-                className="h-8 w-auto"
+                width={160}
+                height={55}
+                className="h-10 w-auto"
               />
             </a>
             <p className="text-sm text-slate-500">
