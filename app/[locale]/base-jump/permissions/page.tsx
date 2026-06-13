@@ -27,6 +27,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const body = (bodies as any)[locale]||bodies.en
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"Base Jump Permissions Turkey\", \"description\": \"Permissions and regulations for base jumping in Turkey and around Babada\\u011f.\", \"url\": \"https://paragliding-oludeniz.com/base-jump/permissions\", \"author\": {\"@type\": \"Person\", \"name\": \"Ceyhun\", \"url\": \"https://paragliding-oludeniz.com/en/about-us\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Paragliding Oludeniz\", \"url\": \"https://paragliding-oludeniz.com\"}}" }} />
       <PageHero title={title} subtitle={sub} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c0e/5dF2dxA0ErV0Pcg9kh6CJ.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3"><BreadcrumbNav items={[{ label: title }]} /></div>

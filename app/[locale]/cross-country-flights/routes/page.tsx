@@ -27,6 +27,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const body = (bodies as any)[locale]||bodies.en
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"XC Paragliding Routes from Babada\\u011f Oludeniz\", \"description\": \"Cross-country paragliding routes from Babada\\u011f Mountain \\u2014 distances, waypoints and tips.\", \"url\": \"https://paragliding-oludeniz.com/cross-country-flights/routes\", \"author\": {\"@type\": \"Person\", \"name\": \"Ceyhun\", \"url\": \"https://paragliding-oludeniz.com/en/about-us\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Paragliding Oludeniz\", \"url\": \"https://paragliding-oludeniz.com\"}}" }} />
       <PageHero title={title} subtitle={sub} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7bd4/rtDjiycQ-CNoCYjmlrN3-.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3"><BreadcrumbNav items={[{ label: title }]} /></div>

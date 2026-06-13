@@ -30,148 +30,148 @@
     "semantic_hash": "6873dd1c8e86b5fb3470198f12d0525c"
   },
   "app/[locale]/about-us/page.tsx": {
-    "mtime": 1781359835.1652794,
-    "ast_hash": "699951e604e0ce507a5bb82b97f91632",
+    "mtime": 1781360924.7919333,
+    "ast_hash": "af61300815f4867ba2314f04a0a4b038",
     "semantic_hash": ""
   },
   "app/[locale]/acro-flights/events/page.tsx": {
-    "mtime": 1781359835.1732776,
-    "ast_hash": "da54372800f5b1ea40e5215fcb31155f",
+    "mtime": 1781360924.812934,
+    "ast_hash": "01c15d9a8b2c3bb33025fbef3b554e83",
     "semantic_hash": ""
   },
   "app/[locale]/acro-flights/meeting-points/page.tsx": {
-    "mtime": 1781359835.1763098,
-    "ast_hash": "11e4b181f747de1739309a7ab106bc84",
+    "mtime": 1781360924.8219247,
+    "ast_hash": "c861ffadf846641bd89698d8f31318e3",
     "semantic_hash": ""
   },
   "app/[locale]/acro-flights/page.tsx": {
-    "mtime": 1781359835.1692777,
-    "ast_hash": "9340addd5a6430d8e34b43013ecc6f54",
+    "mtime": 1781360924.803946,
+    "ast_hash": "ead81a248e2523409ce17893436b89a9",
     "semantic_hash": ""
   },
   "app/[locale]/acro-flights/pilots/page.tsx": {
-    "mtime": 1781359835.1793082,
-    "ast_hash": "434a34ad93673659dc02891d3bf3ef19",
+    "mtime": 1781360924.8349268,
+    "ast_hash": "cf5a809990d0ff7f82664bced793cfb6",
     "semantic_hash": ""
   },
   "app/[locale]/acro-flights/safety/page.tsx": {
-    "mtime": 1781359835.1833093,
-    "ast_hash": "b9375c54adbd9ca4f35fdffac2afd6ce",
+    "mtime": 1781360924.8439276,
+    "ast_hash": "dd4dc8b9d2793ccecc251dbf9d3736b2",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/babadag-altitude-sickness/page.tsx": {
-    "mtime": 1781359835.1912806,
-    "ast_hash": "2293c7d97f5b78b90eccee625ff15330",
+    "mtime": 1781360924.867926,
+    "ast_hash": "1dc5a55d644781cc0b147ceed02684dd",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/babadag-mountain/page.tsx": {
-    "mtime": 1781359835.1952803,
-    "ast_hash": "7a64e118f25e2468e5565eda85eafa03",
+    "mtime": 1781360924.8769257,
+    "ast_hash": "2673c4c965734b98d624004b2a2f9095",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/babadag-road-guide/page.tsx": {
-    "mtime": 1781359835.2003334,
-    "ast_hash": "7eb771dd36897dc7971fb79e128baac1",
+    "mtime": 1781360924.8879256,
+    "ast_hash": "536e6d9787a2392736c14fa285743487",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/babadag-teleferik/page.tsx": {
-    "mtime": 1781359835.2043068,
-    "ast_hash": "4a75d2882088e41b5626a1236a9792b0",
+    "mtime": 1781360924.896926,
+    "ast_hash": "c83415a0baad6c74c47850e2596bc5d0",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/babadag-teleferik/qr-ticket-guide/page.tsx": {
-    "mtime": 1781359835.2083116,
-    "ast_hash": "ed5d99d78dbc8bddb14e833cf85a7a06",
+    "mtime": 1781360924.9079318,
+    "ast_hash": "d8d3f70fae7a09575b85927da3015fc8",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/landing-alternatives/page.tsx": {
-    "mtime": 1781359835.2123072,
-    "ast_hash": "0e474366e8d01ef72412a7059e8640b7",
+    "mtime": 1781360924.9169302,
+    "ast_hash": "cc987819bee3388d6b45d5688ae74778",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/landing-crosswind/page.tsx": {
-    "mtime": 1781359835.216307,
-    "ast_hash": "cc06ee5aceb469490c7ef1492623e9c1",
+    "mtime": 1781360924.9269269,
+    "ast_hash": "5c89e99c143557f6fdff9f76f2f4f3a9",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/landing-emergency/page.tsx": {
-    "mtime": 1781359835.2207265,
-    "ast_hash": "d332318cf9526965cc09775c5a943849",
+    "mtime": 1781360924.9339283,
+    "ast_hash": "3e0dda6595e7e0d951a0fd54dfc27555",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/landing-light-wind/page.tsx": {
-    "mtime": 1781359835.2247334,
-    "ast_hash": "cb438b44e60d2c858097eef36298c8e4",
+    "mtime": 1781360924.941931,
+    "ast_hash": "1eed80840250c8e5c0b26f39c828728a",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/landing-main-beach/page.tsx": {
-    "mtime": 1781359835.2294164,
-    "ast_hash": "78c8866f97474cd54a38af4b1bd9d6de",
+    "mtime": 1781360924.9509263,
+    "ast_hash": "898502f06d1db79ea8ca3de7d2da206f",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/landing-south-wind/page.tsx": {
-    "mtime": 1781359835.233343,
-    "ast_hash": "09cc8307d7a303db7226837f0df3f759",
+    "mtime": 1781360924.95893,
+    "ast_hash": "65077c213c0a502e3b699ae0c837961d",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/landing-strong-wind/page.tsx": {
-    "mtime": 1781359835.2376094,
-    "ast_hash": "f372e853af44a152e9a7edf83eb4a136",
+    "mtime": 1781360924.9659255,
+    "ast_hash": "b4c2c4cd1507ead23d5a841785bfada6",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/page.tsx": {
-    "mtime": 1781359835.1872792,
-    "ast_hash": "bfab74d8db16b4d1d6e22cba89b6edb4",
+    "mtime": 1781360924.8569255,
+    "ast_hash": "f322404b8e4be18c80134376b97cc8f1",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/takeoff-1200m/page.tsx": {
-    "mtime": 1781359835.2416084,
-    "ast_hash": "680f828bc72ceff606a78451bf156919",
+    "mtime": 1781360924.9729269,
+    "ast_hash": "743c16d382d39d123405e400a1079b26",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/takeoff-1700m/page.tsx": {
-    "mtime": 1781359835.244608,
-    "ast_hash": "a12d33ab3ecda0624dfa5e1d51f307e4",
+    "mtime": 1781360924.9809246,
+    "ast_hash": "0d97c3c0c842a7595ca3fdfdf7a818ca",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/takeoff-1800m/page.tsx": {
-    "mtime": 1781359835.2486076,
-    "ast_hash": "c1a8e09b470f7e1008833dec2a0694b7",
+    "mtime": 1781360924.988924,
+    "ast_hash": "cf03c886af7bf7d3de4b64ddbcaf9df1",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-guide/takeoff-1900m/page.tsx": {
-    "mtime": 1781359835.2526073,
-    "ast_hash": "d864a8c8222ab28899fb06fb0af7c841",
+    "mtime": 1781360924.997928,
+    "ast_hash": "613539b114074d83f4581383b81fb5f3",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-road-guide/page.tsx": {
-    "mtime": 1781359835.2561536,
-    "ast_hash": "397c6192dd31ed19be65e1ee197454a2",
+    "mtime": 1781360925.0067763,
+    "ast_hash": "ac24a03b889aade9d1e9e21b5f4fbd4c",
     "semantic_hash": ""
   },
   "app/[locale]/babadag-teleferik/page.tsx": {
-    "mtime": 1781359835.2601569,
-    "ast_hash": "7eddda6770183fb9e8267eaf1f3bafa4",
+    "mtime": 1781360925.0157733,
+    "ast_hash": "aadb97088291056cdb25b0fd6388a368",
     "semantic_hash": ""
   },
   "app/[locale]/base-jump/community/page.tsx": {
-    "mtime": 1781359835.2681234,
-    "ast_hash": "308b89e88656c8aa1c03bc6279ea7a47",
+    "mtime": 1781360925.0307763,
+    "ast_hash": "bdd861d015ea914493f44f4e27d97345",
     "semantic_hash": ""
   },
   "app/[locale]/base-jump/exit-points/page.tsx": {
-    "mtime": 1781359835.2715282,
-    "ast_hash": "84bdfb80e45780c88ed772d0c1a061ee",
+    "mtime": 1781360925.0397778,
+    "ast_hash": "19b12a578ba9a30766f0e3959a232e6d",
     "semantic_hash": ""
   },
   "app/[locale]/base-jump/page.tsx": {
-    "mtime": 1781359835.2641232,
-    "ast_hash": "b54de6a9619a2ae521596610e3bb7888",
+    "mtime": 1781360925.0237753,
+    "ast_hash": "c93246025179c6cecf702c20f9ffa5fa",
     "semantic_hash": ""
   },
   "app/[locale]/base-jump/permissions/page.tsx": {
-    "mtime": 1781359835.2755268,
-    "ast_hash": "91567b449a0396998d4e01de5bb3fe92",
+    "mtime": 1781360925.0487747,
+    "ast_hash": "eb1be0b82983b8cce11b4beb3e695c97",
     "semantic_hash": ""
   },
   "app/[locale]/blog/[slug]/opengraph-image.tsx": {
@@ -180,8 +180,8 @@
     "semantic_hash": "ea4897666daa3d596351960d887def90"
   },
   "app/[locale]/blog/[slug]/page.tsx": {
-    "mtime": 1781360073.486456,
-    "ast_hash": "d6f8e5026212444a5a570839e64903c7",
+    "mtime": 1781360945.1218967,
+    "ast_hash": "5a1bc6a4cd914c34e759aa9b53f17e17",
     "semantic_hash": ""
   },
   "app/[locale]/blog/opengraph-image.tsx": {
@@ -190,13 +190,13 @@
     "semantic_hash": "f4b8a57a2a63d62af9941aab4cc0a69c"
   },
   "app/[locale]/blog/page.tsx": {
-    "mtime": 1781359835.2797396,
-    "ast_hash": "984cb5d2ae6d0718a0a1eadd5a883ff2",
+    "mtime": 1781360925.0567732,
+    "ast_hash": "7efa6c8a4daf64faa918916fb184f687",
     "semantic_hash": ""
   },
   "app/[locale]/blue-lagoon-paragliding/page.tsx": {
-    "mtime": 1781359835.2867389,
-    "ast_hash": "2a4d9372f16d7fb7dbb6db7fa32ddd9b",
+    "mtime": 1781360925.0677786,
+    "ast_hash": "64d5ef8dcbb29b8b5598da5834e8107a",
     "semantic_hash": ""
   },
   "app/[locale]/book-now/BookingForm.tsx": {
@@ -205,93 +205,93 @@
     "semantic_hash": ""
   },
   "app/[locale]/book-now/page.tsx": {
-    "mtime": 1781359835.2907388,
-    "ast_hash": "86038d12b394a8f0707029c2b29227b3",
+    "mtime": 1781360925.0757737,
+    "ast_hash": "355ce7cd3ce4492828eeeb0076b23be6",
     "semantic_hash": ""
   },
   "app/[locale]/butterfly-valley-paragliding/page.tsx": {
-    "mtime": 1781359835.2940216,
-    "ast_hash": "16656503d753319485274c8fe7ace26c",
+    "mtime": 1781360925.083787,
+    "ast_hash": "9533aafa7fbb7b52ca7a05d0015e5d6e",
     "semantic_hash": ""
   },
   "app/[locale]/certifications/page.tsx": {
-    "mtime": 1781359835.29802,
-    "ast_hash": "b08cd7eb4bdc4b38ad414016c52c1a0b",
+    "mtime": 1781360925.0917735,
+    "ast_hash": "db9c83bcb8142531fe9639fc9ddc9f54",
     "semantic_hash": ""
   },
   "app/[locale]/community/page.tsx": {
-    "mtime": 1781359835.3030243,
-    "ast_hash": "c6d734f9f54b9dbac476cf3aaa051af6",
+    "mtime": 1781360925.099775,
+    "ast_hash": "9490fb39dd0c105e230b885f5484dad5",
     "semantic_hash": ""
   },
   "app/[locale]/contact/page.tsx": {
-    "mtime": 1781359835.3090205,
-    "ast_hash": "c67465e0d2fcfdebfbe13478883e72b1",
+    "mtime": 1781360925.1107745,
+    "ast_hash": "c1b61e66fcc39416ec5f7c5ffd528989",
     "semantic_hash": ""
   },
   "app/[locale]/cross-country-flights/community/page.tsx": {
-    "mtime": 1781359835.3170202,
-    "ast_hash": "9684192afc62ef6a2a9beea2b63d4677",
+    "mtime": 1781360925.1267734,
+    "ast_hash": "96413c31619234f90ea0d8ed33889cd4",
     "semantic_hash": ""
   },
   "app/[locale]/cross-country-flights/landing-zones/page.tsx": {
-    "mtime": 1781359835.32102,
-    "ast_hash": "4306b6dc043615bcb2422815c3b1d307",
+    "mtime": 1781360925.1337736,
+    "ast_hash": "47fbf1c6c611f174dc94f9aba8cf8771",
     "semantic_hash": ""
   },
   "app/[locale]/cross-country-flights/page.tsx": {
-    "mtime": 1781359835.31302,
-    "ast_hash": "7457ef9fb722a57fe4c5aa7f2beee6c1",
+    "mtime": 1781360925.1187737,
+    "ast_hash": "5993dcbd833af927930250ce43d7ceaa",
     "semantic_hash": ""
   },
   "app/[locale]/cross-country-flights/routes/page.tsx": {
-    "mtime": 1781359835.3240206,
-    "ast_hash": "e254f15566bf52ce4fbba13936aad1af",
+    "mtime": 1781360925.141776,
+    "ast_hash": "4527f613a3db44899667a5a6c5821940",
     "semantic_hash": ""
   },
   "app/[locale]/cross-country-flights/seasons/page.tsx": {
-    "mtime": 1781359835.32802,
-    "ast_hash": "dcafcdf4c96fade375832cb95f6a313e",
+    "mtime": 1781360925.1497781,
+    "ast_hash": "928f330e4cafb7f70ab531a324e20329",
     "semantic_hash": ""
   },
   "app/[locale]/cross-country-flights/thermal-maps/page.tsx": {
-    "mtime": 1781359835.3314514,
-    "ast_hash": "6f4763ef59f5a0a15e8cf25530bf3d76",
+    "mtime": 1781360925.15778,
+    "ast_hash": "b97c7b9d4de7f69fb42bf7574a9f8372",
     "semantic_hash": ""
   },
   "app/[locale]/faq/page.tsx": {
-    "mtime": 1781359835.3364527,
-    "ast_hash": "e0b66b361744363ca62cbac1c033305c",
+    "mtime": 1781360925.167774,
+    "ast_hash": "4b856ea6855f4f9e36970a50e0e5ac09",
     "semantic_hash": ""
   },
   "app/[locale]/fethiye-paragliding/page.tsx": {
-    "mtime": 1781359835.3404543,
-    "ast_hash": "eaff436c1800232494f9195019e2750f",
+    "mtime": 1781360925.1757736,
+    "ast_hash": "99e726636735b40ef9cba0ce683fd24f",
     "semantic_hash": ""
   },
   "app/[locale]/groups/corporate/page.tsx": {
-    "mtime": 1781359835.3479726,
-    "ast_hash": "5fdd2d343ffad5b5674d1317f01ef68b",
+    "mtime": 1781360925.1917808,
+    "ast_hash": "679405abf1b4f83b6b8aed7d04a52db0",
     "semantic_hash": ""
   },
   "app/[locale]/groups/hen-stag/page.tsx": {
-    "mtime": 1781359835.352973,
-    "ast_hash": "fb772e3341c42f79a435d1d4e08093b5",
+    "mtime": 1781360925.2003841,
+    "ast_hash": "b6cca6be77506a4e48def987edc89dab",
     "semantic_hash": ""
   },
   "app/[locale]/groups/page.tsx": {
-    "mtime": 1781359835.3434515,
-    "ast_hash": "934834f7c9743fed61ed7b70aa59b1a6",
+    "mtime": 1781360925.1837757,
+    "ast_hash": "6e702a58036c7a48af2bcb9fcb8039c2",
     "semantic_hash": ""
   },
   "app/[locale]/groups/schools/page.tsx": {
-    "mtime": 1781359835.3589754,
-    "ast_hash": "594cfc078ce72c4c7b33faf6bd80f696",
+    "mtime": 1781360925.2083855,
+    "ast_hash": "89df8bea2377f7536fa43028b52b3982",
     "semantic_hash": ""
   },
   "app/[locale]/groups/tour-operators/page.tsx": {
-    "mtime": 1781359835.3639722,
-    "ast_hash": "76ca3110b426f70da06dc13b89c9361c",
+    "mtime": 1781360925.2163815,
+    "ast_hash": "87b7a35b0ef76dcb4f01a8f86818f3cd",
     "semantic_hash": ""
   },
   "app/[locale]/layout.tsx": {
@@ -300,13 +300,13 @@
     "semantic_hash": "d934efde4196f2d99a1741c524816c91"
   },
   "app/[locale]/live-weather/page.tsx": {
-    "mtime": 1781359835.368973,
-    "ast_hash": "202e399d362c94a9e314f860b4f2ea79",
+    "mtime": 1781360925.223382,
+    "ast_hash": "540b4e838567628bd7ee792c2c75df1f",
     "semantic_hash": ""
   },
   "app/[locale]/oludeniz-paragliding/page.tsx": {
-    "mtime": 1781359835.3739722,
-    "ast_hash": "1b3283401bb4aa1b0e775a4526eb3f95",
+    "mtime": 1781360925.2313795,
+    "ast_hash": "5c6277cffc8f82bb4cf19d56aea9550f",
     "semantic_hash": ""
   },
   "app/[locale]/page.tsx": {
@@ -315,68 +315,68 @@
     "semantic_hash": ""
   },
   "app/[locale]/paramotor/equipment/page.tsx": {
-    "mtime": 1781359835.3838236,
-    "ast_hash": "5c1eaaa134e63ca3f744ae550d5feee2",
+    "mtime": 1781360925.2463825,
+    "ast_hash": "e3b283a3a607af6041b3c5e06d0f4f54",
     "semantic_hash": ""
   },
   "app/[locale]/paramotor/launch-sites/page.tsx": {
-    "mtime": 1781359835.3888242,
-    "ast_hash": "13cb81a3c98554ab62604d36db677ed2",
+    "mtime": 1781360925.254387,
+    "ast_hash": "3dd8048ab6e02b0f9326b3334d0487df",
     "semantic_hash": ""
   },
   "app/[locale]/paramotor/page.tsx": {
-    "mtime": 1781359835.3789728,
-    "ast_hash": "a7f76d238dee55c1f2e61c01ffb34b46",
+    "mtime": 1781360925.2383819,
+    "ast_hash": "be218a4d1706ee160dc6a99d995a3e0d",
     "semantic_hash": ""
   },
   "app/[locale]/paramotor/rules/page.tsx": {
-    "mtime": 1781359835.3938243,
-    "ast_hash": "64a96d4b2edb3defb23e15ed2dde82ec",
+    "mtime": 1781360925.2623913,
+    "ast_hash": "775674a001241b9b80cf2a4403ffd1b4",
     "semantic_hash": ""
   },
   "app/[locale]/paramotor/training/page.tsx": {
-    "mtime": 1781359835.398825,
-    "ast_hash": "f3804dfe6687b08450e6f04d9cf7dec0",
+    "mtime": 1781360925.2703824,
+    "ast_hash": "25a0857202a62fde220e33bb3586a40b",
     "semantic_hash": ""
   },
   "app/[locale]/pilot-services/equipment-rental/page.tsx": {
-    "mtime": 1781359835.4089367,
-    "ast_hash": "332ae5ba39ee4cec5bc056604d340c72",
+    "mtime": 1781360925.285383,
+    "ast_hash": "1453ee10bf9ba87e489a0d16b92c9630",
     "semantic_hash": ""
   },
   "app/[locale]/pilot-services/gopro-video/page.tsx": {
-    "mtime": 1781359835.413937,
-    "ast_hash": "2a48d8a0ea51df7c38bd4d0b9f76baa8",
+    "mtime": 1781360925.2923815,
+    "ast_hash": "ecbecbc299e1ed86d95c1aea0a53c2b5",
     "semantic_hash": ""
   },
   "app/[locale]/pilot-services/meteorology/page.tsx": {
-    "mtime": 1781359835.4189365,
-    "ast_hash": "6bd7d9be49e25a642c4b93cc3f1b0bbc",
+    "mtime": 1781360925.3003798,
+    "ast_hash": "4675426e466ebc6cf969d8d9ab86e082",
     "semantic_hash": ""
   },
   "app/[locale]/pilot-services/page.tsx": {
-    "mtime": 1781359835.4039307,
-    "ast_hash": "81fc67b1274a54abd7e0b04d3786eba5",
+    "mtime": 1781360925.278383,
+    "ast_hash": "a1116daa641e72ab83cb86c79893f93d",
     "semantic_hash": ""
   },
   "app/[locale]/pilot-services/photography/page.tsx": {
-    "mtime": 1781359835.4239373,
-    "ast_hash": "d13384148819e66dde5d32246a747391",
+    "mtime": 1781360925.3073795,
+    "ast_hash": "14f5499d36a28d0e1e571bd070b1ce25",
     "semantic_hash": ""
   },
   "app/[locale]/pilot-services/radio-hire/page.tsx": {
-    "mtime": 1781359835.4279358,
-    "ast_hash": "b0c98bf39bba35686557c3c9e6ee2c4b",
+    "mtime": 1781360925.314381,
+    "ast_hash": "17b1975dd592bde42462cf7047808463",
     "semantic_hash": ""
   },
   "app/[locale]/pilot-services/retrieval/page.tsx": {
-    "mtime": 1781359835.432937,
-    "ast_hash": "972518ec189bd6e40cd8dc2a0ac7e0ce",
+    "mtime": 1781360925.324386,
+    "ast_hash": "e5147ec5841e6247589d7313869ac14e",
     "semantic_hash": ""
   },
   "app/[locale]/pilot-services/storage/page.tsx": {
-    "mtime": 1781359835.4376256,
-    "ast_hash": "c08f66e34b84269c6476cdff5f1dec20",
+    "mtime": 1781360925.3313885,
+    "ast_hash": "f93dc3b5bf4e6ed6b818d55a1bab772f",
     "semantic_hash": ""
   },
   "app/[locale]/prices/opengraph-image.tsx": {
@@ -385,53 +385,53 @@
     "semantic_hash": "72ab7c7f024a4a63175b236ec4314a07"
   },
   "app/[locale]/prices/page.tsx": {
-    "mtime": 1781359835.4426243,
-    "ast_hash": "9f2deb1a2d620bb16a7a50f87ac8685f",
+    "mtime": 1781360154.077328,
+    "ast_hash": "dbc8b2b2818de9b13bdbc89add57bcc4",
     "semantic_hash": ""
   },
   "app/[locale]/reviews/page.tsx": {
-    "mtime": 1781359835.4486256,
-    "ast_hash": "7e01698376fbf57d736e7df78e42ac3e",
+    "mtime": 1781360925.3423822,
+    "ast_hash": "a67ba57ed0c69446457a14d631845579",
     "semantic_hash": ""
   },
   "app/[locale]/safety-record/page.tsx": {
-    "mtime": 1781359835.4536262,
-    "ast_hash": "ed13db11fd57f934c67d147c2ce44833",
+    "mtime": 1781360925.351395,
+    "ast_hash": "df93959b0bacb8a6900f3c7001f15f95",
     "semantic_hash": ""
   },
   "app/[locale]/solo-paragliding/equipment-requirements/page.tsx": {
-    "mtime": 1781359835.4646258,
-    "ast_hash": "fa11420ccddc00e571342eba9b1799bf",
+    "mtime": 1781360925.3673863,
+    "ast_hash": "94ea62f79a291fdfd3c0d89e0f7641a5",
     "semantic_hash": ""
   },
   "app/[locale]/solo-paragliding/flight-rules/page.tsx": {
-    "mtime": 1781359835.4706254,
-    "ast_hash": "4861036882410b93e3ed1105f951d913",
+    "mtime": 1781360925.3743813,
+    "ast_hash": "1b00635143b84dbc1ec3c754167eb816",
     "semantic_hash": ""
   },
   "app/[locale]/solo-paragliding/insurance-permissions/page.tsx": {
-    "mtime": 1781359835.4756255,
-    "ast_hash": "f37ec6bfa88613cf74ee31e0b4f5d997",
+    "mtime": 1781360925.3813822,
+    "ast_hash": "f9dd25abfdb7ca3b20b5a83e857fc3d6",
     "semantic_hash": ""
   },
   "app/[locale]/solo-paragliding/page.tsx": {
-    "mtime": 1781359835.4596255,
-    "ast_hash": "1103de962b0fa5be54864adc29a05b1f",
+    "mtime": 1781360925.3593872,
+    "ast_hash": "59cd56a5fffe2f2cc636bedb3ed7e4f7",
     "semantic_hash": ""
   },
   "app/[locale]/tandem-paragliding/faq/page.tsx": {
-    "mtime": 1781359835.4866266,
-    "ast_hash": "e378a996194010729be7eaf9b0b71f90",
+    "mtime": 1781360925.3923824,
+    "ast_hash": "e84c4e9108491a4ec3920f1d051a80dd",
     "semantic_hash": ""
   },
   "app/[locale]/tandem-paragliding/first-time/page.tsx": {
-    "mtime": 1781359835.4916253,
-    "ast_hash": "c9fcf6b3c2a7e3499f921c77fbcdecfd",
+    "mtime": 1781360925.4013853,
+    "ast_hash": "7d08b3eb1ac35c44e740b9696af3bf71",
     "semantic_hash": ""
   },
   "app/[locale]/tandem-paragliding/group-flights/page.tsx": {
-    "mtime": 1781359835.4966266,
-    "ast_hash": "19fad4d63f1a2e6f0cc70fd08b8cc820",
+    "mtime": 1781360925.4093828,
+    "ast_hash": "8174de58ce144a7a06a45d97023d2315",
     "semantic_hash": ""
   },
   "app/[locale]/tandem-paragliding/opengraph-image.tsx": {
@@ -445,138 +445,138 @@
     "semantic_hash": ""
   },
   "app/[locale]/tandem-paragliding/safety-guide/page.tsx": {
-    "mtime": 1781359835.5016253,
-    "ast_hash": "141b1dc1a53607fb7e335f8b96be36b3",
+    "mtime": 1781360925.4163828,
+    "ast_hash": "cfaf02cf71de6ef585eb3b4d3dc932b2",
     "semantic_hash": ""
   },
   "app/[locale]/tandem-paragliding/sunset-flight/page.tsx": {
-    "mtime": 1781359835.5076263,
-    "ast_hash": "967248a9e284755dd9fa228a0207371b",
+    "mtime": 1781360925.4243832,
+    "ast_hash": "ffb1558e9d39aa6ec8e07a0a5e3ff735",
     "semantic_hash": ""
   },
   "app/[locale]/thermals-guide/cloudbase-guide/page.tsx": {
-    "mtime": 1781359835.5171936,
-    "ast_hash": "1f46bddec69684925fa2a581940feefd",
+    "mtime": 1781360925.437383,
+    "ast_hash": "ed1ce29a06c0364fb0392a7f69cca0a2",
     "semantic_hash": ""
   },
   "app/[locale]/thermals-guide/page.tsx": {
-    "mtime": 1781359835.5124815,
-    "ast_hash": "1f7ea865ced1f84f277922fe46e441e5",
+    "mtime": 1781360925.4313817,
+    "ast_hash": "82d811df370fa2c22e3740b5e6c717ac",
     "semantic_hash": ""
   },
   "app/[locale]/thermals-guide/reading-thermals/page.tsx": {
-    "mtime": 1781359835.5224237,
-    "ast_hash": "4014a8211b2f06890f8a448ed5de3e11",
+    "mtime": 1781360925.4453835,
+    "ast_hash": "e246dd2b7e16dea1ebd2fef5bc716d3f",
     "semantic_hash": ""
   },
   "app/[locale]/thermals-guide/thermal-safety/page.tsx": {
-    "mtime": 1781359835.525936,
-    "ast_hash": "e12afd903314731a42ed9a4018fbc6a4",
+    "mtime": 1781360925.452382,
+    "ast_hash": "361d8487e65799563ba6565a0304136e",
     "semantic_hash": ""
   },
   "app/[locale]/thermals-guide/thermal-triggers/page.tsx": {
-    "mtime": 1781359835.5299358,
-    "ast_hash": "c86ff3b07819e992c287b6f1ffbd4ffe",
+    "mtime": 1781360925.460382,
+    "ast_hash": "4ed9d89ffacb55f3e5aa098bb2fb6301",
     "semantic_hash": ""
   },
   "app/[locale]/training/advanced-courses/page.tsx": {
-    "mtime": 1781359835.538937,
-    "ast_hash": "9b833fe1f2bd98c3956d646eabb9340b",
+    "mtime": 1781360925.4793806,
+    "ast_hash": "c9433aa82a4c897fcb78df633014a57f",
     "semantic_hash": ""
   },
   "app/[locale]/training/beginner-courses/page.tsx": {
-    "mtime": 1781359835.5429368,
-    "ast_hash": "2101b1b5d5a3fa23bcf7633002d2ad73",
+    "mtime": 1781360925.4863882,
+    "ast_hash": "94def97b1d31239e19bb13935701a233",
     "semantic_hash": ""
   },
   "app/[locale]/training/instructor-info/page.tsx": {
-    "mtime": 1781359835.547936,
-    "ast_hash": "ae7ed161d9df53e6723c4dd627217c54",
+    "mtime": 1781360925.4963872,
+    "ast_hash": "caf43db129e0ad6b70f161cf925f3080",
     "semantic_hash": ""
   },
   "app/[locale]/training/licence-recognition/page.tsx": {
-    "mtime": 1781359835.5529375,
-    "ast_hash": "4505f2174b88aaecd53a2b658961d8ae",
+    "mtime": 1781360925.5104957,
+    "ast_hash": "afdfe208a04370ea03e68e2b60c96d11",
     "semantic_hash": ""
   },
   "app/[locale]/training/page.tsx": {
-    "mtime": 1781359835.5339358,
-    "ast_hash": "912fb2453f1e3ab313a83263a56d8dd2",
+    "mtime": 1781360925.469393,
+    "ast_hash": "3066d300313134a6552bba1ad15945a1",
     "semantic_hash": ""
   },
   "app/[locale]/training/siv-clinic/page.tsx": {
-    "mtime": 1781359835.5579357,
-    "ast_hash": "247f7044c6c79b7606317048383da5ec",
+    "mtime": 1781360925.528754,
+    "ast_hash": "326e3d6ec5381dd941ccf8ad01b4a2ab",
     "semantic_hash": ""
   },
   "app/[locale]/training/tandem-conversion/page.tsx": {
-    "mtime": 1781359835.5619364,
-    "ast_hash": "9bb9f3b9e38b32ea7f30e7abce8ce753",
+    "mtime": 1781360925.547692,
+    "ast_hash": "27fba7c5b78a6eb4548637140d0fe4bb",
     "semantic_hash": ""
   },
   "app/[locale]/transfers/dalaman-airport/page.tsx": {
-    "mtime": 1781359835.570937,
-    "ast_hash": "7206ce1fd87cb502554df7a10c85ab09",
+    "mtime": 1781360925.5703864,
+    "ast_hash": "d8febf8936d0d2d6b9ac35c8749747fc",
     "semantic_hash": ""
   },
   "app/[locale]/transfers/from-fethiye/page.tsx": {
-    "mtime": 1781359835.5749366,
-    "ast_hash": "c9f9ec0a0675e848b6ae05d1dc36dda7",
+    "mtime": 1781360925.5808213,
+    "ast_hash": "8e740305d2b8b92d7c1933065a797828",
     "semantic_hash": ""
   },
   "app/[locale]/transfers/from-marmaris/page.tsx": {
-    "mtime": 1781359835.5789366,
-    "ast_hash": "efe0e325fd7165604ed45d470cdb1344",
+    "mtime": 1781360925.59006,
+    "ast_hash": "aeb825d763a96d7c5c66f86afa7c4896",
     "semantic_hash": ""
   },
   "app/[locale]/transfers/page.tsx": {
-    "mtime": 1781359835.5669358,
-    "ast_hash": "93c0f38aa0e4c398e9fd48ba6206b1e6",
+    "mtime": 1781360925.5621114,
+    "ast_hash": "f694e1ed25c662105c313f54f90c38d2",
     "semantic_hash": ""
   },
   "app/[locale]/transfers/private-transfer/page.tsx": {
-    "mtime": 1781359835.5829363,
-    "ast_hash": "86177d14e3e1cc0a5d3d13c753c8cf6b",
+    "mtime": 1781360925.605882,
+    "ast_hash": "6cd30e4cef766c08bd66cc22c26ab9bb",
     "semantic_hash": ""
   },
   "app/[locale]/transfers/to-babadag/page.tsx": {
-    "mtime": 1781359835.5879364,
-    "ast_hash": "e833829e333b93eb075ec25f65bee05d",
+    "mtime": 1781360925.618924,
+    "ast_hash": "80c75ea28942d42223242b3fed4ad43b",
     "semantic_hash": ""
   },
   "app/[locale]/turkey-paragliding/page.tsx": {
-    "mtime": 1781359835.5929365,
-    "ast_hash": "1bf73c4dea6998b9f006602e3c248855",
+    "mtime": 1781360925.6288314,
+    "ast_hash": "4b0d4dfda5515349afc1a9a0d29426cb",
     "semantic_hash": ""
   },
   "app/[locale]/weather-guide/best-months/page.tsx": {
-    "mtime": 1781359835.6029365,
-    "ast_hash": "0dd6142d95d7951b3ec3a4e0ba009a72",
+    "mtime": 1781360925.6503246,
+    "ast_hash": "f5be030ef66206df1587e8d9f9f6fbd8",
     "semantic_hash": ""
   },
   "app/[locale]/weather-guide/cloudbase/page.tsx": {
-    "mtime": 1781359835.6089373,
-    "ast_hash": "ccdb675794c66e9ec95ae02dfb7d494b",
+    "mtime": 1781360925.662931,
+    "ast_hash": "34dd437c8e412f3d42aa7c69b3f2b983",
     "semantic_hash": ""
   },
   "app/[locale]/weather-guide/page.tsx": {
-    "mtime": 1781359835.5979357,
-    "ast_hash": "33258805c20fffabd5b9ebab7233b49b",
+    "mtime": 1781360925.6394897,
+    "ast_hash": "2077aaf286d702b6a39b82feb28c4d11",
     "semantic_hash": ""
   },
   "app/[locale]/weather-guide/summer-thermals/page.tsx": {
-    "mtime": 1781359835.6149364,
-    "ast_hash": "30bfbb10c8f1eec0bc4a7a40374f9b17",
+    "mtime": 1781360925.675929,
+    "ast_hash": "252ae0c6ce831c60f65e7ff416f9ff4e",
     "semantic_hash": ""
   },
   "app/[locale]/weather-guide/wind-directions/page.tsx": {
-    "mtime": 1781359835.6249354,
-    "ast_hash": "eb3bf2a24097859b3c4ef51027ad6fc7",
+    "mtime": 1781360925.6879363,
+    "ast_hash": "0c33a798e45dd5b9a8f582bba2a72278",
     "semantic_hash": ""
   },
   "app/[locale]/weather-guide/winter-flying/page.tsx": {
-    "mtime": 1781359835.6309369,
-    "ast_hash": "b9c5b4962b52706adca96c6b3ee1fc4a",
+    "mtime": 1781360925.6989305,
+    "ast_hash": "0e1cc1c3487839a12c8179b2bfba6238",
     "semantic_hash": ""
   },
   "app/about-us/page.tsx": {
@@ -1605,9 +1605,9 @@
     "semantic_hash": "acd6a487a64448ba80c84c8050b0f2c9"
   },
   "next-sitemap.config.js": {
-    "mtime": 1779022636.3753147,
-    "ast_hash": "82686f96a2cc56421bdd03e9f595681f",
-    "semantic_hash": "82686f96a2cc56421bdd03e9f595681f"
+    "mtime": 1781360119.5525196,
+    "ast_hash": "477b3acc5b47c7326dca4dcb3a572bde",
+    "semantic_hash": ""
   },
   "next.config.js": {
     "mtime": 1781016318.2782874,

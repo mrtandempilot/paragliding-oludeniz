@@ -4,6 +4,406 @@
   "graph": {},
   "nodes": [
     {
+      "label": "Google_Business_Profile_Notlar.md",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar",
+      "community": 98,
+      "norm_label": "google_business_profile_notlar.md"
+    },
+    {
+      "label": "Google Business Profile \u2014 Paragliding Oludeniz",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_google_business_profile_paragliding_oludeniz",
+      "community": 98,
+      "norm_label": "google business profile \u2014 paragliding oludeniz"
+    },
+    {
+      "label": "\u2705 Review Linki",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_review_linki",
+      "community": 98,
+      "norm_label": "\u2705 review linki"
+    },
+    {
+      "label": "\ud83d\udccb Profil Durumu",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_profil_durumu",
+      "community": 98,
+      "norm_label": "\ud83d\udccb profil durumu"
+    },
+    {
+      "label": "\u26a0\ufe0f Kritik Sorunlar",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_kritik_sorunlar",
+      "community": 98,
+      "norm_label": "\u26a0\ufe0f kritik sorunlar"
+    },
+    {
+      "label": "1. Duplicate Listing \u2014 Suspended",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_1_duplicate_listing_suspended",
+      "community": 98,
+      "norm_label": "1. duplicate listing \u2014 suspended"
+    },
+    {
+      "label": "2. Profile Strength",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L48",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_2_profile_strength",
+      "community": 98,
+      "norm_label": "2. profile strength"
+    },
+    {
+      "label": "\ud83c\udfc6 Rakip Analizi",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L54",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_rakip_analizi",
+      "community": 98,
+      "norm_label": "\ud83c\udfc6 rakip analizi"
+    },
+    {
+      "label": "\ud83c\udfaf #1 Olmak \u0130\u00e7in Yap\u0131lacaklar (\u00d6ncelik S\u0131ras\u0131)",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L65",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_1_olmak_i\u0307\u00e7in_yap\u0131lacaklar_\u00f6ncelik_s\u0131ras\u0131",
+      "community": 98,
+      "norm_label": "\ud83c\udfaf #1 olmak icin yap\u0131lacaklar (oncelik s\u0131ras\u0131)"
+    },
+    {
+      "label": "1. REVIEWS \u2014 En Kritik",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_1_reviews_en_kritik",
+      "community": 98,
+      "norm_label": "1. reviews \u2014 en kritik"
+    },
+    {
+      "label": "2. FOTO\u011eRAFLAR",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_2_foto\u011fraflar",
+      "community": 98,
+      "norm_label": "2. fotograflar"
+    },
+    {
+      "label": "3. GOOGLE POSTS",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_3_google_posts",
+      "community": 98,
+      "norm_label": "3. google posts"
+    },
+    {
+      "label": "4. DUPLICATE L\u0130ST\u0130NG",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L81",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_4_duplicate_li\u0307sti\u0307ng",
+      "community": 98,
+      "norm_label": "4. duplicate listing"
+    },
+    {
+      "label": "5. PENDING DE\u011e\u0130\u015e\u0130KL\u0130KLER",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L85",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_5_pending_de\u011fi\u0307\u015fi\u0307kli\u0307kler",
+      "community": 98,
+      "norm_label": "5. pending degisiklikler"
+    },
+    {
+      "label": "\ud83d\udd17 \u00d6nemli Linkler",
+      "file_type": "document",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L90",
+      "_origin": "ast",
+      "id": "google_business_profile_notlar_\u00f6nemli_linkler",
+      "community": 98,
+      "norm_label": "\ud83d\udd17 onemli linkler"
+    },
+    {
+      "label": "SEO_AUDIT_2026-06-13.md",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13",
+      "community": 86,
+      "norm_label": "seo_audit_2026-06-13.md"
+    },
+    {
+      "label": "SEO Audit Report \u2014 paragliding-oludeniz.com",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_seo_audit_report_paragliding_oludeniz_com",
+      "community": 86,
+      "norm_label": "seo audit report \u2014 paragliding-oludeniz.com"
+    },
+    {
+      "label": "Score Breakdown",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_score_breakdown",
+      "community": 86,
+      "norm_label": "score breakdown"
+    },
+    {
+      "label": "\ud83d\udd34 Critical Issues (fix now)",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_critical_issues_fix_now",
+      "community": 86,
+      "norm_label": "\ud83d\udd34 critical issues (fix now)"
+    },
+    {
+      "label": "1. `og:url` is wrong on every interior page",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_1_og_url_is_wrong_on_every_interior_page",
+      "community": 86,
+      "norm_label": "1. `og:url` is wrong on every interior page"
+    },
+    {
+      "label": "2. Blog page shows zero articles on the live site",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_2_blog_page_shows_zero_articles_on_the_live_site",
+      "community": 86,
+      "norm_label": "2. blog page shows zero articles on the live site"
+    },
+    {
+      "label": "3. Meta description not overriding on interior pages",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_3_meta_description_not_overriding_on_interior_pages",
+      "community": 86,
+      "norm_label": "3. meta description not overriding on interior pages"
+    },
+    {
+      "label": "4. 104 non-locale pages redirect to `/` instead of locale equivalent",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L63",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_4_104_non_locale_pages_redirect_to_instead_of_locale_equivalent",
+      "community": 86,
+      "norm_label": "4. 104 non-locale pages redirect to `/` instead of locale equivalent"
+    },
+    {
+      "label": "\ud83d\udfe1 Warnings (fix soon)",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L76",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_warnings_fix_soon",
+      "community": 86,
+      "norm_label": "\ud83d\udfe1 warnings (fix soon)"
+    },
+    {
+      "label": "5. Twitter card description is not page-specific",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L78",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_5_twitter_card_description_is_not_page_specific",
+      "community": 86,
+      "norm_label": "5. twitter card description is not page-specific"
+    },
+    {
+      "label": "6. `og:url` missing from prices page metadata",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L86",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_6_og_url_missing_from_prices_page_metadata",
+      "community": 86,
+      "norm_label": "6. `og:url` missing from prices page metadata"
+    },
+    {
+      "label": "7. Title template is effectively no-op",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L89",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_7_title_template_is_effectively_no_op",
+      "community": 86,
+      "norm_label": "7. title template is effectively no-op"
+    },
+    {
+      "label": "8. next-sitemap doesn't include hreflang alternates",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L94",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_8_next_sitemap_doesn_t_include_hreflang_alternates",
+      "community": 86,
+      "norm_label": "8. next-sitemap doesn't include hreflang alternates"
+    },
+    {
+      "label": "9. `robots.txt` generated twice (conflict risk)",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L106",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_9_robots_txt_generated_twice_conflict_risk",
+      "community": 86,
+      "norm_label": "9. `robots.txt` generated twice (conflict risk)"
+    },
+    {
+      "label": "10. Blog page inherits homepage meta description",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L109",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_10_blog_page_inherits_homepage_meta_description",
+      "community": 86,
+      "norm_label": "10. blog page inherits homepage meta description"
+    },
+    {
+      "label": "11. ServiceSchema not on Prices or Book Now pages",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L112",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_11_serviceschema_not_on_prices_or_book_now_pages",
+      "community": 86,
+      "norm_label": "11. serviceschema not on prices or book now pages"
+    },
+    {
+      "label": "12. No Article/BlogPosting schema on blog posts",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L126",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_12_no_article_blogposting_schema_on_blog_posts",
+      "community": 86,
+      "norm_label": "12. no article/blogposting schema on blog posts"
+    },
+    {
+      "label": "\ud83d\udfe2 Opportunities (nice to have)",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L131",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_opportunities_nice_to_have",
+      "community": 86,
+      "norm_label": "\ud83d\udfe2 opportunities (nice to have)"
+    },
+    {
+      "label": "13. Add Review/Testimonial structured data",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L133",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_13_add_review_testimonial_structured_data",
+      "community": 86,
+      "norm_label": "13. add review/testimonial structured data"
+    },
+    {
+      "label": "14. Add `EventSchedule` or `OpeningHoursSpecification` schema",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L136",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_14_add_eventschedule_or_openinghoursspecification_schema",
+      "community": 86,
+      "norm_label": "14. add `eventschedule` or `openinghoursspecification` schema"
+    },
+    {
+      "label": "15. FAQ schema only on tandem page \u2014 expand",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L139",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_15_faq_schema_only_on_tandem_page_expand",
+      "community": 86,
+      "norm_label": "15. faq schema only on tandem page \u2014 expand"
+    },
+    {
+      "label": "16. `preconnect` hints for Cloudinary and fal.ai CDN",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L142",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_16_preconnect_hints_for_cloudinary_and_fal_ai_cdn",
+      "community": 86,
+      "norm_label": "16. `preconnect` hints for cloudinary and fal.ai cdn"
+    },
+    {
+      "label": "17. Consider `PriceSpecification` for group discounts",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L145",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_17_consider_pricespecification_for_group_discounts",
+      "community": 86,
+      "norm_label": "17. consider `pricespecification` for group discounts"
+    },
+    {
+      "label": "\u2705 What's Working Well",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L150",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_what_s_working_well",
+      "community": 86,
+      "norm_label": "\u2705 what's working well"
+    },
+    {
+      "label": "Priority Action List",
+      "file_type": "document",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L173",
+      "_origin": "ast",
+      "id": "seo_audit_2026_06_13_priority_action_list",
+      "community": 86,
+      "norm_label": "priority action list"
+    },
+    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/[locale]/about-us/page.tsx",
@@ -1007,7 +1407,7 @@
       "label": "generateMetadata()",
       "file_type": "code",
       "source_file": "app/[locale]/book-now/page.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "book_now_page_generatemetadata",
       "community": 101,
@@ -1017,7 +1417,7 @@
       "label": "BookNowPage()",
       "file_type": "code",
       "source_file": "app/[locale]/book-now/page.tsx",
-      "source_location": "L21",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "book_now_page_booknowpage",
       "community": 101,
@@ -1996,36 +2396,6 @@
     {
       "label": "page.tsx",
       "file_type": "code",
-      "source_file": "app/[locale]/prices/page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "prices_page",
-      "community": 116,
-      "norm_label": "page.tsx"
-    },
-    {
-      "label": "generateMetadata()",
-      "file_type": "code",
-      "source_file": "app/[locale]/prices/page.tsx",
-      "source_location": "L9",
-      "_origin": "ast",
-      "id": "prices_page_generatemetadata",
-      "community": 116,
-      "norm_label": "generatemetadata()"
-    },
-    {
-      "label": "PricesPage()",
-      "file_type": "code",
-      "source_file": "app/[locale]/prices/page.tsx",
-      "source_location": "L23",
-      "_origin": "ast",
-      "id": "prices_page_pricespage",
-      "community": 116,
-      "norm_label": "pricespage()"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
       "source_file": "app/[locale]/reviews/page.tsx",
       "source_location": "L1",
       "_origin": "ast",
@@ -2302,46 +2672,6 @@
       "id": "group_flights_page_page",
       "community": 103,
       "norm_label": "page()"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "tandem_paragliding_page",
-      "community": 96,
-      "norm_label": "page.tsx"
-    },
-    {
-      "label": "faqItems",
-      "file_type": "code",
-      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
-      "source_location": "L12",
-      "_origin": "ast",
-      "id": "tandem_paragliding_page_faqitems",
-      "community": 96,
-      "norm_label": "faqitems"
-    },
-    {
-      "label": "generateMetadata()",
-      "file_type": "code",
-      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
-      "source_location": "L19",
-      "_origin": "ast",
-      "id": "tandem_paragliding_page_generatemetadata",
-      "community": 96,
-      "norm_label": "generatemetadata()"
-    },
-    {
-      "label": "TandemPage()",
-      "file_type": "code",
-      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
-      "source_location": "L33",
-      "_origin": "ast",
-      "id": "tandem_paragliding_page_tandempage",
-      "community": 96,
-      "norm_label": "tandempage()"
     },
     {
       "label": "page.tsx",
@@ -3152,6 +3482,446 @@
       "id": "winter_flying_page_page",
       "community": 131,
       "norm_label": "page()"
+    },
+    {
+      "label": "google-maps-ads-rehberi.md",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi",
+      "community": 51,
+      "norm_label": "google-maps-ads-rehberi.md"
+    },
+    {
+      "label": "Google Maps Local Search Ads Kurulum Rehberi",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "community": 51,
+      "norm_label": "google maps local search ads kurulum rehberi"
+    },
+    {
+      "label": "\u00d6n Ko\u015ful: Google Business Profile",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_\u00f6n_ko\u015ful_google_business_profile",
+      "community": 51,
+      "norm_label": "on kosul: google business profile"
+    },
+    {
+      "label": "Google Business Profile Kurulumu",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_google_business_profile_kurulumu",
+      "community": 51,
+      "norm_label": "google business profile kurulumu"
+    },
+    {
+      "label": "Ad\u0131m 1 \u2014 Google Ads Hesab\u0131 A\u00e7",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_ad\u0131m_1_google_ads_hesab\u0131_a\u00e7",
+      "community": 51,
+      "norm_label": "ad\u0131m 1 \u2014 google ads hesab\u0131 ac"
+    },
+    {
+      "label": "Ad\u0131m 2 \u2014 Kampanya T\u00fcr\u00fc Se\u00e7imi",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_ad\u0131m_2_kampanya_t\u00fcr\u00fc_se\u00e7imi",
+      "community": 51,
+      "norm_label": "ad\u0131m 2 \u2014 kampanya turu secimi"
+    },
+    {
+      "label": "Se\u00e7enek A: Performance Max (\u00d6nerilen)",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_se\u00e7enek_a_performance_max_\u00f6nerilen",
+      "community": 51,
+      "norm_label": "secenek a: performance max (onerilen)"
+    },
+    {
+      "label": "Se\u00e7enek B: Arama Kampanyas\u0131 (Search)",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_se\u00e7enek_b_arama_kampanyas\u0131_search",
+      "community": 51,
+      "norm_label": "secenek b: arama kampanyas\u0131 (search)"
+    },
+    {
+      "label": "Ad\u0131m 3 \u2014 Performance Max Kampanyas\u0131 Kurulumu",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L51",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_ad\u0131m_3_performance_max_kampanyas\u0131_kurulumu",
+      "community": 51,
+      "norm_label": "ad\u0131m 3 \u2014 performance max kampanyas\u0131 kurulumu"
+    },
+    {
+      "label": "3.1 Kampanya Hedefi",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L53",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_3_1_kampanya_hedefi",
+      "community": 51,
+      "norm_label": "3.1 kampanya hedefi"
+    },
+    {
+      "label": "3.2 B\u00fct\u00e7e",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_3_2_b\u00fct\u00e7e",
+      "community": 51,
+      "norm_label": "3.2 butce"
+    },
+    {
+      "label": "3.3 Konum Hedefleme",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_3_3_konum_hedefleme",
+      "community": 51,
+      "norm_label": "3.3 konum hedefleme"
+    },
+    {
+      "label": "3.4 Dil",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L71",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_3_4_dil",
+      "community": 51,
+      "norm_label": "3.4 dil"
+    },
+    {
+      "label": "Ad\u0131m 4 \u2014 Reklam \u0130\u00e7erikleri (Asset Group)",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L78",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_ad\u0131m_4_reklam_i\u0307\u00e7erikleri_asset_group",
+      "community": 51,
+      "norm_label": "ad\u0131m 4 \u2014 reklam icerikleri (asset group)"
+    },
+    {
+      "label": "Ba\u015fl\u0131klar (Headlines) \u2014 15 adet yaz, 5'i se\u00e7ilir",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L80",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_ba\u015fl\u0131klar_headlines_15_adet_yaz_5_i_se\u00e7ilir",
+      "community": 51,
+      "norm_label": "basl\u0131klar (headlines) \u2014 15 adet yaz, 5'i secilir"
+    },
+    {
+      "label": "A\u00e7\u0131klamalar (Descriptions) \u2014 4 adet",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L99",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_a\u00e7\u0131klamalar_descriptions_4_adet",
+      "community": 51,
+      "norm_label": "ac\u0131klamalar (descriptions) \u2014 4 adet"
+    },
+    {
+      "label": "G\u00f6rseller",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L110",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_g\u00f6rseller",
+      "community": 51,
+      "norm_label": "gorseller"
+    },
+    {
+      "label": "Logo",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L116",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_logo",
+      "community": 51,
+      "norm_label": "logo"
+    },
+    {
+      "label": "Ad\u0131m 5 \u2014 Google Business Profile Ba\u011flant\u0131s\u0131",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L121",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_ad\u0131m_5_google_business_profile_ba\u011flant\u0131s\u0131",
+      "community": 51,
+      "norm_label": "ad\u0131m 5 \u2014 google business profile baglant\u0131s\u0131"
+    },
+    {
+      "label": "Ad\u0131m 6 \u2014 Uzant\u0131lar (Ad Extensions) \u2014 Zorunlu",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L133",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_ad\u0131m_6_uzant\u0131lar_ad_extensions_zorunlu",
+      "community": 51,
+      "norm_label": "ad\u0131m 6 \u2014 uzant\u0131lar (ad extensions) \u2014 zorunlu"
+    },
+    {
+      "label": "Konum Uzant\u0131s\u0131",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L135",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_konum_uzant\u0131s\u0131",
+      "community": 51,
+      "norm_label": "konum uzant\u0131s\u0131"
+    },
+    {
+      "label": "\u00c7a\u011fr\u0131 Uzant\u0131s\u0131 (Call Extension)",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L140",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_\u00e7a\u011fr\u0131_uzant\u0131s\u0131_call_extension",
+      "community": 51,
+      "norm_label": "cagr\u0131 uzant\u0131s\u0131 (call extension)"
+    },
+    {
+      "label": "Site Ba\u011flant\u0131lar\u0131 (Sitelinks)",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L144",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_site_ba\u011flant\u0131lar\u0131_sitelinks",
+      "community": 51,
+      "norm_label": "site baglant\u0131lar\u0131 (sitelinks)"
+    },
+    {
+      "label": "Fiyat Uzant\u0131s\u0131",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L152",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_fiyat_uzant\u0131s\u0131",
+      "community": 51,
+      "norm_label": "fiyat uzant\u0131s\u0131"
+    },
+    {
+      "label": "Ad\u0131m 7 \u2014 Hedef Anahtar Kelimeler (Arama Kampanyas\u0131 \u0130\u00e7in)",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L161",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_ad\u0131m_7_hedef_anahtar_kelimeler_arama_kampanyas\u0131_i\u0307\u00e7in",
+      "community": 51,
+      "norm_label": "ad\u0131m 7 \u2014 hedef anahtar kelimeler (arama kampanyas\u0131 icin)"
+    },
+    {
+      "label": "T\u00fcrk\u00e7e",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L165",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_t\u00fcrk\u00e7e",
+      "community": 51,
+      "norm_label": "turkce"
+    },
+    {
+      "label": "\u0130ngilizce",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L173",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_i\u0307ngilizce",
+      "community": 51,
+      "norm_label": "ingilizce"
+    },
+    {
+      "label": "Negatif Kelimeler (Engelle)",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L180",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_negatif_kelimeler_engelle",
+      "community": 51,
+      "norm_label": "negatif kelimeler (engelle)"
+    },
+    {
+      "label": "Ad\u0131m 8 \u2014 D\u00f6n\u00fc\u015f\u00fcm Takibi Kurulumu",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L187",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_ad\u0131m_8_d\u00f6n\u00fc\u015f\u00fcm_takibi_kurulumu",
+      "community": 51,
+      "norm_label": "ad\u0131m 8 \u2014 donusum takibi kurulumu"
+    },
+    {
+      "label": "Ad\u0131m 9 \u2014 Yay\u0131nlama ve \u0130lk 2 Hafta",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L202",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_ad\u0131m_9_yay\u0131nlama_ve_i\u0307lk_2_hafta",
+      "community": 51,
+      "norm_label": "ad\u0131m 9 \u2014 yay\u0131nlama ve ilk 2 hafta"
+    },
+    {
+      "label": "Yay\u0131n \u00d6ncesi Kontrol Listesi",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L204",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_yay\u0131n_\u00f6ncesi_kontrol_listesi",
+      "community": 51,
+      "norm_label": "yay\u0131n oncesi kontrol listesi"
+    },
+    {
+      "label": "\u0130lk 2 Hafta",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L212",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_i\u0307lk_2_hafta",
+      "community": 51,
+      "norm_label": "ilk 2 hafta"
+    },
+    {
+      "label": "Performans Metrikleri \u2014 Nelere Bakmal\u0131s\u0131n?",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L219",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_performans_metrikleri_nelere_bakmal\u0131s\u0131n",
+      "community": 51,
+      "norm_label": "performans metrikleri \u2014 nelere bakmal\u0131s\u0131n?"
+    },
+    {
+      "label": "Sezon Takvimi \u00d6nerisi",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L230",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_sezon_takvimi_\u00f6nerisi",
+      "community": 51,
+      "norm_label": "sezon takvimi onerisi"
+    },
+    {
+      "label": "Yard\u0131m ve Destek",
+      "file_type": "document",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L241",
+      "_origin": "ast",
+      "id": "google_maps_ads_rehberi_yard\u0131m_ve_destek",
+      "community": 51,
+      "norm_label": "yard\u0131m ve destek"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/[locale]/prices/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 116,
+      "norm_label": "page.tsx",
+      "id": "prices_page"
+    },
+    {
+      "label": "generateMetadata()",
+      "file_type": "code",
+      "source_file": "app/[locale]/prices/page.tsx",
+      "source_location": "L10",
+      "_origin": "ast",
+      "community": 116,
+      "norm_label": "generatemetadata()",
+      "id": "prices_page_generatemetadata"
+    },
+    {
+      "label": "PricesPage()",
+      "file_type": "code",
+      "source_file": "app/[locale]/prices/page.tsx",
+      "source_location": "L24",
+      "_origin": "ast",
+      "community": 116,
+      "norm_label": "pricespage()",
+      "id": "prices_page_pricespage"
+    },
+    {
+      "label": "next-sitemap.config.js",
+      "file_type": "code",
+      "source_file": "next-sitemap.config.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 291,
+      "norm_label": "next-sitemap.config.js",
+      "id": "next_sitemap_config"
+    },
+    {
+      "label": "LOCALES",
+      "file_type": "code",
+      "source_file": "next-sitemap.config.js",
+      "source_location": "L3",
+      "_origin": "ast",
+      "community": 291,
+      "norm_label": "locales",
+      "id": "next_sitemap_config_locales"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 96,
+      "norm_label": "page.tsx",
+      "id": "tandem_paragliding_page"
+    },
+    {
+      "label": "faqItems",
+      "file_type": "code",
+      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
+      "source_location": "L12",
+      "_origin": "ast",
+      "community": 96,
+      "norm_label": "faqitems",
+      "id": "tandem_paragliding_page_faqitems"
+    },
+    {
+      "label": "generateMetadata()",
+      "file_type": "code",
+      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
+      "source_location": "L19",
+      "_origin": "ast",
+      "community": 96,
+      "norm_label": "generatemetadata()",
+      "id": "tandem_paragliding_page_generatemetadata"
+    },
+    {
+      "label": "TandemPage()",
+      "file_type": "code",
+      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
+      "source_location": "L33",
+      "_origin": "ast",
+      "community": 96,
+      "norm_label": "tandempage()",
+      "id": "tandem_paragliding_page_tandempage"
     },
     {
       "label": "seo.ts",
@@ -17424,16 +18194,6 @@
       "id": "middleware_config"
     },
     {
-      "label": "next-sitemap.config.js",
-      "file_type": "code",
-      "source_file": "next-sitemap.config.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 291,
-      "norm_label": "next-sitemap.config.js",
-      "id": "next_sitemap_config"
-    },
-    {
       "label": "next.config.js",
       "file_type": "code",
       "source_file": "next.config.js",
@@ -18162,84 +18922,6 @@
       "id": "baslat_tailwind"
     },
     {
-      "label": "Google Business Profile \u2014 Paragliding Oludeniz",
-      "file_type": "document",
-      "source_file": "Google_Business_Profile_Notlar.md",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": "2026-06-05",
-      "author": null,
-      "contributor": null,
-      "community": 0,
-      "norm_label": "google business profile \u2014 paragliding oludeniz",
-      "id": "gbp_profile"
-    },
-    {
-      "label": "Google Review Link",
-      "file_type": "concept",
-      "source_file": "Google_Business_Profile_Notlar.md",
-      "source_location": null,
-      "source_url": "https://g.page/r/CSzGLNLLyju4EBM/review",
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "community": 0,
-      "norm_label": "google review link",
-      "id": "gbp_reviewlink"
-    },
-    {
-      "label": "Duplicate Listing \u2014 \u00d6l\u00fcdeniz Paragliding (Suspended)",
-      "file_type": "concept",
-      "source_file": "Google_Business_Profile_Notlar.md",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "community": 0,
-      "norm_label": "duplicate listing \u2014 oludeniz paragliding (suspended)",
-      "id": "gbp_duplicate"
-    },
-    {
-      "label": "Sky Fethiye (Competitor)",
-      "file_type": "concept",
-      "source_file": "Google_Business_Profile_Notlar.md",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "community": 0,
-      "norm_label": "sky fethiye (competitor)",
-      "id": "gbp_competitor_skyfethiye"
-    },
-    {
-      "label": "Sky Sports (Competitor)",
-      "file_type": "concept",
-      "source_file": "Google_Business_Profile_Notlar.md",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "community": 0,
-      "norm_label": "sky sports (competitor)",
-      "id": "gbp_competitor_skysports"
-    },
-    {
-      "label": "Fly Liberty (Competitor)",
-      "file_type": "concept",
-      "source_file": "Google_Business_Profile_Notlar.md",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "community": 0,
-      "norm_label": "fly liberty (competitor)",
-      "id": "gbp_competitor_flyliberty"
-    },
-    {
       "label": "\u00d6l\u00fcdeniz Paragliding \u2014 Kapsaml\u0131 Proje Raporu",
       "file_type": "document",
       "source_file": "PROJE_RAPORU.md",
@@ -18617,58 +19299,6 @@
       "id": "seoaudit2_meta_desc"
     },
     {
-      "label": "Google Maps Local Search Ads Kurulum Rehberi",
-      "file_type": "document",
-      "source_file": "google-maps-ads-rehberi.md",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "community": 0,
-      "norm_label": "google maps local search ads kurulum rehberi",
-      "id": "gmaps_ads_guide"
-    },
-    {
-      "label": "Google Business Profile (Ads Context)",
-      "file_type": "concept",
-      "source_file": "google-maps-ads-rehberi.md",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "community": 0,
-      "norm_label": "google business profile (ads context)",
-      "id": "gmaps_gbp_concept"
-    },
-    {
-      "label": "Performance Max Campaign",
-      "file_type": "concept",
-      "source_file": "google-maps-ads-rehberi.md",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "community": 0,
-      "norm_label": "performance max campaign",
-      "id": "gmaps_perfmax"
-    },
-    {
-      "label": "Google Ads Conversion Tracking",
-      "file_type": "concept",
-      "source_file": "google-maps-ads-rehberi.md",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "community": 0,
-      "norm_label": "google ads conversion tracking",
-      "id": "gmaps_conversion_tracking"
-    },
-    {
       "label": "\u0130\u00e7erik Stratejisi \u2014 paragliding-oludeniz.com",
       "file_type": "document",
       "source_file": "\u0130\u00c7ER\u0130K-STRATEJ\u0130S\u0130.md",
@@ -18786,19 +19416,6 @@
       "id": "icon_svg"
     },
     {
-      "label": "Logo \u2014 Paragliding Oludeniz (Orange Circle with Parachute)",
-      "file_type": "image",
-      "source_file": "logo_po.png",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "community": 0,
-      "norm_label": "logo \u2014 paragliding oludeniz (orange circle with parachute)",
-      "id": "logo_po"
-    },
-    {
       "label": "Babada\u011f Mountain \u2014 1960m Launch Site",
       "file_type": "concept",
       "source_file": "PROJE_RAPORU.md",
@@ -18839,6 +19456,386 @@
     }
   ],
   "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar",
+      "target": "google_business_profile_notlar_google_business_profile_paragliding_oludeniz",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_google_business_profile_paragliding_oludeniz",
+      "target": "google_business_profile_notlar_1_olmak_i\u0307\u00e7in_yap\u0131lacaklar_\u00f6ncelik_s\u0131ras\u0131",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_google_business_profile_paragliding_oludeniz",
+      "target": "google_business_profile_notlar_kritik_sorunlar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_google_business_profile_paragliding_oludeniz",
+      "target": "google_business_profile_notlar_profil_durumu",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L54",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_google_business_profile_paragliding_oludeniz",
+      "target": "google_business_profile_notlar_rakip_analizi",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_google_business_profile_paragliding_oludeniz",
+      "target": "google_business_profile_notlar_review_linki",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L90",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_google_business_profile_paragliding_oludeniz",
+      "target": "google_business_profile_notlar_\u00f6nemli_linkler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_kritik_sorunlar",
+      "target": "google_business_profile_notlar_1_duplicate_listing_suspended",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_kritik_sorunlar",
+      "target": "google_business_profile_notlar_2_profile_strength",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L67",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_1_olmak_i\u0307\u00e7in_yap\u0131lacaklar_\u00f6ncelik_s\u0131ras\u0131",
+      "target": "google_business_profile_notlar_1_reviews_en_kritik",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_1_olmak_i\u0307\u00e7in_yap\u0131lacaklar_\u00f6ncelik_s\u0131ras\u0131",
+      "target": "google_business_profile_notlar_2_foto\u011fraflar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L77",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_1_olmak_i\u0307\u00e7in_yap\u0131lacaklar_\u00f6ncelik_s\u0131ras\u0131",
+      "target": "google_business_profile_notlar_3_google_posts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L81",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_1_olmak_i\u0307\u00e7in_yap\u0131lacaklar_\u00f6ncelik_s\u0131ras\u0131",
+      "target": "google_business_profile_notlar_4_duplicate_li\u0307sti\u0307ng",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Google_Business_Profile_Notlar.md",
+      "source_location": "L85",
+      "weight": 1.0,
+      "source": "google_business_profile_notlar_1_olmak_i\u0307\u00e7in_yap\u0131lacaklar_\u00f6ncelik_s\u0131ras\u0131",
+      "target": "google_business_profile_notlar_5_pending_de\u011fi\u0307\u015fi\u0307kli\u0307kler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13",
+      "target": "seo_audit_2026_06_13_seo_audit_report_paragliding_oludeniz_com",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_seo_audit_report_paragliding_oludeniz_com",
+      "target": "seo_audit_2026_06_13_critical_issues_fix_now",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L131",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_seo_audit_report_paragliding_oludeniz_com",
+      "target": "seo_audit_2026_06_13_opportunities_nice_to_have",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L173",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_seo_audit_report_paragliding_oludeniz_com",
+      "target": "seo_audit_2026_06_13_priority_action_list",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_seo_audit_report_paragliding_oludeniz_com",
+      "target": "seo_audit_2026_06_13_score_breakdown",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L76",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_seo_audit_report_paragliding_oludeniz_com",
+      "target": "seo_audit_2026_06_13_warnings_fix_soon",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L150",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_seo_audit_report_paragliding_oludeniz_com",
+      "target": "seo_audit_2026_06_13_what_s_working_well",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_critical_issues_fix_now",
+      "target": "seo_audit_2026_06_13_1_og_url_is_wrong_on_every_interior_page",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_critical_issues_fix_now",
+      "target": "seo_audit_2026_06_13_2_blog_page_shows_zero_articles_on_the_live_site",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_critical_issues_fix_now",
+      "target": "seo_audit_2026_06_13_3_meta_description_not_overriding_on_interior_pages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L63",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_critical_issues_fix_now",
+      "target": "seo_audit_2026_06_13_4_104_non_locale_pages_redirect_to_instead_of_locale_equivalent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_warnings_fix_soon",
+      "target": "seo_audit_2026_06_13_10_blog_page_inherits_homepage_meta_description",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L112",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_warnings_fix_soon",
+      "target": "seo_audit_2026_06_13_11_serviceschema_not_on_prices_or_book_now_pages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L126",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_warnings_fix_soon",
+      "target": "seo_audit_2026_06_13_12_no_article_blogposting_schema_on_blog_posts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_warnings_fix_soon",
+      "target": "seo_audit_2026_06_13_5_twitter_card_description_is_not_page_specific",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L86",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_warnings_fix_soon",
+      "target": "seo_audit_2026_06_13_6_og_url_missing_from_prices_page_metadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_warnings_fix_soon",
+      "target": "seo_audit_2026_06_13_7_title_template_is_effectively_no_op",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_warnings_fix_soon",
+      "target": "seo_audit_2026_06_13_8_next_sitemap_doesn_t_include_hreflang_alternates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L106",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_warnings_fix_soon",
+      "target": "seo_audit_2026_06_13_9_robots_txt_generated_twice_conflict_risk",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L133",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_opportunities_nice_to_have",
+      "target": "seo_audit_2026_06_13_13_add_review_testimonial_structured_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L136",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_opportunities_nice_to_have",
+      "target": "seo_audit_2026_06_13_14_add_eventschedule_or_openinghoursspecification_schema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L139",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_opportunities_nice_to_have",
+      "target": "seo_audit_2026_06_13_15_faq_schema_only_on_tandem_page_expand",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L142",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_opportunities_nice_to_have",
+      "target": "seo_audit_2026_06_13_16_preconnect_hints_for_cloudinary_and_fal_ai_cdn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SEO_AUDIT_2026-06-13.md",
+      "source_location": "L145",
+      "weight": 1.0,
+      "source": "seo_audit_2026_06_13_opportunities_nice_to_have",
+      "target": "seo_audit_2026_06_13_17_consider_pricespecification_for_group_discounts",
+      "confidence_score": 1.0
+    },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -23450,70 +24447,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "app/[locale]/prices/page.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "prices_page",
-      "target": "lib_seo"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/[locale]/prices/page.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "prices_page",
-      "target": "lib_seo_localealternates"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/[locale]/prices/page.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "prices_page",
-      "target": "lib_seo_localeurl"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/[locale]/prices/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "prices_page",
-      "target": "prices_page_generatemetadata"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/[locale]/prices/page.tsx",
-      "source_location": "L19",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "prices_page",
-      "target": "prices_page_pricespage"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/[locale]/prices/page.tsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "source": "prices_page_generatemetadata",
-      "target": "lib_seo_localealternates"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "app/[locale]/reviews/page.tsx",
       "source_location": "L7",
       "weight": 1.0,
@@ -24127,91 +25060,6 @@
       "source_location": "L12",
       "weight": 1.0,
       "source": "group_flights_page_generatemetadata",
-      "target": "lib_seo_localealternates"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "tandem_paragliding_page",
-      "target": "lib_seo"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "tandem_paragliding_page",
-      "target": "lib_seo_localealternates"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "tandem_paragliding_page",
-      "target": "lib_seo_localeurl"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "tandem_paragliding_page",
-      "target": "shared_serviceschema"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "tandem_paragliding_page",
-      "target": "tandem_paragliding_page_faqitems"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
-      "source_location": "L18",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "tandem_paragliding_page",
-      "target": "tandem_paragliding_page_generatemetadata"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
-      "source_location": "L28",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "tandem_paragliding_page",
-      "target": "tandem_paragliding_page_tandempage"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
-      "source_location": "L24",
-      "weight": 1.0,
-      "source": "tandem_paragliding_page_generatemetadata",
       "target": "lib_seo_localealternates"
     },
     {
@@ -26006,6 +26854,505 @@
       "source_location": "L12",
       "weight": 1.0,
       "source": "winter_flying_page_generatemetadata",
+      "target": "lib_seo_localealternates"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi",
+      "target": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_ad\u0131m_1_google_ads_hesab\u0131_a\u00e7",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_ad\u0131m_2_kampanya_t\u00fcr\u00fc_se\u00e7imi",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_ad\u0131m_3_performance_max_kampanyas\u0131_kurulumu",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_ad\u0131m_4_reklam_i\u0307\u00e7erikleri_asset_group",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L121",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_ad\u0131m_5_google_business_profile_ba\u011flant\u0131s\u0131",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L133",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_ad\u0131m_6_uzant\u0131lar_ad_extensions_zorunlu",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L161",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_ad\u0131m_7_hedef_anahtar_kelimeler_arama_kampanyas\u0131_i\u0307\u00e7in",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L187",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_ad\u0131m_8_d\u00f6n\u00fc\u015f\u00fcm_takibi_kurulumu",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L202",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_ad\u0131m_9_yay\u0131nlama_ve_i\u0307lk_2_hafta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L219",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_performans_metrikleri_nelere_bakmal\u0131s\u0131n",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L230",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_sezon_takvimi_\u00f6nerisi",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L241",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_yard\u0131m_ve_destek",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_google_maps_local_search_ads_kurulum_rehberi",
+      "target": "google_maps_ads_rehberi_\u00f6n_ko\u015ful_google_business_profile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_\u00f6n_ko\u015ful_google_business_profile",
+      "target": "google_maps_ads_rehberi_google_business_profile_kurulumu",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_2_kampanya_t\u00fcr\u00fc_se\u00e7imi",
+      "target": "google_maps_ads_rehberi_se\u00e7enek_a_performance_max_\u00f6nerilen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_2_kampanya_t\u00fcr\u00fc_se\u00e7imi",
+      "target": "google_maps_ads_rehberi_se\u00e7enek_b_arama_kampanyas\u0131_search",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_3_performance_max_kampanyas\u0131_kurulumu",
+      "target": "google_maps_ads_rehberi_3_1_kampanya_hedefi",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_3_performance_max_kampanyas\u0131_kurulumu",
+      "target": "google_maps_ads_rehberi_3_2_b\u00fct\u00e7e",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L64",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_3_performance_max_kampanyas\u0131_kurulumu",
+      "target": "google_maps_ads_rehberi_3_3_konum_hedefleme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L71",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_3_performance_max_kampanyas\u0131_kurulumu",
+      "target": "google_maps_ads_rehberi_3_4_dil",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L99",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_4_reklam_i\u0307\u00e7erikleri_asset_group",
+      "target": "google_maps_ads_rehberi_a\u00e7\u0131klamalar_descriptions_4_adet",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_4_reklam_i\u0307\u00e7erikleri_asset_group",
+      "target": "google_maps_ads_rehberi_ba\u015fl\u0131klar_headlines_15_adet_yaz_5_i_se\u00e7ilir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_4_reklam_i\u0307\u00e7erikleri_asset_group",
+      "target": "google_maps_ads_rehberi_g\u00f6rseller",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L116",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_4_reklam_i\u0307\u00e7erikleri_asset_group",
+      "target": "google_maps_ads_rehberi_logo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L152",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_6_uzant\u0131lar_ad_extensions_zorunlu",
+      "target": "google_maps_ads_rehberi_fiyat_uzant\u0131s\u0131",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L135",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_6_uzant\u0131lar_ad_extensions_zorunlu",
+      "target": "google_maps_ads_rehberi_konum_uzant\u0131s\u0131",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L144",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_6_uzant\u0131lar_ad_extensions_zorunlu",
+      "target": "google_maps_ads_rehberi_site_ba\u011flant\u0131lar\u0131_sitelinks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L140",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_6_uzant\u0131lar_ad_extensions_zorunlu",
+      "target": "google_maps_ads_rehberi_\u00e7a\u011fr\u0131_uzant\u0131s\u0131_call_extension",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L173",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_7_hedef_anahtar_kelimeler_arama_kampanyas\u0131_i\u0307\u00e7in",
+      "target": "google_maps_ads_rehberi_i\u0307ngilizce",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L180",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_7_hedef_anahtar_kelimeler_arama_kampanyas\u0131_i\u0307\u00e7in",
+      "target": "google_maps_ads_rehberi_negatif_kelimeler_engelle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L165",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_7_hedef_anahtar_kelimeler_arama_kampanyas\u0131_i\u0307\u00e7in",
+      "target": "google_maps_ads_rehberi_t\u00fcrk\u00e7e",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L212",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_9_yay\u0131nlama_ve_i\u0307lk_2_hafta",
+      "target": "google_maps_ads_rehberi_i\u0307lk_2_hafta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "google-maps-ads-rehberi.md",
+      "source_location": "L204",
+      "weight": 1.0,
+      "source": "google_maps_ads_rehberi_ad\u0131m_9_yay\u0131nlama_ve_i\u0307lk_2_hafta",
+      "target": "google_maps_ads_rehberi_yay\u0131n_\u00f6ncesi_kontrol_listesi",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/[locale]/prices/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "prices_page",
+      "target": "lib_seo"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/[locale]/prices/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "prices_page",
+      "target": "lib_seo_localealternates"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/[locale]/prices/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "prices_page",
+      "target": "lib_seo_localeurl"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/[locale]/prices/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "prices_page",
+      "target": "prices_page_generatemetadata"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/[locale]/prices/page.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "prices_page",
+      "target": "prices_page_pricespage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/[locale]/prices/page.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "prices_page_generatemetadata",
+      "target": "lib_seo_localealternates"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "next-sitemap.config.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "next_sitemap_config",
+      "target": "next_sitemap_config_locales"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tandem_paragliding_page",
+      "target": "lib_seo"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tandem_paragliding_page",
+      "target": "lib_seo_localealternates"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tandem_paragliding_page",
+      "target": "lib_seo_localeurl"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tandem_paragliding_page",
+      "target": "shared_serviceschema"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tandem_paragliding_page",
+      "target": "tandem_paragliding_page_faqitems"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tandem_paragliding_page",
+      "target": "tandem_paragliding_page_generatemetadata"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tandem_paragliding_page",
+      "target": "tandem_paragliding_page_tandempage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/[locale]/tandem-paragliding/page.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "tandem_paragliding_page_generatemetadata",
       "target": "lib_seo_localealternates"
     },
     {
@@ -46294,16 +47641,6 @@
     {
       "relation": "references",
       "confidence": "EXTRACTED",
-      "confidence_score": 0.95,
-      "source_file": "logo_po.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_po",
-      "target": "baslat_project"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "PROJE_RAPORU.md",
       "source_location": null,
@@ -46320,26 +47657,6 @@
       "weight": 1.0,
       "source": "rapor_project",
       "target": "baslat_nextjs"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Google_Business_Profile_Notlar.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "gbp_profile",
-      "target": "baslat_domain"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 0.85,
-      "source_file": "google-maps-ads-rehberi.md",
-      "source_location": null,
-      "weight": 0.8,
-      "source": "gmaps_ads_guide",
-      "target": "baslat_domain"
     },
     {
       "relation": "references",
@@ -46390,76 +47707,6 @@
       "weight": 1.0,
       "source": "rapor_tailwind_config",
       "target": "baslat_tailwind"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Google_Business_Profile_Notlar.md",
-      "source_location": null,
-      "weight": 0.8,
-      "source": "gbp_profile",
-      "target": "gbp_competitor_flyliberty"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Google_Business_Profile_Notlar.md",
-      "source_location": null,
-      "weight": 0.8,
-      "source": "gbp_profile",
-      "target": "gbp_competitor_skyfethiye"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Google_Business_Profile_Notlar.md",
-      "source_location": null,
-      "weight": 0.8,
-      "source": "gbp_profile",
-      "target": "gbp_competitor_skysports"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Google_Business_Profile_Notlar.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "gbp_profile",
-      "target": "gbp_duplicate"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "Google_Business_Profile_Notlar.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "gbp_profile",
-      "target": "gbp_reviewlink"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "google-maps-ads-rehberi.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "gmaps_ads_guide",
-      "target": "gbp_profile"
-    },
-    {
-      "relation": "conceptually_related_to",
-      "confidence": "INFERRED",
-      "confidence_score": 0.9,
-      "source_file": "google-maps-ads-rehberi.md",
-      "source_location": null,
-      "weight": 0.85,
-      "source": "gmaps_gbp_concept",
-      "target": "gbp_profile"
     },
     {
       "relation": "references",
@@ -46934,36 +48181,6 @@
     {
       "relation": "references",
       "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "google-maps-ads-rehberi.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "gmaps_ads_guide",
-      "target": "gmaps_conversion_tracking"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "google-maps-ads-rehberi.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "gmaps_ads_guide",
-      "target": "gmaps_gbp_concept"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "google-maps-ads-rehberi.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "gmaps_ads_guide",
-      "target": "gmaps_perfmax"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
       "confidence_score": 0.9,
       "source_file": "\u0130\u00c7ER\u0130K-STRATEJ\u0130S\u0130.md",
       "source_location": null,
@@ -47070,28 +48287,8 @@
       "weight": 1.0,
       "source": "icon_svg",
       "target": "concept_brand_orange"
-    },
-    {
-      "relation": "semantically_similar_to",
-      "confidence": "INFERRED",
-      "confidence_score": 0.92,
-      "source_file": "logo_po.png",
-      "source_location": null,
-      "weight": 0.9,
-      "source": "logo_po",
-      "target": "icon_svg"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 0.99,
-      "source_file": "logo_po.png",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "logo_po",
-      "target": "concept_brand_orange"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b4d4c8a812534e4dd80e09a3c030417c37d69045"
+  "built_at_commit": "21bbf0bca90ab68dc2542c1230b4404146fefbe7"
 }

@@ -45,6 +45,7 @@ export default async function AboutUsPage({ params }: { params: Promise<{ locale
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"About Paragliding Oludeniz \\u2014 Ceyhun Tandem Pilot\", \"description\": \"About Paragliding Oludeniz and certified tandem pilot Ceyhun \\u2014 25+ years experience from Babada\\u011f.\", \"url\": \"https://paragliding-oludeniz.com/about-us\", \"author\": {\"@type\": \"Person\", \"name\": \"Ceyhun\", \"url\": \"https://paragliding-oludeniz.com/en/about-us\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Paragliding Oludeniz\", \"url\": \"https://paragliding-oludeniz.com\"}}" }} />
       <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c13/VVJ_THDhVNeRP66pu_Ew8.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
