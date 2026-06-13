@@ -102,32 +102,27 @@ export default async function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          {/* Left: copyright + TURSAB badge */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Left: TURSAB badge + copyright */}
           <div className="flex items-center gap-4">
-            <p className="text-sm text-slate-500">
-              © {new Date().getFullYear()} Paragliding Ölüdeniz. All rights reserved.
-            </p>
-            {/* TURSAB Badge */}
             <a
               href="https://www.tursab.org.tr/belgem/6819"
               target="_blank"
               rel="noopener noreferrer"
-              title="TURSAB Üye Belgesi - 6819"
-              className="flex-shrink-0"
+              title="TÜRSAB Üye Belgesi No: 6819"
+              className="flex-shrink-0 bg-white rounded px-2 py-1 opacity-90 hover:opacity-100 transition-opacity"
             >
-              <div className="flex items-center gap-1.5 bg-black border border-slate-700 rounded px-2 py-1">
-                {/* 50 circle */}
-                <div className="flex items-center justify-center w-8 h-8 rounded-full border-2 border-red-600 bg-black">
-                  <span className="text-white font-black text-xs leading-none">50</span>
-                </div>
-                {/* TURSAB text */}
-                <div className="flex flex-col leading-none">
-                  <span className="text-red-500 font-black text-sm tracking-wider">TURSAB</span>
-                  <span className="text-slate-400 text-[9px] tracking-wide">NO: 6819</span>
-                </div>
-              </div>
+              <Image
+                src="/images/tursab-50.svg"
+                alt="TÜRSAB 50. Yıl Üye Belgesi"
+                width={120}
+                height={41}
+                className="h-8 w-auto"
+              />
             </a>
+            <p className="text-sm text-slate-500">
+              © {new Date().getFullYear()} Paragliding Ölüdeniz. All rights reserved.
+            </p>
           </div>
           <div className="flex items-center gap-6 text-sm text-slate-500">
             <Link href={lp('/about-us')} className="hover:text-slate-300 transition-colors">About</Link>
