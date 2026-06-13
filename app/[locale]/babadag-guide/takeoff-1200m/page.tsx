@@ -12,7 +12,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/babadag-guide/takeoff-1200m'),
-    openGraph: { url: localeUrl(locale, '/babadag-guide/takeoff-1200m'), description: (d as any)[locale] || d.en }, title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
+    openGraph: { url: localeUrl(locale, '/babadag-guide/takeoff-1200m'), description: (d as any)[locale] || d.en },
+    twitter: { card: 'summary_large_image', description: (d as any)[locale] || d.en }, title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
