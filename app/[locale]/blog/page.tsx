@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
   return {
     description: d[locale] || d.en,
-    title: `${t('title')} | Paragliding Ölüdeniz`,
+    title: `${t('title')}`,
     alternates: localeAlternates(locale, '/blog'),
     openGraph: { url: localeUrl(locale, '/blog'), description: d[locale] || d.en },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },

@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d: Record<string, string> = {"en": "Contact Paragliding Oludeniz — WhatsApp, phone or email. Same-day bookings, questions about flights, weather and transfers answered fast.", "tr": "Paragliding Ölüdeniz ile iletişime geçin — WhatsApp, telefon veya e-posta. Aynı gün rezervasyon, uçuş ve hava durumu sorularınıza hızlı yanıt.", "de": "Kontaktieren Sie Paragliding Ölüdeniz — WhatsApp, Telefon oder E-Mail. Buchungen am selben Tag, schnelle Antworten zu Flügen und Wetter.", "ru": "Свяжитесь с Paragliding Oludeniz — WhatsApp, телефон или email. Бронирование в тот же день, быстрые ответы о полётах и погоде."}
   return {
     description: d[locale] || d.en,
-    title: `${t('title')} | Paragliding Ölüdeniz`,
+    title: `${t('title')}`,
     alternates: localeAlternates(locale, '/contact'),
     openGraph: { url: localeUrl(locale, '/contact'), description: d[locale] || d.en },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },

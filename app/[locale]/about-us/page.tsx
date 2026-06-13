@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d: Record<string, string> = {"en": "Meet the team behind Paragliding Oludeniz — certified tandem pilots with 25+ years of experience flying from Babadağ over the Blue Lagoon.", "tr": "Paragliding Ölüdeniz ekibiyle tanışın — Babadağ'dan Mavi Lagün üzerine uçan, 25 yılı aşkın deneyime sahip sertifikalı tandem pilotları.", "de": "Das Team von Paragliding Ölüdeniz — zertifizierte Tandempiloten mit über 25 Jahren Erfahrung am Babadağ über der Blauen Lagune.", "ru": "Команда Paragliding Oludeniz — сертифицированные тандем-пилоты с опытом более 25 лет, полёты с Бабадага над Голубой лагуной."}
   return {
     description: d[locale] || d.en,
-    title: `${t('title')} | Paragliding Ölüdeniz`,
+    title: `${t('title')}`,
     alternates: localeAlternates(locale, '/about-us'),
     openGraph: { url: localeUrl(locale, '/about-us'), description: d[locale] || d.en },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },

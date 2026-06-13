@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d: Record<string, string> = {"en": "Answers to the most common questions about tandem paragliding in Oludeniz: safety, weight limits, what to wear, booking, weather and more.", "tr": "Ölüdeniz'de tandem yamaç paraşütü hakkında en sık sorulan sorular: güvenlik, kilo limiti, kıyafet, rezervasyon ve hava durumu.", "de": "Antworten auf die häufigsten Fragen zum Tandem-Paragliding in Ölüdeniz: Sicherheit, Gewichtslimits, Kleidung, Buchung und Wetter.", "ru": "Ответы на самые частые вопросы о тандемных полётах в Олюденизе: безопасность, ограничения по весу, одежда, бронирование."}
   return {
     description: d[locale] || d.en,
-    title: `${t('title')} | Paragliding Ölüdeniz`,
+    title: `${t('title')}`,
     alternates: localeAlternates(locale, '/faq'),
     openGraph: { url: localeUrl(locale, '/faq'), description: d[locale] || d.en },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },

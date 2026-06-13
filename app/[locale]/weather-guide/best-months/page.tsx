@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/weather-guide/best-months'),
     openGraph: { url: localeUrl(locale, '/weather-guide/best-months'), description: (d as any)[locale] || d.en },
-    twitter: { card: 'summary_large_image', description: (d as any)[locale] || d.en }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    twitter: { card: 'summary_large_image', description: (d as any)[locale] || d.en }, title: `${(t as any)[locale]||t.en}` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

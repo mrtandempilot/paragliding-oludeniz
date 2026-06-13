@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale, slug } = await params
   const article = await getArticle(slug)
   return {
-    title: article ? `${article.title} | Paragliding Ölüdeniz Blog` : 'Blog | Paragliding Ölüdeniz',
+    title: article ? article.title : 'Blog',
     description: article?.meta_description || undefined,
     alternates: localeAlternates(locale, `/blog/${slug}`),
     openGraph: { url: localeUrl(locale, `/blog/${slug}`), description: article?.meta_description || undefined },

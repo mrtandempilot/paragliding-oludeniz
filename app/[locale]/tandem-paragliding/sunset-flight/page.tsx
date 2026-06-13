@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/tandem-paragliding/sunset-flight'),
     openGraph: { url: localeUrl(locale, '/tandem-paragliding/sunset-flight'), description: d[locale] || d.en },
-    twitter: { card: 'summary_large_image', description: d[locale] || d.en }, title: `${titles[locale]||titles.en} | Paragliding Oludeniz` }
+    twitter: { card: 'summary_large_image', description: d[locale] || d.en }, title: `${titles[locale]||titles.en}` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
