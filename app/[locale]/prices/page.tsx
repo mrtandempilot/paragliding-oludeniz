@@ -5,6 +5,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import { getTranslations } from 'next-intl/server'
 import { localeAlternates, localeUrl } from '@/lib/seo'
+import ServiceSchema from '@/components/shared/ServiceSchema'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
@@ -64,6 +65,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
 
   return (
     <>
+      <ServiceSchema name="Paragliding Oludeniz Prices & Packages" description="Transparent pricing for tandem paragliding flights in Oludeniz. Standard, sunset and VIP packages from Babadağ with certified pilots." path="/prices" serviceType="Tandem Paragliding Flight" />
       <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c0d/dOEuj7ebfM-MdyvUcunPD.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
