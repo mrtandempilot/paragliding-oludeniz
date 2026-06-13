@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Understanding thermals in July and August.",tr:"Temmuz ve Ağustos'ta termikleri anlamak.",de:"Thermik im Juli und August verstehen.",ru:"Понимание термиков в июле и августе."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/weather-guide/summer-thermals'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/weather-guide/summer-thermals'),
+    openGraph: { url: localeAlternates(locale, '/weather-guide/summer-thermals').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

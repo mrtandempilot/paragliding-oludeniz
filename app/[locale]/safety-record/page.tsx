@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"25+ years. Thousands of flights. Zero serious incidents.",tr:"25+ yıl. Binlerce uçuş. Sıfır ciddi kaza.",de:"25+ Jahre. Tausende Flüge. Null ernste Zwischenfälle.",ru:"25+ лет. Тысячи полётов. Ноль серьёзных инцидентов."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/safety-record'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/safety-record'),
+    openGraph: { url: localeAlternates(locale, '/safety-record').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

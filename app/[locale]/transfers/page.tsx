@@ -12,7 +12,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Getting to Oludeniz from Dalaman Airport, Fethiye, Marmaris and beyond.",tr:"Dalaman Havalimanı, Fethiye, Marmaris ve ötesinden Oludeniz'e ulaşım.",de:"Von Dalaman Flughafen, Fethiye, Marmaris nach Oludeniz.",ru:"Из аэропорта Даламан, Фетхие, Мармариса и других мест в Олюдениз."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/transfers'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/transfers'),
+    openGraph: { url: localeAlternates(locale, '/transfers').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

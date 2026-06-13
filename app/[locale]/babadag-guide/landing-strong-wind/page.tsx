@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Detailed guide for pilots flying into Oludeniz.",tr:"Oludeniz'e inen pilotlar için ayrıntılı rehber.",de:"Detaillierter Leitfaden für Piloten, die in Oludeniz landen.",ru:"Подробный гид для пилотов, приземляющихся в Олюдениз."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/babadag-guide/landing-strong-wind'), title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/babadag-guide/landing-strong-wind'),
+    openGraph: { url: localeAlternates(locale, '/babadag-guide/landing-strong-wind').canonical! }, title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

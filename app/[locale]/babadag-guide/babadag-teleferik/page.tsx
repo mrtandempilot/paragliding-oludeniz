@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"The Babadağ cable car — from sea level to 1960m.",tr:"Babadag teleferik — deniz seviyesinden 1960m'ye.",de:"Die Babadağ-Seilbahn — vom Meeresspiegel auf 1960m.",ru:"Канатная дорога Бабадаг — от уровня моря до 1960м."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/babadag-guide/babadag-teleferik'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/babadag-guide/babadag-teleferik'),
+    openGraph: { url: localeAlternates(locale, '/babadag-guide/babadag-teleferik').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

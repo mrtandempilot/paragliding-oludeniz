@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Educational paragliding experiences for school and university groups.",tr:"Okul ve üniversite grupları için eğitici paraşüt deneyimleri.",de:"Lehrreiche Paragliding-Erlebnisse für Schul- und Universitätsgruppen.",ru:"Образовательные парапланерные мероприятия для школьных и университетских групп."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/groups/schools'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/groups/schools'),
+    openGraph: { url: localeAlternates(locale, '/groups/schools').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Make your hen or stag party unforgettable with paragliding over the Blue Lagoon.",tr:"Mavi Lagün üzerinde paraşütle bekarlığa veda partinizi unutulmaz kılın.",de:"Machen Sie Ihren Junggesellen-Abschied mit Paragliding über die Blaue Lagune unvergesslich.",ru:"Сделайте девичник или мальчишник незабываемым с парапланеризмом над Голубой Лагуной."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/groups/hen-stag'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/groups/hen-stag'),
+    openGraph: { url: localeAlternates(locale, '/groups/hen-stag').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

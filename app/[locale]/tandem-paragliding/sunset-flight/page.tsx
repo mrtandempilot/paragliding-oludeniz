@@ -12,7 +12,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d: Record<string, string> = {"en": "Sunset tandem paragliding over the Blue Lagoon — golden hour flights from Babadağ. The most magical way to experience Oludeniz.", "tr": "Mavi Lagün üzerinde gün batımı tandem uçuşu — Babadağ'dan altın saat uçuşları. Ölüdeniz'i deneyimlemenin en büyülü yolu.", "de": "Sunset-Tandemflug über der Blauen Lagune — Flüge zur goldenen Stunde vom Babadağ. Das magischste Erlebnis in Ölüdeniz.", "ru": "Закатный тандемный полёт над Голубой лагуной — полёты в золотой час с Бабадага. Самый волшебный способ увидеть Олюдениз."}
   return {
     description: d[locale] || d.en,
-    alternates: localeAlternates(locale, '/tandem-paragliding/sunset-flight'), title: `${titles[locale]||titles.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/tandem-paragliding/sunset-flight'),
+    openGraph: { url: localeAlternates(locale, '/tandem-paragliding/sunset-flight').canonical! }, title: `${titles[locale]||titles.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

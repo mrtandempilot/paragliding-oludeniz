@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Everything you need to know about the legendary Babadağ paragliding mountain.",tr:"Efsanevi Babadağ paraşüt dağı hakkında bilmeniz gereken her şey.",de:"Alles über den legendären Babadağ-Paragliding-Berg.",ru:"Всё о легендарной горе Бабадаг для парапланеризма."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/babadag-guide'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/babadag-guide'),
+    openGraph: { url: localeAlternates(locale, '/babadag-guide').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

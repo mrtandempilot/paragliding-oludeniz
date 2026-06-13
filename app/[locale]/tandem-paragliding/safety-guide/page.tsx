@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"25+ years. Zero serious incidents. Here is how we keep you safe.",tr:"25+ yıl. Sıfır ciddi kaza. İşte sizi nasıl güvende tuttuğumuz.",de:"25+ Jahre. Null ernste Zwischenfälle. So halten wir Sie sicher.",ru:"25+ лет. Ноль серьёзных инцидентов. Как мы обеспечиваем вашу безопасность."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/tandem-paragliding/safety-guide'), title: `${t[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/tandem-paragliding/safety-guide'),
+    openGraph: { url: localeAlternates(locale, '/tandem-paragliding/safety-guide').canonical! }, title: `${t[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

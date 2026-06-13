@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Answers to the most common questions about tandem paragliding in Oludeniz.",tr:"Oludeniz'de tandem paraşüt hakkında en sık sorulan soruların yanıtları.",de:"Antworten auf die häufigsten Fragen zum Tandem-Paragliding in Oludeniz.",ru:"Ответы на самые распространённые вопросы о тандемном парапланеризме в Олюдениз."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/tandem-paragliding/faq'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/tandem-paragliding/faq'),
+    openGraph: { url: localeAlternates(locale, '/tandem-paragliding/faq').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

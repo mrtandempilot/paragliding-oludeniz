@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: d[locale] || d.en,
     title: `${t('title')} | Book from Babadağ`,
     alternates: localeAlternates(locale, '/tandem-paragliding'),
+    openGraph: { url: localeAlternates(locale, '/tandem-paragliding').canonical! },
   }
 }
 

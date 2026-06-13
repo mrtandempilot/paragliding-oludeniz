@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"How to buy and use the Babadağ teleferik QR ticket.",tr:"Babadag teleferik QR bilet nasil satin alinir ve kullanilir.",de:"Wie man das Babadağ-Teleferik QR-Ticket kauft und nutzt.",ru:"Как купить и использовать QR-билет телеферика Бабадаг."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/babadag-guide/babadag-teleferik/qr-ticket-guide'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/babadag-guide/babadag-teleferik/qr-ticket-guide'),
+    openGraph: { url: localeAlternates(locale, '/babadag-guide/babadag-teleferik/qr-ticket-guide').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

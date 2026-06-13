@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Our pilots hold the highest international paragliding certifications.",tr:"Pilotlarımız en yüksek uluslararası paraşüt sertifikalarına sahiptir.",de:"Unsere Piloten halten die höchsten internationalen Paragliding-Zertifizierungen.",ru:"Наши пилоты имеют высшие международные сертификаты парапланеризма."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/certifications'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/certifications'),
+    openGraph: { url: localeAlternates(locale, '/certifications').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

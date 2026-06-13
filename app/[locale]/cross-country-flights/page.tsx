@@ -12,7 +12,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"XC flying from Babadağ across the Fethiye region.",tr:"Babadağ'dan Fethiye bölgesi üzerinde XC uçuşu.",de:"XC-Fliegen vom Babadağ über die Fethiye-Region.",ru:"XC полёты с Бабадага над регионом Фетхие."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/cross-country-flights'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/cross-country-flights'),
+    openGraph: { url: localeAlternates(locale, '/cross-country-flights').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

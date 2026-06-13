@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"The 1800m launch is used by advanced pilots and selected high-altitude tandem flights on good thermal days.",tr:"1800m kalkış, ileri düzey pilotlar ve iyi termik günlerinde seçilmiş yüksek irtifa tandem uçuşlar için kullanılır.",de:"Der 1800m Start wird von fortgeschrittenen Piloten und ausgewählten Hochaltitude-Tandemflügen genutzt.",ru:"Площадка 1800м используется опытными пилотами и выбранными высотными тандемными полётами."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/babadag-guide/takeoff-1800m'), title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/babadag-guide/takeoff-1800m'),
+    openGraph: { url: localeAlternates(locale, '/babadag-guide/takeoff-1800m').canonical! }, title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

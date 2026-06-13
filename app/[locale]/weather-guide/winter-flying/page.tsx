@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"November to March: what to expect for pilots visiting off-season.",tr:"Kasım'dan Mart'a: sezon dışı ziyaret eden pilotlar için beklentiler.",de:"November bis März: Was Piloten außerhalb der Saison erwartet.",ru:"С ноября по март: чего ожидать пилотам вне сезона."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/weather-guide/winter-flying'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/weather-guide/winter-flying'),
+    openGraph: { url: localeAlternates(locale, '/weather-guide/winter-flying').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

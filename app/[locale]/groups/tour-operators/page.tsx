@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"We are the preferred paragliding partner for tour operators in the Fethiye region.",tr:"Fethiye bölgesindeki tur operatörlerinin tercih ettiği paraşüt ortağıyız.",de:"Wir sind der bevorzugte Paragliding-Partner für Reiseveranstalter in der Fethiye-Region.",ru:"Мы являемся предпочтительным партнёром по парапланеризму для туроператоров региона Фетхие."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/groups/tour-operators'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/groups/tour-operators'),
+    openGraph: { url: localeAlternates(locale, '/groups/tour-operators').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

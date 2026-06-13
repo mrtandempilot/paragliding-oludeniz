@@ -12,7 +12,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Motorised paragliding along the Oludeniz coastline.",tr:"Oludeniz kıyı şeridinde motorlu paraşüt.",de:"Motorisiertes Paragliding entlang der Oludeniz-Küste.",ru:"Моторизованный парапланеризм вдоль побережья Олюдениз."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/paramotor'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/paramotor'),
+    openGraph: { url: localeAlternates(locale, '/paramotor').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

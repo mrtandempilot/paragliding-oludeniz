@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Turkey has incredible paragliding. Oludeniz is the best.",tr:"Türkiye'de inanılmaz paraşüt yerleri var. Oludeniz en iyisi.",de:"Die Türkei hat unglaubliches Paragliding. Oludeniz ist das Beste.",ru:"Турция предлагает невероятный парапланеризм. Олюдениз — лучшее место."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/turkey-paragliding'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/turkey-paragliding'),
+    openGraph: { url: localeAlternates(locale, '/turkey-paragliding').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

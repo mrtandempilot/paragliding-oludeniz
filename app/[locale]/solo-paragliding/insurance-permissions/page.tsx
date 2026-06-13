@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"What insurance and permissions you need to fly at Oludeniz.",tr:"Oludeniz'de uçmak için ihtiyacınız olan sigorta ve izinler.",de:"Welche Versicherung und Genehmigungen Sie für Oludeniz benötigen.",ru:"Какая страховка и разрешения нужны для полётов в Олюдениз."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/solo-paragliding/insurance-permissions'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/solo-paragliding/insurance-permissions'),
+    openGraph: { url: localeAlternates(locale, '/solo-paragliding/insurance-permissions').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

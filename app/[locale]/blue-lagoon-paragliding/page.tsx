@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"The Blue Lagoon of Oludeniz from 1200 metres above — one of the most photographed views in the world.",tr:"1200 metre yukarıdan Oludeniz Mavi Lagünü — dünyanın en çok fotoğraflanan manzaralarından biri.",de:"Die Blaue Lagune von Oludeniz aus 1200 Metern Höhe — eine der meistfotografierten Aussichten der Welt.",ru:"Голубая Лагуна Олюдениза с высоты 1200 метров — один из самых фотографируемых видов в мире."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/blue-lagoon-paragliding'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/blue-lagoon-paragliding'),
+    openGraph: { url: localeAlternates(locale, '/blue-lagoon-paragliding').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

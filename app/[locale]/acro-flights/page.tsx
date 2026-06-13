@@ -14,7 +14,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d: Record<string, string> = {"en": "Extreme acro paragliding in Oludeniz: spirals, infinity tumbling and heart-pumping manoeuvres with world-class acro pilots over the Blue Lagoon.", "tr": "Ölüdeniz'de ekstrem akro yamaç paraşütü: dünya klasmanında akro pilotlarla spiral, infinity tumbling ve nefes kesen manevralar.", "de": "Extremes Acro-Paragliding in Ölüdeniz: Spiralen, Infinity Tumbling und atemberaubende Manöver mit Weltklasse-Acro-Piloten.", "ru": "Экстремальный акро-парапланеризм в Олюденизе: спирали, infinity tumbling и захватывающие манёвры с пилотами мирового класса."}
   return {
     description: d[locale] || d.en,
-    alternates: localeAlternates(locale, '/acro-flights'), title: `${t('title')} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/acro-flights'),
+    openGraph: { url: localeAlternates(locale, '/acro-flights').canonical! }, title: `${t('title')} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

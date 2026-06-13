@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"What equipment you need to fly solo at Babadağ.",tr:"Babadağ'da solo uçmak için ihtiyacınız olan ekipman.",de:"Welche Ausrüstung Sie brauchen, um solo am Babadağ zu fliegen.",ru:"Какое снаряжение нужно для соло полётов на Бабадаге."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/solo-paragliding/equipment-requirements'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/solo-paragliding/equipment-requirements'),
+    openGraph: { url: localeAlternates(locale, '/solo-paragliding/equipment-requirements').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

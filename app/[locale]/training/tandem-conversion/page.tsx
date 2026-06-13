@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Become a certified tandem paragliding pilot.",tr:"Sertifikalı tandem paraşüt pilotu olun.",de:"Werden Sie ein zertifizierter Tandemparagliding-Pilot.",ru:"Станьте сертифицированным тандем-пилотом."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/training/tandem-conversion'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/training/tandem-conversion'),
+    openGraph: { url: localeAlternates(locale, '/training/tandem-conversion').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

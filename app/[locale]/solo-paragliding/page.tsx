@@ -13,7 +13,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d: Record<string, string> = {"en": "Solo paragliding in Oludeniz: flight rules, equipment requirements, insurance and permissions for licensed pilots flying Babadağ.", "tr": "Ölüdeniz'de solo yamaç paraşütü: lisanslı pilotlar için uçuş kuralları, ekipman gereksinimleri, sigorta ve izinler.", "de": "Solo-Paragliding in Ölüdeniz: Flugregeln, Ausrüstungsanforderungen, Versicherung und Genehmigungen für lizenzierte Piloten.", "ru": "Соло-парапланеризм в Олюденизе: правила полётов, требования к снаряжению, страховка и разрешения для лицензированных пилотов."}
   return {
     description: d[locale] || d.en,
-    alternates: localeAlternates(locale, '/solo-paragliding'), title: `${t('title')} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/solo-paragliding'),
+    openGraph: { url: localeAlternates(locale, '/solo-paragliding').canonical! }, title: `${t('title')} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

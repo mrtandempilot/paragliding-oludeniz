@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Cloudbase at Babadağ and what it means for your flight.",tr:"Babadağ'da bulut tabanı ve uçuşunuz için ne anlama geldiği.",de:"Wolkenbasis am Babadağ und was das für Ihren Flug bedeutet.",ru:"Облачное основание на Бабадаге и что это значит для вашего полёта."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/weather-guide/cloudbase'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/weather-guide/cloudbase'),
+    openGraph: { url: localeAlternates(locale, '/weather-guide/cloudbase').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

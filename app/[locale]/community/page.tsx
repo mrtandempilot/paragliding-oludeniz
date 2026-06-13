@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Join one of the world's most vibrant paragliding communities.",tr:"Dünyanın en canlı paraşüt topluluklarından birine katılın.",de:"Treten Sie einer der lebendigsten Paragliding-Communities der Welt bei.",ru:"Присоединяйтесь к одному из самых живых сообществ парапланеристов мира."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/community'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/community'),
+    openGraph: { url: localeAlternates(locale, '/community').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

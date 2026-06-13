@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Safety and Incident Vivid training over the water at Oludeniz.",tr:"Oludeniz'de su üzerinde Güvenlik ve Olay Canlı eğitimi.",de:"SIV-Training über dem Wasser in Oludeniz.",ru:"SIV обучение над водой в Олюдениз."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/training/siv-clinic'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/training/siv-clinic'),
+    openGraph: { url: localeAlternates(locale, '/training/siv-clinic').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

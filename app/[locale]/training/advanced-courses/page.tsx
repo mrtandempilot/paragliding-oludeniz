@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Take your flying to the next level with expert coaching.",tr:"Uzman koçlukla uçuşunuzu bir sonraki seviyeye taşıyın.",de:"Heben Sie Ihr Fliegen mit Expertencoaching auf die nächste Stufe.",ru:"Поднимите свои полёты на новый уровень с экспертным коучингом."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/training/advanced-courses'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/training/advanced-courses'),
+    openGraph: { url: localeAlternates(locale, '/training/advanced-courses').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

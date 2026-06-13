@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"We love groups. From 4 to 40+, we handle everything.",tr:"Grupları seviyoruz. 4\'ten 40\'a kadar her şeyi biz hallederiz.",de:"Wir lieben Gruppen. Von 4 bis 40+, wir übernehmen alles.",ru:"Мы любим группы. От 4 до 40+ человек — всё организуем."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/tandem-paragliding/group-flights'), title: `${t[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/tandem-paragliding/group-flights'),
+    openGraph: { url: localeAlternates(locale, '/tandem-paragliding/group-flights').canonical! }, title: `${t[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

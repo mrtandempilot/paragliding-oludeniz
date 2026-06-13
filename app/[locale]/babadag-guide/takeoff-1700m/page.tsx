@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"The 1700m launch gives longer flight times, better thermals, and more dramatic views over the Blue Lagoon.",tr:"1700m kalkış daha uzun uçuş süresi, daha iyi termikler ve Mavi Lagün üzerinde daha dramatik manzaralar sunar.",de:"Der 1700m Start bietet längere Flugzeiten, bessere Thermik und dramatischere Aussichten über die Blaue Lagune.",ru:"Площадка 1700м обеспечивает более длительное время полёта, лучшие термики и более впечатляющие виды."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/babadag-guide/takeoff-1700m'), title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/babadag-guide/takeoff-1700m'),
+    openGraph: { url: localeAlternates(locale, '/babadag-guide/takeoff-1700m').canonical! }, title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

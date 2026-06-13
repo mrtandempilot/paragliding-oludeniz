@@ -15,6 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: d[locale] || d.en,
     title: t('title'),
     alternates: localeAlternates(locale, '/prices'),
+    openGraph: { url: localeAlternates(locale, '/prices').canonical! },
   }
 }
 

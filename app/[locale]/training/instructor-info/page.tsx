@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Our instructors are among the most experienced paragliding coaches in the region.",tr:"Eğitmenlerimiz bölgedeki en deneyimli paraşüt antrenörleri arasındadır.",de:"Unsere Instruktoren gehören zu den erfahrensten Paragliding-Coaches der Region.",ru:"Наши инструкторы — одни из самых опытных тренеров по парапланеризму в регионе."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/training/instructor-info'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/training/instructor-info'),
+    openGraph: { url: localeAlternates(locale, '/training/instructor-info').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

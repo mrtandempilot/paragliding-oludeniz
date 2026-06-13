@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Understanding thermals for paragliding at Babadağ.",tr:"Babadağ'da paraşüt için termikleri anlamak.",de:"Thermik für Paragliding am Babadağ verstehen.",ru:"Понимание термиков для парапланеризма на Бабадаге."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/thermals-guide'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/thermals-guide'),
+    openGraph: { url: localeAlternates(locale, '/thermals-guide').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

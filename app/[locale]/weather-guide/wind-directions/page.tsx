@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"How different wind directions affect flying conditions.",tr:"Farklı rüzgar yönlerinin uçuş koşullarını nasıl etkilediği.",de:"Wie verschiedene Windrichtungen die Flugbedingungen beeinflussen.",ru:"Как разные направления ветра влияют на условия полётов."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/weather-guide/wind-directions'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/weather-guide/wind-directions'),
+    openGraph: { url: localeAlternates(locale, '/weather-guide/wind-directions').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

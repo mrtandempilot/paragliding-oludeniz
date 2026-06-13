@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Local airspace rules and procedures for solo pilots.",tr:"Solo pilotlar için yerel hava sahası kuralları ve prosedürleri.",de:"Lokale Luftraumregeln und -verfahren für Solopiloten.",ru:"Правила местного воздушного пространства и процедуры для соло-пилотов."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/solo-paragliding/flight-rules'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/solo-paragliding/flight-rules'),
+    openGraph: { url: localeAlternates(locale, '/solo-paragliding/flight-rules').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

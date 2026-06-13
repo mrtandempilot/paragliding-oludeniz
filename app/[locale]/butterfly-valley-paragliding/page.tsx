@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Soar above one of Turkey's most stunning natural wonders.",tr:"Türkiye'nin en etkileyici doğal harikalarından birinin üzerinde süzülün.",de:"Gleiten Sie über eines der atemberaubendsten Naturwunder der Türkei.",ru:"Парите над одним из самых впечатляющих природных чудес Турции."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/butterfly-valley-paragliding'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/butterfly-valley-paragliding'),
+    openGraph: { url: localeAlternates(locale, '/butterfly-valley-paragliding').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

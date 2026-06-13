@@ -14,7 +14,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"Current conditions at Babadağ and Oludeniz beach.",tr:"Babadağ ve Oludeniz plajındaki güncel koşullar.",de:"Aktuelle Bedingungen am Babadağ und Oludeniz-Strand.",ru:"Текущие условия на Бабадаге и пляже Олюдениз."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/live-weather'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/live-weather'),
+    openGraph: { url: localeAlternates(locale, '/live-weather').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

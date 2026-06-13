@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"The 1200m launch is the most popular and accessible takeoff point on Babadağ, used for standard tandem flights.",tr:"1200m kalkış, standart tandem uçuşlar için kullanılan Babadağ'ın en popüler ve erişilebilir kalkış noktasıdır.",de:"Der 1200m Start ist der beliebteste und zugänglichste Startplatz am Babadağ, der für Standard-Tandemflüge genutzt wird.",ru:"Стартовая площадка 1200м — самая популярная и доступная точка на Бабадаге для стандартных тандемных полётов."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/babadag-guide/takeoff-1200m'), title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/babadag-guide/takeoff-1200m'),
+    openGraph: { url: localeAlternates(locale, '/babadag-guide/takeoff-1200m').canonical! }, title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

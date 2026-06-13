@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d = {en:"How to get to Babadag launch by road.",tr:"Babadag kalki noktasina yolla nasil gidilir.",de:"So gelangen Sie zum Babadag-Start.",ru:"Как добраться до Бабадага по дороге."}
   return {
     description: (d as any)[locale] || d.en,
-    alternates: localeAlternates(locale, '/babadag-guide/babadag-road-guide'), title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    alternates: localeAlternates(locale, '/babadag-guide/babadag-road-guide'),
+    openGraph: { url: localeAlternates(locale, '/babadag-guide/babadag-road-guide').canonical! }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

@@ -14,7 +14,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const d: Record<string, string> = {"en": "Paragliding courses in Oludeniz: beginner to advanced training, SIV clinics and tandem conversion with certified instructors on Babadağ.", "tr": "Ölüdeniz'de yamaç paraşütü kursları: başlangıçtan ileri seviyeye eğitim, SIV klinikleri ve sertifikalı eğitmenlerle tandem dönüşümü.", "de": "Paragliding-Kurse in Ölüdeniz: Training vom Anfänger bis Fortgeschrittenen, SIV-Kurse und Tandem-Umschulung mit zertifizierten Lehrern.", "ru": "Курсы парапланеризма в Олюденизе: обучение от начального до продвинутого уровня, SIV-клиники с сертифицированными инструкторами."}
   return {
     description: d[locale] || d.en,
-    alternates: localeAlternates(locale, '/training'), title: `${t('title')} | Paragliding Ölüdeniz` }
+    alternates: localeAlternates(locale, '/training'),
+    openGraph: { url: localeAlternates(locale, '/training').canonical! }, title: `${t('title')} | Paragliding Ölüdeniz` }
 }
 
 export default async function TrainingPage({ params }: { params: Promise<{ locale: string }> }) {
