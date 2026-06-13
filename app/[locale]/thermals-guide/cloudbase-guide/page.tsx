@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/thermals-guide/cloudbase-guide'),
-    openGraph: { url: localeUrl(locale, '/thermals-guide/cloudbase-guide') }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
+    openGraph: { url: localeUrl(locale, '/thermals-guide/cloudbase-guide'), description: (d as any)[locale] || d.en }, title: `${(t as any)[locale]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/acro-flights'),
-    openGraph: { url: localeUrl(locale, '/acro-flights') }, title: `${t('title')} | Paragliding Oludeniz` }
+    openGraph: { url: localeUrl(locale, '/acro-flights'), description: d[locale] || d.en }, title: `${t('title')} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/babadag-guide/landing-light-wind'),
-    openGraph: { url: localeUrl(locale, '/babadag-guide/landing-light-wind') }, title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
+    openGraph: { url: localeUrl(locale, '/babadag-guide/landing-light-wind'), description: (d as any)[locale] || d.en }, title: `${t[locale as keyof typeof t]||t.en} | Paragliding Oludeniz` }
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
