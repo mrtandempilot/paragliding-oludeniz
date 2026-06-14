@@ -53,10 +53,22 @@ async function postToTikTok(videoUrl: string, caption: string): Promise<{ succes
   }
 }
 
-// Hardcoded Facebook Place ID for "Ölüdeniz Fethiye" (986696727 — 121K posts)
-// The Places Search API requires permissions not in our token, so we use the known ID.
+// Rotating location IDs for Fethiye / Ölüdeniz area
+// Spread across multiple locations to reach different audiences on Instagram Explore
+const FETHIYE_LOCATION_IDS = [
+  '986696727',  // Ölüdeniz Fethiye (121K posts)
+  '315197270',  // Blue Lagoon, Fethiye, Turkey
+  '272439170',  // Fethiye-Blue Lagoon
+  '286577794',  // Babadağ
+  '286764714',  // Fethiye, Turkey
+  '219209021',  // Fethiye Ölüdeniz
+  '250442943',  // Muğla Fethiye Ölüdeniz
+]
+
 function getOludenizLocationId(_accessToken: string): Promise<string | null> {
-  return Promise.resolve('986696727')
+  const id = FETHIYE_LOCATION_IDS[Math.floor(Math.random() * FETHIYE_LOCATION_IDS.length)]
+  console.log('[Instagram] Location ID (rotating):', id)
+  return Promise.resolve(id)
 }
 
 export async function POST(request: Request) {
