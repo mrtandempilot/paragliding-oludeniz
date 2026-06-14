@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import { ArrowRight, Star, Shield, Clock } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -9,12 +10,14 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1920&q=85')",
-        }}
+      <Image
+        src="https://images.unsplash.com/photo-1544551763-46a013bb70d5"
+        alt="Paragliding over Oludeniz lagoon, Turkey"
+        fill
+        priority
+        className="object-cover object-center"
+        sizes="100vw"
+        quality={85}
       />
       <div className="absolute inset-0 bg-hero" />
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
