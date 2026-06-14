@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: 'about' })
   const d: Record<string, string> = {
     en: 'Meet Ceyhun Aksoy — certified tandem paragliding pilot in Ölüdeniz with 25+ years experience and 50,000+ flights from Babadağ over the Blue Lagoon.',
-    tr: 'Ceyhun Aksoy ile tanışın — Babadağ'dan Mavi Lagün üzerine 25+ yıl deneyimli, 50.000+ uçuşlu sertifikalı tandem paraşüt pilotu.',
+    tr: 'Ceyhun Aksoy ile tanışın — Babadağ\'dan Mavi Lagün üzerine 25+ yıl deneyimli, 50.000+ uçuşlu sertifikalı tandem paraşüt pilotu.',
     de: 'Lernen Sie Ceyhun Aksoy kennen — zertifizierter Tandempilot in Ölüdeniz mit 25+ Jahren Erfahrung und 50.000+ Flügen vom Babadağ.',
     ru: 'Познакомьтесь с Джейхуном Аксой — сертифицированным пилотом-тандем в Олюденизе с опытом 25+ лет и более 50 000 полётов с Бабадага.',
   }
