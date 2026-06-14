@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: article ? article.title : 'Blog',
     description: article?.meta_description || undefined,
     alternates: localeAlternates(locale, `/blog/${slug}`),
-    openGraph: { url: localeUrl(locale, `/blog/${slug}`), description: article?.meta_description || undefined },
+    openGraph: { url: localeUrl(locale, `/blog/${slug}`), title: article ? article.title : 'Blog | Paragliding Oludeniz', description: article?.meta_description || undefined },
     twitter: { card: 'summary_large_image', description: article?.meta_description || undefined },
   }
 }

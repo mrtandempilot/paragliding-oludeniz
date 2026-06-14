@@ -45,7 +45,7 @@ export default async function Image() {
                 letterSpacing: '0.08em',
               }}
             >
-              ATMOS PARAGLIDING
+              PARAGLIDING ÖLÜDENİZ
             </div>
           </div>
 
@@ -93,7 +93,7 @@ export default async function Image() {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ color: '#86efac' }}>✓</span>
-              <span>From €80</span>
+              <span>From €100</span>
             </div>
           </div>
         </div>

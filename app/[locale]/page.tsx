@@ -8,27 +8,27 @@ import { localeAlternates } from '@/lib/seo'
 
 const META: Record<string, { title: string; description: string; ogLocale: string }> = {
   en: {
-    title: 'Paragliding Oludeniz | Tandem Flights from Babada\u011f',
+    title: 'Paragliding Oludeniz | Tandem Flights from Babadağ',
     description:
-      'Book tandem paragliding flights in Oludeniz, Turkey. Launch from Babada\u011f at 1960m and soar over the Blue Lagoon. Certified pilots, 25+ years experience.',
+      'Book tandem paragliding flights in Oludeniz, Turkey. Launch from Babadağ at 1960m and soar over the Blue Lagoon. Certified pilots, 25+ years experience.',
     ogLocale: 'en_US',
   },
   tr: {
-    title: '\u00d6l\u00fcdeniz Yama\u00e7 Para\u015f\u00fct\u00fc | Babada\u011f Tandem U\u00e7u\u015flar\u0131',
+    title: 'Ölüdeniz Yamaç Paraşütü | Babadağ Tandem Uçuşları',
     description:
-      "\u00d6l\u00fcdeniz'de tandem yama\u00e7 para\u015f\u00fct\u00fc rezervasyonu. 1960m Babada\u011f'dan havalan\u0131n, Mavi Lag\u00fcn \u00fczerinde s\u00fcz\u00fcl\u00fcn. Sertifikal\u0131 pilotlar, 25+ y\u0131l deneyim.",
+      "Ölüdeniz'de tandem yamaç paraşütü rezervasyonu. 1960m Babadağ'dan havalanın, Mavi Lagün üzerinde süzülün. Sertifikalı pilotlar, 25+ yıl deneyim.",
     ogLocale: 'tr_TR',
   },
   de: {
-    title: 'Gleitschirmfliegen \u00d6l\u00fcdeniz | Tandemfl\u00fcge vom Babada\u011f',
+    title: 'Gleitschirmfliegen Ölüdeniz | Tandemflüge vom Babadağ',
     description:
-      'Tandem-Gleitschirmfl\u00fcge in \u00d6l\u00fcdeniz, T\u00fcrkei buchen. Start vom Babada\u011f (1960 m), Flug \u00fcber die Blaue Lagune. Zertifizierte Piloten, 25+ Jahre Erfahrung.',
+      'Tandem-Gleitschirmflüge in Ölüdeniz, Türkei buchen. Start vom Babadağ (1960 m), Flug über die Blaue Lagune. Zertifizierte Piloten, 25+ Jahre Erfahrung.',
     ogLocale: 'de_DE',
   },
   ru: {
-    title: '\u041f\u0430\u0440\u0430\u043f\u043b\u0430\u043d \u041e\u043b\u044e\u0434\u0435\u043d\u0438\u0437 | \u0422\u0430\u043d\u0434\u0435\u043c\u043d\u044b\u0435 \u043f\u043e\u043b\u0451\u0442\u044b \u0441 \u0411\u0430\u0431\u0430\u0434\u0430\u0433\u0430',
+    title: 'Параплан Олюдениз | Тандемные полёты с Бабадага',
     description:
-      '\u0411\u0440\u043e\u043d\u0438\u0440\u0443\u0439\u0442\u0435 \u0442\u0430\u043d\u0434\u0435\u043c\u043d\u044b\u0435 \u043f\u043e\u043b\u0451\u0442\u044b \u043d\u0430 \u043f\u0430\u0440\u0430\u043f\u043b\u0430\u043d\u0435 \u0432 \u041e\u043b\u044e\u0434\u0435\u043d\u0438\u0437\u0435. \u0421\u0442\u0430\u0440\u0442 \u0441 \u0433\u043e\u0440\u044b \u0411\u0430\u0431\u0430\u0434\u0430\u0433 (1960 \u043c), \u043f\u043e\u043b\u0451\u0442 \u043d\u0430\u0434 \u0413\u043e\u043b\u0443\u0431\u043e\u0439 \u043b\u0430\u0433\u0443\u043d\u043e\u0439. \u041e\u043f\u044b\u0442 25+ \u043b\u0435\u0442.',
+      'Бронируйте тандемные полёты на параплане в Олюденизе. Старт с горы Бабадаг (1960 м), полёт над Голубой лагуной. Опыт 25+ лет.',
     ogLocale: 'ru_RU',
   },
 }
@@ -37,7 +37,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   const m = META[locale] || META.en
   return {
-    title: m.title,
+    // title.absolute bypasses the root layout template — prevents triple suffix
+    title: { absolute: m.title },
     description: m.description,
     alternates: localeAlternates(locale, '/'),
     openGraph: {
@@ -52,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
           url: '/opengraph-image',
           width: 1200,
           height: 630,
-          alt: 'Paragliding \u00d6l\u00fcdeniz \u2014 Tandem Flights from Babada\u011f Mountain',
+          alt: 'Paragliding Ölüdeniz — Tandem Flights from Babadağ Mountain',
         },
       ],
     },
@@ -68,15 +69,25 @@ const LOCAL_BUSINESS_SCHEMA = {
   telephone: '+905364616674',
   email: 'info@paragliding-oludeniz.com',
   image: 'https://paragliding-oludeniz.com/opengraph-image',
-  priceRange: '\u20ac\u20ac',
+  priceRange: '€€',
   address: {
     '@type': 'PostalAddress',
-    addressLocality: '\u00d6l\u00fcdeniz, Fethiye',
-    addressRegion: 'Mu\u011fla',
+    addressLocality: 'Ölüdeniz, Fethiye',
+    addressRegion: 'Muğla',
     addressCountry: 'TR',
   },
   geo: { '@type': 'GeoCoordinates', latitude: 36.5497, longitude: 29.1167 },
   aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '2400' },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      opens: '07:00',
+      closes: '19:00',
+      validFrom: '2025-04-01',
+      validThrough: '2025-10-31',
+    },
+  ],
   sameAs: [
     'https://instagram.com/paragliding.oludeniz',
     'https://facebook.com/paraglidingoludeniz',

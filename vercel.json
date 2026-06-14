@@ -12,5 +12,13 @@
       "path": "/api/cron/orchestrator?slot=06:00",
       "schedule": "0 6 * * *"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.paragliding-oludeniz.com" }],
+      "destination": "https://paragliding-oludeniz.com/:path*",
+      "permanent": true
+    }
   ]
 }
