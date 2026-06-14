@@ -10,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Helper to create a sitemap entry
   const langUrls = (path: string) => ({
-    en: `${BASE_URL}${path === '/' ? '' : path}`,
+    en: `${BASE_URL}/en${path === '/' ? '' : path}`,
     tr: `${BASE_URL}/tr${path === '/' ? '' : path}`,
     de: `${BASE_URL}/de${path === '/' ? '' : path}`,
     ru: `${BASE_URL}/ru${path === '/' ? '' : path}`,
@@ -21,7 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: number,
     changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] = 'monthly'
   ): MetadataRoute.Sitemap[number] => ({
-    url: `${BASE_URL}${path === '/' ? '' : path}` || BASE_URL,
+    url: path === '/' ? BASE_URL : `${BASE_URL}/en${path}`,
     lastModified: now,
     changeFrequency,
     priority,
@@ -178,7 +178,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .order('created_at', { ascending: false })
 
     const articlePages: MetadataRoute.Sitemap = (articles || []).map(article => ({
-      url: `${BASE_URL}/blog/${article.slug}`,
+      url: `${BASE_URL}/en/blog/${article.slug}`,
       lastModified: new Date(article.published_at || article.created_at),
       changeFrequency: 'monthly' as const,
       priority: 0.75,
