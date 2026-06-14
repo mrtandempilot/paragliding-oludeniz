@@ -53,26 +53,10 @@ async function postToTikTok(videoUrl: string, caption: string): Promise<{ succes
   }
 }
 
-// Search Facebook Places for Ölüdeniz and return the place ID
-async function getOludenizLocationId(accessToken: string): Promise<string | null> {
-  try {
-    const res = await fetch(
-      `https://graph.facebook.com/v19.0/pages/search?q=Oludeniz&fields=id,name,location&type=place&access_token=${accessToken}`
-    )
-    const data = await res.json()
-    if (data.data && data.data.length > 0) {
-      // Find the best match — prefer entries with "ludeniz" in the name
-      const match = data.data.find((p: any) =>
-        p.name?.toLowerCase().includes('ludeniz') ||
-        p.location?.city?.toLowerCase().includes('ludeniz')
-      ) || data.data[0]
-      console.log('[Instagram] Location found:', match.name, match.id)
-      return match.id
-    }
-  } catch (e) {
-    console.error('[Instagram] Location search failed:', e)
-  }
-  return null
+// Hardcoded Facebook Place ID for "Ölüdeniz Fethiye" (986696727 — 121K posts)
+// The Places Search API requires permissions not in our token, so we use the known ID.
+function getOludenizLocationId(_accessToken: string): Promise<string | null> {
+  return Promise.resolve('986696727')
 }
 
 export async function POST(request: Request) {
