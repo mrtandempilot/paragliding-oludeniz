@@ -71,6 +71,17 @@ function getOludenizLocationId(_accessToken: string): Promise<string | null> {
   return Promise.resolve(id)
 }
 
+// Generate alt text for accessibility & SEO from post caption
+function generateAltText(caption: string): string {
+  const base = 'Tandem paragliding over Ölüdeniz Blue Lagoon from Babadağ Mountain, Fethiye Turkey'
+  if (!caption) return base
+  // Use first sentence of caption (max 100 chars), fall back to base
+  const first = caption.split(/[.!?\n]/)[0]?.trim()
+  if (first && first.length > 20 && first.length <= 100) return first
+  if (first && first.length > 100) return first.slice(0, 97) + '...'
+  return base
+}
+
 export async function POST(request: Request) {
   const { id, post_to_tiktok } = await request.json()
   const supabase = getSupabase()
@@ -110,6 +121,7 @@ export async function POST(request: Request) {
 
       const body: Record<string, any> = { image_url: post.image_url, caption, access_token: accessToken }
       if (locationId) body.location_id = locationId
+      body.alt_text = generateAltText(post.caption || '')
 
       const res = await fetch(`https://graph.facebook.com/v19.0/${igAccountId}/media`, {
         method: 'POST',
@@ -212,6 +224,7 @@ export async function POST(request: Request) {
           children: childIds.join(','),
           caption,
           access_token: accessToken,
+          alt_text: generateAltText(post.caption || ''),
           ...(locationId ? { location_id: locationId } : {}),
         }),
       })
