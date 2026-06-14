@@ -7,6 +7,52 @@ import { getTranslations } from 'next-intl/server'
 import { localeAlternates, localeUrl } from '@/lib/seo'
 import ServiceSchema from '@/components/shared/ServiceSchema'
 
+
+const PRICE_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Tandem Paragliding Ölüdeniz',
+  url: 'https://paragliding-oludeniz.com/prices',
+  provider: {
+    '@type': 'LocalBusiness',
+    name: 'Paragliding Oludeniz',
+    url: 'https://paragliding-oludeniz.com',
+  },
+  areaServed: { '@type': 'Place', name: 'Ölüdeniz, Fethiye, Turkey' },
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Standard Tandem Paragliding Flight',
+      price: '100',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      url: 'https://paragliding-oludeniz.com/book-now',
+      validFrom: '2025-04-01',
+      validThrough: '2025-10-31',
+    },
+    {
+      '@type': 'Offer',
+      name: 'High Altitude Tandem Paragliding Flight',
+      price: '100',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      url: 'https://paragliding-oludeniz.com/book-now',
+      validFrom: '2025-04-01',
+      validThrough: '2025-10-31',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Sunset Tandem Paragliding Flight',
+      price: '110',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      url: 'https://paragliding-oludeniz.com/book-now',
+      validFrom: '2025-04-01',
+      validThrough: '2025-10-31',
+    },
+  ],
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
@@ -65,6 +111,10 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(PRICE_SCHEMA) }}
+      />
       <ServiceSchema name="Paragliding Oludeniz Prices & Packages" description="Transparent pricing for tandem paragliding flights in Oludeniz. Standard, sunset and VIP packages from Babadağ with certified pilots." path="/prices" serviceType="Tandem Paragliding Flight" />
       <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c0d/dOEuj7ebfM-MdyvUcunPD.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
