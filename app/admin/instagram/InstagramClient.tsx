@@ -6,7 +6,7 @@ import {
   Plus, Sparkles, Edit2, Trash2, Send, Clock, CheckCircle, XCircle,
   X, Loader2, Instagram, Calendar, Hash, Image as ImageIcon,
   AlignLeft, Upload, Film, BookImage, Tv2, LayoutGrid, List,
-  MoreHorizontal, RefreshCw,
+  MoreHorizontal, RefreshCw, BarChart2, Eye, Heart, Users, Bookmark, Share2,
 } from 'lucide-react'
 import type { InstagramPost } from '@/lib/supabase'
 
@@ -58,7 +58,22 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
   const [activeFilter, setActiveFilter] = useState<string>('all')
   const [viewMode, setViewMode] = useState<ViewMode>('list')
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
+  const [mainTab, setMainTab] = useState<'posts' | 'analytics'>('posts')
+  const [insights, setInsights] = useState<any[]>([])
+  const [insightsLoading, setInsightsLoading] = useState(false)
   const router = useRouter()
+
+  async function loadInsights() {
+    setInsightsLoading(true)
+    try {
+      const res = await fetch('/api/admin/instagram/insights')
+      const data = await res.json()
+      setInsights(data.insights || [])
+    } catch (e) {
+      console.error('Insights error:', e)
+    }
+    setInsightsLoading(false)
+  }
 
   // AI generator state
   const [aiDescription, setAiDescription] = useState('')
@@ -326,7 +341,117 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
         </div>
       )}
 
-      {/* ── Filter bar + view toggle ── */}
+      {/* ── Main tab switcher ── */}
+      <div className="flex gap-2 mb-5 border-b border-slate-200">
+        <button
+          onClick={() => setMainTab('posts')}
+          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors -mb-px ${mainTab === 'posts' ? 'border-slate-900 text-slate-900' : 'border-transparent text-slate-400 hover:text-slate-600'}`}
+        >
+          <Instagram className="w-4 h-4" /> Posts
+        </button>
+        <button
+          onClick={() => { setMainTab('analytics'); if (insights.length === 0) loadInsights() }}
+          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors -mb-px ${mainTab === 'analytics' ? 'border-purple-600 text-purple-700' : 'border-transparent text-slate-400 hover:text-slate-600'}`}
+        >
+          <BarChart2 className="w-4 h-4" /> Analytics
+        </button>
+      </div>
+
+      {/* ── Analytics Tab ── */}
+      {mainTab === 'analytics' && (
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm text-slate-500">Son 30 yayınlanan postun metrikleri</p>
+            <button
+              onClick={loadInsights}
+              disabled={insightsLoading}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+            >
+              {insightsLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <RefreshCw className="w-3 h-3" />}
+              Yenile
+            </button>
+          </div>
+
+          {insightsLoading && insights.length === 0 ? (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="w-6 h-6 animate-spin text-purple-500" />
+              <span className="ml-2 text-slate-500 text-sm">Metrikler yükleniyor...</span>
+            </div>
+          ) : insights.length === 0 ? (
+            <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
+              <BarChart2 className="w-10 h-10 text-slate-200 mx-auto mb-3" />
+              <p className="text-slate-400 text-sm">Henüz yayınlanmış post yok</p>
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+              {/* Summary cards */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-0 border-b border-slate-100">
+                {[
+                  { label: 'Toplam Views', icon: <Eye className="w-4 h-4 text-purple-500" />, value: insights.reduce((s, i) => s + (i.views || 0), 0) },
+                  { label: 'Toplam Reach', icon: <Users className="w-4 h-4 text-blue-500" />, value: insights.reduce((s, i) => s + (i.reach || 0), 0) },
+                  { label: 'Toplam Likes', icon: <Heart className="w-4 h-4 text-pink-500" />, value: insights.reduce((s, i) => s + (i.likes || 0), 0) },
+                  { label: 'Toplam Saves', icon: <Bookmark className="w-4 h-4 text-orange-500" />, value: insights.reduce((s, i) => s + (i.saved || 0), 0) },
+                ].map(({ label, icon, value }) => (
+                  <div key={label} className="p-4 border-r border-slate-100 last:border-r-0">
+                    <div className="flex items-center gap-2 mb-1">{icon}<span className="text-xs text-slate-500">{label}</span></div>
+                    <p className="text-2xl font-bold text-slate-900">{value.toLocaleString()}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Per-post table */}
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-slate-50 border-b border-slate-100">
+                    <tr>
+                      <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Post</th>
+                      <th className="text-center px-3 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide"><Eye className="w-3.5 h-3.5 inline" /> Views</th>
+                      <th className="text-center px-3 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide"><Users className="w-3.5 h-3.5 inline" /> Reach</th>
+                      <th className="text-center px-3 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide"><Heart className="w-3.5 h-3.5 inline" /> Likes</th>
+                      <th className="text-center px-3 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide"><Share2 className="w-3.5 h-3.5 inline" /> Shares</th>
+                      <th className="text-center px-3 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide"><Bookmark className="w-3.5 h-3.5 inline" /> Saves</th>
+                      <th className="text-center px-3 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Ort. İzl.</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-50">
+                    {insights.map((item, idx) => (
+                      <tr key={item.id || idx} className="hover:bg-slate-50 transition-colors">
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-3">
+                            {item.image_url && (
+                              <img src={item.image_url} alt="" className="w-10 h-10 rounded-lg object-cover flex-shrink-0 bg-slate-100" onError={e => { (e.target as HTMLImageElement).style.display='none' }} />
+                            )}
+                            <div className="min-w-0">
+                              <p className="text-xs text-slate-700 line-clamp-2 leading-tight">{item.caption?.slice(0, 80) || '—'}</p>
+                              <div className="flex items-center gap-1.5 mt-1">
+                                <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${item.post_type === 'reel' ? 'bg-purple-100 text-purple-700' : 'bg-orange-100 text-orange-700'}`}>
+                                  {item.post_type}
+                                </span>
+                                {item.posted_at && <span className="text-xs text-slate-400">{new Date(item.posted_at).toLocaleDateString('tr-TR')}</span>}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-3 py-3 text-center font-semibold text-slate-800">{(item.views || 0).toLocaleString()}</td>
+                        <td className="px-3 py-3 text-center text-slate-600">{(item.reach || 0).toLocaleString()}</td>
+                        <td className="px-3 py-3 text-center text-pink-600 font-medium">{(item.likes || 0).toLocaleString()}</td>
+                        <td className="px-3 py-3 text-center text-slate-600">{(item.shares || 0).toLocaleString()}</td>
+                        <td className="px-3 py-3 text-center text-orange-600">{(item.saved || 0).toLocaleString()}</td>
+                        <td className="px-3 py-3 text-center text-slate-500 text-xs">
+                          {item.ig_reels_avg_watch_time ? `${(item.ig_reels_avg_watch_time / 1000).toFixed(1)}s` : '—'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {mainTab === 'posts' && (
+      <>{/* ── Filter bar + view toggle ── */}
       <div className="flex items-center justify-between mb-4 gap-2 flex-wrap">
         <div className="flex gap-1.5 flex-wrap">
           {(['all', 'draft', 'scheduled', 'posted', 'failed'] as const).map(f => (
@@ -743,6 +868,8 @@ export default function InstagramClient({ posts: initial }: { posts: InstagramPo
             </div>
           </div>
         </div>
+      )}
+      </>
       )}
     </div>
   )
