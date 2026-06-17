@@ -1,5 +1,10 @@
 {
-  "crons": [],
+  "crons": [
+    {
+      "path": "/api/cron/orchestrator?slot=06:00",
+      "schedule": "0 6 * * *"
+    }
+  ],
   "redirects": [
     {
       "source": "/:path*",
