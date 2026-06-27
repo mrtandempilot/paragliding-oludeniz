@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Menu, X, ChevronDown, Phone } from 'lucide-react'
 import { navigation } from '@/lib/navigation'
 import LanguageSwitcher from './LanguageSwitcher'
@@ -41,12 +42,20 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link href={lp('/')} className="flex items-center gap-2 z-10">
+            <Image
+              src="/images/logo.jpg"
+              alt="Atmos Paragliding"
+              width={40}
+              height={40}
+              priority
+              className="rounded-full h-9 w-9 md:h-10 md:w-10 object-cover"
+            />
             <span
               className={`text-xl md:text-2xl font-bold transition-colors ${
                 isDark ? 'text-white' : 'text-slate-900'
               }`}
             >
-              🪂 <span className="text-orange-500">Atmos</span>{' '}
+              <span className="text-orange-500">Atmos</span>{' '}
               <span className={isDark ? 'text-white' : 'text-slate-900'}>Paragliding</span>
             </span>
           </Link>

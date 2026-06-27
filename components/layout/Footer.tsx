@@ -54,9 +54,16 @@ export default async function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <Link href={lp('/')} className="inline-block mb-4">
+            <Link href={lp('/')} className="inline-flex items-center gap-2 mb-4">
+              <Image
+                src="/images/logo.jpg"
+                alt="Atmos Paragliding"
+                width={32}
+                height={32}
+                className="rounded-full h-8 w-8 object-cover"
+              />
               <span className="text-xl font-bold text-white">
-                🪂 <span className="text-orange-500">Atmos</span> Paragliding
+                <span className="text-orange-500">Atmos</span> Paragliding
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed mb-6">
