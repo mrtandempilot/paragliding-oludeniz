@@ -20,7 +20,7 @@ export default function CreateCampaignPage() {
   const [success, setSuccess] = useState(false)
 
   // Step 1 — Campaign
-  const [campaignName, setCampaignName] = useState('Paragliding Ölüdeniz — ')
+  const [campaignName, setCampaignName] = useState('Atmos Paragliding — ')
   const [objective, setObjective] = useState('OUTCOME_TRAFFIC')
   const [campaignId, setCampaignId] = useState('')
 
@@ -34,7 +34,7 @@ export default function CreateCampaignPage() {
   const [adName, setAdName] = useState('Tandem Paragliding Ad')
   const [imageUrl, setImageUrl] = useState('')
   const [caption, setCaption] = useState('🪂 Ölüdeniz\'de hayatının uçuşunu yap! Babadağ\'dan Blue Lagoon\'a süzül. Hemen rezervasyon yap.')
-  const [link, setLink] = useState(process.env.NEXT_PUBLIC_SITE_URL || 'https://paragliding-oludeniz.com')
+  const [link, setLink] = useState(process.env.NEXT_PUBLIC_SITE_URL || 'https://atmosparagliding.com')
 
   async function createCampaign() {
     setLoading(true)
@@ -99,7 +99,7 @@ export default function CreateCampaignPage() {
           adset_id: adsetId,
           image_url: imageUrl,
           caption,
-          link: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://paragliding-oludeniz.com'}`,
+          link: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://atmosparagliding.com'}`,
         }),
       })
       const data = await res.json()

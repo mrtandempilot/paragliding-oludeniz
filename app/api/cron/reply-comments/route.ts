@@ -57,7 +57,7 @@ export async function GET(request: Request) {
     .single()
 
   const replyTemplate = msgRow?.value ||
-    'Merhaba! 🪂 Fiyat ve rezervasyon için: https://wa.me/905364616674 veya https://paragliding-oludeniz.com'
+    'Merhaba! 🪂 Fiyat ve rezervasyon için: https://wa.me/905364616674 veya https://atmosparagliding.com'
 
   // Get DM enabled setting
   const { data: enabledRow } = await supabase

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Page Not Found | Paragliding Oludeniz',
+  title: 'Page Not Found | Atmos Paragliding',
   robots: { index: false, follow: true },
 }
 

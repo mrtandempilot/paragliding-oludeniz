@@ -56,7 +56,7 @@ export default async function Footer() {
           <div className="lg:col-span-1">
             <Link href={lp('/')} className="inline-block mb-4">
               <span className="text-xl font-bold text-white">
-                🪂 <span className="text-orange-500">Paragliding</span> Ölüdeniz
+                🪂 <span className="text-orange-500">Atmos</span> Paragliding
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed mb-6">
@@ -124,7 +124,7 @@ export default async function Footer() {
               </div>
             </a>
             <p className="text-sm text-slate-500">
-              © {new Date().getFullYear()} Paragliding Ölüdeniz. All rights reserved.
+              © {new Date().getFullYear()} Atmos Paragliding. All rights reserved.
             </p>
           </div>
           <div className="flex items-center gap-6 text-sm text-slate-500">

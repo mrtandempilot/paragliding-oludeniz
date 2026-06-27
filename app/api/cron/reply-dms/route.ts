@@ -26,7 +26,7 @@ export async function GET(request: Request) {
     .from('settings').select('value').eq('key', 'ig_dm_message').single()
 
   const replyMessage = msgRow?.value ||
-    'Merhaba! 🪂 Fiyat ve rezervasyon için: https://wa.me/905364616674 veya https://paragliding-oludeniz.com'
+    'Merhaba! 🪂 Fiyat ve rezervasyon için: https://wa.me/905364616674 veya https://atmosparagliding.com'
 
   // Get conversations (DM inbox)
   const convsRes = await fetch(

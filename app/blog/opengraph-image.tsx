@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'Paragliding Ölüdeniz Blog — Tips, Guides & Latest News'
+export const alt = 'Atmos Paragliding Blog — Tips, Guides & Latest News'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -74,7 +74,7 @@ export default async function Image() {
             justifyContent: 'space-between',
           }}
         >
-          <span>Atmos Paragliding · paragliding-oludeniz.com</span>
+          <span>Atmos Paragliding · atmosparagliding.com</span>
           <span>Ölüdeniz, Turkey</span>
         </div>
       </div>

@@ -26,7 +26,7 @@ export async function runWriterAgent(brief: SEOBrief): Promise<ArticleResult> {
 
   const currentYear = new Date().getFullYear()
 
-  const prompt = `You are an expert travel and adventure content writer for paragliding-oludeniz.com, a paragliding company in Ölüdeniz, Turkey.
+  const prompt = `You are an expert travel and adventure content writer for atmosparagliding.com, a paragliding company in Ölüdeniz, Turkey.
 
 IMPORTANT: The current year is ${currentYear}. Use ${currentYear} in titles and content where a year is referenced — never use past years.
 
@@ -50,7 +50,7 @@ Writing Requirements:
 - Include specific details about Ölüdeniz: Blue Lagoon, Babadağ Mountain (1960m), Mediterranean climate
 - Add a FAQ section at the end (3-5 questions) if schema_type is FAQPage
 - Use "we" and "our team" to build trust
-- End with a clear call-to-action to book at paragliding-oludeniz.com
+- End with a clear call-to-action to book at atmosparagliding.com
 - Do NOT use placeholder text or generic filler
 
 Return a JSON object with exactly these fields:

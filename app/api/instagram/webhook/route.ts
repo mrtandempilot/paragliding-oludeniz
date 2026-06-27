@@ -13,7 +13,7 @@ Tandem ucus - 85 EUR
 Sunset (gun batimi) ucus - 120 EUR
 Grup indirimi (4+ kisi) - %15 indirim
 
-Online rezervasyon: paragliding-oludeniz.com/book-now
+Online rezervasyon: atmosparagliding.com/book-now
 
 Baska sorularin olursa buradayim!`
 
@@ -21,7 +21,7 @@ const GENERAL_DM = `Merhaba! Yorumun icin cok tesekkurler!
 
 Oludeniz'den Babadag'a ucmak istersen sana yardimci olmaktan mutluluk duyarim.
 
-Rezervasyon: paragliding-oludeniz.com/book-now`
+Rezervasyon: atmosparagliding.com/book-now`
 
 // Instagram webhook doğrulama (GET)
 export async function GET(req: NextRequest) {

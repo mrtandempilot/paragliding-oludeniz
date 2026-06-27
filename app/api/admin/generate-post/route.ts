@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     messages: [
       {
         role: 'user',
-        content: `You are an SEO content writer for a paragliding company in Ölüdeniz, Turkey (paragliding-oludeniz.com). Write a high-quality, SEO-optimized blog post.
+        content: `You are an SEO content writer for a paragliding company in Ölüdeniz, Turkey (atmosparagliding.com). Write a high-quality, SEO-optimized blog post.
 
 Topic: ${topic}
 Target keyword: ${keyword || topic}

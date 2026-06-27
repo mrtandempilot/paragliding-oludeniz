@@ -35,7 +35,7 @@ async function generateNewTopics(): Promise<void> {
 
   const currentYear = new Date().getFullYear()
 
-  const prompt = `You are an SEO content strategist for paragliding-oludeniz.com, a tandem paragliding company in Ölüdeniz, Turkey.
+  const prompt = `You are an SEO content strategist for atmosparagliding.com, a tandem paragliding company in Ölüdeniz, Turkey.
 
 Generate 10 NEW blog topic ideas that:
 - Target tourists searching for paragliding in Ölüdeniz / Turkey
@@ -111,7 +111,7 @@ export async function runSEOAgent(): Promise<SEOBrief> {
   // 2. Research with Claude
   const currentYear = new Date().getFullYear()
 
-  const prompt = `You are an expert SEO researcher for paragliding-oludeniz.com, a paragliding company in Ölüdeniz, Turkey.
+  const prompt = `You are an expert SEO researcher for atmosparagliding.com, a paragliding company in Ölüdeniz, Turkey.
 
 IMPORTANT: The current year is ${currentYear}. If the article title or meta title includes a year, always use ${currentYear}.
 

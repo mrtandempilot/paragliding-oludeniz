@@ -4,10 +4,10 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 
 export const metadata: Metadata = {
-  title: 'Contact Us | Paragliding Ölüdeniz',
+  title: 'Contact Us | Atmos Paragliding',
   description:
-    'Get in touch with Paragliding Ölüdeniz. Call, WhatsApp or email us to book a tandem flight or ask any questions. We respond within 2 hours.',
-  alternates: { canonical: 'https://paragliding-oludeniz.com/contact' },
+    'Get in touch with Atmos Paragliding. Call, WhatsApp or email us to book a tandem flight or ask any questions. We respond within 2 hours.',
+  alternates: { canonical: 'https://atmosparagliding.com/contact' },
 }
 
 export default function ContactPage() {

@@ -24,7 +24,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"Contact Paragliding Oludeniz\", \"description\": \"Contact Paragliding Oludeniz to book your tandem flight or ask any question.\", \"url\": \"https://paragliding-oludeniz.com/contact\", \"author\": {\"@type\": \"Person\", \"name\": \"Ceyhun\", \"url\": \"https://paragliding-oludeniz.com/en/about-us\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Paragliding Oludeniz\", \"url\": \"https://paragliding-oludeniz.com\"}}" }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"Contact Paragliding Oludeniz\", \"description\": \"Contact Paragliding Oludeniz to book your tandem flight or ask any question.\", \"url\": \"https://atmosparagliding.com/contact\", \"author\": {\"@type\": \"Person\", \"name\": \"Ceyhun\", \"url\": \"https://atmosparagliding.com/en/about-us\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Atmos Paragliding\", \"url\": \"https://atmosparagliding.com\"}}" }} />
       <PageHero title={t('title')} subtitle={t('subtitle')} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c0a/3Aur6SnimoW0BlFJ4cq8J.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">

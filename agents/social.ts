@@ -111,7 +111,7 @@ async function generateCaption(
   article: ArticleResult,
   keywords: string[]
 ): Promise<{ text: string; hashtags: string[] }> {
-  const prompt = `You are a social media expert for paragliding-oludeniz.com, a paragliding company in Ölüdeniz, Turkey.
+  const prompt = `You are a social media expert for atmosparagliding.com, a paragliding company in Ölüdeniz, Turkey.
 
 Write an engaging Instagram caption for this blog article:
 Title: ${article.title}

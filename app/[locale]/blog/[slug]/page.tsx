@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: article ? article.title : 'Blog',
     description: article?.meta_description || undefined,
     alternates: localeAlternates(locale, `/blog/${slug}`),
-    openGraph: { url: localeUrl(locale, `/blog/${slug}`), title: article ? article.title : 'Blog | Paragliding Oludeniz', description: article?.meta_description || undefined },
+    openGraph: { url: localeUrl(locale, `/blog/${slug}`), title: article ? article.title : 'Blog | Atmos Paragliding', description: article?.meta_description || undefined },
     twitter: { card: 'summary_large_image', description: article?.meta_description || undefined },
   }
 }
@@ -45,7 +45,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
 
   if (!article) notFound()
 
-  const articleUrl = `https://paragliding-oludeniz.com/${locale}/blog/${slug}`
+  const articleUrl = `https://atmosparagliding.com/${locale}/blog/${slug}`
   const blogSchema = article ? {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -56,8 +56,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
     dateModified: article.published_at || article.created_at,
     url: articleUrl,
     mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
-    author: { '@type': 'Person', name: 'Ceyhun', url: 'https://paragliding-oludeniz.com/en/about-us' },
-    publisher: { '@type': 'Organization', name: 'Paragliding Oludeniz', url: 'https://paragliding-oludeniz.com' },
+    author: { '@type': 'Person', name: 'Ceyhun', url: 'https://atmosparagliding.com/en/about-us' },
+    publisher: { '@type': 'Organization', name: 'Atmos Paragliding', url: 'https://atmosparagliding.com' },
   } : null
 
   return (

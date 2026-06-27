@@ -13,11 +13,11 @@ interface MapsAdForm {
 }
 
 const DEFAULT_FORM: MapsAdForm = {
-  campaignName: 'Paragliding Ölüdeniz — Maps',
+  campaignName: 'Atmos Paragliding — Maps',
   dailyBudget: '200',
-  businessName: 'Paragliding Ölüdeniz',
+  businessName: 'Atmos Paragliding',
   phone: '+905364616674',
-  website: 'https://paragliding-oludeniz.com',
+  website: 'https://atmosparagliding.com',
   address: 'Belcekız, Ölüdeniz, Fethiye, Muğla',
 }
 
@@ -69,7 +69,7 @@ export default function MapsAds() {
           <div>
             <h3 className="font-bold text-lg mb-1">Google Maps-Only Ads (Beta 2026)</h3>
             <p className="text-blue-100 text-sm leading-relaxed">
-              "Paragliding Ölüdeniz" arayan turistler haritada seni görür — rakiplerden önce.
+              "Atmos Paragliding" arayan turistler haritada seni görür — rakiplerden önce.
               Sadece Maps içinde gösterilir, satın almaya hazır kitleye ulaşırsın.
             </p>
             <div className="flex flex-wrap gap-3 mt-4">

@@ -8,7 +8,7 @@ import { localeAlternates } from '@/lib/seo'
 
 const META: Record<string, { title: string; description: string; ogLocale: string }> = {
   en: {
-    title: 'Paragliding Oludeniz | Tandem Flights from Babadağ',
+    title: 'Atmos Paragliding | Tandem Flights from Babadağ',
     description:
       'Book tandem paragliding flights in Oludeniz, Turkey. Launch from Babadağ at 1960m and soar over the Blue Lagoon. Certified pilots, 25+ years experience.',
     ogLocale: 'en_US',
@@ -44,8 +44,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     openGraph: {
       type: 'website',
       locale: m.ogLocale,
-      url: locale === 'en' ? 'https://paragliding-oludeniz.com' : `https://paragliding-oludeniz.com/${locale}`,
-      siteName: 'Paragliding Oludeniz',
+      url: locale === 'en' ? 'https://atmosparagliding.com' : `https://atmosparagliding.com/${locale}`,
+      siteName: 'Atmos Paragliding',
       title: m.title,
       description: m.description,
       images: [
@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
           url: '/opengraph-image',
           width: 1200,
           height: 630,
-          alt: 'Paragliding Ölüdeniz — Tandem Flights from Babadağ Mountain',
+          alt: 'Atmos Paragliding — Tandem Flights from Babadağ Mountain',
         },
       ],
     },
@@ -63,12 +63,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 const LOCAL_BUSINESS_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  '@id': 'https://paragliding-oludeniz.com/#business',
-  name: 'Paragliding Oludeniz',
-  url: 'https://paragliding-oludeniz.com',
+  '@id': 'https://atmosparagliding.com/#business',
+  name: 'Atmos Paragliding',
+  url: 'https://atmosparagliding.com',
   telephone: '+905364616674',
   email: 'info@paragliding-oludeniz.com',
-  image: 'https://paragliding-oludeniz.com/opengraph-image',
+  image: 'https://atmosparagliding.com/opengraph-image',
   priceRange: '€€',
   address: {
     '@type': 'PostalAddress',
@@ -98,13 +98,13 @@ const LOCAL_BUSINESS_SCHEMA = {
 const WEBSITE_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Paragliding Oludeniz',
-  url: 'https://paragliding-oludeniz.com',
+  name: 'Atmos Paragliding',
+  url: 'https://atmosparagliding.com',
   potentialAction: {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: 'https://paragliding-oludeniz.com/search?q={search_term_string}',
+      urlTemplate: 'https://atmosparagliding.com/search?q={search_term_string}',
     },
     'query-input': 'required name=search_term_string',
   },

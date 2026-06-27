@@ -15,10 +15,10 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://paragliding-oludeniz.com'),
+  metadataBase: new URL('https://atmosparagliding.com'),
   title: {
-    default: 'Paragliding Oludeniz | Tandem Flights from Babadağ',
-    template: '%s | Paragliding Oludeniz',
+    default: 'Atmos Paragliding | Tandem Flights from Babadağ',
+    template: '%s | Atmos Paragliding',
   },
   description:
     'Book tandem paragliding flights in Oludeniz, Turkey. Launch from Babadağ at 1960m and soar over the Blue Lagoon. Certified pilots, 25+ years experience.',
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://paragliding-oludeniz.com',
-    siteName: 'Paragliding Oludeniz',
+    url: 'https://atmosparagliding.com',
+    siteName: 'Atmos Paragliding',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Tandem Paragliding Oludeniz' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Paragliding Oludeniz | Tandem Flights from Babadağ',
+    title: 'Atmos Paragliding | Tandem Flights from Babadağ',
     description: 'Soar over the Blue Lagoon. Book your tandem paragliding flight today.',
   },
   robots: { index: true, follow: true },
@@ -180,7 +180,7 @@ Tandem ucus - 85 EUR
 Sunset (gun batimi) ucus - 120 EUR
 Grup indirimi (4+ kisi) - %15 indirim
 
-Online rezervasyon: paragliding-oludeniz.com/book-now
+Online rezervasyon: atmosparagliding.com/book-now
 
 Baska sorularin olursa buradayim!\`
 
@@ -188,7 +188,7 @@ const GENERAL_DM = \`Merhaba! Yorumun icin cok tesekkurler!
 
 Oludeniz'den Babadag'a ucmak istersen sana yardimci olmaktan mutluluk duyarim.
 
-Rezervasyon: paragliding-oludeniz.com/book-now\`
+Rezervasyon: atmosparagliding.com/book-now\`
 
 // Instagram webhook doğrulama (GET)
 export async function GET(req: NextRequest) {

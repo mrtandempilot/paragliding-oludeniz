@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
 
-const BASE_URL = 'https://paragliding-oludeniz.com'
+const BASE_URL = 'https://atmosparagliding.com'
 
 export const revalidate = 3600 // her saat güncelle
 

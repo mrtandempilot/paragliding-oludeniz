@@ -22,7 +22,7 @@ export default function CreateGoogleCampaignPage() {
   const [success, setSuccess] = useState(false)
 
   // Campaign fields
-  const [campaignName, setCampaignName] = useState('Paragliding Ölüdeniz — ')
+  const [campaignName, setCampaignName] = useState('Atmos Paragliding — ')
   const [campaignType, setCampaignType] = useState<'SEARCH' | 'DISPLAY'>('SEARCH')
   const [dailyBudget, setDailyBudget] = useState('200')
   const [cpcBid, setCpcBid] = useState('8')

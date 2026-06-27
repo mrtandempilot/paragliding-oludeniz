@@ -46,8 +46,8 @@ export default function Header() {
                 isDark ? 'text-white' : 'text-slate-900'
               }`}
             >
-              🪂 <span className="text-orange-500">Paragliding</span>{' '}
-              <span className={isDark ? 'text-white' : 'text-slate-900'}>Ölüdeniz</span>
+              🪂 <span className="text-orange-500">Atmos</span>{' '}
+              <span className={isDark ? 'text-white' : 'text-slate-900'}>Paragliding</span>
             </span>
           </Link>
 

@@ -1,5 +1,5 @@
 /** @type {import('next-sitemap').IConfig} */
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://paragliding-oludeniz.com'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://atmosparagliding.com'
 const LOCALES = ['en', 'tr', 'de', 'ru']
 
 module.exports = {

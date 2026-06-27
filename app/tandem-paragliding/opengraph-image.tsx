@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'Tandem Paragliding Ölüdeniz — Book Your Flight from Babadağ'
+export const alt = 'Atmos Paragliding Tandem — Book Your Flight from Babadağ'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -98,7 +98,7 @@ export default async function Image() {
             justifyContent: 'space-between',
           }}
         >
-          <span>Atmos Paragliding · paragliding-oludeniz.com</span>
+          <span>Atmos Paragliding · atmosparagliding.com</span>
           <span>Babadağ Mountain, 1960m</span>
         </div>
       </div>

@@ -146,7 +146,7 @@ async function getReplyMessage(username: string): Promise<string> {
     .eq('key', 'ig_dm_message')
     .single()
 
-  const template = data?.value || 'Merhaba! 🪂 Fiyat ve rezervasyon için: https://wa.me/905364616674 veya https://paragliding-oludeniz.com'
+  const template = data?.value || 'Merhaba! 🪂 Fiyat ve rezervasyon için: https://wa.me/905364616674 veya https://atmosparagliding.com'
   return username ? `@${username} ${template}` : template
 }
 

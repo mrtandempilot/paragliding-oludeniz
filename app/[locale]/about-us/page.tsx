@@ -23,11 +23,11 @@ const PERSON_SCHEMA = {
   name: 'Ceyhun Aksoy',
   jobTitle: 'Certified Tandem Paragliding Pilot',
   description: 'Ceyhun Aksoy is a certified tandem paragliding pilot based in Ölüdeniz, Turkey with over 25 years of experience and 50,000+ flights from Babadağ Mountain.',
-  url: 'https://paragliding-oludeniz.com/about-us',
+  url: 'https://atmosparagliding.com/about-us',
   worksFor: {
     '@type': 'Organization',
-    name: 'Paragliding Oludeniz',
-    url: 'https://paragliding-oludeniz.com',
+    name: 'Atmos Paragliding',
+    url: 'https://atmosparagliding.com',
   },
   hasCredential: {
     '@type': 'EducationalOccupationalCredential',
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     ru: 'Познакомьтесь с Джейхуном Аксой — сертифицированным пилотом-тандем в Олюденизе с опытом 25+ лет и более 50 000 полётов с Бабадага.',
   }
   return {
-    title: { absolute: 'Ceyhun Aksoy — Certified Paragliding Pilot Ölüdeniz | Paragliding Oludeniz' },
+    title: { absolute: 'Ceyhun Aksoy — Certified Paragliding Pilot Ölüdeniz | Atmos Paragliding' },
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/about-us'),
     openGraph: {

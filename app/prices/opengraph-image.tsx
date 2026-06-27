@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'Paragliding Prices Ölüdeniz 2026 — Transparent Pricing from €80'
+export const alt = 'Atmos Paragliding Prices 2026 — Transparent Pricing from €80'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -102,7 +102,7 @@ export default async function Image() {
             justifyContent: 'space-between',
           }}
         >
-          <span>Atmos Paragliding · paragliding-oludeniz.com</span>
+          <span>Atmos Paragliding · atmosparagliding.com</span>
           <span>Free cancellation up to 24h</span>
         </div>
       </div>

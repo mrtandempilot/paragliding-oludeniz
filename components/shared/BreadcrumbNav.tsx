@@ -20,7 +20,7 @@ export default function BreadcrumbNav({ items }: BreadcrumbNavProps) {
       '@type': 'ListItem',
       position: index + 1,
       name: item.label,
-      item: item.href ? `https://paragliding-oludeniz.com${item.href}` : undefined,
+      item: item.href ? `https://atmosparagliding.com${item.href}` : undefined,
     })),
   }
 

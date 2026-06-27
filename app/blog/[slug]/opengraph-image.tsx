@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default async function Image({ params }: Props) {
-  let title = 'Paragliding Ölüdeniz — Blog'
+  let title = 'Atmos Paragliding — Blog'
   let heroImage: string | null = null
 
   try {
@@ -132,7 +132,7 @@ export default async function Image({ params }: Props) {
           >
             <span>Atmos Paragliding</span>
             <span style={{ color: 'rgba(255,255,255,0.3)' }}>·</span>
-            <span>paragliding-oludeniz.com</span>
+            <span>atmosparagliding.com</span>
           </div>
         </div>
       </div>

@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/admin/', '/api/'],
     },
-    sitemap: 'https://paragliding-oludeniz.com/sitemap.xml',
+    sitemap: 'https://atmosparagliding.com/sitemap.xml',
   }
 }

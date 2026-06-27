@@ -45,12 +45,12 @@ export async function runImageAgent(article: ArticleResult, keywords: string[]):
     const cloudinaryResult = await uploadToCloudinary(generated.url, article.slug)
     imageUrl = cloudinaryResult.secure_url
     publicId = cloudinaryResult.public_id
-    altText = `${article.title} - Paragliding Ölüdeniz`
+    altText = `${article.title} - Atmos Paragliding`
   } else if (ownPhoto) {
     // fal.ai yok → kendi fotoğraflarına bak
     imageUrl = ownPhoto.secure_url
     publicId = ownPhoto.public_id
-    altText = ownPhoto.context?.alt || `${article.title} - Paragliding Ölüdeniz`
+    altText = ownPhoto.context?.alt || `${article.title} - Atmos Paragliding`
     await logAgent('image', 'own_photo', 'running', { public_id: publicId })
   } else {
     // Son çare → Unsplash'tan çek ve Cloudinary'e yükle
@@ -59,7 +59,7 @@ export async function runImageAgent(article: ArticleResult, keywords: string[]):
     const cloudinaryResult = await uploadToCloudinary(unsplashPhoto.urls.regular, article.slug)
     imageUrl = cloudinaryResult.secure_url
     publicId = cloudinaryResult.public_id
-    altText = unsplashPhoto.alt_description || `${article.title} - Paragliding Ölüdeniz`
+    altText = unsplashPhoto.alt_description || `${article.title} - Atmos Paragliding`
     unsplashId = unsplashPhoto.id
     unsplashAuthor = unsplashPhoto.user.name
     unsplashAuthorUrl = unsplashPhoto.user.links.html

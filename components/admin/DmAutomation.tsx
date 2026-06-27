@@ -7,7 +7,7 @@ const DEFAULT_GENERAL_MESSAGE = `Merhaba! 😊 Yorumun için çok teşekkürler!
 
 Ölüdeniz'den Babadağ'a uçmak istersen sana yardımcı olmaktan mutluluk duyarım 🪂
 
-📅 Rezervasyon: paragliding-oludeniz.com/book-now
+📅 Rezervasyon: atmosparagliding.com/book-now
 📞 Direkt iletişim için buraya yaz!
 
 Görüşmek üzere! ✨`
@@ -18,7 +18,7 @@ const DEFAULT_KEYWORD_MESSAGE = `Merhaba! 🪂 Fiyat ve rezervasyon bilgisi içi
 ✅ Sunset (gün batımı) uçuş — €120
 ✅ Grup indirimi (4+ kişi) — %15 indirim
 
-📅 Online rezervasyon: paragliding-oludeniz.com/book-now
+📅 Online rezervasyon: atmosparagliding.com/book-now
 
 Başka soruların olursa buradayım! 😊`
 

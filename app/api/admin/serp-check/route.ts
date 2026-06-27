@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
       domain: ad.displayed_link || ad.link,
       description: ad.description,
       link: ad.link,
-      isMine: (ad.link || '').includes('paragliding-oludeniz.com'),
+      isMine: (ad.link || '').includes('atmosparagliding.com') || (ad.link || '').includes('paragliding-oludeniz.com'),
     }))
 
     // Extract organic results
@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
       domain: r.displayed_link || r.link,
       description: r.snippet,
       link: r.link,
-      isMine: (r.link || '').includes('paragliding-oludeniz.com'),
+      isMine: (r.link || '').includes('atmosparagliding.com') || (r.link || '').includes('paragliding-oludeniz.com'),
     }))
 
     return NextResponse.json({ ads, organic, keyword })

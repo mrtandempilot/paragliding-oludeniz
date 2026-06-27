@@ -10,10 +10,10 @@ import { getLocale } from 'next-intl/server'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://paragliding-oludeniz.com'),
+  metadataBase: new URL('https://atmosparagliding.com'),
   title: {
-    default: 'Paragliding Oludeniz | Tandem Flights from Babadağ',
-    template: '%s | Paragliding Ölüdeniz',
+    default: 'Atmos Paragliding | Tandem Flights from Babadağ',
+    template: '%s | Atmos Paragliding',
   },
   description:
     'Book tandem paragliding flights in Oludeniz, Turkey. Launch from Babadağ at 1960m and soar over the Blue Lagoon. Certified pilots, 25+ years experience.',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    siteName: 'Paragliding Oludeniz',
+    siteName: 'Atmos Paragliding',
   },
   twitter: {
     card: 'summary_large_image',

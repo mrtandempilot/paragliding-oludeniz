@@ -1,4 +1,4 @@
-const BASE_URL = 'https://paragliding-oludeniz.com'
+const BASE_URL = 'https://atmosparagliding.com'
 
 type ServiceSchemaProps = {
   name: string
@@ -22,7 +22,7 @@ export default function ServiceSchema({ name, description, path, serviceType }: 
     provider: {
       '@type': 'LocalBusiness',
       '@id': `${BASE_URL}/#business`,
-      name: 'Paragliding Oludeniz',
+      name: 'Atmos Paragliding',
       telephone: '+905364616674',
     },
     areaServed: {

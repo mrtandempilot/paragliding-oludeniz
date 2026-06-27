@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     messages: [
       {
         role: 'user',
-        content: `You are a social media manager for a paragliding company in Ölüdeniz, Turkey (paragliding-oludeniz.com). Create an engaging Instagram caption.
+        content: `You are a social media manager for a paragliding company in Ölüdeniz, Turkey (atmosparagliding.com). Create an engaging Instagram caption.
 
 Image description: ${imageDescription}
 Tone: ${tone || 'exciting and inspiring'}
