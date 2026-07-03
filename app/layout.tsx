@@ -10,7 +10,7 @@ import { getLocale } from 'next-intl/server'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://atmosparagliding.com'),
+  metadataBase: new URL('https://www.atmosparagliding.com'),
   title: {
     default: 'Atmos Paragliding | Tandem Flights from Babadağ',
     template: '%s | Atmos Paragliding',

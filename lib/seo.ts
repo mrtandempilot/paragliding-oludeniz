@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-const BASE_URL = 'https://atmosparagliding.com'
+const BASE_URL = 'https://www.atmosparagliding.com'
 const LOCALES = ['en', 'tr', 'de', 'ru'] as const
 
 /** Returns the absolute URL for a given locale + path ('/x' or '/'). */
