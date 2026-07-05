@@ -4,7 +4,7 @@ import WhyOludeniz from '@/components/home/WhyOludeniz'
 import FlightTypesGrid from '@/components/home/FlightTypesGrid'
 import BabadagIntro from '@/components/home/BabadagIntro'
 import ReviewsSection from '@/components/home/ReviewsSection'
-import HomeSeoIntro from '@/components/home/HomeSeoIntro'\nimport HomeSeoIntro from '@/components/home/HomeSeoIntro'
+import HomeSeoIntro from '@/components/home/HomeSeoIntro'
 import { localeAlternates, localeUrl } from '@/lib/seo'
 
 const META: Record<string, { title: string; description: string; ogLocale: string }> = {
