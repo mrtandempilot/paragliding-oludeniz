@@ -4,7 +4,8 @@ import WhyOludeniz from '@/components/home/WhyOludeniz'
 import FlightTypesGrid from '@/components/home/FlightTypesGrid'
 import BabadagIntro from '@/components/home/BabadagIntro'
 import ReviewsSection from '@/components/home/ReviewsSection'
-import { localeAlternates } from '@/lib/seo'
+import HomeSeoIntro from '@/components/home/HomeSeoIntro'\nimport HomeSeoIntro from '@/components/home/HomeSeoIntro'
+import { localeAlternates, localeUrl } from '@/lib/seo'
 
 const META: Record<string, { title: string; description: string; ogLocale: string }> = {
   en: {
@@ -44,7 +45,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     openGraph: {
       type: 'website',
       locale: m.ogLocale,
-      url: locale === 'en' ? 'https://atmosparagliding.com' : `https://atmosparagliding.com/${locale}`,
+      url: localeUrl(locale, '/'),
       siteName: 'Atmos Paragliding',
       title: m.title,
       description: m.description,
@@ -63,12 +64,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 const LOCAL_BUSINESS_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  '@id': 'https://atmosparagliding.com/#business',
+  '@id': 'https://www.atmosparagliding.com/#business',
   name: 'Atmos Paragliding',
-  url: 'https://atmosparagliding.com',
+  url: 'https://www.atmosparagliding.com',
   telephone: '+905364616674',
   email: 'info@paragliding-oludeniz.com',
-  image: 'https://atmosparagliding.com/opengraph-image',
+  image: 'https://www.atmosparagliding.com/opengraph-image',
   priceRange: '€€',
   address: {
     '@type': 'PostalAddress',
@@ -99,18 +100,19 @@ const WEBSITE_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Atmos Paragliding',
-  url: 'https://atmosparagliding.com',
+  url: 'https://www.atmosparagliding.com',
   potentialAction: {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: 'https://atmosparagliding.com/search?q={search_term_string}',
+      urlTemplate: 'https://www.atmosparagliding.com/search?q={search_term_string}',
     },
     'query-input': 'required name=search_term_string',
   },
 }
 
-export default function HomePage() {
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   return (
     <main>
       <script
@@ -125,6 +127,7 @@ export default function HomePage() {
       <WhyOludeniz />
       <FlightTypesGrid />
       <BabadagIntro />
+      <HomeSeoIntro locale={locale} />
       <ReviewsSection />
     </main>
   )
