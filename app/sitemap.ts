@@ -1,19 +1,19 @@
 import { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
-
-const BASE_URL = 'https://atmosparagliding.com'
+import { localeUrl } from '@/lib/seo'
 
 export const revalidate = 3600 // her saat güncelle
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
 
-  // Helper to create a sitemap entry
+  // Helper to create hreflang alternates for a path, using the shared localeUrl() helper
+  // so the default locale (en) correctly has NO /en prefix, matching canonical tags.
   const langUrls = (path: string) => ({
-    en: `${BASE_URL}/en${path === '/' ? '' : path}`,
-    tr: `${BASE_URL}/tr${path === '/' ? '' : path}`,
-    de: `${BASE_URL}/de${path === '/' ? '' : path}`,
-    ru: `${BASE_URL}/ru${path === '/' ? '' : path}`,
+    en: localeUrl('en', path),
+    tr: localeUrl('tr', path),
+    de: localeUrl('de', path),
+    ru: localeUrl('ru', path),
   })
 
   const page = (
@@ -21,7 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: number,
     changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] = 'monthly'
   ): MetadataRoute.Sitemap[number] => ({
-    url: path === '/' ? BASE_URL : `${BASE_URL}/en${path}`,
+    url: localeUrl('en', path),
     lastModified: now,
     changeFrequency,
     priority,
@@ -43,6 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page('/certifications', 0.7, 'monthly'),
     page('/live-weather', 0.7, 'weekly'),
     page('/community', 0.6, 'monthly'),
+    page('/videos', 0.6, 'weekly'),
 
     // Main landing pages
     page('/oludeniz-paragliding', 0.9, 'monthly'),
@@ -178,7 +179,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .order('created_at', { ascending: false })
 
     const articlePages: MetadataRoute.Sitemap = (articles || []).map(article => ({
-      url: `${BASE_URL}/en/blog/${article.slug}`,
+      url: localeUrl('en', `/blog/${article.slug}`),
       lastModified: new Date(article.published_at || article.created_at),
       changeFrequency: 'monthly' as const,
       priority: 0.75,

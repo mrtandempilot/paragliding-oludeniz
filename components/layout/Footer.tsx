@@ -31,6 +31,7 @@ const footerLinks = {
   'Info & Help': [
     { label: 'Weather Guide', href: '/weather-guide' },
     { label: 'Live Weather', href: '/live-weather' },
+    { label: 'Videos', href: '/videos' },
     { label: 'FAQ', href: '/faq' },
     { label: 'About Us', href: '/about-us' },
     { label: 'Safety Record', href: '/safety-record' },
