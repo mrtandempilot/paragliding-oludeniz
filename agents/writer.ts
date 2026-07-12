@@ -41,16 +41,19 @@ Article Structure: ${brief.article_structure.join(' | ')}
 AI Overview Angle: ${brief.ai_overview_angle}
 Content Gaps to Fill: ${brief.content_gaps.join(', ')}
 
-Writing Requirements:
-- 1100-1300 words total
-- Use the exact article structure provided (H2 headings)
-- Include the primary keyword naturally in first paragraph, H2 headings, and conclusion
-- Include long-tail keywords naturally throughout
+Writing Requirements (FAQ-STYLE FORMAT — MANDATORY):
+- 1500-2000 words total
+- The ENTIRE article must be written as a comprehensive FAQ-style guide
+- Start with a short intro paragraph (3-4 sentences) that sets the scene and includes the primary keyword
+- EVERY H2 heading must be a QUESTION that real customers ask (e.g. "How long does the tandem flight last?", "What should I wear for paragliding in Ölüdeniz?")
+- Answer each question DIRECTLY in the first 1-2 sentences under its heading (Google AI Overview friendly), then expand with practical details
+- Use H3 subheadings, short paragraphs and bullet lists inside answers for scannability
+- Include the primary keyword naturally in the intro, in at least 2 question headings, and in the conclusion
+- Include long-tail keywords naturally — long-tail keywords often ARE the questions
 - Write in an engaging, informative tone for tourists/adventure seekers
 - Include specific details about Ölüdeniz: Blue Lagoon, Babadağ Mountain (1960m), Mediterranean climate
-- Add a FAQ section at the end (3-5 questions) if schema_type is FAQPage
 - Use "we" and "our team" to build trust
-- End with a clear call-to-action to book at atmosparagliding.com
+- End with a short conclusion + clear call-to-action to book at atmosparagliding.com
 - Do NOT use placeholder text or generic filler
 
 Return a JSON object with exactly these fields:
@@ -66,13 +69,13 @@ Return a JSON object with exactly these fields:
   }
 }
 
-For FAQPage schema, include mainEntity array with Question/Answer pairs.
+Schema: articles are FAQ-style, so schema_markup should be FAQPage with a mainEntity array of Question/Answer pairs built from the article's H2 questions (concise 40-60 word answers).
 For Article schema, include author, datePublished fields.
 Return ONLY valid JSON, no other text.`
 
   const message = await anthropic.messages.create({
     model: process.env.CLAUDE_MODEL || 'claude-sonnet-4-6',
-    max_tokens: 4000,
+    max_tokens: 6000,
     messages: [{ role: 'user', content: prompt }],
   })
 

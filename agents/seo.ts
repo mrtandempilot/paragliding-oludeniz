@@ -132,11 +132,11 @@ Return a JSON object with exactly these fields:
   "long_tail_keywords": ["long tail 1", "long tail 2", "long tail 3"],
   "meta_title": "meta title under 60 chars with keyword",
   "meta_description": "compelling meta description under 155 chars",
-  "article_structure": ["H2: Introduction angle", "H2: Main section 1", "H2: Main section 2", "H2: FAQ"],
+  "article_structure": ["H2: Customer question 1?", "H2: Customer question 2?", "H2: Customer question 3?"] (6-9 items — EVERY item must be a real question customers ask, phrased as a question),
   "competitor_insights": "brief summary of what competitors cover and what they miss",
   "content_gaps": ["gap 1 to exploit", "gap 2 to exploit"],
   "ai_overview_angle": "the direct answer angle to target Google AI Overviews",
-  "schema_type": "Article or FAQPage or HowTo"
+  "schema_type": "FAQPage (default — all articles are written in FAQ format)"
 }
 
 Return ONLY valid JSON, no other text.`
