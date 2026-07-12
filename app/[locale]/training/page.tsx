@@ -44,7 +44,7 @@ export default async function TrainingPage({ params }: { params: Promise<{ local
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {courses.map((c) => (
               <Link key={c.href} href={c.href} className="card p-6 hover:shadow-md transition-shadow group">
-                <h3 className="font-bold text-slate-900 mb-2 group-hover:text-orange-600 transition-colors">{c.title}</h3>
+                <h2 className="font-bold text-slate-900 mb-2 group-hover:text-orange-600 transition-colors">{c.title}</h2>
                 <p className="text-sm text-slate-600 mb-4">{c.desc}</p>
                 <span className="text-orange-500 text-sm font-medium flex items-center gap-1">Learn more <ArrowRight className="w-4 h-4" /></span>
               </Link>

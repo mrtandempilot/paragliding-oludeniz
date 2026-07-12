@@ -33,7 +33,7 @@ export default async function GroupsPage({ params }: { params: Promise<{ locale:
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"Group Paragliding Flights Oludeniz\", \"description\": \"Group tandem paragliding packages in Oludeniz \\u2014 corporate events, schools and parties.\", \"url\": \"https://atmosparagliding.com/groups\", \"author\": {\"@type\": \"Person\", \"name\": \"Ceyhun\", \"url\": \"https://atmosparagliding.com/en/about-us\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Atmos Paragliding\", \"url\": \"https://atmosparagliding.com\"}}" }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"Group Paragliding Flights Oludeniz\", \"description\": \"Group tandem paragliding packages in Oludeniz \\u2014 corporate events, schools and parties.\", \"url\": \"https://www.atmosparagliding.com/groups\", \"author\": {\"@type\": \"Person\", \"name\": \"Ceyhun\", \"url\": \"https://www.atmosparagliding.com/en/about-us\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Atmos Paragliding\", \"url\": \"https://www.atmosparagliding.com\"}}" }} />
       <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} bgImage="https://v3b.fal.media/files/b/0a9d7c09/2htlcwkJ6pcLBY7gPtf7z.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
@@ -46,7 +46,7 @@ export default async function GroupsPage({ params }: { params: Promise<{ locale:
             {types.map((g) => (
               <Link key={g.href} href={g.href} className="card p-5 text-center hover:shadow-md transition-shadow group">
                 <span className="text-4xl mb-3 block">{g.emoji}</span>
-                <h3 className="font-semibold text-slate-900 text-sm group-hover:text-orange-600 transition-colors">{g.title}</h3>
+                <h2 className="font-semibold text-slate-900 text-sm group-hover:text-orange-600 transition-colors">{g.title}</h2>
               </Link>
             ))}
           </div>
