@@ -47,6 +47,7 @@ Writing Requirements (FAQ-STYLE FORMAT — MANDATORY):
 - Start with a short intro paragraph (3-4 sentences) that sets the scene and includes the primary keyword
 - EVERY H2 heading must be a QUESTION that real customers ask (e.g. "How long does the tandem flight last?", "What should I wear for paragliding in Ölüdeniz?")
 - Answer each question DIRECTLY in the first 1-2 sentences under its heading (Google AI Overview friendly), then expand with practical details
+- HEADING HIERARCHY: NEVER include an H1 in the content — the page template already renders the article title as H1. Content starts with the intro paragraph, then H2 question headings, with H3 subheadings for details inside answers. Never skip levels (no H4 directly under H2)
 - Use H3 subheadings, short paragraphs and bullet lists inside answers for scannability
 - Include the primary keyword naturally in the intro, in at least 2 question headings, and in the conclusion
 - Include long-tail keywords naturally — long-tail keywords often ARE the questions
