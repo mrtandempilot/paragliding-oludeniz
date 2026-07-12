@@ -7,6 +7,7 @@ import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
 import { localeAlternates, localeUrl } from '@/lib/seo'
+import { renderArticleHtml } from '@/lib/markdown'
 
 async function getArticle(slug: string) {
   try {
@@ -45,7 +46,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
 
   if (!article) notFound()
 
-  const articleUrl = `https://atmosparagliding.com/${locale}/blog/${slug}`
+  const articleUrl = localeUrl(locale, `/blog/${slug}`)
   const blogSchema = article ? {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -56,8 +57,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
     dateModified: article.published_at || article.created_at,
     url: articleUrl,
     mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
-    author: { '@type': 'Person', name: 'Ceyhun', url: 'https://atmosparagliding.com/en/about-us' },
-    publisher: { '@type': 'Organization', name: 'Atmos Paragliding', url: 'https://atmosparagliding.com' },
+    author: { '@type': 'Person', name: 'Ceyhun', url: localeUrl('en', '/about-us') },
+    publisher: { '@type': 'Organization', name: 'Atmos Paragliding', url: localeUrl('en', '/') },
   } : null
 
   return (
@@ -90,7 +91,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
           )}
           <article
             className="prose prose-slate max-w-none"
-            dangerouslySetInnerHTML={{ __html: article.content || '' }}
+            dangerouslySetInnerHTML={{ __html: renderArticleHtml(article.content || '') }}
           />
         </div>
       </section>
