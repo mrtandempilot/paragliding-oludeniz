@@ -94,6 +94,10 @@ Sonra doğrula: `python3 -c "d=open('f','rb').read(); print(d.count(b'\\x00'), '
 - **settings:** key, value (pilot_enabled, pilot_slots: "06:00,12:00,18:00")
 - **bookings:** id, name, email, phone, date, status
 
+## Blog Formatı (2026-07-12'den itibaren)
+- Tüm blog yazıları **FAQ tarzında**: her H2 başlık gerçek bir müşteri sorusu, ilk 1-2 cümlede direkt cevap (AI Overview hedefli), 1500-2000 kelime, FAQPage schema varsayılan
+- Tanımlı yer: `agents/writer.ts` (prompt + max_tokens 6000) ve `agents/seo.ts` (article_structure = 6-9 soru başlığı)
+
 ## Content Pilot Nasıl Çalışır
 1. `/admin/content-pilot/topics` → Konu ekle (Add Topic)
 2. Cron veya "Run Now" → Orchestrator tetiklenir
