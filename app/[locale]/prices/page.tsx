@@ -12,11 +12,11 @@ const PRICE_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'Tandem Paragliding Ölüdeniz',
-  url: 'https://atmosparagliding.com/prices',
+  url: 'https://www.atmosparagliding.com/prices',
   provider: {
     '@type': 'LocalBusiness',
     name: 'Atmos Paragliding',
-    url: 'https://atmosparagliding.com',
+    url: 'https://www.atmosparagliding.com',
   },
   areaServed: { '@type': 'Place', name: 'Ölüdeniz, Fethiye, Turkey' },
   offers: [
@@ -26,9 +26,9 @@ const PRICE_SCHEMA = {
       price: '100',
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
-      url: 'https://atmosparagliding.com/book-now',
-      validFrom: '2025-04-01',
-      validThrough: '2025-10-31',
+      url: 'https://www.atmosparagliding.com/book-now',
+      validFrom: '2026-04-01',
+      validThrough: '2026-10-31',
     },
     {
       '@type': 'Offer',
@@ -36,9 +36,9 @@ const PRICE_SCHEMA = {
       price: '100',
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
-      url: 'https://atmosparagliding.com/book-now',
-      validFrom: '2025-04-01',
-      validThrough: '2025-10-31',
+      url: 'https://www.atmosparagliding.com/book-now',
+      validFrom: '2026-04-01',
+      validThrough: '2026-10-31',
     },
     {
       '@type': 'Offer',
@@ -46,9 +46,9 @@ const PRICE_SCHEMA = {
       price: '110',
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
-      url: 'https://atmosparagliding.com/book-now',
-      validFrom: '2025-04-01',
-      validThrough: '2025-10-31',
+      url: 'https://www.atmosparagliding.com/book-now',
+      validFrom: '2026-04-01',
+      validThrough: '2026-10-31',
     },
   ],
 }
@@ -66,6 +66,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },
   }
 }
+
+const PRICE_FAQ: any = {"en": {"faqTitle": "FAQ – Prices & Packages", "faqs": [{"q": "Is the price per person or per group?", "a": "All prices are per person. €100 for standard or high altitude flights, €110 for sunset flights."}, {"q": "What's included in the price?", "a": "A certified tandem pilot, full safety equipment, transfer to the launch point, beach landing, and third-party insurance are included in every package."}, {"q": "What if the weather is bad on my flight day?", "a": "If we cancel due to weather, you receive a full refund or free rescheduling — no exceptions."}, {"q": "Do you offer group discounts?", "a": "Yes. Groups of 4 or more get 10% off, and groups of 8 or more get 15% off."}, {"q": "Are photos and videos included?", "a": "Yes, professional photo and video packages are included free with every flight. A GoPro mount for your own device is available for €10."}]}, "tr": {"faqTitle": "SSS – Fiyatlar ve Paketler", "faqs": [{"q": "Fiyat kişi başına mı yoksa grup başına mı?", "a": "Tüm fiyatlar kişi başınadır. Standart veya yüksek irtifa uçuşları için 100€, gün batımı uçuşları için 110€."}, {"q": "Fiyata neler dahil?", "a": "Her pakete sertifikalı bir tandem pilot, tam güvenlik ekipmanı, kalkış noktasına transfer, plaj inişi ve üçüncü şahıs sigortası dahildir."}, {"q": "Uçuş gününde hava kötü olursa ne olur?", "a": "Hava nedeniyle iptal edersek, tam iade veya ücretsiz yeniden planlama alırsınız — istisnasız."}, {"q": "Grup indirimi var mı?", "a": "Evet. 4 veya daha fazla kişilik gruplara %10, 8 veya daha fazla kişilik gruplara %15 indirim uygulanır."}, {"q": "Fotoğraf ve video dahil mi?", "a": "Evet, profesyonel fotoğraf ve video paketleri her uçuşta ücretsiz dahildir. Kendi cihazınız için GoPro montajı 10€ karşılığında mevcuttur."}]}, "de": {"faqTitle": "FAQ – Preise & Pakete", "faqs": [{"q": "Ist der Preis pro Person oder pro Gruppe?", "a": "Alle Preise sind pro Person. €100 für Standard- oder Höhenflüge, €110 für Sonnenuntergangsflüge."}, {"q": "Was ist im Preis enthalten?", "a": "Ein zertifizierter Tandempilot, vollständige Sicherheitsausrüstung, Transfer zum Startplatz, Strandlandung und Haftpflichtversicherung sind in jedem Paket enthalten."}, {"q": "Was passiert bei schlechtem Wetter am Flugtag?", "a": "Bei witterungsbedingter Absage erhalten Sie eine volle Rückerstattung oder kostenlose Umbuchung — ohne Ausnahme."}, {"q": "Bieten Sie Gruppenrabatte an?", "a": "Ja. Gruppen ab 4 Personen erhalten 10% Rabatt, ab 8 Personen 15% Rabatt."}, {"q": "Sind Fotos und Videos enthalten?", "a": "Ja, professionelle Foto- und Videopakete sind bei jedem Flug kostenlos enthalten. Eine GoPro-Halterung für Ihr eigenes Gerät ist für €10 erhältlich."}]}, "ru": {"faqTitle": "FAQ – цены и пакеты", "faqs": [{"q": "Цена за человека или за группу?", "a": "Все цены указаны за человека. €100 за стандартные или высотные полёты, €110 за закатные полёты."}, {"q": "Что входит в цену?", "a": "В каждый пакет входит сертифицированный тандем-пилот, полное защитное снаряжение, трансфер к месту старта, посадка на пляже и страхование гражданской ответственности."}, {"q": "Что если погода плохая в день полёта?", "a": "При отмене из-за погоды вы получаете полный возврат средств или бесплатный перенос — без исключений."}, {"q": "Есть ли групповые скидки?", "a": "Да. Группы от 4 человек получают скидку 10%, от 8 человек — 15%."}, {"q": "Включены ли фото и видео?", "a": "Да, профессиональные фото- и видеопакеты включены бесплатно в каждый полёт. Крепление GoPro для вашего устройства доступно за €10."}]}}
 
 export default async function PricesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -183,6 +185,20 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
             <Link href={lp("/contact")} className="btn-primary">
               {t('bookNow')} <ArrowRight className="w-4 h-4" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-padding bg-slate-50">
+        <div className="container-default max-w-3xl">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">{(PRICE_FAQ as any)[locale]?.faqTitle || PRICE_FAQ.en.faqTitle}</h2>
+          <div className="space-y-6">
+            {((PRICE_FAQ as any)[locale]?.faqs || PRICE_FAQ.en.faqs).map((f: any, i: number) => (
+              <div key={i}>
+                <h3 className="font-semibold text-slate-900 mb-1">{f.q}</h3>
+                <p className="text-slate-600 leading-relaxed text-sm">{f.a}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
