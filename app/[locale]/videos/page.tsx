@@ -73,7 +73,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: c.title,
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/videos'),
-    openGraph: { url: localeUrl(locale, '/videos'), title: c.title, description: d[locale] || d.en },
+    openGraph: { url: localeUrl(locale, '/videos'), title: c.title, description: d[locale] || d.en, images: ['https://www.atmosparagliding.com/opengraph-image'] },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },
   }
 }

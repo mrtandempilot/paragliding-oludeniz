@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: d[locale] || d.en,
     title: `${t('title')}`,
     alternates: localeAlternates(locale, '/blog'),
-    openGraph: { url: localeUrl(locale, '/blog'), description: d[locale] || d.en },
+    openGraph: { url: localeUrl(locale, '/blog'), description: d[locale] || d.en, images: ['https://www.atmosparagliding.com/opengraph-image'] },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },
   }
 }
@@ -62,7 +62,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"Paragliding Oludeniz Blog\", \"description\": \"Paragliding blog \\u2014 tips, guides and stories from Oludeniz and Babada\\u011f Mountain.\", \"url\": \"https://atmosparagliding.com/blog\", \"author\": {\"@type\": \"Person\", \"name\": \"Ceyhun\", \"url\": \"https://atmosparagliding.com/en/about-us\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Atmos Paragliding\", \"url\": \"https://atmosparagliding.com\"}}" }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"Atmos Paragliding Blog\", \"description\": \"Paragliding blog \\u2014 tips, guides and stories from Oludeniz and Babada\\u011f Mountain.\", \"url\": \"https://www.atmosparagliding.com/blog\", \"author\": {\"@type\": \"Person\", \"name\": \"Ceyhun\", \"url\": \"https://www.atmosparagliding.com/en/about-us\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Atmos Paragliding\", \"url\": \"https://www.atmosparagliding.com\"}}" }} />
       <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c0c/Dn0br3flHariTrqYqhISR.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
