@@ -12,7 +12,7 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <Image
         src="https://images.unsplash.com/photo-1544551763-46a013bb70d5"
-        alt="Paragliding over Oludeniz lagoon, Turkey"
+        alt={t('heroAlt')}
         fill
         priority
         className="object-cover object-center"
