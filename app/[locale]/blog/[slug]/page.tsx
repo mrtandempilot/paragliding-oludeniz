@@ -9,6 +9,8 @@ import { getTranslations } from 'next-intl/server'
 import { localeAlternates, localeUrl } from '@/lib/seo'
 import { renderArticleHtml } from '@/lib/markdown'
 
+export const revalidate = 300
+
 async function getArticle(slug: string) {
   try {
     const supabase = createClient(
