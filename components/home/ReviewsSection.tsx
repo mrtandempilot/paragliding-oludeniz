@@ -2,6 +2,7 @@
 
 import { Star } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 
 const reviews = [
   {
@@ -93,9 +94,9 @@ export default function ReviewsSection() {
         </div>
 
         <div className="text-center mt-10">
-          <a href="/reviews" className="btn-secondary">
+          <Link href="/reviews" className="btn-secondary">
             {t('cta')}
-          </a>
+          </Link>
         </div>
       </div>
     </section>

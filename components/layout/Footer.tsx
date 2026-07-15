@@ -16,6 +16,8 @@ const CATEGORIES: { key: string; title: L; links: { href: string; label: L }[] }
       { href: '/tandem-paragliding/sunset-flight', label: { en: 'Sunset Flights', tr: 'G\u00fcn Bat\u0131m\u0131 U\u00e7u\u015fu', de: 'Sonnenuntergangsflug', ru: '\u0417\u0430\u043a\u0430\u0442\u043d\u044b\u0439 \u043f\u043e\u043b\u0451\u0442' } },
       { href: '/tandem-paragliding/group-flights', label: { en: 'Group Flights', tr: 'Grup U\u00e7u\u015flar\u0131', de: 'Gruppenfl\u00fcge', ru: '\u0413\u0440\u0443\u043f\u043f\u043e\u0432\u044b\u0435 \u043f\u043e\u043b\u0451\u0442\u044b' } },
       { href: '/tandem-paragliding/safety-guide', label: { en: 'Safety Guide', tr: 'G\u00fcvenlik Rehberi', de: 'Sicherheitsleitfaden', ru: '\u0420\u0443\u043a\u043e\u0432\u043e\u0434\u0441\u0442\u0432\u043e \u043f\u043e \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438' } },
+      { href: '/groups', label: { en: 'Group Bookings', tr: 'Grup Rezervasyonları', de: 'Gruppenbuchungen', ru: 'Групповые бронирования' } },
+      { href: '/transfers', label: { en: 'Transfers', tr: 'Transferler', de: 'Transfers', ru: 'Трансферы' } },
     ],
   },
   {
@@ -40,6 +42,17 @@ const CATEGORIES: { key: string; title: L; links: { href: string; label: L }[] }
       { href: '/paramotor', label: { en: 'Paramotor', tr: 'Paramotor', de: 'Paramotor', ru: '\u041f\u0430\u0440\u0430\u043c\u043e\u0442\u043e\u0440' } },
       { href: '/training', label: { en: 'Training Courses', tr: 'E\u011fitim Kurslar\u0131', de: 'Ausbildungskurse', ru: '\u041a\u0443\u0440\u0441\u044b \u043e\u0431\u0443\u0447\u0435\u043d\u0438\u044f' } },
       { href: '/pilot-services', label: { en: 'Pilot Services', tr: 'Pilot Hizmetleri', de: 'Pilotendienste', ru: '\u0423\u0441\u043b\u0443\u0433\u0438 \u0434\u043b\u044f \u043f\u0438\u043b\u043e\u0442\u043e\u0432' } },
+    ],
+  },
+  {
+    key: 'destinations',
+    title: { en: 'Destinations', tr: 'Bölgeler', de: 'Reiseziele', ru: 'Направления' },
+    links: [
+      { href: '/oludeniz-paragliding', label: { en: 'Oludeniz Paragliding', tr: 'Ölüdeniz Yamaç Paraşütü', de: 'Gleitschirmfliegen Ölüdeniz', ru: 'Парапланеризм в Олюденизе' } },
+      { href: '/fethiye-paragliding', label: { en: 'Fethiye Paragliding', tr: 'Fethiye Yamaç Paraşütü', de: 'Gleitschirmfliegen Fethiye', ru: 'Парапланеризм в Фетхие' } },
+      { href: '/blue-lagoon-paragliding', label: { en: 'Blue Lagoon Paragliding', tr: 'Mavi Lagün Yamaç Paraşütü', de: 'Gleitschirmfliegen Blaue Lagune', ru: 'Парапланеризм над Голубой лагуной' } },
+      { href: '/butterfly-valley-paragliding', label: { en: 'Butterfly Valley Paragliding', tr: 'Kelebekler Vadisi Yamaç Paraşütü', de: 'Gleitschirmfliegen Schmetterlingstal', ru: 'Парапланеризм над Долиной бабочек' } },
+      { href: '/turkey-paragliding', label: { en: 'Turkey Paragliding', tr: 'Türkiye Yamaç Paraşütü', de: 'Gleitschirmfliegen Türkei', ru: 'Парапланеризм в Турции' } },
     ],
   },
   {
@@ -88,7 +101,7 @@ export default async function Footer() {
     <footer className="bg-slate-900 text-slate-300">
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10">
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link href={lp('/')} className="inline-flex items-center gap-2 mb-4">

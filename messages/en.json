@@ -70,7 +70,12 @@
     "tandemSub": "No experience needed",
     "sunsetSub": "Golden hour magic",
     "xcSub": "Licensed pilots",
-    "acroSub": "Extreme aerobatics"
+    "acroSub": "Extreme aerobatics",
+    "badgeTandem": "Most Popular",
+    "badgeSunset": "Premium",
+    "badgeXc": "Licensed Pilots",
+    "badgeAcro": "Advanced",
+    "badgeGroups": "Group Discount"
   },
   "footer": {
     "rights": "All rights reserved.",

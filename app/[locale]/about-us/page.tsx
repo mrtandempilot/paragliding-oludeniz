@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       url: localeUrl(locale, '/about-us'),
       title: 'Meet Ceyhun Aksoy — Paragliding Pilot Ölüdeniz',
       description: d[locale] || d.en,
-      images: ['https://www.atmosparagliding.com/opengraph-image'],
+      images: ['https://www.atmosparagliding.com/about-us/opengraph-image'],
     },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },
   }

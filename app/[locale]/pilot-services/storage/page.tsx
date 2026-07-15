@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/pilot-services/storage'),
-    openGraph: { url: localeUrl(locale, '/pilot-services/storage'), description: (d as any)[locale] || d.en, images: ['https://www.atmosparagliding.com/opengraph-image'] },
+    openGraph: { url: localeUrl(locale, '/pilot-services/storage'), description: (d as any)[locale] || d.en, images: ['https://www.atmosparagliding.com/pilot-services/opengraph-image'] },
     twitter: { card: 'summary_large_image', description: (d as any)[locale] || d.en }, title: `${(t as any)[locale]||t.en}` }
 }
 

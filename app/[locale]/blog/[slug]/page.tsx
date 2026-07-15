@@ -69,6 +69,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
           dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
         />
       )}
+      {article.schema_markup && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(article.schema_markup) }}
+        />
+      )}
       <PageHero title={article.title} subtitle={article.excerpt || ''} size="sm" bgImage={article.hero_image_url || 'https://v3b.fal.media/files/b/0a9d7c0c/Dn0br3flHariTrqYqhISR.jpg'} />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">

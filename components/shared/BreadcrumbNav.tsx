@@ -1,5 +1,14 @@
 import { Link } from '@/i18n/navigation'
 import { ChevronRight, Home } from 'lucide-react'
+import { getLocale } from 'next-intl/server'
+import { localeUrl } from '@/lib/seo'
+
+const HOME_LABEL: Record<string, string> = {
+  en: 'Home',
+  tr: 'Ana Sayfa',
+  de: 'Startseite',
+  ru: '\u0413\u043b\u0430\u0432\u043d\u0430\u044f',
+}
 
 interface BreadcrumbItem {
   label: string
@@ -10,8 +19,10 @@ interface BreadcrumbNavProps {
   items: BreadcrumbItem[]
 }
 
-export default function BreadcrumbNav({ items }: BreadcrumbNavProps) {
-  const allItems = [{ label: 'Home', href: '/' }, ...items]
+export default async function BreadcrumbNav({ items }: BreadcrumbNavProps) {
+  const locale = await getLocale()
+  const homeLabel = HOME_LABEL[locale] || HOME_LABEL.en
+  const allItems = [{ label: homeLabel, href: '/' }, ...items]
 
   const schema = {
     '@context': 'https://schema.org',
@@ -20,7 +31,7 @@ export default function BreadcrumbNav({ items }: BreadcrumbNavProps) {
       '@type': 'ListItem',
       position: index + 1,
       name: item.label,
-      item: item.href ? `https://atmosparagliding.com${item.href}` : undefined,
+      item: item.href ? localeUrl(locale, item.href) : undefined,
     })),
   }
 

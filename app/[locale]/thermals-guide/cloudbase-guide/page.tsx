@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/thermals-guide/cloudbase-guide'),
-    openGraph: { url: localeUrl(locale, '/thermals-guide/cloudbase-guide'), description: (d as any)[locale] || d.en, images: ['https://www.atmosparagliding.com/opengraph-image'] },
+    openGraph: { url: localeUrl(locale, '/thermals-guide/cloudbase-guide'), description: (d as any)[locale] || d.en, images: ['https://www.atmosparagliding.com/thermals-guide/opengraph-image'] },
     twitter: { card: 'summary_large_image', description: (d as any)[locale] || d.en }, title: `${(t as any)[locale]||t.en}` }
 }
 

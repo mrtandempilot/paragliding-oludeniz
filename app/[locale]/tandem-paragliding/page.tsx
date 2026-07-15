@@ -187,11 +187,18 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'tandem' })
   const d: Record<string, string> = {"en": "Tandem paragliding in Oludeniz with certified pilots. No experience needed \u2014 full briefing, all equipment, transfers and beach landing included.", "tr": "Sertifikal\u0131 pilotlarla \u00D6l\u00FCdeniz'de tandem yama\u00E7 para\u015F\u00FCt\u00FC. Deneyim gerekmez \u2014 brifing, t\u00FCm ekipman, transfer ve plaja ini\u015F dahil.", "de": "Tandem-Paragliding in \u00D6l\u00FCdeniz mit zertifizierten Piloten. Keine Erfahrung n\u00F6tig \u2014 Briefing, Ausr\u00FCstung, Transfer und Strandlandung inklusive.", "ru": "\u0422\u0430\u043D\u0434\u0435\u043C\u043D\u044B\u0435 \u043F\u043E\u043B\u0451\u0442\u044B \u043D\u0430 \u043F\u0430\u0440\u0430\u043F\u043B\u0430\u043D\u0435 \u0432 \u041E\u043B\u044E\u0434\u0435\u043D\u0438\u0437\u0435 \u0441 \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u043C\u0438 \u043F\u0438\u043B\u043E\u0442\u0430\u043C\u0438. \u041E\u043F\u044B\u0442 \u043D\u0435 \u043D\u0443\u0436\u0435\u043D \u2014 \u0438\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u0430\u0436, \u0441\u043D\u0430\u0440\u044F\u0436\u0435\u043D\u0438\u0435 \u0438 \u0442\u0440\u0430\u043D\u0441\u0444\u0435\u0440 \u0432\u043A\u043B\u044E\u0447\u0435\u043D\u044B."}
+  const suffix: Record<string, string> = {
+    en: 'Book from Babada\u011F',
+    tr: 'Babada\u011F\u2019dan Rezervasyon',
+    de: 'Buchung ab Babada\u011F',
+    ru: '\u0411\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 \u0441 \u0411\u0430\u0431\u0430\u0434\u0430\u0433\u0430',
+  }
+  const fullTitle = `${t('title')} | ${suffix[locale] || suffix.en}`
   return {
     description: d[locale] || d.en,
-    title: `${t('title')} | Book from Babada\u011F`,
+    title: { absolute: fullTitle },
     alternates: localeAlternates(locale, '/tandem-paragliding'),
-    openGraph: { url: localeUrl(locale, '/tandem-paragliding'), title: `${t('title')} | Book from Babada\u011F`, description: d[locale] || d.en },
+    openGraph: { url: localeUrl(locale, '/tandem-paragliding'), title: fullTitle, description: d[locale] || d.en },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },
   }
 }

@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/babadag-guide/landing-emergency'),
-    openGraph: { url: localeUrl(locale, '/babadag-guide/landing-emergency'), description: (d as any)[locale] || d.en, images: ['https://www.atmosparagliding.com/opengraph-image'] },
+    openGraph: { url: localeUrl(locale, '/babadag-guide/landing-emergency'), description: (d as any)[locale] || d.en, images: ['https://www.atmosparagliding.com/babadag-guide/opengraph-image'] },
     twitter: { card: 'summary_large_image', description: (d as any)[locale] || d.en }, title: `${t[locale as keyof typeof t]||t.en}` }
 }
 

@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/tandem-paragliding/first-time'),
-    openGraph: { url: localeUrl(locale, '/tandem-paragliding/first-time'), description: d[locale] || d.en, images: ['https://www.atmosparagliding.com/opengraph-image'] },
+    openGraph: { url: localeUrl(locale, '/tandem-paragliding/first-time'), description: d[locale] || d.en, images: ['https://www.atmosparagliding.com/tandem-paragliding/opengraph-image'] },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en }, title: `${titles[locale]||titles.en}` }
 }
 

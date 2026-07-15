@@ -70,7 +70,12 @@
     "tandemSub": "Deneyim gerekmez",
     "sunsetSub": "Altın saat büyüsü",
     "xcSub": "Lisanslı pilotlar",
-    "acroSub": "Aşırı akrobasi"
+    "acroSub": "Aşırı akrobasi",
+    "badgeTandem": "En Popüler",
+    "badgeSunset": "Premium",
+    "badgeXc": "Lisanslı Pilotlar",
+    "badgeAcro": "İleri Seviye",
+    "badgeGroups": "Grup İndirimi"
   },
   "footer": {
     "rights": "Tüm hakları saklıdır.",

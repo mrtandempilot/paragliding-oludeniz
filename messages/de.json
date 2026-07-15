@@ -70,7 +70,12 @@
     "tandemSub": "Keine Erfahrung nötig",
     "sunsetSub": "Goldene Stunde",
     "xcSub": "Lizenzierte Piloten",
-    "acroSub": "Extreme Akrobatik"
+    "acroSub": "Extreme Akrobatik",
+    "badgeTandem": "Am Beliebtesten",
+    "badgeSunset": "Premium",
+    "badgeXc": "Lizenzierte Piloten",
+    "badgeAcro": "Fortgeschritten",
+    "badgeGroups": "Gruppenrabatt"
   },
   "footer": {
     "rights": "Alle Rechte vorbehalten.",
