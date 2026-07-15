@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabase'
 import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
@@ -13,10 +13,6 @@ export const revalidate = 300
 
 async function getArticle(slug: string) {
   try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
     const { data } = await supabase
       .from('articles')
       .select('*')
