@@ -5,15 +5,13 @@ import Link from 'next/link'
 import { Phone, Mail, MessageCircle, CheckCircle, Clock, Shield, ArrowRight, AlertCircle } from 'lucide-react'
 
 const FLIGHT_OPTIONS = [
-  { value: 'standard', label: 'Standard Tandem — 1200m', price: 100, duration: '25–35 min' },
-  { value: 'high', label: 'High Altitude — 1700m', price: 100, duration: '35–50 min' },
-  { value: 'sunset', label: 'Sunset Flight — 1200m', price: 110, duration: '20–30 min' },
+  { value: 'standard', label: 'Standard Tandem — 1200m', price: 160, duration: '25–35 min' },
+  { value: 'high', label: 'High Altitude — 1700m', price: 160, duration: '35–50 min' },
+  { value: 'sunset', label: 'Sunset Flight — 1200m', price: 160, duration: '20–30 min' },
 ]
 
 const ADDONS = [
-  { id: 'addon_photo', label: 'Professional Photo Package', price: 0 },
-  { id: 'addon_video', label: 'Professional Video Package', price: 0 },
-  { id: 'addon_bundle', label: 'Photo + Video Bundle', price: 0, highlight: true },
+  { id: 'addon_bundle', label: 'Photo & Video Package', price: 35, highlight: true },
 ]
 
 function calcTotal(flightType: string, guests: number, addons: Record<string, boolean>) {
@@ -24,11 +22,7 @@ function calcTotal(flightType: string, guests: number, addons: Record<string, bo
   if (guests >= 8) base = Math.round(base * 0.85)
   else if (guests >= 4) base = Math.round(base * 0.90)
 
-  let addon = 0
-  if (addons.addon_bundle) addon = 0
-  else if (addons.addon_photo && addons.addon_video) addon = 0
-  else if (addons.addon_photo) addon = 0
-  else if (addons.addon_video) addon = 0
+  const addon = addons.addon_bundle ? 35 : 0
 
   return base + addon
 }
@@ -113,7 +107,7 @@ export default function BookingForm() {
 
           <div className="bg-green-50 border border-green-200 rounded-2xl p-6 mb-6">
             <p className="text-green-800 font-semibold mb-1">Total Price</p>
-            <p className="text-4xl font-bold text-green-700 mb-3">€{success.total}</p>
+            <p className="text-4xl font-bold text-green-700 mb-3">${success.total}</p>
             <p className="text-green-700 text-sm">No payment required now — pay on the day.</p>
           </div>
 
@@ -165,7 +159,7 @@ export default function BookingForm() {
                     >
                       <p className="font-semibold text-slate-900 text-sm">{opt.label}</p>
                       <p className="text-slate-500 text-xs mt-0.5">{opt.duration}</p>
-                      <p className="text-orange-500 font-bold mt-1">€{opt.price} / person</p>
+                      <p className="text-orange-500 font-bold mt-1">${opt.price} / person</p>
                     </button>
                   ))}
                 </div>
@@ -280,7 +274,7 @@ export default function BookingForm() {
                           <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">Best value</span>
                         )}
                       </span>
-                      <span className="text-green-600 font-semibold text-sm">{addon.price > 0 ? `+€${addon.price}` : 'Free'}</span>
+                      <span className="text-green-600 font-semibold text-sm">{addon.price > 0 ? `+$${addon.price}` : 'Free'}</span>
                     </label>
                   ))}
                 </div>
@@ -315,7 +309,7 @@ export default function BookingForm() {
                       <p className="text-xs text-green-600">Group discount included</p>
                     )}
                   </div>
-                  <p className="text-2xl font-bold text-slate-900">€{totalPrice}</p>
+                  <p className="text-2xl font-bold text-slate-900">${totalPrice}</p>
                 </div>
               )}
 
@@ -393,9 +387,9 @@ export default function BookingForm() {
               <h3 className="font-bold text-slate-900 mb-4">Quick Price Guide</h3>
               <div className="space-y-2 text-sm">
                 {[
-                  { name: 'Standard (1200m)', price: '€100' },
-                  { name: 'High Altitude (1700m)', price: '€100' },
-                  { name: 'Sunset Flight', price: '€110' },
+                  { name: 'Standard (1200m)', price: '$160' },
+                  { name: 'High Altitude (1700m)', price: '$160' },
+                  { name: 'Sunset Flight', price: '$160' },
                 ].map(p => (
                   <div key={p.name} className="flex justify-between text-slate-700">
                     <span>{p.name}</span>

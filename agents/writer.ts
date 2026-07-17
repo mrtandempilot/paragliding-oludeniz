@@ -42,15 +42,12 @@ AI Overview Angle: ${brief.ai_overview_angle}
 Content Gaps to Fill: ${brief.content_gaps.join(', ')}
 
 REAL PRICING — GROUND TRUTH (do not invent, estimate, or vary these numbers under any circumstances):
-- Standard Tandem Flight (1200m launch, 25-35 min): €100 per person
-- High Altitude Flight (1700m launch, 35-50 min): €100 per person
-- Sunset Flight (1200m launch, 20-30 min): €110 per person
-- Professional Photo Package: FREE (included with every flight)
-- Professional Video Package: FREE (included with every flight)
-- Photo + Video Bundle: FREE (included with every flight)
-- GoPro Mount (for guest's own device): €10
+- Standard Tandem Flight (1200m launch, 25-35 min): $160 per person
+- High Altitude Flight (1700m launch, 35-50 min): $160 per person
+- Sunset Flight (1200m launch, 20-30 min): $160 per person
+- Professional Photo & Video Package: $35 extra (not included in the base price)
 - Group discount: 4+ people get 10% off, 8+ people get 15% off
-If the article discusses price at all, it MUST match these exact figures — never write ranges like "€90-150" or claim photo/video costs extra. These numbers are the single source of truth from the live /prices page.
+If the article discusses price at all, it MUST match these exact figures — never write ranges like "$100-200" or claim photo/video is included free. These numbers are the single source of truth from the live /prices page.
 
 Writing Requirements (FAQ-STYLE FORMAT — MANDATORY):
 - 1500-2000 words total

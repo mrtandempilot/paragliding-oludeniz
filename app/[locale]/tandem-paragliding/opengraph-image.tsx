@@ -82,8 +82,8 @@ export default async function Image() {
               <span>25–50 min flight</span>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <span style={{ color: '#f97316' }}>€</span>
-              <span>From €80 per person</span>
+              <span style={{ color: '#f97316' }}>$</span>
+              <span>From $160 per person</span>
             </div>
           </div>
         </div>

@@ -23,8 +23,8 @@ const PRICE_SCHEMA = {
     {
       '@type': 'Offer',
       name: 'Standard Tandem Paragliding Flight',
-      price: '100',
-      priceCurrency: 'EUR',
+      price: '160',
+      priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://www.atmosparagliding.com/book-now',
       validFrom: '2026-04-01',
@@ -33,8 +33,8 @@ const PRICE_SCHEMA = {
     {
       '@type': 'Offer',
       name: 'High Altitude Tandem Paragliding Flight',
-      price: '100',
-      priceCurrency: 'EUR',
+      price: '160',
+      priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://www.atmosparagliding.com/book-now',
       validFrom: '2026-04-01',
@@ -43,8 +43,8 @@ const PRICE_SCHEMA = {
     {
       '@type': 'Offer',
       name: 'Sunset Tandem Paragliding Flight',
-      price: '110',
-      priceCurrency: 'EUR',
+      price: '160',
+      priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://www.atmosparagliding.com/book-now',
       validFrom: '2026-04-01',
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 }
 
-const PRICE_FAQ: any = {"en": {"faqTitle": "FAQ – Prices & Packages", "faqs": [{"q": "Is the price per person or per group?", "a": "All prices are per person. €100 for standard or high altitude flights, €110 for sunset flights."}, {"q": "What's included in the price?", "a": "A certified tandem pilot, full safety equipment, transfer to the launch point, beach landing, and third-party insurance are included in every package."}, {"q": "What if the weather is bad on my flight day?", "a": "If we cancel due to weather, you receive a full refund or free rescheduling — no exceptions."}, {"q": "Do you offer group discounts?", "a": "Yes. Groups of 4 or more get 10% off, and groups of 8 or more get 15% off."}, {"q": "Are photos and videos included?", "a": "Yes, professional photo and video packages are included free with every flight. A GoPro mount for your own device is available for €10."}]}, "tr": {"faqTitle": "SSS – Fiyatlar ve Paketler", "faqs": [{"q": "Fiyat kişi başına mı yoksa grup başına mı?", "a": "Tüm fiyatlar kişi başınadır. Standart veya yüksek irtifa uçuşları için 100€, gün batımı uçuşları için 110€."}, {"q": "Fiyata neler dahil?", "a": "Her pakete sertifikalı bir tandem pilot, tam güvenlik ekipmanı, kalkış noktasına transfer, plaj inişi ve üçüncü şahıs sigortası dahildir."}, {"q": "Uçuş gününde hava kötü olursa ne olur?", "a": "Hava nedeniyle iptal edersek, tam iade veya ücretsiz yeniden planlama alırsınız — istisnasız."}, {"q": "Grup indirimi var mı?", "a": "Evet. 4 veya daha fazla kişilik gruplara %10, 8 veya daha fazla kişilik gruplara %15 indirim uygulanır."}, {"q": "Fotoğraf ve video dahil mi?", "a": "Evet, profesyonel fotoğraf ve video paketleri her uçuşta ücretsiz dahildir. Kendi cihazınız için GoPro montajı 10€ karşılığında mevcuttur."}]}, "de": {"faqTitle": "FAQ – Preise & Pakete", "faqs": [{"q": "Ist der Preis pro Person oder pro Gruppe?", "a": "Alle Preise sind pro Person. €100 für Standard- oder Höhenflüge, €110 für Sonnenuntergangsflüge."}, {"q": "Was ist im Preis enthalten?", "a": "Ein zertifizierter Tandempilot, vollständige Sicherheitsausrüstung, Transfer zum Startplatz, Strandlandung und Haftpflichtversicherung sind in jedem Paket enthalten."}, {"q": "Was passiert bei schlechtem Wetter am Flugtag?", "a": "Bei witterungsbedingter Absage erhalten Sie eine volle Rückerstattung oder kostenlose Umbuchung — ohne Ausnahme."}, {"q": "Bieten Sie Gruppenrabatte an?", "a": "Ja. Gruppen ab 4 Personen erhalten 10% Rabatt, ab 8 Personen 15% Rabatt."}, {"q": "Sind Fotos und Videos enthalten?", "a": "Ja, professionelle Foto- und Videopakete sind bei jedem Flug kostenlos enthalten. Eine GoPro-Halterung für Ihr eigenes Gerät ist für €10 erhältlich."}]}, "ru": {"faqTitle": "FAQ – цены и пакеты", "faqs": [{"q": "Цена за человека или за группу?", "a": "Все цены указаны за человека. €100 за стандартные или высотные полёты, €110 за закатные полёты."}, {"q": "Что входит в цену?", "a": "В каждый пакет входит сертифицированный тандем-пилот, полное защитное снаряжение, трансфер к месту старта, посадка на пляже и страхование гражданской ответственности."}, {"q": "Что если погода плохая в день полёта?", "a": "При отмене из-за погоды вы получаете полный возврат средств или бесплатный перенос — без исключений."}, {"q": "Есть ли групповые скидки?", "a": "Да. Группы от 4 человек получают скидку 10%, от 8 человек — 15%."}, {"q": "Включены ли фото и видео?", "a": "Да, профессиональные фото- и видеопакеты включены бесплатно в каждый полёт. Крепление GoPro для вашего устройства доступно за €10."}]}}
+const PRICE_FAQ: any = {"en": {"faqTitle": "FAQ – Prices & Packages", "faqs": [{"q": "Is the price per person or per group?", "a": "All prices are per person. $160 per person for every flight — standard, high altitude, or sunset."}, {"q": "What's included in the price?", "a": "A certified tandem pilot, full safety equipment, transfer to the launch point, beach landing, and third-party insurance are included in every package."}, {"q": "What if the weather is bad on my flight day?", "a": "If we cancel due to weather, you receive a full refund or free rescheduling — no exceptions."}, {"q": "Do you offer group discounts?", "a": "Yes. Groups of 4 or more get 10% off, and groups of 8 or more get 15% off."}, {"q": "Are photos and videos included?", "a": "Photos and video are not included in the base price. A professional photo & video package of your flight is available for $35."}]}, "tr": {"faqTitle": "SSS – Fiyatlar ve Paketler", "faqs": [{"q": "Fiyat kişi başına mı yoksa grup başına mı?", "a": "Tüm fiyatlar kişi başınadır. Standart, yüksek irtifa veya gün batımı — her uçuş $160'dır."}, {"q": "Fiyata neler dahil?", "a": "Her pakete sertifikalı bir tandem pilot, tam güvenlik ekipmanı, kalkış noktasına transfer, plaj inişi ve üçüncü şahıs sigortası dahildir."}, {"q": "Uçuş gününde hava kötü olursa ne olur?", "a": "Hava nedeniyle iptal edersek, tam iade veya ücretsiz yeniden planlama alırsınız — istisnasız."}, {"q": "Grup indirimi var mı?", "a": "Evet. 4 veya daha fazla kişilik gruplara %10, 8 veya daha fazla kişilik gruplara %15 indirim uygulanır."}, {"q": "Fotoğraf ve video dahil mi?", "a": "Fotoğraf ve video baz fiyata dahil değildir. Uçuşunuzun profesyonel foto & video paketi $35 karşılığında mevcuttur."}]}, "de": {"faqTitle": "FAQ – Preise & Pakete", "faqs": [{"q": "Ist der Preis pro Person oder pro Gruppe?", "a": "Alle Preise sind pro Person. $160 pro Person für jeden Flug — Standard, Höhenflug oder Sonnenuntergang."}, {"q": "Was ist im Preis enthalten?", "a": "Ein zertifizierter Tandempilot, vollständige Sicherheitsausrüstung, Transfer zum Startplatz, Strandlandung und Haftpflichtversicherung sind in jedem Paket enthalten."}, {"q": "Was passiert bei schlechtem Wetter am Flugtag?", "a": "Bei witterungsbedingter Absage erhalten Sie eine volle Rückerstattung oder kostenlose Umbuchung — ohne Ausnahme."}, {"q": "Bieten Sie Gruppenrabatte an?", "a": "Ja. Gruppen ab 4 Personen erhalten 10% Rabatt, ab 8 Personen 15% Rabatt."}, {"q": "Sind Fotos und Videos enthalten?", "a": "Fotos und Video sind nicht im Grundpreis enthalten. Ein professionelles Foto- & Videopaket Ihres Flugs ist für $35 erhältlich."}]}, "ru": {"faqTitle": "FAQ – цены и пакеты", "faqs": [{"q": "Цена за человека или за группу?", "a": "Все цены указаны за человека. $160 с человека за любой полёт — стандартный, высотный или закатный."}, {"q": "Что входит в цену?", "a": "В каждый пакет входит сертифицированный тандем-пилот, полное защитное снаряжение, трансфер к месту старта, посадка на пляже и страхование гражданской ответственности."}, {"q": "Что если погода плохая в день полёта?", "a": "При отмене из-за погоды вы получаете полный возврат средств или бесплатный перенос — без исключений."}, {"q": "Есть ли групповые скидки?", "a": "Да. Группы от 4 человек получают скидку 10%, от 8 человек — 15%."}, {"q": "Включены ли фото и видео?", "a": "Фото и видео не включены в базовую цену. Профессиональный фото- и видеопакет вашего полёта доступен за $35."}]}}
 
 export default async function PricesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -78,7 +78,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
     {
       name: t('standard'),
       launch: t('standardLaunch'),
-      price: '€100',
+      price: '$160',
       duration: t('standardDuration'),
       highlight: false,
       badge: '',
@@ -87,7 +87,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
     {
       name: t('high'),
       launch: t('highLaunch'),
-      price: '€100',
+      price: '$160',
       duration: t('highDuration'),
       highlight: true,
       badge: t('highBadge'),
@@ -96,7 +96,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
     {
       name: t('sunset'),
       launch: t('sunsetLaunch'),
-      price: '€110',
+      price: '$160',
       duration: t('sunsetDuration'),
       highlight: false,
       badge: t('sunsetBadge'),
@@ -105,10 +105,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
   ]
 
   const addOns = [
-    { name: 'Professional Photo Package', price: 'Free', desc: 'Photos taken by your pilot during flight' },
-    { name: 'Professional Video Package', price: 'Free', desc: 'HD video of your entire flight' },
-    { name: 'Photo + Video Bundle', price: 'Free', desc: 'Best value — both photo and video' },
-    { name: 'GoPro Mount', price: '€10', desc: 'Mount for your own GoPro or phone' },
+    { name: 'Professional Photo & Video Package', price: '$35', desc: 'Professional photos and HD video of your entire flight' },
   ]
 
   return (

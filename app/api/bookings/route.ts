@@ -12,9 +12,9 @@ function getSupabase() {
 }
 
 const FLIGHT_PRICES: Record<string, number> = {
-  standard: 100,
-  high: 100,
-  sunset: 110,
+  standard: 160,
+  high: 160,
+  sunset: 160,
 }
 
 const FLIGHT_LABELS: Record<string, string> = {
@@ -49,9 +49,9 @@ export async function POST(request: Request) {
 
     // Calculate price
     const guestCount = parseInt(guests) || 1
-    const basePerPerson = FLIGHT_PRICES[flight_type] || 80
-    // Add-ons are currently offered free of charge
-    let addonPrice = 0
+    const basePerPerson = FLIGHT_PRICES[flight_type] || 160
+    // Photo & Video package is a $35 extra
+    let addonPrice = addon_bundle ? 35 : 0
 
     // Group discount
     let basePrice = basePerPerson * guestCount
@@ -132,7 +132,7 @@ export async function POST(request: Request) {
               <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Total</td><td style="padding:8px; font-size:18px; font-weight:bold; color:#f97316;">EUR${totalPrice}${guestCount >= 4 ? ' (group discount applied)' : ''}</td></tr>
             </table>
             <br>
-            <a href="https://atmosparagliding.com/admin/bookings" style="display:inline-block; background:#f97316; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">View in Admin Panel</a>
+            <a href="https://www.atmosparagliding.com/admin/bookings" style="display:inline-block; background:#f97316; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">View in Admin Panel</a>
           `,
         })
 
@@ -168,7 +168,7 @@ export async function POST(request: Request) {
           `Name: ${first_name} ${last_name}\n` +
           `Phone: ${phone || 'not provided'}\n` +
           `Total: EUR${totalPrice}\n` +
-          `https://atmosparagliding.com/admin/bookings`
+          `https://www.atmosparagliding.com/admin/bookings`
 
         const waRes = await fetch(`https://graph.facebook.com/v21.0/${WA_PHONE_NUMBER_ID}/messages`, {
           method: 'POST',
@@ -215,7 +215,7 @@ export async function POST(request: Request) {
       `Date: ${dateFormatted}\n` +
       `Guests: ${guestCount}\n` +
       `Name: ${first_name} ${last_name}\n` +
-      `Total: €${totalPrice}\n\n` +
+      `Total: $${totalPrice}\n\n` +
       `Please confirm my booking. Thank you!`
     )
 
