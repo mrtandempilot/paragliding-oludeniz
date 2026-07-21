@@ -60,15 +60,15 @@ export default async function Image() {
             }}
           >
             <div style={{ display: 'flex', gap: 8 }}>
-              <span style={{ color: '#fbbf24' }}>★</span>
+              <div style={{ width: 10, height: 10, borderRadius: 5, background: '#fbbf24', alignSelf: 'center' }} />
               <span>2,400+ Reviews</span>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <span style={{ color: '#86efac' }}>✓</span>
+              <div style={{ width: 10, height: 10, borderRadius: 5, background: '#86efac', alignSelf: 'center' }} />
               <span>Certified Pilots</span>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <span style={{ color: '#86efac' }}>✓</span>
+              <div style={{ width: 10, height: 10, borderRadius: 5, background: '#86efac', alignSelf: 'center' }} />
               <span>25+ Years Experience</span>
             </div>
           </div>
