@@ -55,6 +55,54 @@ async function authCheck() {
   }
 }
 
+// ─── POST ────────────────────────────────────────────────────────────────────
+// Google OAuth2 refresh token'i yenilemek icin: authorization code'u refresh token'a cevirir.
+export async function POST(request: Request) {
+  try {
+    if (!(await authCheck())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+    const body = await request.json().catch(() => ({}))
+    if (body.action !== 'oauth-exchange') {
+      return NextResponse.json({ error: 'Bilinmeyen action' }, { status: 400 })
+    }
+
+    const { code, redirectUri } = body
+    if (!code || !redirectUri) {
+      return NextResponse.json({ error: 'code ve redirectUri gerekli' }, { status: 400 })
+    }
+
+    const res = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id: process.env.GOOGLE_ADS_CLIENT_ID || '',
+        client_secret: process.env.GOOGLE_ADS_CLIENT_SECRET || '',
+        code,
+        redirect_uri: redirectUri,
+        grant_type: 'authorization_code',
+      }),
+    })
+    const text = await res.text()
+    let data: any
+    try { data = JSON.parse(text) } catch {
+      return NextResponse.json({ error: `Google yaniti JSON degil (HTTP ${res.status}): ${text.slice(0, 300)}` }, { status: 502 })
+    }
+    if (!res.ok) {
+      return NextResponse.json({ error: data?.error_description || data?.error || JSON.stringify(data) }, { status: res.status })
+    }
+
+    return NextResponse.json({
+      refresh_token: data.refresh_token || null,
+      access_token_present: Boolean(data.access_token),
+      scope: data.scope,
+      expires_in: data.expires_in,
+    })
+  } catch (err: any) {
+    console.error('[seo-data POST error]', err)
+    return NextResponse.json({ error: err?.message || String(err) }, { status: 500 })
+  }
+}
+
 // ─── GET ─────────────────────────────────────────────────────────────────────
 export async function GET(request: Request) {
   try {
