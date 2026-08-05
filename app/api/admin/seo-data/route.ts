@@ -288,6 +288,42 @@ export async function GET(request: Request) {
       })
     }
 
+    // 5) OAuth re-auth: authorization code'u refresh token'a cevirir (GET ile de calisir, tarayicidan direkt cagirmak icin)
+    if (type === 'oauth-exchange') {
+      const code = searchParams.get('code')
+      const redirectUri = searchParams.get('redirectUri')
+      if (!code || !redirectUri) {
+        return NextResponse.json({ error: 'code ve redirectUri gerekli' }, { status: 400 })
+      }
+
+      const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          client_id: process.env.GOOGLE_ADS_CLIENT_ID || '',
+          client_secret: process.env.GOOGLE_ADS_CLIENT_SECRET || '',
+          code,
+          redirect_uri: redirectUri,
+          grant_type: 'authorization_code',
+        }),
+      })
+      const text = await tokenRes.text()
+      let data: any
+      try { data = JSON.parse(text) } catch {
+        return NextResponse.json({ error: `Google yaniti JSON degil (HTTP ${tokenRes.status}): ${text.slice(0, 300)}` }, { status: 502 })
+      }
+      if (!tokenRes.ok) {
+        return NextResponse.json({ error: data?.error_description || data?.error || JSON.stringify(data) }, { status: tokenRes.status })
+      }
+
+      return NextResponse.json({
+        refresh_token: data.refresh_token || null,
+        access_token_present: Boolean(data.access_token),
+        scope: data.scope,
+        expires_in: data.expires_in,
+      })
+    }
+
     return NextResponse.json({ error: 'Unknown type' }, { status: 400 })
   } catch (err: any) {
     console.error('[seo-data GET error]', err)
