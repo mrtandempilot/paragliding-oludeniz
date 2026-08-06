@@ -239,9 +239,9 @@ export async function GET(request: Request) {
 
   const { data: queries, error: qErr } = await supabase
     .from('ai_visibility_queries')
-    .select('query')
+    .select('id, query')
     .eq('active', true)
-    .order('created_at', { ascending: true })
+    .order('last_checked_at', { ascending: true, nullsFirst: true })
     .limit(MAX_QUERIES_PER_RUN)
 
   if (qErr) return NextResponse.json({ error: qErr.message }, { status: 500 })
@@ -252,6 +252,11 @@ export async function GET(request: Request) {
   for (const row of queries || []) {
     const query = row.query
     const [pplx, oai] = await Promise.all([checkPerplexity(query), checkOpenAI(query)])
+
+    await supabase
+      .from('ai_visibility_queries')
+      .update({ last_checked_at: new Date().toISOString() })
+      .eq('id', row.id)
 
     for (const [source, res] of [['perplexity', pplx], ['chatgpt', oai]] as const) {
       if ('error' in res) {

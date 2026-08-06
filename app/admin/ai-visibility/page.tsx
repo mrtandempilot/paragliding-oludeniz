@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Radar, ArrowLeft } from 'lucide-react'
 import SuggestionCard from './SuggestionCard'
 import RunCheckButton from './RunCheckButton'
+import QueryList from './QueryList'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -84,6 +85,8 @@ export default async function AiVisibilityPage() {
           Son kontrol: {new Date(latestCheckedAt).toLocaleString('tr-TR')}
         </p>
       )}
+
+      <QueryList />
 
       {/* Bekleyen oneriler */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
