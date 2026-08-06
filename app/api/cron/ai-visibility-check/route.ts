@@ -237,14 +237,32 @@ export async function GET(request: Request) {
 
   const gscResult = await refreshQueriesFromGSC(supabase)
 
-  const { data: queries, error: qErr } = await supabase
+  // Once nullsFirst:true on .order() was silently ignored by the deployed client and Postgres
+  // defaulted to NULLS LAST for ascending order, so never-checked (null) queries were starved
+  // behind already-checked ones. Fetch never-checked rows explicitly first, then top up.
+  const { data: neverChecked, error: ncErr } = await supabase
     .from('ai_visibility_queries')
     .select('id, query')
     .eq('active', true)
-    .order('last_checked_at', { ascending: true, nullsFirst: true })
+    .is('last_checked_at', null)
+    .order('created_at', { ascending: true })
     .limit(MAX_QUERIES_PER_RUN)
 
-  if (qErr) return NextResponse.json({ error: qErr.message }, { status: 500 })
+  if (ncErr) return NextResponse.json({ error: ncErr.message }, { status: 500 })
+
+  let queries = neverChecked || []
+  if (queries.length < MAX_QUERIES_PER_RUN) {
+    const { data: rest, error: restErr } = await supabase
+      .from('ai_visibility_queries')
+      .select('id, query')
+      .eq('active', true)
+      .not('last_checked_at', 'is', null)
+      .order('last_checked_at', { ascending: true })
+      .limit(MAX_QUERIES_PER_RUN - queries.length)
+
+    if (restErr) return NextResponse.json({ error: restErr.message }, { status: 500 })
+    queries = [...queries, ...(rest || [])]
+  }
 
   const results: any[] = []
   const gapCandidates: { query: string; reason: string }[] = []
