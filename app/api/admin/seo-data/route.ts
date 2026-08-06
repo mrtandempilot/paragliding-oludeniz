@@ -111,26 +111,8 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url)
     const type = searchParams.get('type') || 'sites'
 
-    // oauth-debug ve oauth-exchange, eski/olu refresh token'a IHTIYAC DUYMAZ.
-    // Bu yuzden getAccessToken() cagrisindan ONCE, en basta ele alinmalilar.
-    if (type === 'oauth-debug') {
-      const code = searchParams.get('code') || ''
-      const redirectUri = searchParams.get('redirectUri') || ''
-      return NextResponse.json({
-        codeLength: code.length,
-        codeFirst10: code.slice(0, 10),
-        codeLast10: code.slice(-10),
-        codeHasSlash: code.includes('/'),
-        redirectUri,
-        clientIdSet: Boolean(process.env.GOOGLE_ADS_CLIENT_ID),
-        clientIdFirst10: (process.env.GOOGLE_ADS_CLIENT_ID || '').slice(0, 10),
-        clientSecretSet: Boolean(process.env.GOOGLE_ADS_CLIENT_SECRET),
-        clientSecretLength: (process.env.GOOGLE_ADS_CLIENT_SECRET || '').length,
-        clientSecretFirst6: (process.env.GOOGLE_ADS_CLIENT_SECRET || '').slice(0, 6),
-        clientSecretLast4: (process.env.GOOGLE_ADS_CLIENT_SECRET || '').slice(-4),
-      })
-    }
-
+    // oauth-exchange, eski/olu refresh token'a IHTIYAC DUYMAZ.
+    // Bu yuzden getAccessToken() cagrisindan ONCE ele alinmali.
     if (type === 'oauth-exchange') {
       const code = searchParams.get('code')
       const redirectUri = searchParams.get('redirectUri')
