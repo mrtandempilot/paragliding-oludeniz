@@ -110,6 +110,62 @@ export async function GET(request: Request) {
 
     const { searchParams } = new URL(request.url)
     const type = searchParams.get('type') || 'sites'
+
+    // oauth-debug ve oauth-exchange, eski/olu refresh token'a IHTIYAC DUYMAZ.
+    // Bu yuzden getAccessToken() cagrisindan ONCE, en basta ele alinmalilar.
+    if (type === 'oauth-debug') {
+      const code = searchParams.get('code') || ''
+      const redirectUri = searchParams.get('redirectUri') || ''
+      return NextResponse.json({
+        codeLength: code.length,
+        codeFirst10: code.slice(0, 10),
+        codeLast10: code.slice(-10),
+        codeHasSlash: code.includes('/'),
+        redirectUri,
+        clientIdSet: Boolean(process.env.GOOGLE_ADS_CLIENT_ID),
+        clientIdFirst10: (process.env.GOOGLE_ADS_CLIENT_ID || '').slice(0, 10),
+        clientSecretSet: Boolean(process.env.GOOGLE_ADS_CLIENT_SECRET),
+        clientSecretLength: (process.env.GOOGLE_ADS_CLIENT_SECRET || '').length,
+        clientSecretFirst6: (process.env.GOOGLE_ADS_CLIENT_SECRET || '').slice(0, 6),
+        clientSecretLast4: (process.env.GOOGLE_ADS_CLIENT_SECRET || '').slice(-4),
+      })
+    }
+
+    if (type === 'oauth-exchange') {
+      const code = searchParams.get('code')
+      const redirectUri = searchParams.get('redirectUri')
+      if (!code || !redirectUri) {
+        return NextResponse.json({ error: 'code ve redirectUri gerekli' }, { status: 400 })
+      }
+
+      const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          client_id: process.env.GOOGLE_ADS_CLIENT_ID || '',
+          client_secret: process.env.GOOGLE_ADS_CLIENT_SECRET || '',
+          code,
+          redirect_uri: redirectUri,
+          grant_type: 'authorization_code',
+        }),
+      })
+      const text = await tokenRes.text()
+      let data: any
+      try { data = JSON.parse(text) } catch {
+        return NextResponse.json({ error: `Google yaniti JSON degil (HTTP ${tokenRes.status}): ${text.slice(0, 300)}` }, { status: 502 })
+      }
+      if (!tokenRes.ok) {
+        return NextResponse.json({ error: data?.error_description || data?.error || JSON.stringify(data) }, { status: tokenRes.status })
+      }
+
+      return NextResponse.json({
+        refresh_token: data.refresh_token || null,
+        access_token_present: Boolean(data.access_token),
+        scope: data.scope,
+        expires_in: data.expires_in,
+      })
+    }
+
     const accessToken = await getAccessToken()
     const headers = headersFor(accessToken)
 
@@ -285,61 +341,6 @@ export async function GET(request: Request) {
         notIndexed,
         errored,
         results,
-      })
-    }
-
-    // 4b) Debug: gelen code/redirectUri parametrelerini oldugu gibi geri gonderir (Google'a hic gitmez)
-    if (type === 'oauth-debug') {
-      const code = searchParams.get('code') || ''
-      const redirectUri = searchParams.get('redirectUri') || ''
-      return NextResponse.json({
-        codeLength: code.length,
-        codeFirst10: code.slice(0, 10),
-        codeLast10: code.slice(-10),
-        codeHasSlash: code.includes('/'),
-        redirectUri,
-        clientIdSet: Boolean(process.env.GOOGLE_ADS_CLIENT_ID),
-        clientIdFirst10: (process.env.GOOGLE_ADS_CLIENT_ID || '').slice(0, 10),
-        clientSecretSet: Boolean(process.env.GOOGLE_ADS_CLIENT_SECRET),
-        clientSecretLength: (process.env.GOOGLE_ADS_CLIENT_SECRET || '').length,
-        clientSecretFirst6: (process.env.GOOGLE_ADS_CLIENT_SECRET || '').slice(0, 6),
-        clientSecretLast4: (process.env.GOOGLE_ADS_CLIENT_SECRET || '').slice(-4),
-      })
-    }
-
-    // 5) OAuth re-auth: authorization code'u refresh token'a cevirir (GET ile de calisir, tarayicidan direkt cagirmak icin)
-    if (type === 'oauth-exchange') {
-      const code = searchParams.get('code')
-      const redirectUri = searchParams.get('redirectUri')
-      if (!code || !redirectUri) {
-        return NextResponse.json({ error: 'code ve redirectUri gerekli' }, { status: 400 })
-      }
-
-      const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          client_id: process.env.GOOGLE_ADS_CLIENT_ID || '',
-          client_secret: process.env.GOOGLE_ADS_CLIENT_SECRET || '',
-          code,
-          redirect_uri: redirectUri,
-          grant_type: 'authorization_code',
-        }),
-      })
-      const text = await tokenRes.text()
-      let data: any
-      try { data = JSON.parse(text) } catch {
-        return NextResponse.json({ error: `Google yaniti JSON degil (HTTP ${tokenRes.status}): ${text.slice(0, 300)}` }, { status: 502 })
-      }
-      if (!tokenRes.ok) {
-        return NextResponse.json({ error: data?.error_description || data?.error || JSON.stringify(data) }, { status: tokenRes.status })
-      }
-
-      return NextResponse.json({
-        refresh_token: data.refresh_token || null,
-        access_token_present: Boolean(data.access_token),
-        scope: data.scope,
-        expires_in: data.expires_in,
       })
     }
 
