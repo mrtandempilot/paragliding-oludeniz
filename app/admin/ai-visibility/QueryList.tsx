@@ -28,6 +28,7 @@ function StatusPill({ check }: { check: any }) {
 
 type GscDiagnostics = {
   error: string | null
+  daysUsed: number
   totalDistinctQueries: number
   topRealQueries: { query: string; clicks: number; impressions: number; position: number }[]
 }
