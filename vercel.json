@@ -3,24 +3,43 @@
     {
       "path": "/api/cron/orchestrator?slot=06:00",
       "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/ai-visibility-check",
+      "schedule": "0 5 * * *"
     }
   ],
   "redirects": [
     {
       "source": "/:path((?!_next/|api/|favicon\\.ico|robots\\.txt|sitemap\\.xml).*)",
-      "has": [{ "type": "host", "value": "www.paragliding-oludeniz.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.paragliding-oludeniz.com"
+        }
+      ],
       "destination": "https://www.atmosparagliding.com/:path",
       "permanent": true
     },
     {
       "source": "/:path((?!_next/|api/|favicon\\.ico|robots\\.txt|sitemap\\.xml).*)",
-      "has": [{ "type": "host", "value": "paragliding-oludeniz.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "paragliding-oludeniz.com"
+        }
+      ],
       "destination": "https://www.atmosparagliding.com/:path",
       "permanent": true
     },
     {
       "source": "/:path((?!_next/|api/|favicon\\.ico|robots\\.txt|sitemap\\.xml).*)",
-      "has": [{ "type": "host", "value": "atmosparagliding.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "atmosparagliding.com"
+        }
+      ],
       "destination": "https://www.atmosparagliding.com/:path",
       "permanent": true
     }
