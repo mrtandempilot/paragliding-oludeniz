@@ -19,7 +19,15 @@ function authCheck() {
 const SITE_URL = (process.env.GSC_SITE_URL || 'https://www.paragliding-oludeniz.com/').trim()
 
 // GSC'de bu sorgular icin gercek pozisyon/tiklama verisi varsa cek (ucretsiz, mevcut GSC baglantisini kullanir)
-async function fetchGscQueryData(): Promise<Record<string, { clicks: number; impressions: number; position: number }>> {
+// GSC sadece kullanicilarin GERCEKTEN Google'da yazdigi ve sitemizin en az 1 kez gosterildigi
+// sorgulari doner (son 28 gun, en cok gosterim alan ilk 250 sorgu) - "kacinci sirada arama yapiyoruz"
+// diye bir derinlik siniri yok, sinirlama hangi sorgularin GSC'ye dusmus olmasi.
+async function fetchGscQueryData(): Promise<{
+  map: Record<string, { clicks: number; impressions: number; position: number }>
+  topQueries: { query: string; clicks: number; impressions: number; position: number }[]
+  error: string | null
+  totalRows: number
+}> {
   try {
     const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST',
@@ -32,7 +40,9 @@ async function fetchGscQueryData(): Promise<Record<string, { clicks: number; imp
       }),
     })
     const tokenData = await tokenRes.json()
-    if (!tokenData.access_token) return {}
+    if (!tokenData.access_token) {
+      return { map: {}, topQueries: [], error: tokenData.error_description || 'GSC token alinamadi', totalRows: 0 }
+    }
 
     const end = new Date()
     const start = new Date(end.getTime() - 28 * 86400000)
@@ -55,10 +65,13 @@ async function fetchGscQueryData(): Promise<Record<string, { clicks: number; imp
       }
     )
     const gscData = await gscRes.json()
-    if (!gscRes.ok) return {}
+    if (!gscRes.ok) {
+      return { map: {}, topQueries: [], error: gscData?.error?.message || 'GSC sorgusu basarisiz', totalRows: 0 }
+    }
 
+    const rows = gscData.rows || []
     const map: Record<string, { clicks: number; impressions: number; position: number }> = {}
-    for (const row of gscData.rows || []) {
+    for (const row of rows) {
       const q = (row.keys?.[0] || '').toLowerCase().trim()
       if (!q) continue
       map[q] = {
@@ -67,9 +80,17 @@ async function fetchGscQueryData(): Promise<Record<string, { clicks: number; imp
         position: row.position || 0,
       }
     }
-    return map
-  } catch {
-    return {}
+    const topQueries = rows
+      .slice(0, 20)
+      .map((row: any) => ({
+        query: row.keys?.[0] || '',
+        clicks: row.clicks || 0,
+        impressions: row.impressions || 0,
+        position: row.position || 0,
+      }))
+    return { map, topQueries, error: null, totalRows: rows.length }
+  } catch (e: any) {
+    return { map: {}, topQueries: [], error: e?.message || String(e), totalRows: 0 }
   }
 }
 
@@ -78,7 +99,7 @@ export async function GET() {
 
   const supabase = getSupabase()
 
-  const [{ data: suggestions, error: sErr }, { data: checks, error: cErr }, { data: queries, error: qErr }, gscMap] =
+  const [{ data: suggestions, error: sErr }, { data: checks, error: cErr }, { data: queries, error: qErr }, gscResult] =
     await Promise.all([
       supabase
         .from('ai_topic_suggestions')
@@ -109,7 +130,7 @@ export async function GET() {
     for (const c of relatedChecks) {
       if (!latestBySource[c.source]) latestBySource[c.source] = c
     }
-    const gsc = gscMap[q.query.toLowerCase().trim()] || null
+    const gsc = gscResult.map[q.query.toLowerCase().trim()] || null
     return { ...q, latestChecks: latestBySource, gsc }
   })
 
@@ -134,6 +155,11 @@ export async function GET() {
     queries: queryDetails,
     summary,
     latestCheckedAt,
+    gscDiagnostics: {
+      error: gscResult.error,
+      totalDistinctQueries: gscResult.totalRows,
+      topRealQueries: gscResult.topQueries,
+    },
   })
 }
 

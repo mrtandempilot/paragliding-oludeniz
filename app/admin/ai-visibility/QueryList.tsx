@@ -26,9 +26,17 @@ function StatusPill({ check }: { check: any }) {
   return <span className="text-xs text-slate-400">görünmüyor</span>
 }
 
+type GscDiagnostics = {
+  error: string | null
+  totalDistinctQueries: number
+  topRealQueries: { query: string; clicks: number; impressions: number; position: number }[]
+}
+
 export default function QueryList() {
   const router = useRouter()
   const [queries, setQueries] = useState<QueryRow[] | null>(null)
+  const [gscDiag, setGscDiag] = useState<GscDiagnostics | null>(null)
+  const [showGscPanel, setShowGscPanel] = useState(false)
   const [loading, setLoading] = useState(false)
   const [adding, setAdding] = useState(false)
   const [newKeywords, setNewKeywords] = useState('')
@@ -62,6 +70,7 @@ export default function QueryList() {
       const res = await fetch('/api/admin/ai-visibility', { credentials: 'include' })
       const data = await res.json()
       setQueries(data.queries || [])
+      setGscDiag(data.gscDiagnostics || null)
     } finally {
       setLoading(false)
     }
@@ -111,6 +120,12 @@ export default function QueryList() {
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
           <button
+            onClick={() => setShowGscPanel(v => !v)}
+            className="px-3 py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-700 rounded-lg text-xs font-medium transition-colors"
+          >
+            Google'da Gerçek Aramalar
+          </button>
+          <button
             onClick={() => setShowAddForm(v => !v)}
             className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium transition-colors"
           >
@@ -119,6 +134,30 @@ export default function QueryList() {
           </button>
         </div>
       </div>
+
+      {showGscPanel && (
+        <div className="px-6 py-4 border-b border-slate-100 bg-teal-50/50">
+          <p className="text-xs text-slate-600 mb-2">
+            Search Console'da son 28 günde sitemizin en az 1 kez gösterildiği <strong>gerçek</strong> arama terimleri
+            (toplam {gscDiag?.totalDistinctQueries ?? 0} farklı sorgu bulundu — "kaçıncı ranke kadar" diye bir sınır yok,
+            sınır GSC'nin bize hangi sorguları rapor ettiği: sadece gerçekten gösterim almış olanlar).
+          </p>
+          {gscDiag?.error && (
+            <p className="text-xs text-red-500 mb-2">GSC hatası: {gscDiag.error}</p>
+          )}
+          {gscDiag && gscDiag.topRealQueries.length > 0 ? (
+            <div className="flex flex-wrap gap-1.5">
+              {gscDiag.topRealQueries.map(q => (
+                <span key={q.query} className="text-xs bg-white border border-teal-200 text-teal-800 px-2 py-1 rounded-lg">
+                  {q.query} <span className="text-teal-400">· #{q.position.toFixed(1)} · {q.impressions} gösterim</span>
+                </span>
+              ))}
+            </div>
+          ) : !gscDiag?.error ? (
+            <p className="text-xs text-slate-400">Son 28 günde hiç sorgu verisi yok — site şu an çok az gösterim alıyor.</p>
+          ) : null}
+        </div>
+      )}
 
       {showAddForm && (
         <form onSubmit={handleAdd} className="px-6 py-4 border-b border-slate-100 bg-blue-50/50 space-y-3">
