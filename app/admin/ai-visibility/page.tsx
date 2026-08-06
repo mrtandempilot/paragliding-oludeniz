@@ -4,6 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { Radar, ArrowLeft } from 'lucide-react'
 import SuggestionCard from './SuggestionCard'
+import RunCheckButton from './RunCheckButton'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -39,19 +40,22 @@ export default async function AiVisibilityPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Link href="/admin" className="text-slate-400 hover:text-slate-700">
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
-            <Radar className="w-6 h-6 text-violet-600" />
-            AI Görünürlük
-          </h1>
-          <p className="text-sm text-slate-500 mt-0.5">
-            Perplexity ve ChatGPT'te günlük marka görünürlük kontrolü — {pending.length} onay bekleyen öneri
-          </p>
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <Link href="/admin" className="text-slate-400 hover:text-slate-700">
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
+              <Radar className="w-6 h-6 text-violet-600" />
+              AI Görünürlük
+            </h1>
+            <p className="text-sm text-slate-500 mt-0.5">
+              Perplexity ve ChatGPT'te günlük marka görünürlük kontrolü — {pending.length} onay bekleyen öneri
+            </p>
+          </div>
         </div>
+        <RunCheckButton />
       </div>
 
       {/* Ozet kartlari */}

@@ -207,7 +207,15 @@ async function refreshQueriesFromGSC(supabase: ReturnType<typeof getSupabase>) {
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const cronSecretHeader = request.headers.get('x-cron-secret')
+  const cookie = request.headers.get('cookie') || ''
+
+  const isCron =
+    authHeader === `Bearer ${process.env.CRON_SECRET}` ||
+    cronSecretHeader === process.env.CRON_SECRET
+  const isAdmin = cookie.includes(`admin_session=${process.env.ADMIN_PASSWORD}`)
+
+  if (!isCron && !isAdmin) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
