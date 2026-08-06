@@ -25,6 +25,46 @@ function extractDomain(url: string): string | null {
   }
 }
 
+// ─── Google (canli SERP - SerpApi) ──────────────────────────────────────────
+async function checkGoogleSerp(query: string) {
+  const apiKey = (process.env.SERPAPI_KEY || '').trim()
+  if (!apiKey) {
+    return { error: 'SERPAPI_KEY tanimli degil' }
+  }
+  try {
+    const url = `https://serpapi.com/search.json?engine=google&q=${encodeURIComponent(query)}&num=30&api_key=${apiKey}`
+    const res = await fetch(url)
+    const text = await res.text()
+    let data: any
+    try { data = JSON.parse(text) } catch {
+      return { error: `SerpApi JSON degil (HTTP ${res.status}): ${text.slice(0, 200)}` }
+    }
+    if (!res.ok || data.error) {
+      return { error: data?.error || `SerpApi HTTP ${res.status}` }
+    }
+
+    const organic: any[] = data.organic_results || []
+    let mentioned = false
+    let position: number | null = null
+    const competitors: string[] = []
+
+    for (const r of organic) {
+      const domain = extractDomain(r.link || '')
+      if (!domain) continue
+      if (domain.includes(SITE_DOMAIN)) {
+        mentioned = true
+        if (position === null) position = r.position || null
+      } else if (!competitors.includes(domain) && competitors.length < 15) {
+        competitors.push(domain)
+      }
+    }
+
+    return { mentioned, position, competitors, raw: organic.slice(0, 5).map((r: any) => `#${r.position} ${r.title} — ${r.link}`).join('\n') }
+  } catch (e: any) {
+    return { error: `SerpApi istegi basarisiz: ${e?.message || String(e)}` }
+  }
+}
+
 // ─── Perplexity ────────────────────────────────────────────────────────────
 async function checkPerplexity(query: string) {
   try {
@@ -269,14 +309,17 @@ export async function GET(request: Request) {
 
   for (const row of queries || []) {
     const query = row.query
-    const [pplx, oai] = await Promise.all([checkPerplexity(query), checkOpenAI(query)])
+    const [pplx, oai, google] = await Promise.all([checkPerplexity(query), checkOpenAI(query), checkGoogleSerp(query)])
 
     await supabase
       .from('ai_visibility_queries')
       .update({ last_checked_at: new Date().toISOString() })
       .eq('id', row.id)
 
-    for (const [source, res] of [['perplexity', pplx], ['chatgpt', oai]] as const) {
+    const bySource: Record<string, any> = { perplexity: pplx, chatgpt: oai, google }
+
+    for (const source of ['perplexity', 'chatgpt', 'google']) {
+      const res = bySource[source]
       if ('error' in res) {
         results.push({ query, source, error: res.error })
         continue
@@ -292,18 +335,18 @@ export async function GET(request: Request) {
       results.push({ query, source, mentioned: res.mentioned, position: res.position })
     }
 
-    const pplxMissed = !('error' in pplx) && !pplx.mentioned
-    const oaiMissed = !('error' in oai) && !oai.mentioned
-    if (pplxMissed && oaiMissed) {
-      const topCompetitors = [
-        ...(('error' in pplx) ? [] : pplx.competitors),
-        ...(('error' in oai) ? [] : oai.competitors),
-      ].slice(0, 3)
+    // Sadece hata vermeyen (gercekten kontrol edilebilen) kaynaklari dikkate al
+    const checkedSources = ['perplexity', 'chatgpt', 'google'].filter(s => !('error' in bySource[s]))
+    const allMissed = checkedSources.length > 0 && checkedSources.every(s => !bySource[s].mentioned)
+
+    if (allMissed) {
+      const topCompetitors = checkedSources.flatMap(s => bySource[s].competitors || []).slice(0, 3)
+      const sourceLabels = checkedSources.map(s => (s === 'google' ? 'Google' : s === 'chatgpt' ? 'ChatGPT' : 'Perplexity'))
       gapCandidates.push({
         query,
         reason: topCompetitors.length
-          ? `Ne Perplexity ne ChatGPT bizi gostermedi. Bunun yerine: ${topCompetitors.join(', ')}`
-          : 'Ne Perplexity ne ChatGPT bizi gostermedi.',
+          ? `${sourceLabels.join(', ')} bizi gostermedi. Bunun yerine: ${topCompetitors.join(', ')}`
+          : `${sourceLabels.join(', ')} bizi gostermedi.`,
       })
     }
   }

@@ -112,10 +112,12 @@ export default function QueryList() {
     const score = (q: QueryRow) => {
       const pplx = q.latestChecks?.perplexity
       const oai = q.latestChecks?.chatgpt
+      const gLive = q.latestChecks?.google
       let s = 0
       if (pplx?.mentioned) s += 2
       if (oai?.mentioned) s += 2
-      if (!pplx && !oai) s -= 1 // hic kontrol edilmemis olanlar en alta
+      if (gLive?.mentioned) s += 2
+      if (!pplx && !oai && !gLive) s -= 1 // hic kontrol edilmemis olanlar en alta
       return s
     }
     return [...queries].sort((a, b) => score(b) - score(a))
@@ -238,6 +240,7 @@ export default function QueryList() {
                 <th className="px-6 py-2.5 font-medium">Kelime</th>
                 <th className="px-4 py-2.5 font-medium">Perplexity</th>
                 <th className="px-4 py-2.5 font-medium">ChatGPT</th>
+                <th className="px-4 py-2.5 font-medium">Google (Canlı)</th>
                 <th className="px-4 py-2.5 font-medium">Google (GSC)</th>
                 <th className="px-4 py-2.5 font-medium">Son kontrol</th>
                 <th className="px-4 py-2.5 font-medium"></th>
@@ -247,6 +250,7 @@ export default function QueryList() {
               {(sortedQueries || []).map(q => {
                 const pplx = q.latestChecks?.perplexity
                 const oai = q.latestChecks?.chatgpt
+                const gLive = q.latestChecks?.google
                 const isOpen = expanded === q.id
                 return (
                   <>
@@ -266,6 +270,7 @@ export default function QueryList() {
                       </td>
                       <td className="px-4 py-3"><StatusPill check={pplx} /></td>
                       <td className="px-4 py-3"><StatusPill check={oai} /></td>
+                      <td className="px-4 py-3"><StatusPill check={gLive} /></td>
                       <td className="px-4 py-3">
                         {q.gsc ? (
                           <span className="text-xs text-slate-600">
@@ -294,9 +299,9 @@ export default function QueryList() {
                         </button>
                       </td>
                     </tr>
-                    {isOpen && (pplx || oai) && (
+                    {isOpen && (pplx || oai || gLive) && (
                       <tr key={`${q.id}-detail`} className="bg-slate-50/70">
-                        <td colSpan={6} className="px-6 py-4 space-y-3">
+                        <td colSpan={7} className="px-6 py-4 space-y-3">
                           {pplx && (
                             <div>
                               <p className="text-xs font-semibold text-slate-600 mb-1">Perplexity cevabı{pplx.competitors?.length ? ` · rakipler: ${pplx.competitors.join(', ')}` : ''}</p>
@@ -310,6 +315,14 @@ export default function QueryList() {
                               <p className="text-xs font-semibold text-slate-600 mb-1">ChatGPT cevabı{oai.competitors?.length ? ` · rakipler: ${oai.competitors.join(', ')}` : ''}</p>
                               <p className="text-xs text-slate-500 whitespace-pre-wrap leading-relaxed">
                                 {oai.error || oai.raw_response || '—'}
+                              </p>
+                            </div>
+                          )}
+                          {gLive && (
+                            <div>
+                              <p className="text-xs font-semibold text-slate-600 mb-1">Google canlı sonuçlar{gLive.competitors?.length ? ` · rakipler: ${gLive.competitors.join(', ')}` : ''}</p>
+                              <p className="text-xs text-slate-500 whitespace-pre-wrap leading-relaxed">
+                                {gLive.error || gLive.raw_response || '—'}
                               </p>
                             </div>
                           )}

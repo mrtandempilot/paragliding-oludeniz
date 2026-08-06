@@ -15,6 +15,7 @@ const supabase = createClient(
 function sourceLabel(source: string) {
   if (source === 'chatgpt') return 'ChatGPT'
   if (source === 'perplexity') return 'Perplexity'
+  if (source === 'google') return 'Google (Canlı)'
   return source
 }
 
@@ -52,7 +53,7 @@ export default async function AiVisibilityPage() {
               AI Görünürlük
             </h1>
             <p className="text-sm text-slate-500 mt-0.5">
-              Perplexity ve ChatGPT'te günlük marka görünürlük kontrolü — {pending.length} onay bekleyen öneri
+              Perplexity, ChatGPT ve Google'da günlük marka görünürlük kontrolü — {pending.length} onay bekleyen öneri
             </p>
           </div>
         </div>
@@ -60,12 +61,12 @@ export default async function AiVisibilityPage() {
       </div>
 
       {/* Ozet kartlari */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
           <p className="text-xs text-slate-400 mb-1">Takip edilen sorgu</p>
           <p className="text-2xl font-bold text-slate-900">{(queries || []).length}</p>
         </div>
-        {(['perplexity', 'chatgpt'] as const).map(src => (
+        {(['perplexity', 'chatgpt', 'google'] as const).map(src => (
           <div key={src} className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
             <p className="text-xs text-slate-400 mb-1">{sourceLabel(src)}</p>
             {bySource[src] ? (
