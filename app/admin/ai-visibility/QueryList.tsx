@@ -114,7 +114,7 @@ export default function QueryList() {
         </h2>
         <div className="flex items-center gap-2">
           <button
-            onClick={load}
+            onClick={() => load()}
             disabled={loading}
             className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg transition-colors"
             title="Yenile"
