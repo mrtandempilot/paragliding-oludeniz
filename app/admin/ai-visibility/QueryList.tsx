@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus, Loader2, RefreshCw, FileEdit } from 'lucide-react'
 
@@ -105,6 +105,21 @@ export default function QueryList() {
       setAdding(false)
     }
   }
+
+  // Gorunenler (Perplexity/ChatGPT'te mentioned=true) en usте, hic kontrol edilmeyenler en altta
+  const sortedQueries = useMemo(() => {
+    if (!queries) return queries
+    const score = (q: QueryRow) => {
+      const pplx = q.latestChecks?.perplexity
+      const oai = q.latestChecks?.chatgpt
+      let s = 0
+      if (pplx?.mentioned) s += 2
+      if (oai?.mentioned) s += 2
+      if (!pplx && !oai) s -= 1 // hic kontrol edilmemis olanlar en alta
+      return s
+    }
+    return [...queries].sort((a, b) => score(b) - score(a))
+  }, [queries])
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
@@ -229,7 +244,7 @@ export default function QueryList() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {queries.map(q => {
+              {(sortedQueries || []).map(q => {
                 const pplx = q.latestChecks?.perplexity
                 const oai = q.latestChecks?.chatgpt
                 const isOpen = expanded === q.id
