@@ -27,100 +27,110 @@ function extractDomain(url: string): string | null {
 
 // ─── Perplexity ────────────────────────────────────────────────────────────
 async function checkPerplexity(query: string) {
-  const res = await fetch('https://api.perplexity.ai/chat/completions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${process.env.PERPLEXITY_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'sonar',
-      messages: [{ role: 'user', content: query }],
-    }),
-  })
-  const text = await res.text()
-  let data: any
-  try { data = JSON.parse(text) } catch {
-    return { error: `Perplexity JSON degil (HTTP ${res.status}): ${text.slice(0, 200)}` }
-  }
-  if (!res.ok) {
-    return { error: data?.error?.message || JSON.stringify(data) }
-  }
-
-  const content: string = data?.choices?.[0]?.message?.content || ''
-  const citations: string[] = data?.citations || []
-
-  let mentioned = false
-  let position: number | null = null
-  const competitors: string[] = []
-
-  citations.forEach((url: string, idx: number) => {
-    const domain = extractDomain(url)
-    if (!domain) return
-    if (domain.includes(SITE_DOMAIN)) {
-      mentioned = true
-      if (position === null) position = idx + 1
-    } else if (!competitors.includes(domain)) {
-      competitors.push(domain)
+  try {
+    const apiKey = (process.env.PERPLEXITY_API_KEY || '').trim()
+    const res = await fetch('https://api.perplexity.ai/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'sonar',
+        messages: [{ role: 'user', content: query }],
+      }),
+    })
+    const text = await res.text()
+    let data: any
+    try { data = JSON.parse(text) } catch {
+      return { error: `Perplexity JSON degil (HTTP ${res.status}): ${text.slice(0, 200)}` }
     }
-  })
+    if (!res.ok) {
+      return { error: data?.error?.message || JSON.stringify(data) }
+    }
 
-  if (!mentioned && content.toLowerCase().includes(BRAND_NAME)) {
-    mentioned = true
+    const content: string = data?.choices?.[0]?.message?.content || ''
+    const citations: string[] = data?.citations || []
+
+    let mentioned = false
+    let position: number | null = null
+    const competitors: string[] = []
+
+    citations.forEach((url: string, idx: number) => {
+      const domain = extractDomain(url)
+      if (!domain) return
+      if (domain.includes(SITE_DOMAIN)) {
+        mentioned = true
+        if (position === null) position = idx + 1
+      } else if (!competitors.includes(domain)) {
+        competitors.push(domain)
+      }
+    })
+
+    if (!mentioned && content.toLowerCase().includes(BRAND_NAME)) {
+      mentioned = true
+    }
+
+    return { mentioned, position, competitors, raw: content.slice(0, 2000) }
+  } catch (e: any) {
+    return { error: `Perplexity istegi basarisiz: ${e?.message || String(e)}` }
   }
-
-  return { mentioned, position, competitors, raw: content.slice(0, 2000) }
 }
 
 // ─── OpenAI (arama ozellikli model) ─────────────────────────────────────────
 async function checkOpenAI(query: string) {
-  const res = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'gpt-4o-search-preview',
-      web_search_options: {},
-      messages: [{ role: 'user', content: query }],
-    }),
-  })
-  const text = await res.text()
-  let data: any
-  try { data = JSON.parse(text) } catch {
-    return { error: `OpenAI JSON degil (HTTP ${res.status}): ${text.slice(0, 200)}` }
-  }
-  if (!res.ok) {
-    return { error: data?.error?.message || JSON.stringify(data) }
-  }
-
-  const message = data?.choices?.[0]?.message
-  const content: string = message?.content || ''
-  const annotations: any[] = message?.annotations || []
-
-  let mentioned = false
-  let position: number | null = null
-  const competitors: string[] = []
-
-  annotations.forEach((a: any, idx: number) => {
-    const url = a?.url_citation?.url
-    if (!url) return
-    const domain = extractDomain(url)
-    if (!domain) return
-    if (domain.includes(SITE_DOMAIN)) {
-      mentioned = true
-      if (position === null) position = idx + 1
-    } else if (!competitors.includes(domain)) {
-      competitors.push(domain)
+  try {
+    const apiKey = (process.env.OPENAI_API_KEY || '').trim()
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-search-preview',
+        web_search_options: {},
+        messages: [{ role: 'user', content: query }],
+      }),
+    })
+    const text = await res.text()
+    let data: any
+    try { data = JSON.parse(text) } catch {
+      return { error: `OpenAI JSON degil (HTTP ${res.status}): ${text.slice(0, 200)}` }
     }
-  })
+    if (!res.ok) {
+      return { error: data?.error?.message || JSON.stringify(data) }
+    }
 
-  if (!mentioned && content.toLowerCase().includes(BRAND_NAME)) {
-    mentioned = true
+    const message = data?.choices?.[0]?.message
+    const content: string = message?.content || ''
+    const annotations: any[] = message?.annotations || []
+
+    let mentioned = false
+    let position: number | null = null
+    const competitors: string[] = []
+
+    annotations.forEach((a: any, idx: number) => {
+      const url = a?.url_citation?.url
+      if (!url) return
+      const domain = extractDomain(url)
+      if (!domain) return
+      if (domain.includes(SITE_DOMAIN)) {
+        mentioned = true
+        if (position === null) position = idx + 1
+      } else if (!competitors.includes(domain)) {
+        competitors.push(domain)
+      }
+    })
+
+    if (!mentioned && content.toLowerCase().includes(BRAND_NAME)) {
+      mentioned = true
+    }
+
+    return { mentioned, position, competitors, raw: content.slice(0, 2000) }
+  } catch (e: any) {
+    return { error: `OpenAI istegi basarisiz: ${e?.message || String(e)}` }
   }
-
-  return { mentioned, position, competitors, raw: content.slice(0, 2000) }
 }
 
 // ─── GSC'den yeni sorgu adaylari cek (havuzu zamanla gercek aramaya gore guncelle) ──
