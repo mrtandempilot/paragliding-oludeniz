@@ -22,11 +22,12 @@ const SITE_URL = (process.env.GSC_SITE_URL || 'https://www.paragliding-oludeniz.
 // GSC sadece kullanicilarin GERCEKTEN Google'da yazdigi ve sitemizin en az 1 kez gosterildigi
 // sorgulari doner (son 28 gun, en cok gosterim alan ilk 250 sorgu) - "kacinci sirada arama yapiyoruz"
 // diye bir derinlik siniri yok, sinirlama hangi sorgularin GSC'ye dusmus olmasi.
-async function fetchGscQueryData(): Promise<{
+async function fetchGscQueryData(days: number = 28): Promise<{
   map: Record<string, { clicks: number; impressions: number; position: number }>
   topQueries: { query: string; clicks: number; impressions: number; position: number }[]
   error: string | null
   totalRows: number
+  daysUsed: number
 }> {
   try {
     const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
@@ -41,11 +42,11 @@ async function fetchGscQueryData(): Promise<{
     })
     const tokenData = await tokenRes.json()
     if (!tokenData.access_token) {
-      return { map: {}, topQueries: [], error: tokenData.error_description || 'GSC token alinamadi', totalRows: 0 }
+      return { map: {}, topQueries: [], error: tokenData.error_description || 'GSC token alinamadi', totalRows: 0, daysUsed: days }
     }
 
     const end = new Date()
-    const start = new Date(end.getTime() - 28 * 86400000)
+    const start = new Date(end.getTime() - days * 86400000)
     const fmt = (d: Date) => d.toISOString().slice(0, 10)
 
     const gscRes = await fetch(
@@ -66,7 +67,7 @@ async function fetchGscQueryData(): Promise<{
     )
     const gscData = await gscRes.json()
     if (!gscRes.ok) {
-      return { map: {}, topQueries: [], error: gscData?.error?.message || 'GSC sorgusu basarisiz', totalRows: 0 }
+      return { map: {}, topQueries: [], error: gscData?.error?.message || 'GSC sorgusu basarisiz', totalRows: 0, daysUsed: days }
     }
 
     const rows = gscData.rows || []
@@ -88,14 +89,17 @@ async function fetchGscQueryData(): Promise<{
         impressions: row.impressions || 0,
         position: row.position || 0,
       }))
-    return { map, topQueries, error: null, totalRows: rows.length }
+    return { map, topQueries, error: null, totalRows: rows.length, daysUsed: days }
   } catch (e: any) {
-    return { map: {}, topQueries: [], error: e?.message || String(e), totalRows: 0 }
+    return { map: {}, topQueries: [], error: e?.message || String(e), totalRows: 0, daysUsed: days }
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   if (!authCheck()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const { searchParams } = new URL(request.url)
+  const gscDays = Math.min(Math.max(Number(searchParams.get('days') || 28), 1), 480)
 
   const supabase = getSupabase()
 
@@ -116,7 +120,7 @@ export async function GET() {
         .select('*')
         .order('created_at', { ascending: false })
         .limit(50),
-      fetchGscQueryData(),
+      fetchGscQueryData(gscDays),
     ])
 
   if (sErr || cErr || qErr) {
@@ -157,6 +161,7 @@ export async function GET() {
     latestCheckedAt,
     gscDiagnostics: {
       error: gscResult.error,
+      daysUsed: gscResult.daysUsed,
       totalDistinctQueries: gscResult.totalRows,
       topRealQueries: gscResult.topQueries,
     },

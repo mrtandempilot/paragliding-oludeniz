@@ -37,6 +37,7 @@ export default function QueryList() {
   const [queries, setQueries] = useState<QueryRow[] | null>(null)
   const [gscDiag, setGscDiag] = useState<GscDiagnostics | null>(null)
   const [showGscPanel, setShowGscPanel] = useState(false)
+  const [gscDays, setGscDays] = useState(28)
   const [loading, setLoading] = useState(false)
   const [adding, setAdding] = useState(false)
   const [newKeywords, setNewKeywords] = useState('')
@@ -64,17 +65,18 @@ export default function QueryList() {
     }
   }
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (days?: number) => {
     setLoading(true)
     try {
-      const res = await fetch('/api/admin/ai-visibility', { credentials: 'include' })
+      const useDays = days ?? gscDays
+      const res = await fetch(`/api/admin/ai-visibility?days=${useDays}`, { credentials: 'include' })
       const data = await res.json()
       setQueries(data.queries || [])
       setGscDiag(data.gscDiagnostics || null)
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [gscDays])
 
   useEffect(() => {
     load()
@@ -137,11 +139,28 @@ export default function QueryList() {
 
       {showGscPanel && (
         <div className="px-6 py-4 border-b border-slate-100 bg-teal-50/50">
-          <p className="text-xs text-slate-600 mb-2">
-            Search Console'da son 28 günde sitemizin en az 1 kez gösterildiği <strong>gerçek</strong> arama terimleri
-            (toplam {gscDiag?.totalDistinctQueries ?? 0} farklı sorgu bulundu — "kaçıncı ranke kadar" diye bir sınır yok,
-            sınır GSC'nin bize hangi sorguları rapor ettiği: sadece gerçekten gösterim almış olanlar).
-          </p>
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <p className="text-xs text-slate-600">
+              Search Console'da son <strong>{gscDiag?.daysUsed ?? gscDays} gün</strong>de sitemizin en az 1 kez gösterildiği
+              gerçek arama terimleri (toplam {gscDiag?.totalDistinctQueries ?? 0} farklı sorgu — derinlik sınırı yok,
+              sınır GSC'nin hangi sorguları rapor ettiği: sadece gerçekten gösterim almış olanlar).
+            </p>
+            <div className="flex items-center gap-1 shrink-0">
+              {[28, 90, 180, 365].map(d => (
+                <button
+                  key={d}
+                  onClick={() => { setGscDays(d); load(d) }}
+                  className={`text-xs px-2 py-1 rounded-md transition-colors ${
+                    (gscDiag?.daysUsed ?? gscDays) === d
+                      ? 'bg-teal-600 text-white'
+                      : 'bg-white border border-teal-200 text-teal-700 hover:bg-teal-100'
+                  }`}
+                >
+                  {d}g
+                </button>
+              ))}
+            </div>
+          </div>
           {gscDiag?.error && (
             <p className="text-xs text-red-500 mb-2">GSC hatası: {gscDiag.error}</p>
           )}
@@ -154,7 +173,7 @@ export default function QueryList() {
               ))}
             </div>
           ) : !gscDiag?.error ? (
-            <p className="text-xs text-slate-400">Son 28 günde hiç sorgu verisi yok — site şu an çok az gösterim alıyor.</p>
+            <p className="text-xs text-slate-400">Bu aralıkta hiç sorgu verisi yok — site şu an çok az gösterim alıyor.</p>
           ) : null}
         </div>
       )}
