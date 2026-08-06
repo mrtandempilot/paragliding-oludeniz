@@ -170,6 +170,37 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, added, skipped: clean.length - added, errors })
     }
 
+    if (action === 'suggest_topic') {
+      const { query, reason } = body
+      if (!query || typeof query !== 'string') {
+        return NextResponse.json({ error: 'query gerekli' }, { status: 400 })
+      }
+      const supabase = getSupabase()
+
+      const { data: existing } = await supabase
+        .from('ai_topic_suggestions')
+        .select('id')
+        .eq('query', query)
+        .in('status', ['pending', 'approved'])
+        .gte('created_at', new Date(Date.now() - 30 * 86400000).toISOString())
+        .limit(1)
+
+      if (existing && existing.length) {
+        return NextResponse.json({ error: 'Bu kelime icin zaten bekleyen/onayli bir oneri var' }, { status: 409 })
+      }
+
+      const suggestedTopic = query.charAt(0).toUpperCase() + query.slice(1)
+      const { error } = await supabase.from('ai_topic_suggestions').insert({
+        query,
+        gap_reason: reason || 'Manuel olarak eklendi (dusuk gorunurluk)',
+        suggested_topic: suggestedTopic,
+        status: 'pending',
+      })
+      if (error) throw new Error(error.message)
+
+      return NextResponse.json({ success: true })
+    }
+
     if (!id || !['approve', 'reject'].includes(action)) {
       return NextResponse.json({ error: 'id ve gecerli action (approve/reject) gerekli' }, { status: 400 })
     }

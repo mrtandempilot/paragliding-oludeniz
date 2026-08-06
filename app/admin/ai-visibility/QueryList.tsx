@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Plus, Loader2, RefreshCw } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Plus, Loader2, RefreshCw, FileEdit } from 'lucide-react'
 
 type QueryRow = {
   id: string
@@ -26,12 +27,34 @@ function StatusPill({ check }: { check: any }) {
 }
 
 export default function QueryList() {
+  const router = useRouter()
   const [queries, setQueries] = useState<QueryRow[] | null>(null)
   const [loading, setLoading] = useState(false)
   const [adding, setAdding] = useState(false)
   const [newKeywords, setNewKeywords] = useState('')
   const [expanded, setExpanded] = useState<string | null>(null)
   const [showAddForm, setShowAddForm] = useState(false)
+  const [suggesting, setSuggesting] = useState<string | null>(null)
+
+  async function handleSuggest(query: string, reason: string) {
+    setSuggesting(query)
+    try {
+      const res = await fetch('/api/admin/ai-visibility', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'suggest_topic', query, reason }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Bilinmeyen hata')
+      router.refresh()
+      alert(`"${query}" için blog önerisi oluşturuldu — sayfanın üstündeki "Onay Bekleyen İçerik Önerileri" bölümünde onaylayabilirsin.`)
+    } catch (err: any) {
+      alert(`Hata: ${err.message}`)
+    } finally {
+      setSuggesting(null)
+    }
+  }
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -143,6 +166,7 @@ export default function QueryList() {
                 <th className="px-4 py-2.5 font-medium">ChatGPT</th>
                 <th className="px-4 py-2.5 font-medium">Google (GSC)</th>
                 <th className="px-4 py-2.5 font-medium">Son kontrol</th>
+                <th className="px-4 py-2.5 font-medium"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -180,10 +204,25 @@ export default function QueryList() {
                       <td className="px-4 py-3 text-xs text-slate-400">
                         {q.last_checked_at ? new Date(q.last_checked_at).toLocaleString('tr-TR') : 'henüz kontrol edilmedi'}
                       </td>
+                      <td className="px-4 py-3">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            const gscNote = q.gsc ? `Google'da #${q.gsc.position.toFixed(1)}. sırada` : 'Google\'da gösterim yok'
+                            handleSuggest(q.query, `Manuel olarak işaretlendi — ${gscNote}.`)
+                          }}
+                          disabled={suggesting === q.query}
+                          className="flex items-center gap-1.5 px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-lg text-xs font-medium transition-colors disabled:opacity-50"
+                          title="Bu kelime için blog önerisi oluştur"
+                        >
+                          {suggesting === q.query ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <FileEdit className="w-3.5 h-3.5" />}
+                          Blog öner
+                        </button>
+                      </td>
                     </tr>
                     {isOpen && (pplx || oai) && (
                       <tr key={`${q.id}-detail`} className="bg-slate-50/70">
-                        <td colSpan={5} className="px-6 py-4 space-y-3">
+                        <td colSpan={6} className="px-6 py-4 space-y-3">
                           {pplx && (
                             <div>
                               <p className="text-xs font-semibold text-slate-600 mb-1">Perplexity cevabı{pplx.competitors?.length ? ` · rakipler: ${pplx.competitors.join(', ')}` : ''}</p>
