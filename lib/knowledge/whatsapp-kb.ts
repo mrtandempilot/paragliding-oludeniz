@@ -51,19 +51,19 @@ Transparent pricing, no hidden fees. All prices are **per person**.
 ## Standard Tandem Flight
 - Launch: 1,200m
 - Duration: 25–35 minutes
-- Price: $160 / person
+- Price: $150 / person
 - Includes: certified tandem pilot, full safety equipment, transfer to launch, beach landing, third-party insurance
 
 ## High Altitude Flight
 - Launch: 1,700m (up to 1,900m depending on conditions)
 - Duration: 35–50 minutes
-- Price: $160 / person
+- Price: $150 / person
 - Includes: everything in the standard package, plus a higher launch point and longer flight time
 
 ## Sunset Flight
 - Launch: 1,200m
 - Duration: 20–30 minutes
-- Price: $160 / person
+- Price: $150 / person
 - Includes: certified tandem pilot, full safety equipment, transfer to launch, beach landing, third-party insurance, late afternoon departure, golden hour over the Blue Lagoon
 - A professional photo/video package is available for $35 extra
 - Slots are limited — book at least 2–3 days ahead in peak season
@@ -83,7 +83,7 @@ Transparent pricing, no hidden fees. All prices are **per person**.
 ## Pricing FAQ
 
 **Is the price per person or per group?**
-All prices are per person. $160 for any tandem flight — standard, high altitude, or sunset.
+All prices are per person. $150 for any tandem flight — standard, high altitude, or sunset.
 
 **What's included in the price?**
 A certified tandem pilot, full safety equipment, transfer to the launch point, beach landing, and third-party insurance are included in every package.
@@ -98,7 +98,7 @@ Yes. Groups of 4 or more get 10% off, and groups of 8 or more get 15% off.
 No, photo and video are not included in the base price. A professional photo/video package is available for $35 extra.
 
 **How much does a tandem flight from Babadağ cost?**
-All tandem flights are $160 per person, including hotel pickup, mountain transfer, full equipment and a licensed pilot — standard, high altitude, and sunset flights are all the same price.
+All tandem flights are $150 per person, including hotel pickup, mountain transfer, full equipment and a licensed pilot — standard, high altitude, and sunset flights are all the same price.
 
 
 ---
@@ -127,9 +127,9 @@ No experience is needed for a tandem flight. You are attached to a certified pil
 Total door-to-door experience: around 2 hours.
 
 ## Choose Your Flight
-- Standard Flight (from 1,700m): 25–35 minutes, $160
-- High-Altitude Flight (from 1,900m): longest views, $160
-- Sunset Flight: golden-hour light, $160
+- Standard Flight (from 1,700m): 25–35 minutes, $150
+- High-Altitude Flight (from 1,900m): longest views, $150
+- Sunset Flight: golden-hour light, $150
 - Professional photo/video package available for $35 extra on any flight
 
 ## Requirements & What to Wear
@@ -290,7 +290,7 @@ Often yes — high cloud is no problem at all. Only low cloud sitting on the lau
 Sunset flights launch from the 1,200m takeoff point in the late afternoon, typically 17:00–18:30 depending on season. The air is calmer, thermals gentler, and the light is extraordinary as the sky transforms from blue to gold to deep orange over the Blue Lagoon.
 
 - Duration: approximately 20–30 minutes
-- Price: $160 per person, same as all other tandem flights, including all equipment, transfer and pilot
+- Price: $150 per person, same as all other tandem flights, including all equipment, transfer and pilot
 - A professional photo/video package is available for $35 extra
 - Slots are very limited — book at least 2–3 days in advance in peak season
 
@@ -387,10 +387,10 @@ Allow 2–3 hours total: transfer up to Babadağ (about 45 minutes), waiting tim
 # Sik Sorulan Sorular (FAQ)
 
 **Q (EN):** How much does a tandem flight cost?
-**A (EN):** All tandem flights - standard, high-altitude, and sunset - are $160 per person. Professional photo and video packages are available as an add-on for $35.
+**A (EN):** All tandem flights - standard, high-altitude, and sunset - are $150 per person. Professional photo and video packages are available as an add-on for $35.
 
 **S (TR):** Tandem uçuş ne kadar?
-**C (TR):** Tüm tandem uçuşları - standart, yüksek irtifa ve gün batımı - kişi başı 160 Dolar'dır. Profesyonel fotoğraf ve video paketleri 35 Dolar ekstra ücretle mevcuttur.
+**C (TR):** Tüm tandem uçuşları - standart, yüksek irtifa ve gün batımı - kişi başı 150 Dolar'dır. Profesyonel fotoğraf ve video paketleri 35 Dolar ekstra ücretle mevcuttur.
 
 **Q (EN):** What's included in the price?
 **A (EN):** A certified tandem pilot, full safety equipment, transfer to the launch point, beach landing, and third-party insurance are included in every package. Professional photo/video is available as an add-on for $35.
@@ -411,10 +411,10 @@ Allow 2–3 hours total: transfer up to Babadağ (about 45 minutes), waiting tim
 **C (TR):** Evet. 4 kişi ve üzeri gruplara %10, 8 kişi ve üzeri gruplara %15 indirim uygulanır.
 
 **Q (EN):** Is the price per person or per group?
-**A (EN):** All prices are per person: $160 for any tandem flight, standard, high-altitude, or sunset.
+**A (EN):** All prices are per person: $150 for any tandem flight, standard, high-altitude, or sunset.
 
 **S (TR):** Fiyat kişi başı mı grup başı mı?
-**C (TR):** Tüm fiyatlar kişi başınadır: her tandem uçuşu için (standart, yüksek irtifa veya gün batımı) 160 Dolar.
+**C (TR):** Tüm fiyatlar kişi başınadır: her tandem uçuşu için (standart, yüksek irtifa veya gün batımı) 150 Dolar.
 
 **Q (EN):** How do I book a flight?
 **A (EN):** You can book online through our booking page, call us on +90 536 461 6674, or message us on WhatsApp. We recommend booking at least 24 hours in advance, especially in peak season (July-August).
@@ -543,10 +543,10 @@ Allow 2–3 hours total: transfer up to Babadağ (about 45 minutes), waiting tim
 **C (TR):** Genellikle evet - yüksek bulut hiç sorun değil. Sadece kalkış noktasında alçak bulut veya aktif yağmur uçuşu durdurur.
 
 **Q (EN):** How does the sunset flight work?
-**A (EN):** Sunset flights launch from the 1,200m point in the late afternoon (typically 17:00-18:30 depending on season), last 20-30 minutes, and cost $160 per person like all other flights. A professional photo/video package is available for $35 extra. Book at least 2-3 days ahead in peak season.
+**A (EN):** Sunset flights launch from the 1,200m point in the late afternoon (typically 17:00-18:30 depending on season), last 20-30 minutes, and cost $150 per person like all other flights. A professional photo/video package is available for $35 extra. Book at least 2-3 days ahead in peak season.
 
 **S (TR):** Gün batımı uçuşu nasıl işliyor?
-**C (TR):** Gün batımı uçuşları öğleden sonra geç saatlerde (genellikle sezona göre 17:00-18:30) 1.200m noktasından kalkar, 20-30 dakika sürer ve diğer tüm uçuşlar gibi kişi başı 160 Dolar'dır. Profesyonel fotoğraf/video paketi 35 Dolar ekstra ücretle mevcuttur. Yoğun sezonda en az 2-3 gün önceden rezervasyon yapın.
+**C (TR):** Gün batımı uçuşları öğleden sonra geç saatlerde (genellikle sezona göre 17:00-18:30) 1.200m noktasından kalkar, 20-30 dakika sürer ve diğer tüm uçuşlar gibi kişi başı 150 Dolar'dır. Profesyonel fotoğraf/video paketi 35 Dolar ekstra ücretle mevcuttur. Yoğun sezonda en az 2-3 gün önceden rezervasyon yapın.
 
 **Q (EN):** Do groups get a discount and can they fly together?
 **A (EN):** Groups of 4+ get 10% off, 8+ get 15% off. We arrange consecutive launches from the same takeoff point so the group flies close together and can watch each other. Contact us on WhatsApp for a group quote.

@@ -12,9 +12,9 @@ function getSupabase() {
 }
 
 const FLIGHT_PRICES: Record<string, number> = {
-  standard: 160,
-  high: 160,
-  sunset: 160,
+  standard: 150,
+  high: 150,
+  sunset: 150,
 }
 
 const FLIGHT_LABELS: Record<string, string> = {
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 
     // Calculate price
     const guestCount = parseInt(guests) || 1
-    const basePerPerson = FLIGHT_PRICES[flight_type] || 160
+    const basePerPerson = FLIGHT_PRICES[flight_type] || 150
     // Photo & Video package is a $35 extra
     let addonPrice = addon_bundle ? 35 : 0
 

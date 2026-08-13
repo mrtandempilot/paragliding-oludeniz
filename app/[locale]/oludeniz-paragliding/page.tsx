@@ -54,10 +54,10 @@ const CONTENT: Record<string, C> = {
       { href: '/acro-flights', label: 'Acro flying' },
     ],
     practicalTitle: 'Practical Guide',
-    practical: 'Ölüdeniz is 15 km from Fethiye and about an hour’s drive from Dalaman Airport (DLM). Tandem flights start from $160 including transfer, all equipment, insurance and beach landing — see current packages on our prices page. Booking direct with a local operator means you talk to the pilots themselves on WhatsApp, and rescheduling for weather costs nothing.',
+    practical: 'Ölüdeniz is 15 km from Fethiye and about an hour’s drive from Dalaman Airport (DLM). Tandem flights start from $150 including transfer, all equipment, insurance and beach landing — see current packages on our prices page. Booking direct with a local operator means you talk to the pilots themselves on WhatsApp, and rescheduling for weather costs nothing.',
     faq: [
       { question: 'What is the best month for paragliding in Ölüdeniz?', answer: 'Every month from late April to early November is good. June to September is the most reliable; May and October offer clearer air and fewer people. If you want sunset flights at their best, come in high summer.' },
-      { question: 'How much does paragliding in Ölüdeniz cost?', answer: 'Tandem flights start from $160, including transfer to the launch, all equipment, insurance and beach landing. A professional photo & video package is available for $35.' },
+      { question: 'How much does paragliding in Ölüdeniz cost?', answer: 'Tandem flights start from $150, including transfer to the launch, all equipment, insurance and beach landing. A professional photo & video package is available for $35.' },
       { question: 'Is paragliding in Ölüdeniz safe?', answer: 'With a licensed professional, yes — it is one of the safest adventure activities. Ölüdeniz has hosted millions of tandem flights over three decades. Choose an operator with SHGM-licensed pilots, insurance on every flight, and daily equipment checks.' },
       { question: 'How do I choose a paragliding operator?', answer: 'Ask three things: are the pilots SHGM-licensed, is every flight insured, and can you see recent, real passenger reviews? A trustworthy operator answers all three instantly. Booking direct — rather than through a street agency — also means you know exactly who is flying you.' },
       { question: 'Can I ride the cable car up and not fly?', answer: 'Yes. The Babadağ cable car sells sightseeing tickets, and many families ride up together while one person flies. The summit café has the best terrace view on the coast.' },
@@ -97,10 +97,10 @@ const CONTENT: Record<string, C> = {
       { href: '/acro-flights', label: 'Akro uçuşlar' },
     ],
     practicalTitle: 'Pratik Rehber',
-    practical: 'Ölüdeniz, Fethiye’ye 15 km, Dalaman Havalimanı’na (DLM) yaklaşık bir saat mesafededir. Tandem uçuşlar transfer, tüm ekipman, sigorta ve plaja iniş dahil $160’den başlar — güncel paketler için fiyatlar sayfamıza bakın. Yerel operatörden doğrudan rezervasyon, WhatsApp’ta doğrudan pilotlarla konuşmak ve hava nedeniyle ertelemenin ücretsiz olması demektir.',
+    practical: 'Ölüdeniz, Fethiye’ye 15 km, Dalaman Havalimanı’na (DLM) yaklaşık bir saat mesafededir. Tandem uçuşlar transfer, tüm ekipman, sigorta ve plaja iniş dahil $150’den başlar — güncel paketler için fiyatlar sayfamıza bakın. Yerel operatörden doğrudan rezervasyon, WhatsApp’ta doğrudan pilotlarla konuşmak ve hava nedeniyle ertelemenin ücretsiz olması demektir.',
     faq: [
       { question: 'Ölüdeniz’de yamaç paraşütü için en iyi ay hangisi?', answer: 'Nisan sonundan Kasım başına her ay iyidir. Haziran–Eylül en istikrarlısıdır; Mayıs ve Ekim daha berrak hava ve az kalabalık sunar. Gün batımı uçuşlarının en iyisi için yaz ortasında gelin.' },
-      { question: 'Ölüdeniz’de yamaç paraşütü ne kadar?', answer: 'Tandem uçuşlar kalkışa transfer, tüm ekipman, sigorta ve plaja iniş dahil $160’den başlar. Profesyonel foto & video paketi $35 karşılığında mevcuttur.' },
+      { question: 'Ölüdeniz’de yamaç paraşütü ne kadar?', answer: 'Tandem uçuşlar kalkışa transfer, tüm ekipman, sigorta ve plaja iniş dahil $150’den başlar. Profesyonel foto & video paketi $35 karşılığında mevcuttur.' },
       { question: 'Ölüdeniz’de yamaç paraşütü güvenli mi?', answer: 'Lisanslı bir profesyonelle evet — en güvenli macera aktivitelerinden biridir. Ölüdeniz otuz yılda milyonlarca tandem uçuşa ev sahipliği yaptı. SHGM lisanslı pilotları, her uçuşta sigortası ve günlük ekipman kontrolü olan bir operatör seçin.' },
       { question: 'Operatör nasıl seçilir?', answer: 'Üç şey sorun: pilotlar SHGM lisanslı mı, her uçuş sigortalı mı ve güncel, gerçek yolcu yorumlarını görebiliyor musunuz? Güvenilir bir operatör üçüne de anında cevap verir. Sokak acentesi yerine doğrudan rezervasyon, sizi kimin uçuracağını tam olarak bilmeniz demektir.' },
       { question: 'Teleferikle çıkıp uçmadan inebilir miyim?', answer: 'Evet. Babadağ Teleferiği gezi bileti satar; birçok aile biri uçarken birlikte zirveye çıkar. Zirve kafesinin terası kıyının en iyi manzarasına sahiptir.' },
@@ -140,10 +140,10 @@ const CONTENT: Record<string, C> = {
       { href: '/acro-flights', label: 'Acro-Fliegen' },
     ],
     practicalTitle: 'Praktischer Guide',
-    practical: 'Ölüdeniz liegt 15 km von Fethiye und rund eine Stunde vom Flughafen Dalaman (DLM). Tandemflüge ab $160 inklusive Transfer, kompletter Ausrüstung, Versicherung und Strandlandung — aktuelle Pakete auf unserer Preisseite. Direkt beim lokalen Veranstalter buchen heisst: WhatsApp-Kontakt zu den Piloten selbst und kostenloses Verschieben bei Wetter.',
+    practical: 'Ölüdeniz liegt 15 km von Fethiye und rund eine Stunde vom Flughafen Dalaman (DLM). Tandemflüge ab $150 inklusive Transfer, kompletter Ausrüstung, Versicherung und Strandlandung — aktuelle Pakete auf unserer Preisseite. Direkt beim lokalen Veranstalter buchen heisst: WhatsApp-Kontakt zu den Piloten selbst und kostenloses Verschieben bei Wetter.',
     faq: [
       { question: 'Welcher Monat ist der beste für Paragliding in Ölüdeniz?', answer: 'Jeder Monat von Ende April bis Anfang November ist gut. Juni bis September am zuverlässigsten; Mai und Oktober bieten klarere Luft und weniger Menschen. Für die schönsten Sonnenuntergangsflüge im Hochsommer kommen.' },
-      { question: 'Was kostet Paragliding in Ölüdeniz?', answer: 'Tandemflüge ab $160, inklusive Transfer zum Startplatz, kompletter Ausrüstung, Versicherung und Strandlandung. Ein professionelles Foto- & Videopaket ist für $35 erhältlich.' },
+      { question: 'Was kostet Paragliding in Ölüdeniz?', answer: 'Tandemflüge ab $150, inklusive Transfer zum Startplatz, kompletter Ausrüstung, Versicherung und Strandlandung. Ein professionelles Foto- & Videopaket ist für $35 erhältlich.' },
       { question: 'Ist Paragliding in Ölüdeniz sicher?', answer: 'Mit einem lizenzierten Profi ja — eine der sichersten Abenteueraktivitäten. Ölüdeniz zählt Millionen Tandemflüge über drei Jahrzehnte. Wählen Sie einen Anbieter mit SHGM-lizenzierten Piloten, Versicherung und täglichen Materialchecks.' },
       { question: 'Wie wähle ich den Anbieter aus?', answer: 'Drei Fragen: Sind die Piloten SHGM-lizenziert? Ist jeder Flug versichert? Gibt es aktuelle, echte Bewertungen? Ein seriöser Anbieter beantwortet alle drei sofort. Direktbuchung statt Strassenagentur heisst ausserdem: Sie wissen genau, wer Sie fliegt.' },
       { question: 'Kann ich mit der Seilbahn hochfahren, ohne zu fliegen?', answer: 'Ja. Die Babadağ-Seilbahn verkauft Panoramatickets; viele Familien fahren gemeinsam hinauf, während einer fliegt. Das Gipfelcafé hat die beste Terrasse der Küste.' },
@@ -183,10 +183,10 @@ const CONTENT: Record<string, C> = {
       { href: '/acro-flights', label: 'Акро-полёты' },
     ],
     practicalTitle: 'Практический гид',
-    practical: 'Олюдениз — в 15 км от Фетхие и примерно в часе езды от аэропорта Даламан (DLM). Тандемные полёты — от $160, включая трансфер, всё снаряжение, страховку и посадку на пляж; актуальные пакеты — на странице цен. Прямое бронирование у местного оператора — это WhatsApp с самими пилотами и бесплатный перенос по погоде.',
+    practical: 'Олюдениз — в 15 км от Фетхие и примерно в часе езды от аэропорта Даламан (DLM). Тандемные полёты — от $150, включая трансфер, всё снаряжение, страховку и посадку на пляж; актуальные пакеты — на странице цен. Прямое бронирование у местного оператора — это WhatsApp с самими пилотами и бесплатный перенос по погоде.',
     faq: [
       { question: 'Какой месяц лучший для полётов в Олюденизе?', answer: 'Хорош каждый месяц с конца апреля до начала ноября. Июнь–сентябрь — самые стабильные; май и октябрь — прозрачный воздух и меньше людей. За лучшими закатными полётами приезжайте в разгар лета.' },
-      { question: 'Сколько стоит полёт в Олюденизе?', answer: 'Тандемные полёты — от $160, включая трансфер к старту, всё снаряжение, страховку и посадку на пляж. Профессиональный фото- и видеопакет доступен за $35.' },
+      { question: 'Сколько стоит полёт в Олюденизе?', answer: 'Тандемные полёты — от $150, включая трансфер к старту, всё снаряжение, страховку и посадку на пляж. Профессиональный фото- и видеопакет доступен за $35.' },
       { question: 'Это безопасно?', answer: 'С лицензированным профессионалом — да, это один из самых безопасных видов активного отдыха. За три десятилетия Олюдениз принял миллионы тандемных полётов. Выбирайте оператора с лицензиями SHGM, страховкой каждого полёта и ежедневной проверкой снаряжения.' },
       { question: 'Как выбрать оператора?', answer: 'Задайте три вопроса: лицензированы ли пилоты SHGM, застрахован ли каждый полёт и есть ли свежие реальные отзывы? Надёжный оператор ответит мгновенно. Прямое бронирование вместо уличного агентства означает, что вы знаете, кто именно с вами летит.' },
       { question: 'Можно подняться по канатной дороге и не летать?', answer: 'Да. Канатная дорога Бабадага продаёт обзорные билеты; многие семьи поднимаются вместе, пока летит один. У кафе на вершине — лучшая терраса побережья.' },
@@ -198,7 +198,7 @@ const CONTENT: Record<string, C> = {
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Paragliding Oludeniz Turkey",tr:"Oludeniz Yamaç Paraşütü",de:"Paragliding Oludeniz Türkei",ru:"Парапланеризм Олюдениз Турция"}
-  const d = {en:"The complete guide to paragliding in Oludeniz: Babadağ launch points, season by month, prices from $160, safety and how to book direct.",tr:"Ölüdeniz'de yamaç paraşütü için eksiksiz rehber: Babadağ kalkış noktaları, ay ay sezon, $160'den fiyatlar, güvenlik ve doğrudan rezervasyon.",de:"Der komplette Guide zum Paragliding in Ölüdeniz: Babadağ-Startplätze, Saison im Monatsüberblick, Preise ab $160, Sicherheit und Direktbuchung.",ru:"Полный гид по парапланеризму в Олюденизе: старты Бабадага, сезон по месяцам, цены от $160, безопасность и прямое бронирование."}
+  const d = {en:"The complete guide to paragliding in Oludeniz: Babadağ launch points, season by month, prices from $150, safety and how to book direct.",tr:"Ölüdeniz'de yamaç paraşütü için eksiksiz rehber: Babadağ kalkış noktaları, ay ay sezon, $150'den fiyatlar, güvenlik ve doğrudan rezervasyon.",de:"Der komplette Guide zum Paragliding in Ölüdeniz: Babadağ-Startplätze, Saison im Monatsüberblick, Preise ab $150, Sicherheit und Direktbuchung.",ru:"Полный гид по парапланеризму в Олюденизе: старты Бабадага, сезон по месяцам, цены от $150, безопасность и прямое бронирование."}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/oludeniz-paragliding'),

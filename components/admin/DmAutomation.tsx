@@ -14,8 +14,8 @@ Görüşmek üzere! ✨`
 
 const DEFAULT_KEYWORD_MESSAGE = `Merhaba! 🪂 Fiyat ve rezervasyon bilgisi için:
 
-✅ Tandem uçuş — $160
-✅ Sunset (gün batımı) uçuş — $160
+✅ Tandem uçuş — $150
+✅ Sunset (gün batımı) uçuş — $150
 ✅ Foto & video paketi — +$35
 ✅ Grup indirimi (4+ kişi) — %15 indirim
 
