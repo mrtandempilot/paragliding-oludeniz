@@ -16,6 +16,8 @@ const ADDONS = [
   { id: 'addon_bundle', label: 'Photo & Video Package', price: 35, highlight: true },
 ]
 
+const WHATSAPP_NUMBER = '905364616674'
+
 function calcTotal(flightType: string, guests: number, addons: Record<string, boolean>) {
   const flight = FLIGHT_OPTIONS.find(f => f.value === flightType)
   if (!flight) return 0
@@ -27,6 +29,12 @@ function calcTotal(flightType: string, guests: number, addons: Record<string, bo
   const addon = addons.addon_bundle ? 35 : 0
 
   return base + addon
+}
+
+function track(event: string, params: Record<string, any> = {}) {
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('event', event, params)
+  }
 }
 
 export default function BookingForm() {
@@ -48,6 +56,7 @@ export default function BookingForm() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState<{ whatsapp_url: string; total: number } | null>(null)
   const [error, setError] = useState('')
+  const [quoteError, setQuoteError] = useState('')
 
   const set = (field: string, value: string | boolean) =>
     setForm(prev => ({ ...prev, [field]: value }))
@@ -62,6 +71,53 @@ export default function BookingForm() {
 
   const guestCount = parseInt(form.guests)
   const hasGroupDiscount = guestCount >= 4
+  const flight = FLIGHT_OPTIONS.find(f => f.value === form.flight_type)
+
+  // Instant WhatsApp quote link — only needs flight type + date + guests, nothing else.
+  // This is the primary conversion path: most visitors use the calculator to see a
+  // price and then want to talk to a human, not fill out a full form (see GA4 data:
+  // 22 booking-form starts / 0 submits in the 28 days before this change shipped).
+  function buildWhatsAppQuoteUrl() {
+    if (!flight) return null
+    const dateStr = form.flight_date
+      ? new Date(form.flight_date).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+      : 'flexible / to be confirmed'
+    const addonsText = form.addon_bundle ? ' + Photo & Video Package' : ''
+    const nameText = (form.first_name || form.last_name) ? `\nName: ${form.first_name} ${form.last_name}`.trim() : ''
+
+    const message =
+      `Hi! I'd like to book a paragliding flight:\n\n` +
+      `Flight: ${flight.label}${addonsText}\n` +
+      `Date: ${dateStr}\n` +
+      `Guests: ${guestCount}\n` +
+      `Estimated total: $${totalPrice}${nameText}\n\n` +
+      `Can you confirm availability?`
+
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+  }
+
+  function handleWhatsAppQuoteClick(e: React.MouseEvent) {
+    setQuoteError('')
+    if (!form.flight_type) {
+      e.preventDefault()
+      return setQuoteError('Please select a flight type first.')
+    }
+    if (!form.flight_date) {
+      e.preventDefault()
+      return setQuoteError('Please select your preferred date first.')
+    }
+    track('whatsapp_booking_click', {
+      flight_type: form.flight_type,
+      guests: guestCount,
+      value: totalPrice,
+      currency: 'USD',
+    })
+    // Google Ads conversion tracking — same conversion label used on the email path,
+    // since a WhatsApp booking click is just as strong a lead signal.
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'conversion', { send_to: 'AW-1048206545/cXNxCN20udQBENG56fMD' })
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -84,6 +140,11 @@ export default function BookingForm() {
       if (!res.ok) throw new Error(data.error || 'Something went wrong')
 
       setSuccess({ whatsapp_url: data.whatsapp_url, total: data.total_price })
+      track('email_booking_submit', { flight_type: form.flight_type, guests: guestCount, value: data.total_price, currency: 'USD' })
+      // Google Ads conversion tracking
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'conversion', { send_to: 'AW-1048206545/cXNxCN20udQBENG56fMD' })
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to submit booking. Please try WhatsApp or email.')
     } finally {
@@ -140,7 +201,7 @@ export default function BookingForm() {
           <div className="lg:col-span-2">
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Reserve Your Flight</h2>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-5">
 
               {/* Flight Type */}
               <div>
@@ -201,54 +262,6 @@ export default function BookingForm() {
                 </div>
               </div>
 
-              {/* Name */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">First Name *</label>
-                  <input
-                    type="text"
-                    value={form.first_name}
-                    onChange={e => set('first_name', e.target.value)}
-                    placeholder="Your first name"
-                    className="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Last Name *</label>
-                  <input
-                    type="text"
-                    value={form.last_name}
-                    onChange={e => set('last_name', e.target.value)}
-                    placeholder="Your last name"
-                    className="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  />
-                </div>
-              </div>
-
-              {/* Email + Phone */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Email *</label>
-                  <input
-                    type="email"
-                    value={form.email}
-                    onChange={e => set('email', e.target.value)}
-                    placeholder="your@email.com"
-                    className="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Phone / WhatsApp</label>
-                  <input
-                    type="tel"
-                    value={form.phone}
-                    onChange={e => set('phone', e.target.value)}
-                    placeholder="+1 234 567 8900"
-                    className="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  />
-                </div>
-              </div>
-
               {/* Add-ons */}
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-3">Add-ons</label>
@@ -280,26 +293,6 @@ export default function BookingForm() {
                 </div>
               </div>
 
-              {/* Notes */}
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Special Notes</label>
-                <textarea
-                  rows={3}
-                  value={form.notes}
-                  onChange={e => set('notes', e.target.value)}
-                  placeholder="Any medical conditions, special requests, or questions..."
-                  className="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
-                />
-              </div>
-
-              {/* Error */}
-              {error && (
-                <div className="flex items-start gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
-                  <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                  {error}
-                </div>
-              )}
-
               {/* Price summary */}
               {totalPrice > 0 && (
                 <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
@@ -313,22 +306,123 @@ export default function BookingForm() {
                 </div>
               )}
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="btn-primary w-full justify-center text-base py-4 disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {loading ? (
-                  <span>Sending request...</span>
-                ) : (
-                  <>Send Booking Request <ArrowRight className="w-5 h-5" /></>
-                )}
-              </button>
+              {/* Quote error */}
+              {quoteError && (
+                <div className="flex items-start gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                  {quoteError}
+                </div>
+              )}
 
-              <p className="text-xs text-slate-500 text-center">
-                We&apos;ll confirm your booking within 2 hours by email or WhatsApp. No payment required upfront.
+              {/* PRIMARY CTA — instant WhatsApp quote, no name/email required */}
+              <a
+                href={buildWhatsAppQuoteUrl() || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={handleWhatsAppQuoteClick}
+                className="btn-primary w-full justify-center text-base py-4 bg-green-600 hover:bg-green-700 border-green-600"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Get Instant Quote on WhatsApp
+              </a>
+              <p className="text-xs text-slate-500 text-center -mt-2">
+                No payment required — chat with us directly, confirm your flight in minutes.
               </p>
-            </form>
+
+              {/* Divider */}
+              <div className="flex items-center gap-3 py-2">
+                <div className="flex-1 h-px bg-slate-200" />
+                <span className="text-xs text-slate-400 font-medium">OR REQUEST AN EMAIL CONFIRMATION</span>
+                <div className="flex-1 h-px bg-slate-200" />
+              </div>
+
+              {/* Secondary path: email confirmation */}
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Name */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">First Name *</label>
+                    <input
+                      type="text"
+                      value={form.first_name}
+                      onChange={e => set('first_name', e.target.value)}
+                      placeholder="Your first name"
+                      className="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Last Name *</label>
+                    <input
+                      type="text"
+                      value={form.last_name}
+                      onChange={e => set('last_name', e.target.value)}
+                      placeholder="Your last name"
+                      className="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Email + Phone */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Email *</label>
+                    <input
+                      type="email"
+                      value={form.email}
+                      onChange={e => set('email', e.target.value)}
+                      placeholder="your@email.com"
+                      className="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Phone / WhatsApp</label>
+                    <input
+                      type="tel"
+                      value={form.phone}
+                      onChange={e => set('phone', e.target.value)}
+                      placeholder="+1 234 567 8900"
+                      className="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Notes */}
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Special Notes</label>
+                  <textarea
+                    rows={3}
+                    value={form.notes}
+                    onChange={e => set('notes', e.target.value)}
+                    placeholder="Any medical conditions, special requests, or questions..."
+                    className="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
+                  />
+                </div>
+
+                {/* Error */}
+                {error && (
+                  <div className="flex items-start gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+                    <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                    {error}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full justify-center text-base py-4 rounded-xl border-2 border-slate-300 text-slate-700 font-semibold hover:border-slate-400 hover:bg-slate-50 transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  {loading ? (
+                    <span>Sending request...</span>
+                  ) : (
+                    <>Send Booking Request by Email <ArrowRight className="w-5 h-5" /></>
+                  )}
+                </button>
+
+                <p className="text-xs text-slate-500 text-center">
+                  We&apos;ll confirm your booking within 2 hours by email or WhatsApp. No payment required upfront.
+                </p>
+              </form>
+            </div>
           </div>
 
           {/* Sidebar */}
@@ -356,7 +450,8 @@ export default function BookingForm() {
             <div className="card p-6">
               <h3 className="font-bold text-slate-900 mb-4">Prefer to Contact Us Directly?</h3>
               <div className="space-y-3">
-                <a href="https://wa.me/905364616674" target="_blank" rel="noopener noreferrer"
+                <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer"
+                  onClick={() => track('whatsapp_sidebar_click')}
                   className="flex items-center gap-3 p-3 bg-green-50 rounded-xl hover:bg-green-100 transition-colors">
                   <MessageCircle className="w-5 h-5 text-green-600" />
                   <div>
@@ -365,6 +460,7 @@ export default function BookingForm() {
                   </div>
                 </a>
                 <a href="tel:+905364616674"
+                  onClick={() => track('phone_click')}
                   className="flex items-center gap-3 p-3 bg-sky-50 rounded-xl hover:bg-sky-100 transition-colors">
                   <Phone className="w-5 h-5 text-sky-600" />
                   <div>
@@ -373,6 +469,7 @@ export default function BookingForm() {
                   </div>
                 </a>
                 <a href="mailto:info@paragliding-oludeniz.com"
+                  onClick={() => track('email_click')}
                   className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
                   <Mail className="w-5 h-5 text-slate-600" />
                   <div>
