@@ -1,23 +1,36 @@
 'use client'
 
-import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import { ArrowRight, Star, Shield, Clock } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+
+// Unsplash's own CDN (imgix-backed) serves pre-sized, pre-compressed WebP directly to the
+// browser — this skips the extra Vercel image-optimizer round trip (fetch-from-origin +
+// re-encode) that was dominating LCP (~7.2s). q=65 + fm=webp keeps quality visually identical
+// while cutting payload well below the ~80KB the optimizer was serving.
+const HERO_PHOTO_ID = 'photo-1544551763-46a013bb70d5'
+function heroSrc(w: number) {
+  return `https://images.unsplash.com/${HERO_PHOTO_ID}?w=${w}&q=65&fit=crop&auto=format&fm=webp`
+}
+const HERO_SRCSET = [480, 640, 828, 1080, 1920]
+  .map((w) => `${heroSrc(w)} ${w}w`)
+  .join(', ')
 
 export default function Hero() {
   const t = useTranslations('hero')
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <Image
-        src="https://images.unsplash.com/photo-1544551763-46a013bb70d5"
-        alt={t('heroAlt')}
-        fill
-        priority
-        className="object-cover object-center"
+      {/* eslint-disable-next-line @next/next/no-img-element -- deliberately bypassing next/image's
+          server-side optimizer for the LCP hero image; see comment above */}
+      <img
+        src={heroSrc(1920)}
+        srcSet={HERO_SRCSET}
         sizes="100vw"
-        quality={85}
+        alt={t('heroAlt')}
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover object-center"
       />
       <div className="absolute inset-0 bg-hero" />
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
