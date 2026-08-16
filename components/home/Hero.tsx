@@ -1,36 +1,29 @@
 'use client'
 
+import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import { ArrowRight, Star, Shield, Clock } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-
-// Unsplash's own CDN (imgix-backed) serves pre-sized, pre-compressed WebP directly to the
-// browser — this skips the extra Vercel image-optimizer round trip (fetch-from-origin +
-// re-encode) that was dominating LCP (~7.2s). q=65 + fm=webp keeps quality visually identical
-// while cutting payload well below the ~80KB the optimizer was serving.
-const HERO_PHOTO_ID = 'photo-1544551763-46a013bb70d5'
-function heroSrc(w: number) {
-  return `https://images.unsplash.com/${HERO_PHOTO_ID}?w=${w}&q=65&fit=crop&auto=format&fm=webp`
-}
-const HERO_SRCSET = [480, 640, 828, 1080, 1920]
-  .map((w) => `${heroSrc(w)} ${w}w`)
-  .join(', ')
 
 export default function Hero() {
   const t = useTranslations('hero')
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* eslint-disable-next-line @next/next/no-img-element -- deliberately bypassing next/image's
-          server-side optimizer for the LCP hero image; see comment above */}
-      <img
-        src={heroSrc(1920)}
-        srcSet={HERO_SRCSET}
-        sizes="100vw"
+      {/* Self-hosted (public/images/hero-oludeniz.webp) — previously this proxied
+          images.unsplash.com on every request (via /_next/image or a direct fetch), which
+          made LCP depend on a third-party CDN's latency at the moment of each visit/test
+          (measured 2.9s–7.2s, very unstable). A same-origin static file removes that variance
+          entirely: Next still generates right-sized AVIF/WebP per device and caches it at the
+          edge, but there's no external origin fetch in the critical path anymore. */}
+      <Image
+        src="/images/hero-oludeniz.webp"
         alt={t('heroAlt')}
-        fetchPriority="high"
-        decoding="async"
-        className="absolute inset-0 w-full h-full object-cover object-center"
+        fill
+        priority
+        quality={70}
+        className="object-cover object-center"
+        sizes="100vw"
       />
       <div className="absolute inset-0 bg-hero" />
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
