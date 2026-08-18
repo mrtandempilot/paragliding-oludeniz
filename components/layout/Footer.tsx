@@ -169,7 +169,7 @@ export default async function Footer() {
               className="flex-shrink-0 bg-white rounded px-2 py-1 opacity-90 hover:opacity-100 transition-opacity"
             >
               <div className="flex flex-col items-center gap-0.5">
-                <span className="text-[10px] text-slate-400 font-medium tracking-wide">Acrux Travel 6819</span>
+                <span className="text-[10px] text-slate-600 font-medium tracking-wide">Acrux Travel 6819</span>
                 <Image
                   src="/images/tursab-50.png"
                   alt="T\u00dcRSAB 50. Y\u0131l \u00dcye Belgesi"
@@ -179,11 +179,11 @@ export default async function Footer() {
                 />
               </div>
             </a>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-400">
               \u00a9 {new Date().getFullYear()} Atmos Paragliding. {t(RIGHTS)}
             </p>
           </div>
-          <div className="flex items-center gap-6 text-sm text-slate-500">
+          <div className="flex items-center gap-6 text-sm text-slate-400">
             {BOTTOM_LINKS.map((l) => (
               <Link key={l.href} href={lp(l.href)} className="hover:text-slate-300 transition-colors">{t(l.label)}</Link>
             ))}

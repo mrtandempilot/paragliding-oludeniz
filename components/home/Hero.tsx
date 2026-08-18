@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import { ArrowRight, Star, Shield, Clock } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -10,21 +9,28 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Self-hosted (public/images/hero-oludeniz.webp) — previously this proxied
-          images.unsplash.com on every request (via /_next/image or a direct fetch), which
-          made LCP depend on a third-party CDN's latency at the moment of each visit/test
-          (measured 2.9s–7.2s, very unstable). A same-origin static file removes that variance
-          entirely: Next still generates right-sized AVIF/WebP per device and caches it at the
-          edge, but there's no external origin fetch in the critical path anymore. */}
-      <Image
-        src="/images/hero-oludeniz.webp"
-        alt={t('heroAlt')}
-        fill
-        priority
-        quality={70}
-        className="object-cover object-center"
-        sizes="100vw"
-      />
+      {/* Pre-built static files (public/images/hero-oludeniz-{mobile,desktop}.webp),
+          served with a plain <picture> instead of next/image's on-demand /_next/image
+          resizing. Self-hosting alone (removing the images.unsplash.com origin) had already
+          cut LCP variance, but it was still 2.9s–7.2s / 66 on mobile PSI runs because every
+          first hit at a given (width, quality) still went through Vercel's on-demand image
+          optimizer — a real, sometimes-slow compute step on the critical LCP path. Serving
+          two pre-shrunk, pre-compressed static files (mobile: 1080w/~79KB, desktop:
+          1920w/~173KB — see git_pagespeed_log.txt / 2026-08-18 session) removes that step
+          entirely: the browser fetches a static file straight from the CDN edge, no resize,
+          no cold-cache variance. `<picture>` + `media` swaps which file loads per viewport,
+          same art-direction next/image's `sizes` gave us, without the runtime cost. */}
+      <picture>
+        <source media="(min-width: 768px)" srcSet="/images/hero-oludeniz-desktop.webp" />
+        <img
+          src="/images/hero-oludeniz-mobile.webp"
+          alt={t('heroAlt')}
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+      </picture>
       <div className="absolute inset-0 bg-hero" />
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
 
@@ -50,7 +56,11 @@ export default function Hero() {
             {t('bookFlight')}
             <ArrowRight className="w-5 h-5" />
           </Link>
-          <Link href="/tandem-paragliding" className="btn-outline-white text-base px-8 py-4">
+          <Link
+            href="/tandem-paragliding"
+            className="btn-outline-white text-base px-8 py-4"
+            aria-label={t('learnMoreAria')}
+          >
             {t('learnMore')}
           </Link>
         </div>

@@ -56,7 +56,7 @@ export default function ReviewsSection() {
     <section className="section-padding bg-white">
       <div className="container-default">
         <div className="text-center mb-14">
-          <span className="text-orange-500 font-semibold text-sm uppercase tracking-widest">
+          <span className="text-orange-700 font-semibold text-sm uppercase tracking-widest">
             {t('badge')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-4">

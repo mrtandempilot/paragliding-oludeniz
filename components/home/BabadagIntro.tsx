@@ -28,15 +28,15 @@ export default function BabadagIntro() {
                 }}
               />
             </div>
-            <div className="absolute -bottom-4 -right-4 bg-orange-500 text-white rounded-2xl p-4 shadow-xl">
+            <div className="absolute -bottom-4 -right-4 bg-orange-500 text-slate-900 rounded-2xl p-4 shadow-xl">
               <Mountain className="w-6 h-6 mb-1" />
               <p className="font-bold text-lg leading-none">1960m</p>
-              <p className="text-xs text-orange-100">{t('floatingLabel')}</p>
+              <p className="text-xs text-slate-800">{t('floatingLabel')}</p>
             </div>
           </div>
 
           <div>
-            <span className="text-orange-500 font-semibold text-sm uppercase tracking-widest">
+            <span className="text-orange-700 font-semibold text-sm uppercase tracking-widest">
               {t('badge')}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-6">
@@ -48,7 +48,7 @@ export default function BabadagIntro() {
             <div className="grid grid-cols-2 gap-4 mb-8">
               {stats.map((stat) => (
                 <div key={stat.label} className="bg-slate-50 rounded-xl p-4 text-center">
-                  <p className="text-2xl font-bold text-orange-500">{stat.value}</p>
+                  <p className="text-2xl font-bold text-orange-700">{stat.value}</p>
                   <p className="text-sm text-slate-600 mt-1">{stat.label}</p>
                 </div>
               ))}

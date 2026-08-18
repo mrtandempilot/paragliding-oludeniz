@@ -113,7 +113,7 @@ export default function HomeSeoIntro({ locale }: { locale: string }) {
         <ul className="space-y-2 mb-8">
           {c.links.map((l) => (
             <li key={l.href}>
-              <Link href={lp(l.href)} className="text-orange-600 font-medium hover:underline">
+              <Link href={lp(l.href)} className="text-orange-700 font-medium hover:underline">
                 {l.label} →
               </Link>
             </li>

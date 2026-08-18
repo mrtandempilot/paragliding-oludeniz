@@ -15,7 +15,7 @@ export default function FlightTypesGrid() {
       href: '/tandem-paragliding',
       emoji: '🪂',
       badge: t('badgeTandem'),
-      badgeColor: 'bg-orange-500',
+      badgeColor: 'bg-orange-700',
       gradient: 'from-sky-500 to-blue-600',
     },
     {
@@ -25,7 +25,7 @@ export default function FlightTypesGrid() {
       href: '/tandem-paragliding/sunset-flight',
       emoji: '🌅',
       badge: t('badgeSunset'),
-      badgeColor: 'bg-amber-500',
+      badgeColor: 'bg-amber-700',
       gradient: 'from-amber-400 to-orange-500',
     },
     {
@@ -35,7 +35,7 @@ export default function FlightTypesGrid() {
       href: '/cross-country-flights',
       emoji: '🏔️',
       badge: t('badgeXc'),
-      badgeColor: 'bg-emerald-600',
+      badgeColor: 'bg-emerald-700',
       gradient: 'from-emerald-500 to-teal-600',
     },
     {
@@ -65,7 +65,7 @@ export default function FlightTypesGrid() {
       href: '/tandem-paragliding/group-flights',
       emoji: '👥',
       badge: t('badgeGroups'),
-      badgeColor: 'bg-sky-600',
+      badgeColor: 'bg-sky-700',
       gradient: 'from-slate-600 to-slate-800',
     },
   ]
@@ -74,7 +74,7 @@ export default function FlightTypesGrid() {
     <section className="section-padding bg-slate-50">
       <div className="container-default">
         <div className="text-center mb-14">
-          <span className="text-orange-500 font-semibold text-sm uppercase tracking-widest">
+          <span className="text-orange-700 font-semibold text-sm uppercase tracking-widest">
             {t('badge')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-4">
@@ -99,12 +99,12 @@ export default function FlightTypesGrid() {
                 )}
               </div>
               <div className="p-5">
-                <p className="text-xs font-semibold text-orange-500 uppercase tracking-wider mb-1">
+                <p className="text-xs font-semibold text-orange-700 uppercase tracking-wider mb-1">
                   {type.subtitle}
                 </p>
                 <h3 className="font-bold text-slate-900 text-lg mb-2">{type.title}</h3>
                 <p className="text-slate-600 text-sm leading-relaxed mb-4">{type.description}</p>
-                <div className="flex items-center text-orange-500 font-medium text-sm group-hover:gap-2 transition-all gap-1">
+                <div className="flex items-center text-orange-700 font-medium text-sm group-hover:gap-2 transition-all gap-1">
                   {t('learnMore')} <ArrowRight className="w-4 h-4" />
                 </div>
               </div>
