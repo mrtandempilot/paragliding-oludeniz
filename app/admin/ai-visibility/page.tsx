@@ -6,6 +6,7 @@ import { Radar, ArrowLeft } from 'lucide-react'
 import SuggestionCard from './SuggestionCard'
 import RunCheckButton from './RunCheckButton'
 import QueryList from './QueryList'
+import AiVisibilityCharts from './AiVisibilityCharts'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -39,6 +40,29 @@ export default async function AiVisibilityPage() {
     if (c.mentioned) bySource[c.source].mentioned++
     else bySource[c.source].missed++
   }
+
+  // Gunluk kaynak bazinda gorunurluk orani — trend grafigi icin
+  const bySourceDaily: Record<string, Record<string, { mentioned: number; total: number }>> = {}
+  for (const c of allChecks) {
+    if (!c.source || !c.checked_at) continue
+    const date = String(c.checked_at).slice(0, 10)
+    if (!bySourceDaily[date]) bySourceDaily[date] = {}
+    if (!bySourceDaily[date][c.source]) bySourceDaily[date][c.source] = { mentioned: 0, total: 0 }
+    bySourceDaily[date][c.source].total++
+    if (c.mentioned) bySourceDaily[date][c.source].mentioned++
+  }
+  const trendDates = Object.keys(bySourceDaily).sort()
+  const trend = trendDates.map(date => {
+    const p = bySourceDaily[date].perplexity
+    const c = bySourceDaily[date].chatgpt
+    const g = bySourceDaily[date].google
+    return {
+      date,
+      perplexity: p ? Math.round((p.mentioned / p.total) * 100) : null,
+      chatgpt: c ? Math.round((c.mentioned / c.total) * 100) : null,
+      google: g ? Math.round((g.mentioned / g.total) * 100) : null,
+    }
+  })
 
   return (
     <div className="space-y-6">
@@ -86,6 +110,8 @@ export default async function AiVisibilityPage() {
           Son kontrol: {new Date(latestCheckedAt).toLocaleString('tr-TR')}
         </p>
       )}
+
+      <AiVisibilityCharts bySource={bySource} trend={trend} />
 
       <QueryList />
 

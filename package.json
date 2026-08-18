@@ -20,6 +20,7 @@
     "nodemailer": "^6.9.14",
     "react": "^18",
     "react-dom": "^18",
+    "recharts": "^3.10.1",
     "resend": "^6.12.3",
     "tailwind-merge": "^2.4.0"
   },
@@ -33,7 +34,7 @@
     "eslint-config-next": "14.2.5",
     "postcss": "^8.5.14",
     "tailwindcss": "^3.4.19",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   },
   "browserslist": [
     "chrome >= 92",
