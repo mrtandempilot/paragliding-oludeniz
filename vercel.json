@@ -3,10 +3,6 @@
     {
       "path": "/api/cron/orchestrator?slot=06:00",
       "schedule": "0 6 * * *"
-    },
-    {
-      "path": "/api/cron/ai-visibility-check",
-      "schedule": "0 5 * * *"
     }
   ],
   "redirects": [
