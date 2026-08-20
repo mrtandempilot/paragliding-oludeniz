@@ -60,21 +60,13 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       .eq('id', article.article_id)
     console.log(`[Orchestrator] Article published: /blog/${article.slug}`)
 
-    // ── Step 4.5: Translate to TR/DE/RU ─────────────────────────────────
-    // Wrapped in try/catch and never re-thrown: a translation failure or
-    // slow API call must never block the English article from publishing
-    // or the Instagram/GitHub steps below from running. Locales run in
-    // parallel inside translateArticleToAllLocales to keep this step's
-    // added time to ~1 call instead of 3.
-    try {
-      console.log('[Orchestrator] Step 4.5: Translating to TR/DE/RU')
-      translations = await translateArticleToAllLocales(article.article_id)
-      console.log(`[Orchestrator] Translations: ${JSON.stringify(translations)}`)
-    } catch (translateErr: any) {
-      console.warn('[Orchestrator] Translation step failed (non-fatal):', translateErr.message)
-    }
-
     // ── Step 5: Social Media Post ───────────────────────────────────────
+    // Runs BEFORE translation on purpose: translation is the slowest, most
+    // variable-duration step (real-world observed: ~150-200s for a full
+    // article across 3 locales). If the whole request ever runs into
+    // Vercel's maxDuration cap, we want Instagram/GitHub/publish already
+    // done — translation is the one thing safe to lose to a timeout, since
+    // it's non-blocking and simply won't run again until the next article.
     console.log('[Orchestrator] Step 5: Social Media')
     social = await runSocialAgent(article, image, brief.keywords)
 
@@ -84,10 +76,10 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       console.log(`[Orchestrator] Instagram skipped: ${social.error}`)
     }
 
-    // ── Step 5: Push article to GitHub (optional, non-blocking) ───────
+    // ── Step 6: Push article to GitHub (optional, non-blocking) ───────
     if (process.env.GITHUB_TOKEN && process.env.GITHUB_OWNER && process.env.GITHUB_REPO) {
       try {
-        console.log('[Orchestrator] Step 5: Publishing to GitHub')
+        console.log('[Orchestrator] Step 6: Publishing to GitHub')
         await pushArticleToGitHub(article, brief)
         console.log('[Orchestrator] Article published to GitHub')
       } catch (githubErr: any) {
@@ -96,6 +88,20 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       }
     } else {
       console.log('[Orchestrator] GitHub not configured, skipping blog publish')
+    }
+
+    // ── Step 7: Translate to TR/DE/RU ─────────────────────────────────
+    // Wrapped in try/catch and never re-thrown: a translation failure or
+    // slow API call must never fail the whole run. Locales run in parallel
+    // inside translateArticleToAllLocales. Placed last (after the
+    // time-sensitive publish/social/github steps) so it's the step that
+    // absorbs a timeout, not the step that causes one to hurt anything else.
+    try {
+      console.log('[Orchestrator] Step 7: Translating to TR/DE/RU')
+      translations = await translateArticleToAllLocales(article.article_id)
+      console.log(`[Orchestrator] Translations: ${JSON.stringify(translations)}`)
+    } catch (translateErr: any) {
+      console.warn('[Orchestrator] Translation step failed (non-fatal):', translateErr.message)
     }
 
     // ── Calculate total cost ────────────────────────────────────────────

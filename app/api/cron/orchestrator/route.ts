@@ -1,12 +1,15 @@
 export const dynamic = 'force-dynamic'
-// Existing runs (seo+writer+image+social, no translation) already take
-// 100-160s in production (checked via agent_logs before adding this) —
-// so this account clearly already tolerates well past Hobby's ceiling.
-// The new translate-to-TR/DE/RU step (Step 4.5 in orchestrator.ts, run in
-// parallel across locales) adds roughly one more translation call's worth
-// of time (~60-90s observed from the standalone backfill). 300s leaves
-// comfortable headroom over the ~190-250s expected total.
-export const maxDuration = 300
+// Live-tested 2026-08-20: a full run (SEO+writer+image+publish+social+
+// github+translate-3-locales) actually took ~300s+ in production — the
+// translate step alone ran ~150-200s for a single article, well over the
+// ~60-90s we'd estimated from the standalone backfill script. That test
+// run hit the old maxDuration=300 cap mid-flight (Vercel killed it during
+// the social-media step). Orchestrator.ts was since reordered so
+// translation runs LAST (after publish/social/github), so a timeout can
+// now only cost the translation step, never the English article or
+// Instagram post. maxDuration raised to 800s to give the translate step
+// real room to finish too, with margin.
+export const maxDuration = 800
 
 import { NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
