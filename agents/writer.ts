@@ -65,31 +65,44 @@ Writing Requirements (FAQ-STYLE FORMAT — MANDATORY):
 - End with a short conclusion + clear call-to-action to book at atmosparagliding.com
 - Do NOT use placeholder text or generic filler
 
-Return a JSON object with exactly these fields:
-{
-  "title": "exact article title",
-  "slug": "url-friendly-slug-with-hyphens",
-  "content": "full markdown article content",
-  "schema_markup": {
-    "@context": "https://schema.org",
-    "@type": "${brief.schema_type}",
-    "headline": "...",
-    "description": "..."
-  }
-}
-
-Schema: articles are FAQ-style, so schema_markup should be FAQPage with a mainEntity array of Question/Answer pairs built from the article's H2 questions (concise 40-60 word answers).
-For Article schema, include author, datePublished fields.
-Return ONLY valid JSON, no other text.`
+Call the submit_article tool with the finished article. schema_markup should be FAQPage with a mainEntity array of Question/Answer pairs built from the article's H2 questions (concise 40-60 word answers). For Article schema, include author, datePublished fields.`
 
   const message = await anthropic.messages.create({
     model: process.env.CLAUDE_MODEL || 'claude-sonnet-4-6',
     max_tokens: 6000,
+    tools: [
+      {
+        name: 'submit_article',
+        description: 'Submit the completed, SEO-optimized blog article.',
+        input_schema: {
+          type: 'object',
+          properties: {
+            title: { type: 'string', description: 'Exact article title' },
+            slug: { type: 'string', description: 'URL-friendly slug with hyphens' },
+            content: { type: 'string', description: 'Full markdown article content' },
+            schema_markup: {
+              type: 'object',
+              description: `JSON-LD schema markup, "@type": "${brief.schema_type}"`,
+            },
+          },
+          required: ['title', 'slug', 'content', 'schema_markup'],
+        },
+      },
+    ],
+    tool_choice: { type: 'tool', name: 'submit_article' },
     messages: [{ role: 'user', content: prompt }],
   })
 
-  const text = message.content[0].type === 'text' ? message.content[0].text : ''
-  const result = JSON.parse(text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim())
+  const toolUse = message.content.find(
+    (block): block is Anthropic.ToolUseBlock => block.type === 'tool_use'
+  )
+  if (!toolUse) throw new Error('Writer agent did not return a tool_use block')
+  const result = toolUse.input as {
+    title: string
+    slug: string
+    content: string
+    schema_markup: object
+  }
 
   const wordCount = result.content.split(/\s+/).length
 
