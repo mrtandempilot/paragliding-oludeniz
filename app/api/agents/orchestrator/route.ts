@@ -1,8 +1,7 @@
-// See app/api/cron/orchestrator/route.ts for why this is 800 (live-tested
-// 2026-08-20: translate-3-locales step alone can take ~150-200s; the old
-// 300s cap killed a real run mid-flight before translation was reordered
-// to run last).
-export const maxDuration = 800
+// 300 is the plan ceiling (Hobby) — see app/api/cron/orchestrator/route.ts
+// for the full explanation and the translate-backlog cron that backstops
+// this when a run doesn't have time left to finish translating.
+export const maxDuration = 300
 
 import { NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'

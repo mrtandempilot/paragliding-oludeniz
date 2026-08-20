@@ -1,15 +1,16 @@
 export const dynamic = 'force-dynamic'
-// Live-tested 2026-08-20: a full run (SEO+writer+image+publish+social+
-// github+translate-3-locales) actually took ~300s+ in production — the
-// translate step alone ran ~150-200s for a single article, well over the
-// ~60-90s we'd estimated from the standalone backfill script. That test
-// run hit the old maxDuration=300 cap mid-flight (Vercel killed it during
-// the social-media step). Orchestrator.ts was since reordered so
-// translation runs LAST (after publish/social/github), so a timeout can
-// now only cost the translation step, never the English article or
-// Instagram post. maxDuration raised to 800s to give the translate step
-// real room to finish too, with margin.
-export const maxDuration = 800
+// 300 is the HARD CEILING on this account's Vercel plan (confirmed by a
+// failed deploy 2026-08-20: "maxDuration between 1 and 300 for plan
+// hobby" — this project is on Hobby, not Pro, despite tolerating 166s+
+// runs). A live test the same day showed the full pipeline (SEO+writer+
+// image+publish+social+github+translate-3-locales) can take ~300-350s,
+// i.e. translation alone can blow this budget. Two mitigations:
+// 1) orchestrator.ts runs translation LAST (Step 7, after publish/social/
+//    github) so a timeout only ever costs the translation step.
+// 2) A separate cron (api/cron/translate-backlog, its own 300s budget)
+//    catches any article translation didn't finish in time for — see
+//    that route and vercel.json.
+export const maxDuration = 300
 
 import { NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
