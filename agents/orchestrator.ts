@@ -3,6 +3,7 @@ import { runSEOAgent, SEOBrief } from './seo'
 import { runWriterAgent, ArticleResult } from './writer'
 import { runImageAgent, ImageResult } from './image'
 import { runSocialAgent, SocialResult } from './social'
+import { translateArticleToAllLocales, TranslationOutcome } from './translate'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -16,6 +17,7 @@ export interface OrchestratorResult {
   article?: ArticleResult
   image?: ImageResult
   social?: SocialResult
+  translations?: TranslationOutcome[]
   error?: string
   duration_ms: number
   total_cost_usd?: number
@@ -32,6 +34,7 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
   let article: ArticleResult | undefined
   let image: ImageResult | undefined
   let social: SocialResult | undefined
+  let translations: TranslationOutcome[] | undefined
 
   try {
     // ── Step 1: SEO Research ────────────────────────────────────────────
@@ -56,6 +59,20 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       .update({ status: 'published' })
       .eq('id', article.article_id)
     console.log(`[Orchestrator] Article published: /blog/${article.slug}`)
+
+    // ── Step 4.5: Translate to TR/DE/RU ─────────────────────────────────
+    // Wrapped in try/catch and never re-thrown: a translation failure or
+    // slow API call must never block the English article from publishing
+    // or the Instagram/GitHub steps below from running. Locales run in
+    // parallel inside translateArticleToAllLocales to keep this step's
+    // added time to ~1 call instead of 3.
+    try {
+      console.log('[Orchestrator] Step 4.5: Translating to TR/DE/RU')
+      translations = await translateArticleToAllLocales(article.article_id)
+      console.log(`[Orchestrator] Translations: ${JSON.stringify(translations)}`)
+    } catch (translateErr: any) {
+      console.warn('[Orchestrator] Translation step failed (non-fatal):', translateErr.message)
+    }
 
     // ── Step 5: Social Media Post ───────────────────────────────────────
     console.log('[Orchestrator] Step 5: Social Media')
@@ -97,6 +114,7 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       article_id: article.article_id,
       slug: article.slug,
       instagram_post_id: social.instagram_post_id,
+      translations,
       total_cost_usd: totalCost,
     }, duration)
 
@@ -107,6 +125,7 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       article,
       image,
       social,
+      translations,
       duration_ms: duration,
       total_cost_usd: totalCost,
     }
@@ -129,6 +148,7 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       article,
       image,
       social,
+      translations,
       error: errorMsg,
       duration_ms: duration,
     }

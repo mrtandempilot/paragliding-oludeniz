@@ -1,4 +1,12 @@
 export const dynamic = 'force-dynamic'
+// Existing runs (seo+writer+image+social, no translation) already take
+// 100-160s in production (checked via agent_logs before adding this) —
+// so this account clearly already tolerates well past Hobby's ceiling.
+// The new translate-to-TR/DE/RU step (Step 4.5 in orchestrator.ts, run in
+// parallel across locales) adds roughly one more translation call's worth
+// of time (~60-90s observed from the standalone backfill). 300s leaves
+// comfortable headroom over the ~190-250s expected total.
+export const maxDuration = 300
 
 import { NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
@@ -51,6 +59,21 @@ export async function GET(request: Request) {
     if (result.success && result.article?.slug) {
       revalidatePath('/blog')
       revalidatePath(`/blog/${result.article.slug}`)
+
+      // Translated slugs differ per locale (not a literal translation of the
+      // English URL), so revalidate each locale's own listing + detail path.
+      for (const t of result.translations || []) {
+        if (t.status === 'ok' && t.slug) {
+          const urlSlug = t.slug.replace(`i18n-${t.locale}-`, '')
+          revalidatePath(`/${t.locale}/blog`)
+          revalidatePath(`/${t.locale}/blog/${urlSlug}`)
+        }
+      }
+
+      // sitemap.xml has its own 1h ISR cache (app/sitemap.ts) — without this
+      // it would lag up to an hour behind a fresh publish/translation.
+      // Force it fresh on every successful run instead.
+      revalidatePath('/sitemap.xml')
     }
 
     if (result.success) {
@@ -59,6 +82,7 @@ export async function GET(request: Request) {
         slot,
         article: result.article?.title,
         instagram: result.social?.instagram_post_id,
+        translations: result.translations,
         cost: result.total_cost_usd,
         duration_ms: result.duration_ms,
       })

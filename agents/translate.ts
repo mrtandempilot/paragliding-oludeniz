@@ -233,7 +233,69 @@ async function main() {
   console.log(`[Translate] Done. ${done} succeeded, ${skipped} skipped (already translated), ${failed} failed, out of ${total}.`)
 }
 
-main().catch(err => {
-  console.error('[Translate] Fatal error:', err)
-  process.exit(1)
-})
+// NOTE: `main()` above is only exercised by the standalone CommonJS port
+// (agents/translate.js, run manually via `node agents/translate.js` for
+// one-off backfills). This file is also imported directly into the live
+// Next.js app (see translateArticleToAllLocales below, wired into
+// agents/orchestrator.ts) — so `main()` must NOT auto-run on import here,
+// unlike a plain CLI script. It's kept as a reference/manual-run entry
+// point only; nothing currently calls it from this .ts file.
+
+export interface TranslationOutcome {
+  locale: Locale
+  status: 'ok' | 'skip' | 'fail'
+  slug?: string
+  error?: string
+}
+
+// Translate ONE already-published English article into all target locales.
+// Used by the daily ContentPilot pipeline right after a new article is
+// published, so every day's new post gets TR/DE/RU versions automatically
+// (not just the one-off backlog covered by the standalone translate.js run).
+// Runs the 3 locales in PARALLEL (not sequential like main()'s backfill
+// loop) to keep the added time to ~1 translation call instead of 3x, since
+// this runs inline in the same request as the rest of the daily pipeline.
+// Safe to call even if some/all locales are already translated (topic_id
+// dedup — see fetchExistingTranslationTopicIds) or if it's re-invoked after
+// a partial failure: already-done locales are skipped, not re-billed.
+export async function translateArticleToAllLocales(articleId: string): Promise<TranslationOutcome[]> {
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*')
+    .eq('id', articleId)
+    .single()
+
+  if (error || !data) {
+    throw new Error(`translateArticleToAllLocales: could not load article ${articleId}: ${error?.message || 'not found'}`)
+  }
+
+  const source = data as SourceArticle
+
+  // Defensive: never try to re-translate an already-translated row (this
+  // function is meant to be called with the freshly-written English
+  // article's id, but guard against a bad call site anyway).
+  if (TARGET_LOCALES.some(l => source.slug.startsWith(`i18n-${l}-`))) {
+    return []
+  }
+
+  const existingByLocale: Partial<Record<Locale, Set<string>>> = {}
+  for (const locale of TARGET_LOCALES) {
+    existingByLocale[locale] = await fetchExistingTranslationTopicIds(locale)
+  }
+
+  const settled = await Promise.allSettled(
+    TARGET_LOCALES.map(async (locale): Promise<TranslationOutcome> => {
+      if (source.topic_id && existingByLocale[locale]!.has(source.topic_id)) {
+        return { locale, status: 'skip' }
+      }
+      const t = await translateOne(source, locale)
+      const slug = await insertTranslation(source, locale, t)
+      return { locale, status: 'ok', slug }
+    })
+  )
+
+  return settled.map((r, i) => {
+    if (r.status === 'fulfilled') return r.value
+    return { locale: TARGET_LOCALES[i], status: 'fail', error: r.reason?.message || String(r.reason) }
+  })
+}
