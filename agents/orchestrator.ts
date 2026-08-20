@@ -60,6 +60,16 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       .eq('id', article.article_id)
     console.log(`[Orchestrator] Article published: /blog/${article.slug}`)
 
+    // Ping Ceyhun immediately — this is the one guaranteed-to-arrive
+    // notification even if a later step (translation, in particular) runs
+    // out of time. A second, fuller message goes out at the very end.
+    await notifyPilotWhatsApp(
+      `📝 Yeni makale yayınlandı!\n` +
+      `${article.title}\n` +
+      `${article.word_count} kelime\n` +
+      `https://www.atmosparagliding.com/blog/${article.slug}`
+    )
+
     // ── Step 5: Social Media Post ───────────────────────────────────────
     // Runs BEFORE translation on purpose: translation is the slowest, most
     // variable-duration step (real-world observed: ~150-200s for a full
@@ -115,6 +125,8 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
 
     console.log(`[Orchestrator] Run complete in ${(duration / 1000).toFixed(1)}s. Total cost: $${totalCost.toFixed(4)}`)
 
+    await notifyPilotWhatsApp(buildSummaryMessage(article, social, translations, totalCost, duration))
+
     await logAgent('orchestrator', 'done', 'done', {
       run_id: runId,
       article_id: article.article_id,
@@ -141,10 +153,15 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
     const errorMsg = err.message || 'Unknown error'
     console.error('[Orchestrator] Error:', errorMsg)
 
+    const failedStep = detectFailedStep(brief, article, image)
+    await notifyPilotWhatsApp(
+      `⚠️ ContentPilot bugün hata verdi (adım: ${failedStep})\n${errorMsg}\nhttps://www.atmosparagliding.com/admin/content-pilot`
+    )
+
     await logAgent('orchestrator', 'error', 'error', {
       run_id: runId,
       error: errorMsg,
-      step: detectFailedStep(brief, article, image),
+      step: failedStep,
     }, duration)
 
     return {
@@ -226,4 +243,75 @@ schema: ${JSON.stringify(article.schema_markup, null, 2)}
 
 async function logAgent(agent: string, action: string, status: string, output: object, duration_ms?: number) {
   await supabase.from('agent_logs').insert({ agent, action, status, output, duration_ms: duration_ms || 0 })
+}
+
+// Sends Ceyhun a WhatsApp ping via the same Meta WhatsApp Cloud API call
+// already used for booking notifications (see app/api/bookings/route.ts
+// and app/api/webhooks/whatsapp/route.ts's notifyPilot) — reuses
+// WHATSAPP_PHONE_NUMBER_ID / WHATSAPP_NOTIFY_PHONE / WHATSAPP_ACCESS_TOKEN.
+// Always best-effort: never throws, so a WhatsApp API hiccup can't fail
+// the orchestrator run or block anything downstream.
+async function notifyPilotWhatsApp(text: string): Promise<void> {
+  try {
+    const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID
+    const recipient = process.env.WHATSAPP_NOTIFY_PHONE
+    const token = process.env.WHATSAPP_ACCESS_TOKEN
+    if (!phoneNumberId || !recipient || !token) {
+      console.warn('[Orchestrator] WhatsApp notify skipped — env vars not set')
+      return
+    }
+
+    const res = await fetch(`https://graph.facebook.com/v21.0/${phoneNumberId}/messages`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        messaging_product: 'whatsapp',
+        to: recipient,
+        type: 'text',
+        text: { body: text },
+      }),
+    })
+
+    if (!res.ok) {
+      console.warn('[Orchestrator] WhatsApp notify failed:', res.status, await res.text())
+    }
+  } catch (err: any) {
+    console.warn('[Orchestrator] WhatsApp notify error (non-fatal):', err.message)
+  }
+}
+
+function buildSummaryMessage(
+  article: ArticleResult,
+  social: SocialResult,
+  translations: TranslationOutcome[] | undefined,
+  totalCost: number,
+  durationMs: number
+): string {
+  const igLine = social.instagram_post_id
+    ? `✅ Instagram'a paylaşıldı`
+    : `⏭️ Instagram atlandı${social.error ? ` (${social.error})` : ''}`
+
+  let trLine = '⏳ Çeviri henüz yapılamadı (bir sonraki kontrol otomatik yakalayacak)'
+  if (translations && translations.length > 0) {
+    const ok = translations.filter(t => t.status === 'ok').map(t => t.locale.toUpperCase())
+    const skip = translations.filter(t => t.status === 'skip').map(t => t.locale.toUpperCase())
+    const fail = translations.filter(t => t.status === 'fail').map(t => t.locale.toUpperCase())
+    const parts: string[] = []
+    if (ok.length) parts.push(`✅ ${ok.join('/')}`)
+    if (skip.length) parts.push(`(zaten vardı: ${skip.join('/')})`)
+    if (fail.length) parts.push(`❌ ${fail.join('/')} başarısız`)
+    trLine = `Çeviriler: ${parts.join(' ')}`
+  }
+
+  return (
+    `🚀 ContentPilot günlük özet\n\n` +
+    `📝 ${article.title}\n` +
+    `${igLine}\n` +
+    `${trLine}\n\n` +
+    `⏱️ ${(durationMs / 1000).toFixed(0)}s · 💰 $${totalCost.toFixed(2)}\n` +
+    `https://www.atmosparagliding.com/blog/${article.slug}`
+  )
 }

@@ -92,6 +92,8 @@ export async function GET(request: Request) {
       output: { slug: target.slug, translations },
     })
 
+    await notifyPilotWhatsApp(buildBacklogSummary(target.slug, translations))
+
     return NextResponse.json({ ok: true, translated: true, slug: target.slug, translations })
   } catch (err: any) {
     console.error('[TranslateBacklog] Fatal error:', err)
@@ -103,4 +105,49 @@ export async function GET(request: Request) {
     })
     return NextResponse.json({ ok: false, error: err.message }, { status: 500 })
   }
+}
+
+// Same pattern as agents/orchestrator.ts's notifyPilotWhatsApp — reuses the
+// Meta WhatsApp Cloud API creds already used for booking notifications.
+// Only called here on an actual translation (never on the "up_to_date"
+// no-op), so this only pings Ceyhun when there's something new to say.
+async function notifyPilotWhatsApp(text: string): Promise<void> {
+  try {
+    const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID
+    const recipient = process.env.WHATSAPP_NOTIFY_PHONE
+    const token = process.env.WHATSAPP_ACCESS_TOKEN
+    if (!phoneNumberId || !recipient || !token) return
+
+    const res = await fetch(`https://graph.facebook.com/v21.0/${phoneNumberId}/messages`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        messaging_product: 'whatsapp',
+        to: recipient,
+        type: 'text',
+        text: { body: text },
+      }),
+    })
+    if (!res.ok) {
+      console.warn('[TranslateBacklog] WhatsApp notify failed:', res.status, await res.text())
+    }
+  } catch (err: any) {
+    console.warn('[TranslateBacklog] WhatsApp notify error (non-fatal):', err.message)
+  }
+}
+
+function buildBacklogSummary(sourceSlug: string, translations: any[]): string {
+  const ok = translations.filter(t => t.status === 'ok').map(t => t.locale.toUpperCase())
+  const fail = translations.filter(t => t.status === 'fail').map(t => t.locale.toUpperCase())
+  const parts: string[] = []
+  if (ok.length) parts.push(`✅ ${ok.join('/')}`)
+  if (fail.length) parts.push(`❌ ${fail.join('/')} başarısız`)
+  return (
+    `🌍 Çeviri tamamlandı (yakalama kontrolü)\n` +
+    `${sourceSlug}\n` +
+    `${parts.join(' ')}`
+  )
 }
