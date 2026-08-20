@@ -71,17 +71,21 @@ async function fetchSourceArticles(): Promise<SourceArticle[]> {
   return data || []
 }
 
-async function fetchExistingTranslationSlugs(locale: Locale): Promise<Set<string>> {
+// Dedup by the SOURCE article's topic_id (copied onto every translated row —
+// see insertTranslation), not by slug. The translator LLM is not
+// deterministic: re-translating the same source can produce a slightly
+// different slug each time, so a slug-based "already exists" check can miss
+// a real duplicate and insert the same article twice. Checking topic_id
+// BEFORE calling the API also avoids paying for a translation we're going
+// to throw away.
+async function fetchExistingTranslationTopicIds(locale: Locale): Promise<Set<string>> {
   const { data, error } = await supabase
     .from('articles')
-    .select('slug')
+    .select('topic_id')
     .like('slug', `i18n-${locale}-%`)
 
   if (error) throw new Error(`Failed to fetch existing ${locale} translations: ${error.message}`)
-  // We track "already translated" by re-deriving a deterministic slug from
-  // the source title at translate time and checking it's not already used
-  // — see translateOne(). This set is used for a cheap pre-filter/logging.
-  return new Set((data || []).map((r: any) => r.slug))
+  return new Set((data || []).map((r: any) => r.topic_id).filter(Boolean))
 }
 
 async function translateOne(source: SourceArticle, locale: Locale): Promise<TranslatedArticle> {
@@ -196,29 +200,29 @@ async function main() {
   console.log(`[Translate] ${sources.length} source (English) articles found.`)
 
   const existingByLocale: Record<Locale, Set<string>> = {
-    tr: await fetchExistingTranslationSlugs('tr'),
-    de: await fetchExistingTranslationSlugs('de'),
-    ru: await fetchExistingTranslationSlugs('ru'),
+    tr: await fetchExistingTranslationTopicIds('tr'),
+    de: await fetchExistingTranslationTopicIds('de'),
+    ru: await fetchExistingTranslationTopicIds('ru'),
   }
 
   let done = 0
+  let skipped = 0
   let failed = 0
   const total = sources.length * TARGET_LOCALES.length
 
   for (const source of sources) {
     for (const locale of TARGET_LOCALES) {
+      if (source.topic_id && existingByLocale[locale].has(source.topic_id)) {
+        skipped++
+        console.log(`[Translate] SKIP (topic already translated, no API call made): ${source.slug} -> ${locale}`)
+        continue
+      }
       try {
         const t = await translateOne(source, locale)
-        const finalSlug = `i18n-${locale}-${t.slug}`
-        if (existingByLocale[locale].has(finalSlug)) {
-          console.log(`[Translate] SKIP (already exists): ${finalSlug}`)
-          done++
-          continue
-        }
         const inserted = await insertTranslation(source, locale, t)
-        existingByLocale[locale].add(inserted)
+        if (source.topic_id) existingByLocale[locale].add(source.topic_id)
         done++
-        console.log(`[Translate] OK (${done}/${total}): ${source.slug} -> ${inserted}`)
+        console.log(`[Translate] OK (${done}/${total - skipped}): ${source.slug} -> ${inserted}`)
       } catch (err: any) {
         failed++
         console.error(`[Translate] FAIL: ${source.slug} -> ${locale}: ${err.message}`)
@@ -226,7 +230,7 @@ async function main() {
     }
   }
 
-  console.log(`[Translate] Done. ${done} succeeded, ${failed} failed, out of ${total}.`)
+  console.log(`[Translate] Done. ${done} succeeded, ${skipped} skipped (already translated), ${failed} failed, out of ${total}.`)
 }
 
 main().catch(err => {
