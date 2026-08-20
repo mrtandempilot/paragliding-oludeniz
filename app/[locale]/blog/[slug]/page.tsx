@@ -11,12 +11,20 @@ import { renderArticleHtml } from '@/lib/markdown'
 
 export const revalidate = 300
 
-async function getArticle(slug: string) {
+// Non-English translations are stored as regular rows in the SAME `articles`
+// table, distinguished only by a slug prefix (e.g. "i18n-tr-..."). This
+// avoids a DB schema change — see agents/translate.ts. The URL segment stays
+// clean (no visible prefix); we only prepend it when querying the DB.
+function dbSlug(locale: string, urlSlug: string) {
+  return locale === 'en' ? urlSlug : `i18n-${locale}-${urlSlug}`
+}
+
+async function getArticle(locale: string, slug: string) {
   try {
     const { data } = await supabase
       .from('articles')
       .select('*')
-      .eq('slug', slug)
+      .eq('slug', dbSlug(locale, slug))
       .eq('status', 'published')
       .single()
     return data
@@ -27,11 +35,15 @@ async function getArticle(slug: string) {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
   const { locale, slug } = await params
-  const article = await getArticle(slug)
+  const article = await getArticle(locale, slug)
+  // Translated articles have a different slug per locale (not a literal
+  // translation of the URL), so we can't build cross-locale hreflang
+  // alternates the way static pages do (localeAlternates assumes the same
+  // path in every locale). Self-canonical only for blog posts.
   return {
     title: article ? article.title : 'Blog',
     description: article?.meta_description || undefined,
-    alternates: localeAlternates(locale, `/blog/${slug}`),
+    alternates: { canonical: localeUrl(locale, `/blog/${slug}`) },
     openGraph: { url: localeUrl(locale, `/blog/${slug}`), title: article ? article.title : 'Blog | Atmos Paragliding', description: article?.meta_description || undefined },
     twitter: { card: 'summary_large_image', description: article?.meta_description || undefined },
   }
@@ -40,7 +52,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function BlogPostPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params
   const t = await getTranslations({ locale, namespace: 'blog' })
-  const article = await getArticle(slug)
+  const article = await getArticle(locale, slug)
 
   if (!article) notFound()
 
@@ -76,7 +88,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       <PageHero title={article.title} subtitle={article.excerpt || ''} size="sm" bgImage={article.hero_image_url || 'https://v3b.fal.media/files/b/0a9d7c0c/Dn0br3flHariTrqYqhISR.jpg'} />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
-          <BreadcrumbNav items={[{ label: t('title'), href: '/blog' }, { label: article.title }]} />
+          <BreadcrumbNav items={[{ label: t('title'), href: locale === 'en' ? '/blog' : `/${locale}/blog` }, { label: article.title }]} />
         </div>
       </div>
       <section className="section-padding bg-white">

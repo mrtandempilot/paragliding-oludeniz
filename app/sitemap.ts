@@ -164,6 +164,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   // Supabase'den tüm published makaleleri çek
+  //
+  // Non-English translations are stored as regular rows in the SAME
+  // `articles` table, distinguished only by a slug prefix ("i18n-tr-...",
+  // "i18n-de-...", "i18n-ru-..." — see agents/translate.ts). Translated
+  // articles have a DIFFERENT slug per locale (not a literal translation of
+  // the URL), so each locale's post needs its own sitemap entry with its own
+  // URL, and — unlike static pages — we do NOT emit cross-locale hreflang
+  // alternates for them (there is no guaranteed 1:1 path across locales).
+  const I18N_LOCALES = ['tr', 'de', 'ru'] as const
+  const i18nPrefix = (locale: string) => `i18n-${locale}-`
+
   try {
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -176,7 +187,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .eq('status', 'published')
       .order('created_at', { ascending: false })
 
-    const articlePages: MetadataRoute.Sitemap = (articles || []).map(article => ({
+    const allArticles = articles || []
+
+    const englishArticles = allArticles.filter(
+      a => !I18N_LOCALES.some(l => a.slug.startsWith(i18nPrefix(l)))
+    )
+    const articlePages: MetadataRoute.Sitemap = englishArticles.map(article => ({
       url: localeUrl('en', `/blog/${article.slug}`),
       lastModified: new Date(article.published_at || article.created_at),
       changeFrequency: 'monthly' as const,
@@ -184,7 +200,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       alternates: { languages: langUrls(`/blog/${article.slug}`) },
     }))
 
-    return [...staticPages, ...articlePages]
+    const translatedArticlePages: MetadataRoute.Sitemap = I18N_LOCALES.flatMap(locale => {
+      const prefix = i18nPrefix(locale)
+      return allArticles
+        .filter(a => a.slug.startsWith(prefix))
+        .map(article => {
+          const urlSlug = article.slug.slice(prefix.length)
+          return {
+            url: localeUrl(locale, `/blog/${urlSlug}`),
+            lastModified: new Date(article.published_at || article.created_at),
+            changeFrequency: 'monthly' as const,
+            priority: 0.75,
+          }
+        })
+    })
+
+    return [...staticPages, ...articlePages, ...translatedArticlePages]
   } catch {
     // Supabase hata verirse sadece statik sayfaları döndür
     return staticPages
