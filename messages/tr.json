@@ -356,6 +356,7 @@
   "blog": {
     "title": "Paraşüt Blogu",
     "subtitle": "Ölüdeniz üzerinden ipuçları, rehberler ve hikayeler.",
-    "badge": "Blog"
+    "badge": "Blog",
+    "related": "İlgili Yazılar"
   }
 }

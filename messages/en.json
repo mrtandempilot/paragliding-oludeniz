@@ -356,6 +356,7 @@
   "blog": {
     "title": "Paragliding Blog",
     "subtitle": "Tips, guides and stories from above Ölüdeniz.",
-    "badge": "Blog"
+    "badge": "Blog",
+    "related": "Related Articles"
   }
 }
