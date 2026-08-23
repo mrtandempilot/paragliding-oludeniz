@@ -56,6 +56,60 @@ const nextConfig = {
         destination: '/:locale/blog/best-paragliding-photos-oludeniz-tips-2026',
         permanent: true,
       },
+      // Keyword-cannibalization cleanup (SEO audit, Aug 2026): these pairs/
+      // triple targeted the same primary keyword with near-duplicate H2
+      // structure. Redirect the weaker/duplicate version into the stronger
+      // canonical one instead of leaving both indexed.
+      {
+        source: '/blog/best-time-to-paraglide-oludeniz-2026',
+        destination: '/blog/best-time-to-paraglide-in-oludeniz',
+        permanent: true,
+      },
+      {
+        source: '/:locale(tr|de|ru)/blog/best-time-to-paraglide-oludeniz-2026',
+        destination: '/:locale/blog/best-time-to-paraglide-in-oludeniz',
+        permanent: true,
+      },
+      {
+        source: '/blog/gopro-paragliding-oludeniz-videos-photos-2026',
+        destination: '/blog/gopro-paragliding-oludeniz-video-photos-2026',
+        permanent: true,
+      },
+      {
+        source: '/:locale(tr|de|ru)/blog/gopro-paragliding-oludeniz-videos-photos-2026',
+        destination: '/:locale/blog/gopro-paragliding-oludeniz-video-photos-2026',
+        permanent: true,
+      },
+      {
+        source: '/blog/paragliding-weight-limit-oludeniz-2026-explained',
+        destination: '/blog/paragliding-oludeniz-weight-limits-requirements-2026',
+        permanent: true,
+      },
+      {
+        source: '/:locale(tr|de|ru)/blog/paragliding-weight-limit-oludeniz-2026-explained',
+        destination: '/:locale/blog/paragliding-oludeniz-weight-limits-requirements-2026',
+        permanent: true,
+      },
+      {
+        source: '/blog/tandem-paragliding-oludeniz-complete-guide-2026',
+        destination: '/blog/babadag-tandem-paragliding-complete-guide',
+        permanent: true,
+      },
+      {
+        source: '/:locale(tr|de|ru)/blog/tandem-paragliding-oludeniz-complete-guide-2026',
+        destination: '/:locale/blog/babadag-tandem-paragliding-complete-guide',
+        permanent: true,
+      },
+      {
+        source: '/blog/turkey-tandem-paragliding-flight-2026',
+        destination: '/blog/babadag-tandem-paragliding-complete-guide',
+        permanent: true,
+      },
+      {
+        source: '/:locale(tr|de|ru)/blog/turkey-tandem-paragliding-flight-2026',
+        destination: '/:locale/blog/babadag-tandem-paragliding-complete-guide',
+        permanent: true,
+      },
     ]
   },
   async headers() {
