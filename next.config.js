@@ -125,6 +125,31 @@ const nextConfig = {
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload',
           },
+          // CSP (SEO audit, Aug 2026): allowlists exactly the third-party
+          // origins the site actually loads — GTM/GA (app/layout.tsx),
+          // Cloudinary/Unsplash/fal.media images (next.config images.remotePatterns),
+          // the Google Maps embed on /contact, and the YouTube-nocookie
+          // embeds on /videos. 'unsafe-inline' is kept for script/style
+          // because Next.js hydration + the inline gtag() bootstrap script
+          // both require it; tightening further would need a nonce-based
+          // setup via middleware, which is a bigger follow-up.
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://v3b.fal.media https://www.google-analytics.com https://www.googletagmanager.com https://i.ytimg.com",
+              "font-src 'self' data:",
+              "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://www.googletagmanager.com https://*.supabase.co",
+              "frame-src 'self' https://www.googletagmanager.com https://www.youtube-nocookie.com https://maps.google.com",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+              'upgrade-insecure-requests',
+            ].join('; '),
+          },
         ],
       },
     ]
