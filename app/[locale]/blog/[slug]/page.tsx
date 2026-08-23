@@ -71,6 +71,39 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
     publisher: { '@type': 'Organization', name: 'Atmos Paragliding', url: localeUrl('en', '/') },
   } : null
 
+  // Breadcrumb schema mirroring the visible BreadcrumbNav below, so crawlers
+  // see the same hierarchy users do.
+  const blogIndexUrl = locale === 'en' ? localeUrl('en', '/blog') : localeUrl(locale, '/blog')
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: t('title'), item: blogIndexUrl },
+      { '@type': 'ListItem', position: 2, name: article.title, item: articleUrl },
+    ],
+  }
+
+  // article.schema_markup (DB) is written by ContentPilot and is only ever
+  // meant to supply Q&A (FAQPage) markup — never a second content-describing
+  // node. Some batches accidentally also generated an Article/BlogPosting
+  // node inside it (with placeholder dates and an inconsistent publisher
+  // name, "Atmosparagliding" vs "Atmos Paragliding"), which duplicated and
+  // conflicted with blogSchema above. Strip any such node before rendering
+  // so blogSchema stays the single source of truth for who/when/publisher.
+  const CONTENT_NODE_TYPES = new Set(['Article', 'BlogPosting', 'NewsArticle'])
+  function stripDuplicateContentNode(raw: any): any {
+    if (!raw) return null
+    if (Array.isArray(raw['@graph'])) {
+      const kept = raw['@graph'].filter((node: any) => !CONTENT_NODE_TYPES.has(node?.['@type']))
+      if (kept.length === 0) return null
+      if (kept.length === 1) return { '@context': raw['@context'] || 'https://schema.org', ...kept[0] }
+      return { '@context': raw['@context'] || 'https://schema.org', '@graph': kept }
+    }
+    if (CONTENT_NODE_TYPES.has(raw['@type'])) return null
+    return raw
+  }
+  const faqSchema = stripDuplicateContentNode(article.schema_markup)
+
   return (
     <>
       {blogSchema && (
@@ -79,10 +112,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
           dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
         />
       )}
-      {article.schema_markup && (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {faqSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(article.schema_markup) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
       <PageHero title={article.title} subtitle={article.excerpt || ''} size="sm" bgImage={article.hero_image_url || 'https://v3b.fal.media/files/b/0a9d7c0c/Dn0br3flHariTrqYqhISR.jpg'} />
