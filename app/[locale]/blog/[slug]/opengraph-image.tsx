@@ -6,7 +6,15 @@ export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
 interface Props {
-  params: { slug: string }
+  params: { locale: string; slug: string }
+}
+
+// Non-English translations are stored as regular rows in the SAME `articles`
+// table, distinguished only by a slug prefix (e.g. "i18n-tr-..."). Must match
+// the dbSlug() helper in page.tsx, or this looks up the English source row
+// for every translated locale and renders the wrong title/image.
+function dbSlug(locale: string, urlSlug: string) {
+  return locale === 'en' ? urlSlug : `i18n-${locale}-${urlSlug}`
 }
 
 export default async function Image({ params }: Props) {
@@ -21,7 +29,7 @@ export default async function Image({ params }: Props) {
     const { data } = await supabase
       .from('articles')
       .select('title, hero_image_url')
-      .eq('slug', params.slug)
+      .eq('slug', dbSlug(params.locale, params.slug))
       .single()
 
     if (data) {
