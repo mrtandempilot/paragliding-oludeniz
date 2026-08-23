@@ -71,17 +71,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
     publisher: { '@type': 'Organization', name: 'Atmos Paragliding', url: localeUrl('en', '/') },
   } : null
 
-  // Breadcrumb schema mirroring the visible BreadcrumbNav below, so crawlers
-  // see the same hierarchy users do.
-  const blogIndexUrl = locale === 'en' ? localeUrl('en', '/blog') : localeUrl(locale, '/blog')
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: t('title'), item: blogIndexUrl },
-      { '@type': 'ListItem', position: 2, name: article.title, item: articleUrl },
-    ],
-  }
+  // Note: BreadcrumbNav (rendered below) already emits its own BreadcrumbList
+  // JSON-LD schema matching the visible breadcrumb — no need to duplicate it here.
 
   // article.schema_markup (DB) is written by ContentPilot and is only ever
   // meant to supply Q&A (FAQPage) markup — never a second content-describing
@@ -112,10 +103,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
           dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
         />
       )}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
       {faqSchema && (
         <script
           type="application/ld+json"
