@@ -6,7 +6,7 @@ import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
 import { getTranslations } from 'next-intl/server'
-import { localeAlternates, localeUrl } from '@/lib/seo'
+import { localeUrl } from '@/lib/seo'
 import { renderArticleHtml } from '@/lib/markdown'
 
 export const revalidate = 300
@@ -18,6 +18,10 @@ export const revalidate = 300
 function dbSlug(locale: string, urlSlug: string) {
   return locale === 'en' ? urlSlug : `i18n-${locale}-${urlSlug}`
 }
+
+// Reused across the homepage (app/[locale]/page.tsx) and here so og:locale
+// always matches the page's actual language instead of defaulting to English.
+const OG_LOCALE: Record<string, string> = { en: 'en_US', tr: 'tr_TR', de: 'de_DE', ru: 'ru_RU' }
 
 async function getArticle(locale: string, slug: string) {
   try {
@@ -33,18 +37,52 @@ async function getArticle(locale: string, slug: string) {
   }
 }
 
+// Translated articles have a different slug per locale (not a literal
+// translation of the URL), so cross-locale hreflang can't be built from the
+// current path the way static pages do (localeAlternates assumes the same
+// path in every locale). Instead we look up every published row sharing the
+// same topic_id and derive each locale's real URL slug from its DB slug.
+// Only locales that actually have a translation are included — we never
+// assume one exists.
+async function getBlogAlternates(locale: string, slug: string, topicId: string | null): Promise<Metadata['alternates']> {
+  const selfUrl = localeUrl(locale, `/blog/${slug}`)
+  if (!topicId) return { canonical: selfUrl }
+
+  const { data } = await supabase
+    .from('articles')
+    .select('slug')
+    .eq('topic_id', topicId)
+    .eq('status', 'published')
+
+  const languages: Record<string, string> = {}
+  for (const row of data || []) {
+    const m = row.slug.match(/^i18n-(tr|de|ru)-(.+)$/)
+    const loc = m ? m[1] : 'en'
+    const urlSlug = m ? m[2] : row.slug
+    languages[loc] = localeUrl(loc, `/blog/${urlSlug}`)
+  }
+  if (languages.en) languages['x-default'] = languages.en
+
+  return {
+    canonical: selfUrl,
+    languages: Object.keys(languages).length > 1 ? languages : undefined,
+  }
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
   const { locale, slug } = await params
   const article = await getArticle(locale, slug)
-  // Translated articles have a different slug per locale (not a literal
-  // translation of the URL), so we can't build cross-locale hreflang
-  // alternates the way static pages do (localeAlternates assumes the same
-  // path in every locale). Self-canonical only for blog posts.
+  const alternates = await getBlogAlternates(locale, slug, article?.topic_id ?? null)
   return {
     title: article ? article.title : 'Blog',
     description: article?.meta_description || undefined,
-    alternates: { canonical: localeUrl(locale, `/blog/${slug}`) },
-    openGraph: { url: localeUrl(locale, `/blog/${slug}`), title: article ? article.title : 'Blog | Atmos Paragliding', description: article?.meta_description || undefined },
+    alternates,
+    openGraph: {
+      locale: OG_LOCALE[locale] || 'en_US',
+      url: localeUrl(locale, `/blog/${slug}`),
+      title: article ? article.title : 'Blog | Atmos Paragliding',
+      description: article?.meta_description || undefined,
+    },
     twitter: { card: 'summary_large_image', description: article?.meta_description || undefined },
   }
 }
