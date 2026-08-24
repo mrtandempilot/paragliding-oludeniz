@@ -41,14 +41,6 @@ Article Structure: ${brief.article_structure.join(' | ')}
 AI Overview Angle: ${brief.ai_overview_angle}
 Content Gaps to Fill: ${brief.content_gaps.join(', ')}
 
-REAL PRICING — GROUND TRUTH (do not invent, estimate, or vary these numbers under any circumstances):
-- Standard Tandem Flight (1200m launch, 25-35 min): $150 per person
-- High Altitude Flight (1700m launch, 35-50 min): $150 per person
-- Sunset Flight (1200m launch, 20-30 min): $150 per person
-- Professional Photo & Video Package: $35 extra (not included in the base price)
-- Group discount: 4+ people get 10% off, 8+ people get 15% off
-If the article discusses price at all, it MUST match these exact figures — never write ranges like "$100-200" or claim photo/video is included free. These numbers are the single source of truth from the live /prices page.
-
 Writing Requirements (FAQ-STYLE FORMAT — MANDATORY):
 - 1500-2000 words total
 - The ENTIRE article must be written as a comprehensive FAQ-style guide
@@ -65,44 +57,31 @@ Writing Requirements (FAQ-STYLE FORMAT — MANDATORY):
 - End with a short conclusion + clear call-to-action to book at atmosparagliding.com
 - Do NOT use placeholder text or generic filler
 
-Call the submit_article tool with the finished article. schema_markup should be FAQPage with a mainEntity array of Question/Answer pairs built from the article's H2 questions (concise 40-60 word answers). For Article schema, include author, datePublished fields.`
+Return a JSON object with exactly these fields:
+{
+  "title": "exact article title",
+  "slug": "url-friendly-slug-with-hyphens",
+  "content": "full markdown article content",
+  "schema_markup": {
+    "@context": "https://schema.org",
+    "@type": "${brief.schema_type}",
+    "headline": "...",
+    "description": "..."
+  }
+}
+
+Schema: articles are FAQ-style, so schema_markup should be FAQPage with a mainEntity array of Question/Answer pairs built from the article's H2 questions (concise 40-60 word answers).
+For Article schema, include author, datePublished fields.
+Return ONLY valid JSON, no other text.`
 
   const message = await anthropic.messages.create({
     model: process.env.CLAUDE_MODEL || 'claude-sonnet-4-6',
     max_tokens: 6000,
-    tools: [
-      {
-        name: 'submit_article',
-        description: 'Submit the completed, SEO-optimized blog article.',
-        input_schema: {
-          type: 'object',
-          properties: {
-            title: { type: 'string', description: 'Exact article title' },
-            slug: { type: 'string', description: 'URL-friendly slug with hyphens' },
-            content: { type: 'string', description: 'Full markdown article content' },
-            schema_markup: {
-              type: 'object',
-              description: `JSON-LD schema markup, "@type": "${brief.schema_type}"`,
-            },
-          },
-          required: ['title', 'slug', 'content', 'schema_markup'],
-        },
-      },
-    ],
-    tool_choice: { type: 'tool', name: 'submit_article' },
     messages: [{ role: 'user', content: prompt }],
   })
 
-  const toolUse = message.content.find(
-    (block): block is Anthropic.ToolUseBlock => block.type === 'tool_use'
-  )
-  if (!toolUse) throw new Error('Writer agent did not return a tool_use block')
-  const result = toolUse.input as {
-    title: string
-    slug: string
-    content: string
-    schema_markup: object
-  }
+  const text = message.content[0].type === 'text' ? message.content[0].text : ''
+  const result = JSON.parse(text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim())
 
   const wordCount = result.content.split(/\s+/).length
 

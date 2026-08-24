@@ -3,13 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-// Bypass Next.js's persistent Data Cache for Supabase reads — content is edited
-// via the admin panel / AI agents outside of a deploy, so it must never be served stale.
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  global: {
-    fetch: (url, options) => fetch(url, { ...options, cache: 'no-store' }),
-  },
-})
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 export type ReservationStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed'
 export type InstagramStatus = 'draft' | 'scheduled' | 'posted' | 'failed'

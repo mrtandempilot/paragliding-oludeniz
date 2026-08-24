@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import PageHero from '@/components/shared/PageHero'
@@ -44,7 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: d[locale] || d.en,
     title: `${t('title')}`,
     alternates: localeAlternates(locale, '/faq'),
-    openGraph: { url: localeUrl(locale, '/faq'), title: t('title'), description: d[locale] || d.en, images: ['https://www.atmosparagliding.com/faq/opengraph-image'] },
+    openGraph: { url: localeUrl(locale, '/faq'), title: t('title'), description: d[locale] || d.en },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },
   }
 }

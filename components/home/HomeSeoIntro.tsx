@@ -21,7 +21,7 @@ const CONTENT: Record<string, SeoContent> = {
     h3: 'Flown by locals, owned by pilots',
     p3: 'Atmos Paragliding is a pilot-owned team that has launched from Babadağ for more than 25 years — through every wind pattern, every season, thousands of takeoffs. All our pilots hold SHGM licences, every flight is insured, and equipment is checked each morning before the first shuttle leaves. When you book with us, you’re booking the people who actually fly you — not a call centre.',
     h4: 'Simple, honest pricing',
-    p4: 'Tandem flights start from $150 with transfer, all equipment and beach landing included. No hidden extras: a professional photo & video package is available for $35, and if the weather turns, we reschedule free or you don’t pay.',
+    p4: 'Tandem flights start from €100 with transfer, all equipment and beach landing included. No hidden extras: photo and video packages are optional, and if the weather turns, we reschedule free or you don’t pay.',
     linksTitle: 'Plan your flight',
     links: [
       { href: '/tandem-paragliding', label: 'Tandem Paragliding — everything about your first flight' },
@@ -40,7 +40,7 @@ const CONTENT: Record<string, SeoContent> = {
     h3: 'Yerel ekip, pilotların şirketi',
     p3: 'Atmos Paragliding, 25 yılı aşkın süredir Babadağ’dan havalanan, pilotların sahibi olduğu bir ekiptir — her rüzgâr düzeninde, her sezonda, binlerce kalkışta. Tüm pilotlarımız SHGM lisanslıdır, her uçuş sigortalıdır ve ekipman her sabah ilk servis kalkmadan kontrol edilir. Bizden rezervasyon yaptığınızda çağrı merkezine değil, sizi gerçekten uçuran insanlara rezervasyon yaparsınız.',
     h4: 'Basit ve dürüst fiyatlandırma',
-    p4: 'Tandem uçuşlar $150’dan başlar; transfer, tüm ekipman ve plaja iniş dahildir. Gizli ücret yok: profesyonel foto & video paketi $35 karşılığında mevcuttur, hava bozarsa ücretsiz erteleriz ya da ödeme almayız.',
+    p4: 'Tandem uçuşlar €100’den başlar; transfer, tüm ekipman ve plaja iniş dahildir. Gizli ücret yok: foto-video paketleri opsiyoneldir, hava bozarsa ücretsiz erteleriz ya da ödeme almayız.',
     linksTitle: 'Uçuşunuzu planlayın',
     links: [
       { href: '/tandem-paragliding', label: 'Tandem Yamaç Paraşütü — ilk uçuşunuz hakkında her şey' },
@@ -59,7 +59,7 @@ const CONTENT: Record<string, SeoContent> = {
     h3: 'Geflogen von Einheimischen, geführt von Piloten',
     p3: 'Atmos Paragliding ist ein pilotengeführtes Team, das seit über 25 Jahren vom Babadağ startet — bei jedem Windmuster, in jeder Saison, mit tausenden Starts. Alle Piloten haben SHGM-Lizenzen, jeder Flug ist versichert, die Ausrüstung wird jeden Morgen geprüft. Wer bei uns bucht, bucht die Menschen, die ihn tatsächlich fliegen — kein Callcenter.',
     h4: 'Einfache, ehrliche Preise',
-    p4: 'Tandemflüge ab $150 — inklusive Transfer, kompletter Ausrüstung und Strandlandung. Keine versteckten Kosten: Ein professionelles Foto- & Videopaket ist für $35 erhältlich, und bei Wetterumschwung verschieben wir kostenlos oder Sie zahlen nichts.',
+    p4: 'Tandemflüge ab €100 — inklusive Transfer, kompletter Ausrüstung und Strandlandung. Keine versteckten Kosten: Foto- und Videopakete sind optional, und bei Wetterumschwung verschieben wir kostenlos oder Sie zahlen nichts.',
     linksTitle: 'Planen Sie Ihren Flug',
     links: [
       { href: '/tandem-paragliding', label: 'Tandem-Paragliding — alles über Ihren ersten Flug' },
@@ -78,7 +78,7 @@ const CONTENT: Record<string, SeoContent> = {
     h3: 'Местная команда, принадлежащая пилотам',
     p3: 'Atmos Paragliding — команда, принадлежащая самим пилотам, стартующая с Бабадага более 25 лет: в любой ветер, в любой сезон, тысячи взлётов. Все пилоты имеют лицензии SHGM, каждый полёт застрахован, снаряжение проверяется каждое утро. Бронируя у нас, вы бронируете людей, которые действительно с вами летят, — а не колл-центр.',
     h4: 'Простые и честные цены',
-    p4: 'Тандемные полёты — от $150, включая трансфер, всё снаряжение и посадку на пляж. Без скрытых доплат: профессиональный фото- и видеопакет доступен за $35, а при плохой погоде мы бесплатно переносим полёт или вы не платите.',
+    p4: 'Тандемные полёты — от €100, включая трансфер, всё снаряжение и посадку на пляж. Без скрытых доплат: фото и видео — по желанию, а при плохой погоде мы бесплатно переносим полёт или вы не платите.',
     linksTitle: 'Спланируйте свой полёт',
     links: [
       { href: '/tandem-paragliding', label: 'Тандемный полёт — всё о вашем первом полёте' },
@@ -113,7 +113,7 @@ export default function HomeSeoIntro({ locale }: { locale: string }) {
         <ul className="space-y-2 mb-8">
           {c.links.map((l) => (
             <li key={l.href}>
-              <Link href={lp(l.href)} className="text-orange-700 font-medium hover:underline">
+              <Link href={lp(l.href)} className="text-orange-600 font-medium hover:underline">
                 {l.label} →
               </Link>
             </li>

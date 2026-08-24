@@ -2,7 +2,6 @@
 
 import { Star } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { Link } from '@/i18n/navigation'
 
 const reviews = [
   {
@@ -56,7 +55,7 @@ export default function ReviewsSection() {
     <section className="section-padding bg-white">
       <div className="container-default">
         <div className="text-center mb-14">
-          <span className="text-orange-700 font-semibold text-sm uppercase tracking-widest">
+          <span className="text-orange-500 font-semibold text-sm uppercase tracking-widest">
             {t('badge')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-4">
@@ -94,9 +93,9 @@ export default function ReviewsSection() {
         </div>
 
         <div className="text-center mt-10">
-          <Link href="/reviews" className="btn-secondary">
+          <a href="/reviews" className="btn-secondary">
             {t('cta')}
-          </Link>
+          </a>
         </div>
       </div>
     </section>

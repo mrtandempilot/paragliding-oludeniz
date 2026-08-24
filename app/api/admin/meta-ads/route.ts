@@ -9,7 +9,7 @@ function getToken() {
   return process.env.FACEBOOK_ACCESS_TOKEN || process.env.INSTAGRAM_ACCESS_TOKEN
 }
 
-// GET /api/admin/meta-ads?type=campaigns|adsets|ads|account|insights|insights_daily|insights_by_campaign
+// GET /api/admin/meta-ads?type=campaigns|adsets|ads|account|insights
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const type = searchParams.get('type') || 'campaigns'
@@ -32,12 +32,6 @@ export async function GET(request: Request) {
       url = `${GRAPH}/${base}/campaigns?fields=id,name,status,objective,daily_budget,lifetime_budget,start_time,stop_time&access_token=${token}&limit=50`
     } else if (type === 'insights') {
       url = `${GRAPH}/${base}/insights?fields=spend,impressions,clicks,ctr,cpc,cpm,reach,actions,date_start,date_stop&date_preset=${datePreset}&access_token=${token}`
-    } else if (type === 'insights_daily') {
-      // Gunluk kirilim — trend grafikleri icin (harcama/gosterim/tiklama zaman serisi)
-      url = `${GRAPH}/${base}/insights?fields=spend,impressions,clicks,ctr,reach,date_start,date_stop&time_increment=1&date_preset=${datePreset}&access_token=${token}&limit=90`
-    } else if (type === 'insights_by_campaign') {
-      // Kampanya bazinda kirilim — kampanya karsilastirma grafigi icin
-      url = `${GRAPH}/${base}/insights?level=campaign&fields=campaign_id,campaign_name,spend,impressions,clicks&date_preset=${datePreset}&access_token=${token}&limit=50`
     } else if (type === 'campaign_insights') {
       const campaignId = searchParams.get('campaign_id')
       url = `${GRAPH}/${campaignId}/insights?fields=spend,impressions,clicks,ctr,cpc,cpm,reach,actions&date_preset=${datePreset}&access_token=${token}`

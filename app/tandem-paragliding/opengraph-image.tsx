@@ -74,16 +74,16 @@ export default async function Image() {
             }}
           >
             <div style={{ display: 'flex', gap: 8 }}>
-              <div style={{ width: 10, height: 10, borderRadius: 5, background: '#fbbf24', alignSelf: 'center' }} />
+              <span style={{ color: '#fbbf24' }}>★</span>
               <span>2,400+ Reviews</span>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <div style={{ width: 10, height: 10, borderRadius: 5, background: '#86efac', alignSelf: 'center' }} />
+              <span style={{ color: '#86efac' }}>✓</span>
               <span>25–50 min flight</span>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <span style={{ color: '#f97316' }}>$</span>
-              <span>From $150 per person</span>
+              <span style={{ color: '#f97316' }}>€</span>
+              <span>From €80 per person</span>
             </div>
           </div>
         </div>

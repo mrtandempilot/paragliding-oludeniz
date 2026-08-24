@@ -84,16 +84,16 @@ export default async function Image() {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{ width: 10, height: 10, borderRadius: 5, background: '#fbbf24', alignSelf: 'center' }} />
+              <span style={{ color: '#fbbf24' }}>★</span>
               <span>4.9 / 5 Rating</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{ width: 10, height: 10, borderRadius: 5, background: '#86efac', alignSelf: 'center' }} />
+              <span style={{ color: '#86efac' }}>✓</span>
               <span>25+ Years Experience</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{ width: 10, height: 10, borderRadius: 5, background: '#86efac', alignSelf: 'center' }} />
-              <span>From $150</span>
+              <span style={{ color: '#86efac' }}>✓</span>
+              <span>From €100</span>
             </div>
           </div>
         </div>

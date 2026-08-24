@@ -9,9 +9,8 @@ const KEYWORD_TRIGGERS = ['fiyat', 'price', 'rezervasyon', 'booking', 'cost', 'h
 
 const KEYWORD_DM = `Merhaba! Fiyat ve rezervasyon bilgisi icin:
 
-Tandem ucus - 150 USD
-Sunset (gun batimi) ucus - 150 USD
-Foto & video paketi - +35 USD
+Tandem ucus - 85 EUR
+Sunset (gun batimi) ucus - 120 EUR
 Grup indirimi (4+ kisi) - %15 indirim
 
 Online rezervasyon: atmosparagliding.com/book-now

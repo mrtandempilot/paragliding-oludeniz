@@ -25,11 +25,9 @@
     "description": "Experience the most breathtaking tandem paragliding flight in Turkey. Launch from Babadağ Mountain and soar above turquoise waters, ancient ruins and the world-famous Blue Lagoon.",
     "bookFlight": "Book Your Flight",
     "learnMore": "Learn More",
-    "learnMoreAria": "Learn more about tandem paragliding flights in Ölüdeniz",
     "trust1": "Fully Certified & Insured",
     "trust2": "4.9 / 5 — 2,400+ Reviews",
-    "trust3": "25+ Years of Experience",
-  "heroAlt": "Paragliding over Oludeniz Blue Lagoon, Turkey"
+    "trust3": "25+ Years of Experience"
   },
   "whyOludeniz": {
     "badge": "Why Ölüdeniz?",
@@ -71,12 +69,7 @@
     "tandemSub": "No experience needed",
     "sunsetSub": "Golden hour magic",
     "xcSub": "Licensed pilots",
-    "acroSub": "Extreme aerobatics",
-    "badgeTandem": "Most Popular",
-    "badgeSunset": "Premium",
-    "badgeXc": "Licensed Pilots",
-    "badgeAcro": "Advanced",
-    "badgeGroups": "Group Discount"
+    "acroSub": "Extreme aerobatics"
   },
   "footer": {
     "rights": "All rights reserved.",
@@ -356,7 +349,6 @@
   "blog": {
     "title": "Paragliding Blog",
     "subtitle": "Tips, guides and stories from above Ölüdeniz.",
-    "badge": "Blog",
-    "related": "Related Articles"
+    "badge": "Blog"
   }
 }

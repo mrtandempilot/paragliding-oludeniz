@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { CheckCircle, Clock, XCircle, RefreshCw, Phone, Mail, MessageCircle, Ticket } from 'lucide-react'
-import TicketModal from './TicketModal'
+import { CheckCircle, Clock, XCircle, RefreshCw, Phone, Mail, MessageCircle } from 'lucide-react'
 
 interface Booking {
   id: string
@@ -43,7 +42,6 @@ export default function BookingsPage() {
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
   const [updating, setUpdating] = useState<string | null>(null)
-  const [ticketBooking, setTicketBooking] = useState<Booking | null>(null)
 
   async function load() {
     setLoading(true)
@@ -149,7 +147,7 @@ export default function BookingsPage() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-slate-900">${b.total_price}</p>
+                    <p className="text-2xl font-bold text-slate-900">€{b.total_price}</p>
                     <p className="text-xs text-slate-500">{b.guests} guest{b.guests !== 1 ? 's' : ''}</p>
                   </div>
                 </div>
@@ -214,12 +212,6 @@ export default function BookingsPage() {
                   )}
 
                   <div className="flex gap-2 ml-auto">
-                    <button
-                      onClick={() => setTicketBooking(b)}
-                      className="flex items-center gap-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 text-sm px-3 py-2 rounded-lg transition-colors"
-                    >
-                      <Ticket className="w-4 h-4" /> Bilet Bas
-                    </button>
                     {b.phone && (
                       <a
                         href={`https://wa.me/${b.phone.replace(/\D/g, '')}?text=${waMsg}`}
@@ -250,10 +242,6 @@ export default function BookingsPage() {
             )
           })}
         </div>
-      )}
-
-      {ticketBooking && (
-        <TicketModal booking={ticketBooking} onClose={() => setTicketBooking(null)} />
       )}
     </div>
   )

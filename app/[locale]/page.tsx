@@ -70,7 +70,7 @@ const LOCAL_BUSINESS_SCHEMA = {
   telephone: '+905364616674',
   email: 'info@paragliding-oludeniz.com',
   image: 'https://www.atmosparagliding.com/opengraph-image',
-  priceRange: '\$\$',
+  priceRange: '€€',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Ölüdeniz, Fethiye',
@@ -85,8 +85,8 @@ const LOCAL_BUSINESS_SCHEMA = {
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       opens: '07:00',
       closes: '19:00',
-      validFrom: '2026-04-01',
-      validThrough: '2026-10-31',
+      validFrom: '2025-04-01',
+      validThrough: '2025-10-31',
     },
   ],
   sameAs: [
@@ -101,6 +101,14 @@ const WEBSITE_SCHEMA = {
   '@type': 'WebSite',
   name: 'Atmos Paragliding',
   url: 'https://www.atmosparagliding.com',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://www.atmosparagliding.com/search?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
 }
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {

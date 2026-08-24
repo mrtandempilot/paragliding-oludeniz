@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 interface PageHeroProps {
   title: string
   subtitle?: string
@@ -7,8 +5,6 @@ interface PageHeroProps {
   bgImage?: string
   size?: 'sm' | 'md' | 'lg'
 }
-
-const DEFAULT_BG = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=85'
 
 export default function PageHero({
   title,
@@ -28,14 +24,13 @@ export default function PageHero({
       className={`relative ${sizeClasses[size]} flex items-center justify-center overflow-hidden`}
     >
       {/* Background */}
-      <Image
-        src={bgImage || DEFAULT_BG}
-        alt=""
-        fill
-        priority
-        className="object-cover object-center"
-        sizes="100vw"
-        quality={80}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: bgImage
+            ? `url('${bgImage}')`
+            : "url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=85')",
+        }}
       />
       <div className="absolute inset-0 bg-hero" />
 

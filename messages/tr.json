@@ -25,11 +25,9 @@
     "description": "Türkiye'nin en nefes kesici tandem paraşütü deneyimini yaşayın. Babadağ'dan havalanın ve turkuaz sular, antik kalıntılar ve dünyaca ünlü Mavi Lagün üzerinde süzülün.",
     "bookFlight": "Uçuşunuzu Rezerve Edin",
     "learnMore": "Daha Fazla Bilgi",
-    "learnMoreAria": "Ölüdeniz'de tandem yamaç paraşütü uçuşları hakkında daha fazla bilgi",
     "trust1": "Tam Sertifikalı & Sigortalı",
     "trust2": "4.9 / 5 — 2.400'den Fazla Yorum",
-    "trust3": "25+ Yıl Deneyim",
-  "heroAlt": "Ölüdeniz Mavi Lagün üzerinde yamaç paraşütü"
+    "trust3": "25+ Yıl Deneyim"
   },
   "whyOludeniz": {
     "badge": "Neden Ölüdeniz?",
@@ -71,12 +69,7 @@
     "tandemSub": "Deneyim gerekmez",
     "sunsetSub": "Altın saat büyüsü",
     "xcSub": "Lisanslı pilotlar",
-    "acroSub": "Aşırı akrobasi",
-    "badgeTandem": "En Popüler",
-    "badgeSunset": "Premium",
-    "badgeXc": "Lisanslı Pilotlar",
-    "badgeAcro": "İleri Seviye",
-    "badgeGroups": "Grup İndirimi"
+    "acroSub": "Aşırı akrobasi"
   },
   "footer": {
     "rights": "Tüm hakları saklıdır.",
@@ -356,7 +349,6 @@
   "blog": {
     "title": "Paraşüt Blogu",
     "subtitle": "Ölüdeniz üzerinden ipuçları, rehberler ve hikayeler.",
-    "badge": "Blog",
-    "related": "İlgili Yazılar"
+    "badge": "Blog"
   }
 }

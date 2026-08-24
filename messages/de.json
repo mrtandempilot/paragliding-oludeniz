@@ -25,11 +25,9 @@
     "description": "Erleben Sie den atemberaubendsten Tandem-Paragliding-Flug der Türkei. Starten Sie vom Babadağ-Berg und gleiten Sie über türkisfarbenes Wasser, antike Ruinen und die weltberühmte Blaue Lagune.",
     "bookFlight": "Flug Buchen",
     "learnMore": "Mehr erfahren",
-    "learnMoreAria": "Mehr über Tandem-Gleitschirmflüge in Ölüdeniz erfahren",
     "trust1": "Vollständig zertifiziert & versichert",
     "trust2": "4,9 / 5 — über 2.400 Bewertungen",
-    "trust3": "25+ Jahre Erfahrung",
-  "heroAlt": "Gleitschirmfliegen über der Blauen Lagune von Ölüdeniz, Türkei"
+    "trust3": "25+ Jahre Erfahrung"
   },
   "whyOludeniz": {
     "badge": "Warum Ölüdeniz?",
@@ -71,12 +69,7 @@
     "tandemSub": "Keine Erfahrung nötig",
     "sunsetSub": "Goldene Stunde",
     "xcSub": "Lizenzierte Piloten",
-    "acroSub": "Extreme Akrobatik",
-    "badgeTandem": "Am Beliebtesten",
-    "badgeSunset": "Premium",
-    "badgeXc": "Lizenzierte Piloten",
-    "badgeAcro": "Fortgeschritten",
-    "badgeGroups": "Gruppenrabatt"
+    "acroSub": "Extreme Akrobatik"
   },
   "footer": {
     "rights": "Alle Rechte vorbehalten.",
@@ -356,7 +349,6 @@
   "blog": {
     "title": "Paragliding-Blog",
     "subtitle": "Tipps, Guides und Geschichten von über Ölüdeniz.",
-    "badge": "Blog",
-    "related": "Ähnliche Artikel"
+    "badge": "Blog"
   }
 }

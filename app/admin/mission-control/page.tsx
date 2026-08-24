@@ -42,7 +42,7 @@ export default async function MissionControlPage() {
 
   const [logsRes, flowRes, articlesRes, costRes] = await Promise.allSettled([
     supabase.from('agent_logs').select('*').order('created_at', { ascending: false }).limit(50),
-    supabase.from('agent_logs').select('id,agent,action,status,created_at').order('created_at', { ascending: false }).limit(12),
+    supabase.from('agent_logs').select('id,agent,action,status,created_at,metadata').order('created_at', { ascending: false }).limit(12),
     supabase.from('articles').select('id', { count: 'exact', head: true }).gte('created_at', weekAgo),
     supabase.from('usage_logs').select('cost_usd').gte('created_at', todayStart),
   ])

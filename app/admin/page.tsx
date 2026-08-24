@@ -3,7 +3,6 @@ import DashboardPilotControl from './DashboardPilotControl'
 import DashboardSocialPanel from './DashboardSocialPanel'
 import DashboardCronPanel from './DashboardCronPanel'
 import DashboardActivityPanel from './DashboardActivityPanel'
-import DashboardAnalyticsPanel from './DashboardAnalyticsPanel'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -122,10 +121,6 @@ export default async function AdminDashboardPage() {
           articles={recentArticles as any[]}
           instaPosts={recentPosted as any[]}
         />
-      </div>
-
-      <div className="mb-5">
-        <DashboardAnalyticsPanel />
       </div>
 
       <DashboardCronPanel />

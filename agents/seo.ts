@@ -45,42 +45,20 @@ ${existingTitles}
 - High search intent (people about to book or researching)
 - Current year if year is needed: ${currentYear}
 
-Call the submit_topics tool with exactly 10 topic ideas.`
+Return ONLY a JSON array of objects, no other text:
+[
+  { "title": "Topic title here", "keywords": ["keyword1", "keyword2", "keyword3"] },
+  ...10 items total
+]`
 
   const message = await anthropic.messages.create({
     model: process.env.CLAUDE_MODEL || 'claude-haiku-4-5-20251001',
     max_tokens: 1000,
-    tools: [
-      {
-        name: 'submit_topics',
-        description: 'Submit the 10 generated blog topic ideas.',
-        input_schema: {
-          type: 'object',
-          properties: {
-            topics: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  title: { type: 'string' },
-                  keywords: { type: 'array', items: { type: 'string' } },
-                },
-                required: ['title', 'keywords'],
-              },
-            },
-          },
-          required: ['topics'],
-        },
-      },
-    ],
-    tool_choice: { type: 'tool', name: 'submit_topics' },
     messages: [{ role: 'user', content: prompt }],
   })
 
-  const toolUse = message.content.find(
-    (block): block is Anthropic.ToolUseBlock => block.type === 'tool_use'
-  )
-  const newTopics = toolUse ? (toolUse.input as { topics: any[] }).topics : []
+  const text = message.content[0].type === 'text' ? message.content[0].text : '[]'
+  const newTopics = JSON.parse(text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim())
 
   // Insert into DB
   const rows = newTopics.map((t: any) => ({
@@ -147,45 +125,30 @@ Analyze the topic like a professional SEO strategist. Consider:
 - How to optimize for Google AI Overviews (direct answers, FAQ format)?
 - What long-tail keywords have lower competition?
 
-Call the submit_brief tool with the finished SEO brief. article_structure needs 6-9 items — EVERY item must be a real question customers ask, phrased as a question. schema_type should be "FAQPage" (default — all articles are written in FAQ format).`
+Return a JSON object with exactly these fields:
+{
+  "title": "final SEO-optimized article title (under 60 chars)",
+  "keywords": ["primary keyword", "secondary keyword", "tertiary keyword"],
+  "long_tail_keywords": ["long tail 1", "long tail 2", "long tail 3"],
+  "meta_title": "meta title under 60 chars with keyword",
+  "meta_description": "compelling meta description under 155 chars",
+  "article_structure": ["H2: Customer question 1?", "H2: Customer question 2?", "H2: Customer question 3?"] (6-9 items — EVERY item must be a real question customers ask, phrased as a question),
+  "competitor_insights": "brief summary of what competitors cover and what they miss",
+  "content_gaps": ["gap 1 to exploit", "gap 2 to exploit"],
+  "ai_overview_angle": "the direct answer angle to target Google AI Overviews",
+  "schema_type": "FAQPage (default — all articles are written in FAQ format)"
+}
+
+Return ONLY valid JSON, no other text.`
 
   const message = await anthropic.messages.create({
     model: process.env.CLAUDE_MODEL || 'claude-sonnet-4-6',
     max_tokens: 1500,
-    tools: [
-      {
-        name: 'submit_brief',
-        description: 'Submit the completed SEO brief for the article.',
-        input_schema: {
-          type: 'object',
-          properties: {
-            title: { type: 'string', description: 'Final SEO-optimized article title (under 60 chars)' },
-            keywords: { type: 'array', items: { type: 'string' }, description: 'primary, secondary, tertiary keyword' },
-            long_tail_keywords: { type: 'array', items: { type: 'string' } },
-            meta_title: { type: 'string', description: 'meta title under 60 chars with keyword' },
-            meta_description: { type: 'string', description: 'compelling meta description under 155 chars' },
-            article_structure: { type: 'array', items: { type: 'string' }, description: '6-9 H2 customer questions' },
-            competitor_insights: { type: 'string' },
-            content_gaps: { type: 'array', items: { type: 'string' } },
-            ai_overview_angle: { type: 'string' },
-            schema_type: { type: 'string' },
-          },
-          required: [
-            'title', 'keywords', 'long_tail_keywords', 'meta_title', 'meta_description',
-            'article_structure', 'competitor_insights', 'content_gaps', 'ai_overview_angle', 'schema_type',
-          ],
-        },
-      },
-    ],
-    tool_choice: { type: 'tool', name: 'submit_brief' },
     messages: [{ role: 'user', content: prompt }],
   })
 
-  const toolUse = message.content.find(
-    (block): block is Anthropic.ToolUseBlock => block.type === 'tool_use'
-  )
-  if (!toolUse) throw new Error('SEO agent did not return a tool_use block')
-  const brief = toolUse.input as Omit<SEOBrief, 'topic_id'>
+  const text = message.content[0].type === 'text' ? message.content[0].text : ''
+  const brief = JSON.parse(text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim())
 
   // 3. Mark topic as used
   await supabase

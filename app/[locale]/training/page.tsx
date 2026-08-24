@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/training'),
-    openGraph: { url: localeUrl(locale, '/training'), description: d[locale] || d.en, images: ['https://www.atmosparagliding.com/training/opengraph-image'] },
+    openGraph: { url: localeUrl(locale, '/training'), description: d[locale] || d.en },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en }, title: `${t('title')}` }
 }
 
@@ -23,15 +23,11 @@ export default async function TrainingPage({ params }: { params: Promise<{ local
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'training' })
 
-  const lp = (p: string) => (locale === 'en' ? p : `/${locale}${p}`)
-
   const courses = [
     { href: '/training/beginner-courses', title: 'Beginner Courses', desc: 'Learn to fly from scratch with our certified instructors. P1/P2 certification.' },
     { href: '/training/advanced-courses', title: 'Advanced Courses', desc: 'Improve your skills with advanced techniques, XC flying and SIV clinics.' },
     { href: '/training/tandem-conversion', title: 'Tandem Conversion', desc: 'Become a certified tandem pilot. International certification available.' },
     { href: '/training/siv-clinic', title: 'SIV Clinic', desc: 'Safety and incident vivid training over the water with boat support.' },
-    { href: '/training/instructor-info', title: 'Instructor Info', desc: 'Meet our SHGM and BHPA/DHV certified instructors and their experience.' },
-    { href: '/training/licence-recognition', title: 'Licence Recognition', desc: 'How Turkey recognizes foreign paragliding licences to fly solo at Babadağ.' },
   ]
 
   return (
@@ -47,7 +43,7 @@ export default async function TrainingPage({ params }: { params: Promise<{ local
         <div className="container-default">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {courses.map((c) => (
-              <Link key={c.href} href={lp(c.href)} className="card p-6 hover:shadow-md transition-shadow group">
+              <Link key={c.href} href={c.href} className="card p-6 hover:shadow-md transition-shadow group">
                 <h2 className="font-bold text-slate-900 mb-2 group-hover:text-orange-600 transition-colors">{c.title}</h2>
                 <p className="text-sm text-slate-600 mb-4">{c.desc}</p>
                 <span className="text-orange-500 text-sm font-medium flex items-center gap-1">Learn more <ArrowRight className="w-4 h-4" /></span>

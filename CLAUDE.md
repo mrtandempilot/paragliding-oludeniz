@@ -70,7 +70,6 @@ Sonra doğrula: `python3 -c "d=open('f','rb').read(); print(d.count(b'\\x00'), '
 3. **Writer** (`agents/writer.ts`) — Makale yazar
 4. **Image** (`agents/image.ts`) — fal.ai ile görsel üretir
 5. **Social** (`agents/social.ts`) — Instagram postu hazırlar
-6. **WhatsApp** (`agents/whatsapp.ts`) — Müşteri WhatsApp mesajlarına otomatik cevap (bkz. aşağıdaki ayrı bölüm)
 
 **API Routes:** `app/api/agents/{orchestrator,writer,seo,image,social}/`
 **Cron:** `/api/cron/orchestrator` — Vercel'de 06:00 UTC'de çalışır (06:00 + 12:00 + 18:00 slotları)
@@ -85,19 +84,6 @@ Sonra doğrula: `python3 -c "d=open('f','rb').read(); print(d.count(b'\\x00'), '
 - **Cron jobs:** 06:00, 12:00, 18:00 UTC (orchestrator'ı tetikler)
 - **NOT:** Hermes'e Anthropic key VERME (maliyet riski)
 - **Hermes → Claude bağlantısı:** Hermes curl ile Next.js API'yi çağırır
-
-## WhatsApp Otomatik Cevap Botu (2026-07-18'den itibaren)
-Müşteriler işletme WhatsApp numarasına (+90 536 461 6674) yazdığında Claude otomatik cevap veriyor.
-
-- **Bilgi tabanı:** `lib/knowledge/whatsapp-kb.ts` — fiyatlar, güvenlik, SSS, iletişim bilgisi (TR/EN). Fiyat/politika değişirse bu dosya güncellenmeli.
-- **Agent:** `agents/whatsapp.ts` — `generateWhatsAppReply()`, KB'yi system prompt yapar, müşterinin diline (TR/EN) göre cevap üretir, JSON `{reply, needs_human}` döner.
-- **Webhook:** `app/api/webhooks/whatsapp/route.ts` — GET Meta doğrulama handshake'i, POST gelen mesajı alır → agent'i çağırır → WhatsApp Cloud API ile cevabı gönderir.
-- **needs_human = true** olursa (rezervasyon onayı, ödeme, iade anlaşmazlığı, KB'de olmayan konular) bot yine kısa bir cevap verir ama ayrıca `WHATSAPP_NOTIFY_PHONE`'a (senin numaran) "bot escalation" mesajı gönderir, sen manuel takip edersin.
-- **Loglama:** her cevap `agent_logs` tablosuna `agent: 'whatsapp'` olarak yazılır.
-- **Aç/kapa:** `WHATSAPP_BOT_ENABLED=false` env değişkeni ile botu tamamen kapatabilirsin (varsayılan: açık).
-- **Gerekli env (Vercel):** `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_NOTIFY_PHONE` zaten mevcut (bildirim için kullanılıyordu). Yeni eklenmesi gereken: `WHATSAPP_VERIFY_TOKEN` (Meta App > WhatsApp > Configuration > Webhook'ta aynı değerle eşleşmeli).
-- **Meta App dashboard kurulumu (yapılması gereken, henüz yapılmadı):** Callback URL = `https://paragliding-oludeniz.com/api/webhooks/whatsapp`, Verify token = `WHATSAPP_VERIFY_TOKEN` ile aynı, "messages" field'ına subscribe et. App ID: 1543333883484600, Business ID: 728026526701126.
-- **Bilinen sınırlama:** KB tamamı her mesajda system prompt olarak gönderiliyor (~9K token) — basit ama maliyetli; ileride RAG'a geçilebilir.
 
 ## Supabase Tabloları (Önemli Sütunlar)
 - **articles:** id, title, slug, content, hero_image_url, hero_image_alt, status, created_at, published_at
