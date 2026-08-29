@@ -195,6 +195,43 @@ export async function POST(request: Request) {
       // Don't fail the request — booking is saved
     }
 
+    // Send Telegram notification to pilot (Telegram Bot API)
+    try {
+      const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN
+      const TG_CHAT_ID = process.env.TELEGRAM_CHAT_ID
+
+      if (!TG_TOKEN || !TG_CHAT_ID) {
+        console.warn('[Bookings] TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID not set — skipping Telegram notification')
+      } else {
+        const dateForTg = new Date(flight_date).toLocaleDateString('en-GB', {
+          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+        })
+        const tgText =
+          `🪂 Yeni rezervasyon!\n` +
+          `${FLIGHT_LABELS[flight_type]}\n` +
+          `Tarih: ${dateForTg}\n` +
+          `Misafir: ${guestCount}\n` +
+          `İsim: ${first_name} ${last_name}\n` +
+          `Telefon: ${phone || 'belirtilmedi'}\n` +
+          `Toplam: €${totalPrice}\n` +
+          `https://www.atmosparagliding.com/admin/bookings`
+
+        const tgRes = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: TG_CHAT_ID, text: tgText }),
+        })
+
+        if (!tgRes.ok) {
+          console.warn('[Bookings] Telegram notify failed:', tgRes.status, await tgRes.text())
+        } else {
+          console.log('[Bookings] Telegram notification sent')
+        }
+      }
+    } catch (tgErr) {
+      console.warn('[Bookings] Telegram notify error (non-fatal):', tgErr)
+    }
+
     // Build WhatsApp pre-fill message for customer
     const dateFormatted = new Date(flight_date).toLocaleDateString('en-GB', {
       weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
