@@ -57,6 +57,11 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       .eq('id', article.article_id)
     console.log(`[Orchestrator] Article published: /blog/${article.slug}`)
 
+    // Ping Ceyhun immediately on Telegram
+    await notifyPilotTelegram(
+      `\uD83D\uDCDD Yeni makale yay\u0131nland\u0131!\n${article.title}\n${article.word_count} kelime\nhttps://www.atmosparagliding.com/blog/${article.slug}`
+    )
+
     // ── Step 5: Social Media Post ───────────────────────────────────────
     console.log('[Orchestrator] Step 5: Social Media')
     social = await runSocialAgent(article, image, brief.keywords)
@@ -92,6 +97,13 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
 
     console.log(`[Orchestrator] Run complete in ${(duration / 1000).toFixed(1)}s. Total cost: $${totalCost.toFixed(4)}`)
 
+    await notifyPilotTelegram(
+      `\u2705 ContentPilot g\u00fcnl\u00fck \u00e7al\u0131\u015fmas\u0131 tamamland\u0131\n` +
+      `Makale: ${article.title}\n` +
+      `${social.instagram_post_id ? "Instagram'a payla\u015f\u0131ld\u0131 \u2705" : 'Instagram atland\u0131' + (social.error ? ` (${social.error})` : '')}\n` +
+      `S\u00fcre: ${(duration / 1000).toFixed(1)}s | Maliyet: $${totalCost.toFixed(4)}`
+    )
+
     await logAgent('orchestrator', 'done', 'done', {
       run_id: runId,
       article_id: article.article_id,
@@ -115,6 +127,10 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
     const duration = Date.now() - startTime
     const errorMsg = err.message || 'Unknown error'
     console.error('[Orchestrator] Error:', errorMsg)
+
+    await notifyPilotTelegram(
+      `\u26A0\uFE0F ContentPilot bug\u00fcn hata verdi (ad\u0131m: ${detectFailedStep(brief, article, image)})\n${errorMsg}\nhttps://www.atmosparagliding.com/admin/content-pilot`
+    )
 
     await logAgent('orchestrator', 'error', 'error', {
       run_id: runId,
@@ -196,6 +212,33 @@ schema: ${JSON.stringify(article.schema_markup, null, 2)}
     .from('articles')
     .update({ github_path: filePath })
     .eq('id', article.article_id)
+}
+
+// Sends Ceyhun a Telegram message via the Telegram Bot API
+// (https://core.telegram.org/bots/api#sendmessage). Uses TELEGRAM_BOT_TOKEN /
+// TELEGRAM_CHAT_ID env vars. Always best-effort: never throws, so a Telegram
+// API hiccup can't fail the orchestrator run or block anything downstream.
+async function notifyPilotTelegram(text: string): Promise<void> {
+  try {
+    const token = process.env.TELEGRAM_BOT_TOKEN
+    const chatId = process.env.TELEGRAM_CHAT_ID
+    if (!token || !chatId) {
+      console.warn('[Orchestrator] Telegram notify skipped \u2014 env vars not set')
+      return
+    }
+
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text }),
+    })
+
+    if (!res.ok) {
+      console.warn('[Orchestrator] Telegram notify failed:', res.status, await res.text())
+    }
+  } catch (err: any) {
+    console.warn('[Orchestrator] Telegram notify error (non-fatal):', err.message)
+  }
 }
 
 async function logAgent(agent: string, action: string, status: string, output: object, duration_ms?: number) {
