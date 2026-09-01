@@ -93,7 +93,7 @@ export default async function Image() {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ color: '#86efac' }}>✓</span>
-              <span>From €100</span>
+              <span>From $140</span>
             </div>
           </div>
         </div>

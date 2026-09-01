@@ -70,7 +70,7 @@ const LOCAL_BUSINESS_SCHEMA = {
   telephone: '+905364616674',
   email: 'info@paragliding-oludeniz.com',
   image: 'https://www.atmosparagliding.com/opengraph-image',
-  priceRange: '€€',
+  priceRange: '$$',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Ölüdeniz, Fethiye',

@@ -147,7 +147,7 @@ export default function BookingsPage() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-slate-900">€{b.total_price}</p>
+                    <p className="text-2xl font-bold text-slate-900">${b.total_price}</p>
                     <p className="text-xs text-slate-500">{b.guests} guest{b.guests !== 1 ? 's' : ''}</p>
                   </div>
                 </div>

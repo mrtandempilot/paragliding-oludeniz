@@ -23,8 +23,8 @@ const PRICE_SCHEMA = {
     {
       '@type': 'Offer',
       name: 'Standard Tandem Paragliding Flight',
-      price: '100',
-      priceCurrency: 'EUR',
+      price: '140',
+      priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://atmosparagliding.com/book-now',
       validFrom: '2025-04-01',
@@ -33,8 +33,8 @@ const PRICE_SCHEMA = {
     {
       '@type': 'Offer',
       name: 'High Altitude Tandem Paragliding Flight',
-      price: '100',
-      priceCurrency: 'EUR',
+      price: '140',
+      priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://atmosparagliding.com/book-now',
       validFrom: '2025-04-01',
@@ -43,8 +43,8 @@ const PRICE_SCHEMA = {
     {
       '@type': 'Offer',
       name: 'Sunset Tandem Paragliding Flight',
-      price: '110',
-      priceCurrency: 'EUR',
+      price: '140',
+      priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://atmosparagliding.com/book-now',
       validFrom: '2025-04-01',
@@ -76,7 +76,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
     {
       name: t('standard'),
       launch: t('standardLaunch'),
-      price: '€100',
+      price: '$140',
       duration: t('standardDuration'),
       highlight: false,
       badge: '',
@@ -85,7 +85,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
     {
       name: t('high'),
       launch: t('highLaunch'),
-      price: '€100',
+      price: '$140',
       duration: t('highDuration'),
       highlight: true,
       badge: t('highBadge'),
@@ -94,7 +94,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
     {
       name: t('sunset'),
       launch: t('sunsetLaunch'),
-      price: '€110',
+      price: '$140',
       duration: t('sunsetDuration'),
       highlight: false,
       badge: t('sunsetBadge'),
@@ -103,10 +103,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
   ]
 
   const addOns = [
-    { name: 'Professional Photo Package', price: 'Free', desc: 'Photos taken by your pilot during flight' },
-    { name: 'Professional Video Package', price: 'Free', desc: 'HD video of your entire flight' },
-    { name: 'Photo + Video Bundle', price: 'Free', desc: 'Best value — both photo and video' },
-    { name: 'GoPro Mount', price: '€10', desc: 'Mount for your own GoPro or phone' },
+    { name: 'Professional Photo & Video Package', price: '$35', desc: 'Professional photos and HD video of your entire flight' },
   ]
 
   return (

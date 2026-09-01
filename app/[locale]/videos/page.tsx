@@ -13,7 +13,7 @@ const CONTENT: Record<string, C> = {
   en: {
     title: 'Flight Videos',
     sub: 'Real flights, real passengers — filmed over the Blue Lagoon.',
-    intro: 'Every video below was filmed by our own pilots during real tandem flights from Babadağ. No stock footage, no drone tricks — this is exactly what your flight will look like. Every Atmos flight includes free photo and video, so after you land you take home a film like these of your own.',
+    intro: 'Every video below was filmed by our own pilots during real tandem flights from Babadağ. No stock footage, no drone tricks — this is exactly what your flight will look like. A professional photo & video package is available as a $35 add-on on every Atmos flight, so after you land you can take home a film like these of your own.',
     videos: [
       { id: VIDEO_IDS.women, title: 'Fly with a Woman Pilot', desc: 'One of our women tandem pilots takes a passenger over the lagoon — calm, professional and unforgettable.' },
       { id: VIDEO_IDS.xc, title: 'Cross-Country Flight', desc: 'Beyond the tandem classic: cross-country flying along the Lycian coast for licensed pilots.' },
@@ -24,7 +24,7 @@ const CONTENT: Record<string, C> = {
   tr: {
     title: 'Uçuş Videoları',
     sub: 'Gerçek uçuşlar, gerçek yolcular — Kumburnu üzerinde çekildi.',
-    intro: 'Aşağıdaki her video, Babadağ’dan yapılan gerçek tandem uçuşlarda kendi pilotlarımız tarafından çekildi. Stok görüntü yok, drone numarası yok — uçuşunuz tam olarak böyle görünecek. Her Atmos uçuşunda foto ve video ücretsizdir; indiğinizde siz de kendi uçuşunuzun böyle bir filmiyle dönersiniz.',
+    intro: 'Aşağıdaki her video, Babadağ’dan yapılan gerçek tandem uçuşlarda kendi pilotlarımız tarafından çekildi. Stok görüntü yok, drone numarası yok — uçuşunuz tam olarak böyle görünecek. Her Atmos uçuşunda profesyonel foto & video paketi $35 karşılığında ek hizmet olarak sunulur; indiğinizde siz de kendi uçuşunuzun böyle bir filmiyle dönebilirsiniz.',
     videos: [
       { id: VIDEO_IDS.women, title: 'Kadın Pilotla Uçuş', desc: 'Kadın tandem pilotlarımızdan biri yolcusunu lagün üzerinde uçuruyor — sakin, profesyonel ve unutulmaz.' },
       { id: VIDEO_IDS.xc, title: 'XC (Yol) Uçuşu', desc: 'Klasik tandemin ötesi: lisanslı pilotlar için Likya kıyısı boyunca yol uçuşu.' },
@@ -35,7 +35,7 @@ const CONTENT: Record<string, C> = {
   de: {
     title: 'Flugvideos',
     sub: 'Echte Flüge, echte Passagiere — gefilmt über der Blauen Lagune.',
-    intro: 'Jedes Video unten wurde von unseren eigenen Piloten bei echten Tandemflügen vom Babadağ gefilmt. Kein Stockmaterial, keine Drohnentricks — genau so wird Ihr Flug aussehen. Bei jedem Atmos-Flug sind Foto und Video kostenlos; nach der Landung nehmen Sie einen Film wie diesen mit nach Hause.',
+    intro: 'Jedes Video unten wurde von unseren eigenen Piloten bei echten Tandemflügen vom Babadağ gefilmt. Kein Stockmaterial, keine Drohnentricks — genau so wird Ihr Flug aussehen. Bei jedem Atmos-Flug ist ein professionelles Foto- & Videopaket als Zusatzoption für $35 erhältlich; nach der Landung können Sie einen Film wie diesen mit nach Hause nehmen.',
     videos: [
       { id: VIDEO_IDS.women, title: 'Flug mit Pilotin', desc: 'Eine unserer Tandempilotinnen fliegt mit einem Passagier über die Lagune — ruhig, professionell, unvergesslich.' },
       { id: VIDEO_IDS.xc, title: 'Streckenflug', desc: 'Jenseits des Tandem-Klassikers: Streckenfliegen entlang der lykischen Küste für lizenzierte Piloten.' },
@@ -46,7 +46,7 @@ const CONTENT: Record<string, C> = {
   ru: {
     title: 'Видео полётов',
     sub: 'Настоящие полёты, настоящие пассажиры — снято над Голубой лагуной.',
-    intro: 'Каждое видео ниже снято нашими пилотами во время настоящих тандемных полётов с Бабадага. Никаких стоковых кадров и дронов — именно так будет выглядеть ваш полёт. В каждый полёт Atmos фото и видео включены бесплатно: после посадки вы заберёте такой же фильм о собственном полёте.',
+    intro: 'Каждое видео ниже снято нашими пилотами во время настоящих тандемных полётов с Бабадага. Никаких стоковых кадров и дронов — именно так будет выглядеть ваш полёт. В каждом полёте Atmos доступен профессиональный фото- и видеопакет за $35: после посадки вы сможете забрать такой же фильм о собственном полёте.',
     videos: [
       { id: VIDEO_IDS.women, title: 'Полёт с женщиной-пилотом', desc: 'Одна из наших женщин-пилотов летит с пассажиром над лагуной — спокойно, профессионально, незабываемо.' },
       { id: VIDEO_IDS.xc, title: 'Маршрутный полёт (XC)', desc: 'За пределами классического тандема: маршрутные полёты вдоль ликийского побережья для лицензированных пилотов.' },

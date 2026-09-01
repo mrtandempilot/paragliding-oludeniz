@@ -14,8 +14,8 @@ Görüşmek üzere! ✨`
 
 const DEFAULT_KEYWORD_MESSAGE = `Merhaba! 🪂 Fiyat ve rezervasyon bilgisi için:
 
-✅ Tandem uçuş — €85
-✅ Sunset (gün batımı) uçuş — €120
+✅ Tandem uçuş (Standart / Yüksek / Sunset) — $140 kişi başı
+✅ Foto & Video paketi — +$35 (opsiyonel)
 ✅ Grup indirimi (4+ kişi) — %15 indirim
 
 📅 Online rezervasyon: atmosparagliding.com/book-now

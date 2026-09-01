@@ -12,9 +12,9 @@ function getSupabase() {
 }
 
 const FLIGHT_PRICES: Record<string, number> = {
-  standard: 100,
-  high: 100,
-  sunset: 110,
+  standard: 140,
+  high: 140,
+  sunset: 140,
 }
 
 const FLIGHT_LABELS: Record<string, string> = {
@@ -49,9 +49,9 @@ export async function POST(request: Request) {
 
     // Calculate price
     const guestCount = parseInt(guests) || 1
-    const basePerPerson = FLIGHT_PRICES[flight_type] || 80
-    // Add-ons are currently offered free of charge
-    let addonPrice = 0
+    const basePerPerson = FLIGHT_PRICES[flight_type] || 140
+    // Photo & Video package is a $35 extra
+    let addonPrice = addon_bundle ? 35 : 0
 
     // Group discount
     let basePrice = basePerPerson * guestCount
@@ -97,11 +97,7 @@ export async function POST(request: Request) {
         console.error('[Bookings] GMAIL_APP_PASSWORD not set — skipping email')
       } else {
         const addons = []
-        if (addon_bundle) addons.push('Photo + Video Bundle (Free)')
-        else {
-          if (addon_photo) addons.push('Photo Package (Free)')
-          if (addon_video) addons.push('Video Package (Free)')
-        }
+        if (addon_bundle) addons.push('Photo + Video Package (+$35)')
 
         const dateStr = new Date(flight_date).toLocaleDateString('en-GB', {
           weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
@@ -115,7 +111,7 @@ export async function POST(request: Request) {
         await transporter.sendMail({
           from: `"Atmos Paragliding" <${GMAIL_USER}>`,
           to: GMAIL_USER,
-          subject: `New Booking: ${first_name} ${last_name} - ${dateStr} - EUR${totalPrice}`,
+          subject: `New Booking: ${first_name} ${last_name} - ${dateStr} - $${totalPrice}`,
           html: `
             <h2>New Booking Request</h2>
             <table style="border-collapse:collapse; width:100%; font-family:sans-serif; font-size:14px;">
@@ -129,7 +125,7 @@ export async function POST(request: Request) {
               <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Phone</td><td style="padding:8px;">${phone || 'Not provided'}</td></tr>
               ${notes ? `<tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Notes</td><td style="padding:8px;">${notes}</td></tr>` : ''}
               <tr><td colspan="2" style="padding:8px; border-top:2px solid #e9ecef;"></td></tr>
-              <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Total</td><td style="padding:8px; font-size:18px; font-weight:bold; color:#f97316;">EUR${totalPrice}${guestCount >= 4 ? ' (group discount applied)' : ''}</td></tr>
+              <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Total</td><td style="padding:8px; font-size:18px; font-weight:bold; color:#f97316;">$${totalPrice}${guestCount >= 4 ? ' (group discount applied)' : ''}</td></tr>
             </table>
             <br>
             <a href="https://atmosparagliding.com/admin/bookings" style="display:inline-block; background:#f97316; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">View in Admin Panel</a>
@@ -167,7 +163,7 @@ export async function POST(request: Request) {
           `Guests: ${guestCount}\n` +
           `Name: ${first_name} ${last_name}\n` +
           `Phone: ${phone || 'not provided'}\n` +
-          `Total: EUR${totalPrice}\n` +
+          `Total: $${totalPrice}\n` +
           `https://atmosparagliding.com/admin/bookings`
 
         const waRes = await fetch(`https://graph.facebook.com/v21.0/${WA_PHONE_NUMBER_ID}/messages`, {
@@ -213,7 +209,7 @@ export async function POST(request: Request) {
           `Misafir: ${guestCount}\n` +
           `İsim: ${first_name} ${last_name}\n` +
           `Telefon: ${phone || 'belirtilmedi'}\n` +
-          `Toplam: €${totalPrice}\n` +
+          `Toplam: $${totalPrice}\n` +
           `https://www.atmosparagliding.com/admin/bookings`
 
         const tgRes = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
@@ -252,7 +248,7 @@ export async function POST(request: Request) {
       `Date: ${dateFormatted}\n` +
       `Guests: ${guestCount}\n` +
       `Name: ${first_name} ${last_name}\n` +
-      `Total: €${totalPrice}\n\n` +
+      `Total: $${totalPrice}\n\n` +
       `Please confirm my booking. Thank you!`
     )
 
