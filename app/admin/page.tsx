@@ -100,12 +100,12 @@ export default async function AdminDashboardPage() {
     failedPosts, recentPosted, nextScheduled, typeBreakdown, postingGapDays,
   }
 
-  // ── Reservation stats ───────────────────────────────────────────────────
+  // ── Reservation stats (real bookings table, not the unused legacy 'reservations' table) ──
   const [resTodayRes, resWeekRes, resMonthRes, resPendingRes] = await Promise.allSettled([
-    supabase.from('reservations').select('id', { count: 'exact', head: true }).gte('created_at', todayStart),
-    supabase.from('reservations').select('id', { count: 'exact', head: true }).gte('created_at', weekAgo),
-    supabase.from('reservations').select('id', { count: 'exact', head: true }).gte('created_at', monthAgo),
-    supabase.from('reservations').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+    supabase.from('bookings').select('id', { count: 'exact', head: true }).gte('created_at', todayStart),
+    supabase.from('bookings').select('id', { count: 'exact', head: true }).gte('created_at', weekAgo),
+    supabase.from('bookings').select('id', { count: 'exact', head: true }).gte('created_at', monthAgo),
+    supabase.from('bookings').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
   ])
 
   const reservationStats = {
