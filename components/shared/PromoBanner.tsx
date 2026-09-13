@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { X } from 'lucide-react'
 import { useLocale } from 'next-intl'
 
-const STORAGE_KEY = 'promoBannerDismissed_v1'
+const STORAGE_KEY = 'promoBannerDismissed_v2'
 
 export default function PromoBanner() {
   const locale = useLocale()
@@ -33,27 +33,32 @@ export default function PromoBanner() {
   }
 
   return (
-    <div className="relative max-w-5xl mx-auto px-4 pt-4">
-      <div className="relative rounded-2xl overflow-hidden shadow-lg border border-slate-200">
-        <Link href={bookHref} aria-label="Book your paragliding flight — $150 all-inclusive">
-          <Image
-            src="/images/promo-banner.jpg"
-            alt="$150 all-inclusive paragliding flight in Ölüdeniz — free video & photo included"
-            width={1671}
-            height={941}
-            className="w-full h-auto"
-            priority={false}
-            sizes="(max-width: 768px) 100vw, 1024px"
-          />
-        </Link>
-        <button
-          type="button"
-          onClick={dismiss}
-          aria-label="Close"
-          className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-full bg-black/60 hover:bg-black/80 text-white transition-colors"
-        >
-          <X className="w-5 h-5" />
-        </button>
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40" onClick={dismiss}>
+      <div
+        className="relative w-[220px] sm:w-[260px]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="relative rounded-xl overflow-hidden shadow-2xl border border-slate-200 bg-white">
+          <Link href={bookHref} aria-label="Book your paragliding flight — $150 all-inclusive">
+            <Image
+              src="/images/promo-banner.jpg"
+              alt="$150 all-inclusive paragliding flight in Ölüdeniz — free video & photo included"
+              width={1671}
+              height={941}
+              className="w-full h-auto block"
+              priority={false}
+              sizes="260px"
+            />
+          </Link>
+          <button
+            type="button"
+            onClick={dismiss}
+            aria-label="Close"
+            className="absolute -top-2.5 -right-2.5 w-7 h-7 flex items-center justify-center rounded-full bg-slate-900 hover:bg-black text-white shadow-md transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </div>
   )
