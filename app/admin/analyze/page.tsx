@@ -2,10 +2,11 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 import {
-  Search, TrendingUp, TrendingDown, FileText, AlertTriangle,
+  Search, TrendingUp, FileText, AlertTriangle,
   MapPin, Link2, Users, Clock,
 } from 'lucide-react'
 import TrendChart from './TrendChart'
+import PeriodSummary from './PeriodSummary'
 
 const GSC_SITE_URL = 'sc-domain:atmosparagliding.com'
 
@@ -61,25 +62,12 @@ function fmt(n: number) {
   return n.toLocaleString('tr-TR', { maximumFractionDigits: 0 })
 }
 
-function Delta({ current, previous }: { current: number; previous: number }) {
-  if (previous === 0) return null
-  const pct = ((current - previous) / previous) * 100
-  const up = pct >= 0
-  return (
-    <span className={`inline-flex items-center gap-0.5 text-xs font-semibold ${up ? 'text-green-600' : 'text-red-600'}`}>
-      {up ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-      {Math.abs(pct).toFixed(0)}%
-    </span>
-  )
-}
-
 export default async function AnalyzePage() {
   let totals7d = { clicks: 0, impressions: 0, ctr: 0, position: 0 }
-  let totalsPrev7d = { clicks: 0, impressions: 0, ctr: 0, position: 0 }
   let totals28d = { clicks: 0, impressions: 0, ctr: 0, position: 0 }
   let topQueries: any[] = []
   let topPages: any[] = []
-  let dailyRows: { date: string; impressions: number }[] = []
+  let dailyRows: { date: string; impressions: number; clicks: number }[] = []
   let gscError: string | null = null
 
   try {
@@ -87,9 +75,8 @@ export default async function AnalyzePage() {
 
     const sumRow = (rows: any[]) => rows[0] || { clicks: 0, impressions: 0, ctr: 0, position: 0 }
 
-    const [r7, rPrev7, r28, qRows, pRows, dateRows] = await Promise.all([
+    const [r7, r28, qRows, pRows, dateRows] = await Promise.all([
       queryGSC(accessToken, isoDaysAgo(10), isoDaysAgo(3), []),
-      queryGSC(accessToken, isoDaysAgo(17), isoDaysAgo(10), []),
       queryGSC(accessToken, isoDaysAgo(31), isoDaysAgo(3), []),
       queryGSC(accessToken, isoDaysAgo(31), isoDaysAgo(3), ['query'], 10),
       queryGSC(accessToken, isoDaysAgo(31), isoDaysAgo(3), ['page'], 10),
@@ -97,13 +84,12 @@ export default async function AnalyzePage() {
     ])
 
     totals7d = sumRow(r7)
-    totalsPrev7d = sumRow(rPrev7)
     totals28d = sumRow(r28)
     topQueries = qRows
     topPages = pRows
 
     dailyRows = dateRows
-      .map((row: any) => ({ date: row.keys[0], impressions: row.impressions || 0 }))
+      .map((row: any) => ({ date: row.keys[0], impressions: row.impressions || 0, clicks: row.clicks || 0 }))
       .sort((a: any, b: any) => a.date.localeCompare(b.date))
   } catch (err: any) {
     gscError = err.message || 'Search Console verisi alınamadı'
@@ -126,27 +112,7 @@ export default async function AnalyzePage() {
 
       {/* Summary row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
-          <div className="flex items-center gap-2 text-slate-500 text-xs font-semibold uppercase tracking-wide mb-3">
-            <Search className="w-3.5 h-3.5" /> Son 7 Gün (önceki 7 güne göre)
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-bold text-slate-900">{fmt(totals7d.impressions)}</span>
-                <Delta current={totals7d.impressions} previous={totalsPrev7d.impressions} />
-              </div>
-              <div className="text-xs text-slate-500">Gösterim</div>
-            </div>
-            <div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-bold text-slate-900">{fmt(totals7d.clicks)}</span>
-                <Delta current={totals7d.clicks} previous={totalsPrev7d.clicks} />
-              </div>
-              <div className="text-xs text-slate-500">Tıklama</div>
-            </div>
-          </div>
-        </div>
+        <PeriodSummary rows={dailyRows} />
 
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
           <div className="flex items-center gap-2 text-slate-500 text-xs font-semibold uppercase tracking-wide mb-3">
