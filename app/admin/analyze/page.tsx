@@ -5,6 +5,7 @@ import {
   Search, TrendingUp, TrendingDown, FileText, AlertTriangle,
   MapPin, Link2, Users, Clock,
 } from 'lucide-react'
+import TrendChart from './TrendChart'
 
 const GSC_SITE_URL = 'sc-domain:atmosparagliding.com'
 
@@ -78,7 +79,7 @@ export default async function AnalyzePage() {
   let totals28d = { clicks: 0, impressions: 0, ctr: 0, position: 0 }
   let topQueries: any[] = []
   let topPages: any[] = []
-  let weekly: { week: string; impressions: number }[] = []
+  let dailyRows: { date: string; impressions: number }[] = []
   let gscError: string | null = null
 
   try {
@@ -92,7 +93,7 @@ export default async function AnalyzePage() {
       queryGSC(accessToken, isoDaysAgo(31), isoDaysAgo(3), []),
       queryGSC(accessToken, isoDaysAgo(31), isoDaysAgo(3), ['query'], 10),
       queryGSC(accessToken, isoDaysAgo(31), isoDaysAgo(3), ['page'], 10),
-      queryGSC(accessToken, isoDaysAgo(90), isoDaysAgo(3), ['date'], 1000),
+      queryGSC(accessToken, isoDaysAgo(180), isoDaysAgo(3), ['date'], 1000),
     ])
 
     totals7d = sumRow(r7)
@@ -101,23 +102,13 @@ export default async function AnalyzePage() {
     topQueries = qRows
     topPages = pRows
 
-    // bucket daily rows into ISO weeks
-    const buckets = new Map<string, number>()
-    for (const row of dateRows) {
-      const date = new Date(row.keys[0])
-      const weekStart = new Date(date)
-      weekStart.setDate(date.getDate() - date.getDay())
-      const key = weekStart.toISOString().slice(0, 10)
-      buckets.set(key, (buckets.get(key) || 0) + (row.impressions || 0))
-    }
-    weekly = Array.from(buckets.entries())
-      .sort((a, b) => a[0].localeCompare(b[0]))
-      .map(([week, impressions]) => ({ week, impressions }))
+    dailyRows = dateRows
+      .map((row: any) => ({ date: row.keys[0], impressions: row.impressions || 0 }))
+      .sort((a: any, b: any) => a.date.localeCompare(b.date))
   } catch (err: any) {
     gscError = err.message || 'Search Console verisi alınamadı'
   }
 
-  const maxWeekly = Math.max(1, ...weekly.map(w => w.impressions))
 
   return (
     <div className="max-w-6xl">
@@ -191,29 +182,7 @@ export default async function AnalyzePage() {
       </div>
 
       {/* Migration recovery trend */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 mb-5">
-        <div className="flex items-center gap-2 text-slate-500 text-xs font-semibold uppercase tracking-wide mb-4">
-          <TrendingUp className="w-3.5 h-3.5" /> Haftalık Gösterim Trendi (son ~12 hafta) — domain migrasyonu sonrası toparlanma
-        </div>
-        {weekly.length > 0 ? (
-          <div className="flex items-stretch gap-1.5 h-32">
-            {weekly.map(w => (
-              <div key={w.week} className="flex-1 h-full flex flex-col items-center justify-end group relative">
-                <div
-                  className="w-full bg-indigo-400 rounded-t-md hover:bg-indigo-500 transition-colors"
-                  style={{ height: `${(w.impressions / maxWeekly) * 100}%`, minHeight: '2px' }}
-                  title={`${w.week}: ${fmt(w.impressions)} gösterim`}
-                />
-                <span className="text-[9px] text-slate-400 mt-1 rotate-0">
-                  {new Date(w.week).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit' })}
-                </span>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-slate-400 text-sm py-6 text-center">Veri yok</div>
-        )}
-      </div>
+      <TrendChart rows={dailyRows} />
 
       {/* Top queries / pages */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
