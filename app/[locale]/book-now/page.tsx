@@ -33,7 +33,7 @@ export default async function BookNowPage({ params }: { params: Promise<{ locale
           <BreadcrumbNav items={[{ label: t('title') }]} />
         </div>
       </div>
-      <PromoBanner />
+      <PromoBanner page="booking" />
       <BookingForm />
     </>
   )

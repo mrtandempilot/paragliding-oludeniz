@@ -123,7 +123,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_SCHEMA) }}
       />
       <Hero />
-      <PromoBanner />
+      <PromoBanner page="home" />
       <WhyOludeniz />
       <FlightTypesGrid />
       <BabadagIntro />

@@ -6,9 +6,8 @@ import Image from 'next/image'
 import { X } from 'lucide-react'
 import { useLocale } from 'next-intl'
 
-const STORAGE_KEY = 'promoBannerDismissed_v2'
-
-export default function PromoBanner() {
+export default function PromoBanner({ page }: { page: 'home' | 'booking' }) {
+  const STORAGE_KEY = `promoBannerDismissed_v2_${page}`
   const locale = useLocale()
   const bookHref = locale === 'en' ? '/book-now' : `/${locale}/book-now`
   const [visible, setVisible] = useState(false)
