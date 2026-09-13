@@ -38,7 +38,15 @@ export default function PromoBanner({ page }: { page: 'home' | 'booking' }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative rounded-xl overflow-hidden shadow-2xl border border-slate-200 bg-white">
-          <Link href={bookHref} aria-label="Book your paragliding flight — $150 all-inclusive">
+          <Link
+            href={bookHref}
+            aria-label="Book your paragliding flight — $150 all-inclusive"
+            onClick={() => {
+              try {
+                localStorage.setItem('promoBannerDismissed_v2_booking', '1')
+              } catch {}
+            }}
+          >
             <Image
               src="/images/promo-banner.jpg"
               alt="$150 all-inclusive paragliding flight in Ölüdeniz — free video & photo included"
