@@ -35,7 +35,7 @@ export default function PromoBanner() {
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40" onClick={dismiss}>
       <div
-        className="relative w-[290px] sm:w-[310px]"
+        className="relative w-[320px] sm:w-[500px]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative rounded-xl overflow-hidden shadow-2xl border border-slate-200 bg-white">
@@ -47,7 +47,7 @@ export default function PromoBanner() {
               height={941}
               className="w-full h-auto block"
               priority={false}
-              sizes="310px"
+              sizes="500px"
             />
           </Link>
           <button
