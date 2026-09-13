@@ -3,6 +3,7 @@ import DashboardPilotControl from './DashboardPilotControl'
 import DashboardSocialPanel from './DashboardSocialPanel'
 import DashboardCronPanel from './DashboardCronPanel'
 import DashboardActivityPanel from './DashboardActivityPanel'
+import DashboardSeoPanel from './DashboardSeoPanel'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -99,6 +100,21 @@ export default async function AdminDashboardPage() {
     failedPosts, recentPosted, nextScheduled, typeBreakdown, postingGapDays,
   }
 
+  // ── Reservation stats ───────────────────────────────────────────────────
+  const [resTodayRes, resWeekRes, resMonthRes, resPendingRes] = await Promise.allSettled([
+    supabase.from('reservations').select('id', { count: 'exact', head: true }).gte('created_at', todayStart),
+    supabase.from('reservations').select('id', { count: 'exact', head: true }).gte('created_at', weekAgo),
+    supabase.from('reservations').select('id', { count: 'exact', head: true }).gte('created_at', monthAgo),
+    supabase.from('reservations').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+  ])
+
+  const reservationStats = {
+    today: resTodayRes.status === 'fulfilled' ? (resTodayRes.value.count || 0) : 0,
+    thisWeek: resWeekRes.status === 'fulfilled' ? (resWeekRes.value.count || 0) : 0,
+    thisMonth: resMonthRes.status === 'fulfilled' ? (resMonthRes.value.count || 0) : 0,
+    pending: resPendingRes.status === 'fulfilled' ? (resPendingRes.value.count || 0) : 0,
+  }
+
   return (
     <div>
       <div className="mb-6">
@@ -121,6 +137,10 @@ export default async function AdminDashboardPage() {
           articles={recentArticles as any[]}
           instaPosts={recentPosted as any[]}
         />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
+        <DashboardSeoPanel reservations={reservationStats} />
       </div>
 
       <DashboardCronPanel />
