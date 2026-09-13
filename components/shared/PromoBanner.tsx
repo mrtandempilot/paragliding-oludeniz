@@ -1,35 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { X } from 'lucide-react'
 import { useLocale } from 'next-intl'
 
 export default function PromoBanner({ page }: { page: 'home' | 'booking' }) {
-  const STORAGE_KEY = `promoBannerDismissed_v2_${page}`
   const locale = useLocale()
   const bookHref = locale === 'en' ? '/book-now' : `/${locale}/book-now`
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    try {
-      if (localStorage.getItem(STORAGE_KEY) !== '1') {
-        setVisible(true)
-      }
-    } catch {
-      setVisible(true)
-    }
-  }, [])
+  const [visible, setVisible] = useState(true)
 
   if (!visible) return null
 
-  const dismiss = () => {
-    setVisible(false)
-    try {
-      localStorage.setItem(STORAGE_KEY, '1')
-    } catch {}
-  }
+  const dismiss = () => setVisible(false)
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40" onClick={dismiss}>
@@ -41,11 +25,6 @@ export default function PromoBanner({ page }: { page: 'home' | 'booking' }) {
           <Link
             href={bookHref}
             aria-label="Book your paragliding flight — $150 all-inclusive"
-            onClick={() => {
-              try {
-                localStorage.setItem('promoBannerDismissed_v2_booking', '1')
-              } catch {}
-            }}
           >
             <Image
               src="/images/promo-banner.jpg"
