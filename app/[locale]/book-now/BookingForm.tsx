@@ -142,7 +142,7 @@ export default function BookingForm() {
                       <p className="font-semibold text-slate-900 text-sm">{opt.label}</p>
                       <p className="text-slate-500 text-xs mt-0.5">{opt.duration}</p>
                       <p className="text-orange-500 font-bold mt-1">${opt.price} / person</p>
-                      <p className="text-green-600 text-[11px] mt-0.5">All-inclusive</p>
+                      <p className="text-green-600 text-[11px] mt-0.5">Photo &amp; video included free</p>
                     </button>
                   ))}
                 </div>
