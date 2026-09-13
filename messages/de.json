@@ -120,7 +120,7 @@
     "sunsetDuration": "20–30 Min.",
     "sunsetBadge": "Premium",
     "included": "Inklusive",
-    "addOns": "Extras",
+    "addOns": "Alles Inklusive",
     "bookNow": "Diesen Flug buchen",
     "feat1": "Zertifizierter Tandempilot",
     "feat2": "Komplette Sicherheitsausrüstung",
@@ -131,8 +131,8 @@
     "featHigher": "Längere Flugzeit",
     "featSunset": "Nachmittäglicher Abflug",
     "featSunset2": "Goldene Stunde über der Blauen Lagune",
-    "groupDiscount": "Gruppenrabatt verfügbar",
-    "groupDesc": "Gruppen ab 4 Personen: 10% Rabatt. Ab 8 Personen: 15% Rabatt."
+    "groupDiscount": "Ein Festpreis",
+    "groupDesc": "Jeder Flug kostet $150 all-inclusive — keine Gruppenrabatte, keine versteckten Kosten."
   },
   "bookNow": {
     "title": "Paragliding-Flug buchen",

@@ -64,7 +64,7 @@ export default function FlightTypesGrid() {
       description: t('groupsDesc'),
       href: '/tandem-paragliding/group-flights',
       emoji: '👥',
-      badge: 'Group Discount',
+      badge: 'All Sizes Welcome',
       badgeColor: 'bg-sky-600',
       gradient: 'from-slate-600 to-slate-800',
     },

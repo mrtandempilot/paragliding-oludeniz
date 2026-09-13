@@ -23,7 +23,7 @@ const PRICE_SCHEMA = {
     {
       '@type': 'Offer',
       name: 'Standard Tandem Paragliding Flight',
-      price: '140',
+      price: '150',
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://atmosparagliding.com/book-now',
@@ -33,7 +33,7 @@ const PRICE_SCHEMA = {
     {
       '@type': 'Offer',
       name: 'High Altitude Tandem Paragliding Flight',
-      price: '140',
+      price: '150',
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://atmosparagliding.com/book-now',
@@ -43,7 +43,7 @@ const PRICE_SCHEMA = {
     {
       '@type': 'Offer',
       name: 'Sunset Tandem Paragliding Flight',
-      price: '140',
+      price: '150',
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://atmosparagliding.com/book-now',
@@ -76,7 +76,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
     {
       name: t('standard'),
       launch: t('standardLaunch'),
-      price: '$140',
+      price: '$150',
       duration: t('standardDuration'),
       highlight: false,
       badge: '',
@@ -85,7 +85,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
     {
       name: t('high'),
       launch: t('highLaunch'),
-      price: '$140',
+      price: '$150',
       duration: t('highDuration'),
       highlight: true,
       badge: t('highBadge'),
@@ -94,7 +94,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
     {
       name: t('sunset'),
       launch: t('sunsetLaunch'),
-      price: '$140',
+      price: '$150',
       duration: t('sunsetDuration'),
       highlight: false,
       badge: t('sunsetBadge'),
@@ -103,7 +103,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
   ]
 
   const addOns = [
-    { name: 'Professional Photo & Video Package', price: '$35', desc: 'Professional photos and HD video of your entire flight' },
+    { name: 'Professional Photo & Video Package', price: 'Included', desc: 'Professional photos and HD video of your entire flight — no extra charge' },
   ]
 
   return (

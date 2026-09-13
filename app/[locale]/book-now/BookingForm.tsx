@@ -7,26 +7,16 @@ import Link from 'next/link'
 import { Phone, Mail, MessageCircle, CheckCircle, Clock, Shield, ArrowRight, AlertCircle } from 'lucide-react'
 
 const FLIGHT_OPTIONS = [
-  { value: 'standard', label: 'Standard Tandem — 1200m', price: 140, duration: '25–35 min' },
-  { value: 'high', label: 'High Altitude — 1700m', price: 140, duration: '35–50 min' },
-  { value: 'sunset', label: 'Sunset Flight — 1200m', price: 140, duration: '20–30 min' },
+  { value: 'standard', label: 'Standard Tandem — 1200m', price: 150, duration: '25–35 min' },
+  { value: 'high', label: 'High Altitude — 1700m', price: 150, duration: '35–50 min' },
+  { value: 'sunset', label: 'Sunset Flight — 1200m', price: 150, duration: '20–30 min' },
 ]
 
-const ADDONS = [
-  { id: 'addon_bundle', label: 'Photo & Video Package', price: 35, highlight: true },
-]
-
-function calcTotal(flightType: string, guests: number, addons: Record<string, boolean>) {
+function calcTotal(flightType: string, guests: number) {
   const flight = FLIGHT_OPTIONS.find(f => f.value === flightType)
   if (!flight) return 0
 
-  let base = flight.price * guests
-  if (guests >= 8) base = Math.round(base * 0.85)
-  else if (guests >= 4) base = Math.round(base * 0.90)
-
-  const addon = addons.addon_bundle ? 35 : 0
-
-  return base + addon
+  return flight.price * guests
 }
 
 export default function BookingForm() {
@@ -41,9 +31,6 @@ export default function BookingForm() {
     email: '',
     phone: '',
     notes: '',
-    addon_photo: false,
-    addon_video: false,
-    addon_bundle: false,
   })
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState<{ whatsapp_url: string; total: number } | null>(null)
@@ -53,15 +40,10 @@ export default function BookingForm() {
     setForm(prev => ({ ...prev, [field]: value }))
 
   const totalPrice = form.flight_type
-    ? calcTotal(form.flight_type, parseInt(form.guests), {
-        addon_photo: form.addon_photo,
-        addon_video: form.addon_video,
-        addon_bundle: form.addon_bundle,
-      })
+    ? calcTotal(form.flight_type, parseInt(form.guests))
     : 0
 
   const guestCount = parseInt(form.guests)
-  const hasGroupDiscount = guestCount >= 4
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -106,7 +88,7 @@ export default function BookingForm() {
           <p className="text-slate-500 text-sm mb-8">Check your email for a copy of your request.</p>
 
           <div className="bg-green-50 border border-green-200 rounded-2xl p-6 mb-6">
-            <p className="text-green-800 font-semibold mb-1">Total Price</p>
+            <p className="text-green-800 font-semibold mb-1">Total Price (all-inclusive)</p>
             <p className="text-4xl font-bold text-green-700 mb-3">${success.total}</p>
             <p className="text-green-700 text-sm">No payment required now — pay on the day.</p>
           </div>
@@ -160,6 +142,7 @@ export default function BookingForm() {
                       <p className="font-semibold text-slate-900 text-sm">{opt.label}</p>
                       <p className="text-slate-500 text-xs mt-0.5">{opt.duration}</p>
                       <p className="text-orange-500 font-bold mt-1">${opt.price} / person</p>
+                      <p className="text-green-600 text-[11px] mt-0.5">All-inclusive</p>
                     </button>
                   ))}
                 </div>
@@ -187,17 +170,10 @@ export default function BookingForm() {
                     {[1,2,3,4,5,6,7,8].map(n => (
                       <option key={n} value={n}>
                         {n} {n === 1 ? 'guest' : 'guests'}
-                        {n >= 4 ? ' (group discount)' : ''}
                       </option>
                     ))}
                     <option value="9">9+ guests (contact us)</option>
                   </select>
-                  {hasGroupDiscount && (
-                    <p className="text-green-600 text-xs mt-1 flex items-center gap-1">
-                      <CheckCircle className="w-3 h-3" />
-                      {guestCount >= 8 ? '15%' : '10%'} group discount applied
-                    </p>
-                  )}
                 </div>
               </div>
 
@@ -249,35 +225,15 @@ export default function BookingForm() {
                 </div>
               </div>
 
-              {/* Add-ons */}
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-3">Add-ons</label>
-                <div className="space-y-2">
-                  {ADDONS.map(addon => (
-                    <label
-                      key={addon.id}
-                      className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer transition-all ${
-                        form[addon.id as keyof typeof form]
-                          ? 'border-orange-400 bg-orange-50'
-                          : 'border-slate-200 hover:bg-slate-50'
-                      }`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={!!form[addon.id as keyof typeof form]}
-                        onChange={e => set(addon.id, e.target.checked)}
-                        className="w-4 h-4 accent-orange-500"
-                      />
-                      <span className="text-slate-700 text-sm flex-1">
-                        {addon.label}
-                        {addon.highlight && (
-                          <span className="ml-2 text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">Best value</span>
-                        )}
-                      </span>
-                      <span className="text-green-600 font-semibold text-sm">{addon.price > 0 ? `+$${addon.price}` : 'Free'}</span>
-                    </label>
-                  ))}
-                </div>
+              {/* What's included */}
+              <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                <p className="text-sm font-semibold text-green-800 mb-2">One fixed price — everything included, no add-ons, no discounts</p>
+                <ul className="text-sm text-green-700 space-y-1">
+                  <li>&#10003; Professional photo &amp; video package</li>
+                  <li>&#10003; Mountain entrance fee</li>
+                  <li>&#10003; Transfer to and from the mountain</li>
+                  <li>&#10003; All equipment &amp; licensed pilot</li>
+                </ul>
               </div>
 
               {/* Notes */}
@@ -304,10 +260,8 @@ export default function BookingForm() {
               {totalPrice > 0 && (
                 <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-slate-600">Estimated total</p>
-                    {hasGroupDiscount && (
-                      <p className="text-xs text-green-600">Group discount included</p>
-                    )}
+                    <p className="text-sm text-slate-600">Total (all-inclusive)</p>
+                    <p className="text-xs text-slate-500">$150 per person — no discounts, nothing extra</p>
                   </div>
                   <p className="text-2xl font-bold text-slate-900">${totalPrice}</p>
                 </div>
@@ -387,9 +341,9 @@ export default function BookingForm() {
               <h3 className="font-bold text-slate-900 mb-4">Quick Price Guide</h3>
               <div className="space-y-2 text-sm">
                 {[
-                  { name: 'Standard (1200m)', price: '$140' },
-                  { name: 'High Altitude (1700m)', price: '$140' },
-                  { name: 'Sunset Flight', price: '$140' },
+                  { name: 'Standard (1200m)', price: '$150' },
+                  { name: 'High Altitude (1700m)', price: '$150' },
+                  { name: 'Sunset Flight', price: '$150' },
                 ].map(p => (
                   <div key={p.name} className="flex justify-between text-slate-700">
                     <span>{p.name}</span>

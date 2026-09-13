@@ -120,7 +120,7 @@
     "sunsetDuration": "20–30 dk",
     "sunsetBadge": "Premium",
     "included": "Dahil Olanlar",
-    "addOns": "Ek Hizmetler",
+    "addOns": "Her Şey Dahil",
     "bookNow": "Bu Uçuşu Rezerve Et",
     "feat1": "Sertifikalı tandem pilot",
     "feat2": "Tam güvenlik ekipmanı",
@@ -131,8 +131,8 @@
     "featHigher": "Daha uzun uçuş süresi",
     "featSunset": "Öğleden sonra geç kalkış",
     "featSunset2": "Mavi Lagün üzerinde altın saat",
-    "groupDiscount": "Grup İndirimi Mevcut",
-    "groupDesc": "4 ve üzeri gruplara %10, 8 ve üzeri gruplara %15 indirim."
+    "groupDiscount": "Tek Sabit Fiyat",
+    "groupDesc": "Her uçuş $150 all-inclusive — grup indirimi yok, gizli ücret yok."
   },
   "bookNow": {
     "title": "Yamaç Paraşütü Uçuşunuzu Rezerve Edin",

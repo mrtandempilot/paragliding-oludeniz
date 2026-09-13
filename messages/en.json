@@ -120,7 +120,7 @@
     "sunsetDuration": "20–30 min",
     "sunsetBadge": "Premium",
     "included": "What's Included",
-    "addOns": "Add-Ons",
+    "addOns": "All-Inclusive",
     "bookNow": "Book This Flight",
     "feat1": "Certified tandem pilot",
     "feat2": "Full safety equipment",
@@ -131,8 +131,8 @@
     "featHigher": "Longer flight time",
     "featSunset": "Late afternoon departure",
     "featSunset2": "Golden hour over Blue Lagoon",
-    "groupDiscount": "Group Discount Available",
-    "groupDesc": "Groups of 4+ get 10% off. Groups of 8+ get 15% off."
+    "groupDiscount": "One Fixed Price",
+    "groupDesc": "Every flight is $150 all-inclusive — no group discounts, no hidden fees."
   },
   "bookNow": {
     "title": "Book Your Paragliding Flight",

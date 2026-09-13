@@ -14,7 +14,7 @@ const faqs = [
     category: 'Booking & Prices',
     questions: [
       { question: 'How do I book a flight?', answer: 'You can book online through our booking page, call us directly on +90 536 461 6674, or message us on WhatsApp. We recommend booking at least 24 hours in advance, especially in peak season (July–August).' },
-      { question: 'How much does a tandem paragliding flight cost?', answer: 'Please check our prices page for current rates. Prices vary by flight type — standard tandem, sunset flight, and group bookings all have different rates. We offer group discounts for 4+ people.' },
+      { question: 'How much does a tandem paragliding flight cost?', answer: 'A tandem paragliding flight is a fixed $150 per person, all-inclusive — covering the flight, professional photo & video, mountain entrance fee, and transfer to and from the mountain. There are no add-ons and no discounts; everyone pays the same price.' },
       { question: 'Can I cancel or reschedule if the weather is bad?', answer: 'Yes. We offer free cancellation up to 24 hours before your flight. If we cancel due to weather on the day, you can reschedule at no extra cost or receive a full refund.' },
       { question: 'What payment methods do you accept?', answer: 'We accept online card payments (Visa, Mastercard), cash on the day, and bank transfer for large group bookings. All prices include VAT.' },
     ],

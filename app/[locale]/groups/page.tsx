@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'groups' })
-  const d: Record<string, string> = {"en": "Group paragliding in Oludeniz for families, friends, corporate events, hen & stag parties and schools. Group discounts and full logistics.", "tr": "Aileler, arkadaş grupları, kurumsal etkinlikler ve okullar için Ölüdeniz'de grup yamaç paraşütü. Grup indirimi ve tam lojistik destek.", "de": "Gruppen-Paragliding in Ölüdeniz für Familien, Freunde, Firmenevents und Schulen. Gruppenrabatte und komplette Logistik.", "ru": "Групповые полёты на параплане в Олюденизе для семей, друзей, корпоративов и школ. Скидки для групп и полная логистика."}
+  const d: Record<string, string> = {"en": "Group paragliding in Oludeniz for families, friends, corporate events, hen & stag parties and schools. One fixed all-inclusive price and full logistics.", "tr": "Aileler, arkadaş grupları, kurumsal etkinlikler ve okullar için Ölüdeniz'de grup yamaç paraşütü. Sabit all-inclusive fiyat ve tam lojistik destek.", "de": "Gruppen-Paragliding in Ölüdeniz für Familien, Freunde, Firmenevents und Schulen. Ein Festpreis all-inclusive und komplette Logistik.", "ru": "Групповые полёты на параплане в Олюденизе для семей, друзей, корпоративов и школ. Единая цена всё включено и полная логистика."}
   return {
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/groups'),
@@ -51,7 +51,7 @@ export default async function GroupsPage({ params }: { params: Promise<{ locale:
             ))}
           </div>
           <div className="bg-orange-50 border border-orange-200 rounded-2xl p-8 text-center">
-            <p className="text-slate-700 mb-4">Groups of 4+ receive 10% discount. Groups of 8+ receive 15% off.</p>
+            <p className="text-slate-700 mb-4">Every guest pays the same fixed $150 all-inclusive price — no group discounts, no hidden fees.</p>
             <Link href={lp("/contact")} className="btn-primary">Get a Group Quote <ArrowRight className="w-4 h-4" /></Link>
           </div>
         </div>

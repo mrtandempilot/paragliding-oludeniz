@@ -9,9 +9,8 @@ const KEYWORD_TRIGGERS = ['fiyat', 'price', 'rezervasyon', 'booking', 'cost', 'h
 
 const KEYWORD_DM = `Merhaba! Fiyat ve rezervasyon bilgisi icin:
 
-Tandem ucus (Standart / Yuksek / Sunset) - $140 kisi basi
-Foto & Video paketi - +$35 (opsiyonel)
-Grup indirimi (4+ kisi) - %15 indirim
+Tek fiyat: $150 kisi basi (foto & video, dag giris ucreti ve transfer dahil)
+Indirim yok, ek ucret yok - herkese ayni fiyat
 
 Online rezervasyon: atmosparagliding.com/book-now
 

@@ -12,9 +12,9 @@ function getSupabase() {
 }
 
 const FLIGHT_PRICES: Record<string, number> = {
-  standard: 140,
-  high: 140,
-  sunset: 140,
+  standard: 150,
+  high: 150,
+  sunset: 150,
 }
 
 const FLIGHT_LABELS: Record<string, string> = {
@@ -47,18 +47,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    // Calculate price
+    // Calculate price — one fixed all-inclusive price per person, no add-ons, no discounts
     const guestCount = parseInt(guests) || 1
-    const basePerPerson = FLIGHT_PRICES[flight_type] || 140
-    // Photo & Video package is a $35 extra
-    let addonPrice = addon_bundle ? 35 : 0
-
-    // Group discount
-    let basePrice = basePerPerson * guestCount
-    if (guestCount >= 8) basePrice = Math.round(basePrice * 0.85)
-    else if (guestCount >= 4) basePrice = Math.round(basePrice * 0.90)
-
-    const totalPrice = basePrice + addonPrice
+    const basePerPerson = FLIGHT_PRICES[flight_type] || 150
+    const addonPrice = 0
+    const basePrice = basePerPerson * guestCount
+    const totalPrice = basePrice
 
     // Save to Supabase
     const { data: booking, error } = await supabase
@@ -72,9 +66,9 @@ export async function POST(request: Request) {
         email,
         phone: phone || null,
         notes: notes || null,
-        addon_photo: !!addon_photo,
-        addon_video: !!addon_video,
-        addon_bundle: !!addon_bundle,
+        addon_photo: true,
+        addon_video: true,
+        addon_bundle: true,
         base_price: basePrice,
         addon_price: addonPrice,
         total_price: totalPrice,
@@ -96,8 +90,7 @@ export async function POST(request: Request) {
       if (!GMAIL_PASS) {
         console.error('[Bookings] GMAIL_APP_PASSWORD not set — skipping email')
       } else {
-        const addons = []
-        if (addon_bundle) addons.push('Photo + Video Package (+$35)')
+        const includedText = 'Flight, professional photo & video, mountain entrance fee, transfer to/from mountain'
 
         const dateStr = new Date(flight_date).toLocaleDateString('en-GB', {
           weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
@@ -118,14 +111,14 @@ export async function POST(request: Request) {
               <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Flight</td><td style="padding:8px;">${FLIGHT_LABELS[flight_type]}</td></tr>
               <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Date</td><td style="padding:8px;">${dateStr}</td></tr>
               <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Guests</td><td style="padding:8px;">${guestCount}</td></tr>
-              ${addons.length ? `<tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Add-ons</td><td style="padding:8px;">${addons.join(', ')}</td></tr>` : ''}
+              <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Includes</td><td style="padding:8px;">${includedText}</td></tr>
               <tr><td colspan="2" style="padding:8px; border-top:2px solid #e9ecef;"></td></tr>
               <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Name</td><td style="padding:8px;">${first_name} ${last_name}</td></tr>
               <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Email</td><td style="padding:8px;"><a href="mailto:${email}">${email}</a></td></tr>
               <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Phone</td><td style="padding:8px;">${phone || 'Not provided'}</td></tr>
               ${notes ? `<tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Notes</td><td style="padding:8px;">${notes}</td></tr>` : ''}
               <tr><td colspan="2" style="padding:8px; border-top:2px solid #e9ecef;"></td></tr>
-              <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Total</td><td style="padding:8px; font-size:18px; font-weight:bold; color:#f97316;">$${totalPrice}${guestCount >= 4 ? ' (group discount applied)' : ''}</td></tr>
+              <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Total (all-inclusive)</td><td style="padding:8px; font-size:18px; font-weight:bold; color:#f97316;">$${totalPrice}</td></tr>
             </table>
             <br>
             <a href="https://atmosparagliding.com/admin/bookings" style="display:inline-block; background:#f97316; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">View in Admin Panel</a>
@@ -232,19 +225,9 @@ export async function POST(request: Request) {
     const dateFormatted = new Date(flight_date).toLocaleDateString('en-GB', {
       weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
     })
-    const addonsText = addon_bundle
-      ? ' + Photo & Video Bundle'
-      : addon_photo && addon_video
-        ? ' + Photo & Video'
-        : addon_photo
-          ? ' + Photo Package'
-          : addon_video
-            ? ' + Video Package'
-            : ''
-
     const waMessage = encodeURIComponent(
       `Hi! I just submitted a booking request on your website.\n\n` +
-      `Flight: ${FLIGHT_LABELS[flight_type]}${addonsText}\n` +
+      `Flight: ${FLIGHT_LABELS[flight_type]} (all-inclusive: photo & video, mountain fee, transfer)\n` +
       `Date: ${dateFormatted}\n` +
       `Guests: ${guestCount}\n` +
       `Name: ${first_name} ${last_name}\n` +
