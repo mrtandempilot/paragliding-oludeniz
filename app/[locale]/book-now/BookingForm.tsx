@@ -66,6 +66,18 @@ export default function BookingForm() {
       if (!res.ok) throw new Error(data.error || 'Something went wrong')
 
       setSuccess({ whatsapp_url: data.whatsapp_url, total: data.total_price })
+
+      // Analytics: booking conversion tracking (was missing on this page —
+      // only the unused legacy /book-now copy had it)
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'conversion', { send_to: 'AW-1048206545/cXNxCN20udQBENG56fMD' })
+        ;(window as any).gtag('event', 'generate_lead', {
+          currency: 'USD',
+          value: data.total_price,
+          flight_type: form.flight_type,
+          guests: guestCount,
+        })
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to submit booking. Please try WhatsApp or email.')
     } finally {
