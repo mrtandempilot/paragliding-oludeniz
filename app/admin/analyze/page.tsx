@@ -196,9 +196,9 @@ export default async function AnalyzePage() {
           <TrendingUp className="w-3.5 h-3.5" /> Haftalık Gösterim Trendi (son ~12 hafta) — domain migrasyonu sonrası toparlanma
         </div>
         {weekly.length > 0 ? (
-          <div className="flex items-end gap-1.5 h-32">
+          <div className="flex items-stretch gap-1.5 h-32">
             {weekly.map(w => (
-              <div key={w.week} className="flex-1 flex flex-col items-center justify-end group relative">
+              <div key={w.week} className="flex-1 h-full flex flex-col items-center justify-end group relative">
                 <div
                   className="w-full bg-indigo-400 rounded-t-md hover:bg-indigo-500 transition-colors"
                   style={{ height: `${(w.impressions / maxWeekly) * 100}%`, minHeight: '2px' }}
