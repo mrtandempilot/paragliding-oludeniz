@@ -83,8 +83,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="font-bold text-slate-800 mb-1">Opening Hours</p>
-                    <p className="text-slate-700">Daily: 08:00 – 19:00</p>
-                    <p className="text-slate-700">Season: April – October</p>
+                    <p className="text-slate-700">Daily: 07:00 – 20:00</p>
+                    <p className="text-slate-700">Open all year round</p>
                   </div>
                 </div>
               </div>

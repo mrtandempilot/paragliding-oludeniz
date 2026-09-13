@@ -84,9 +84,7 @@ const LOCAL_BUSINESS_SCHEMA = {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       opens: '07:00',
-      closes: '19:00',
-      validFrom: '2025-04-01',
-      validThrough: '2025-10-31',
+      closes: '20:00',
     },
   ],
   sameAs: [
