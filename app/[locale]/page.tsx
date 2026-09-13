@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Hero from '@/components/home/Hero'
+import PromoBanner from '@/components/shared/PromoBanner'
 import WhyOludeniz from '@/components/home/WhyOludeniz'
 import FlightTypesGrid from '@/components/home/FlightTypesGrid'
 import BabadagIntro from '@/components/home/BabadagIntro'
@@ -122,6 +123,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_SCHEMA) }}
       />
       <Hero />
+      <PromoBanner />
       <WhyOludeniz />
       <FlightTypesGrid />
       <BabadagIntro />

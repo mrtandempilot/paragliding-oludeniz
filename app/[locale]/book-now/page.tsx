@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingForm from './BookingForm'
+import PromoBanner from '@/components/shared/PromoBanner'
 import { getTranslations } from 'next-intl/server'
 import { localeAlternates, localeUrl } from '@/lib/seo'
 import ServiceSchema from '@/components/shared/ServiceSchema'
@@ -32,6 +33,7 @@ export default async function BookNowPage({ params }: { params: Promise<{ locale
           <BreadcrumbNav items={[{ label: t('title') }]} />
         </div>
       </div>
+      <PromoBanner />
       <BookingForm />
     </>
   )

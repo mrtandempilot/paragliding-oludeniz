@@ -12,7 +12,7 @@ interface BookingCTAProps {
 
 export default function BookingCTA({
   title = 'Ready to Book Your Flight?',
-  subtitle = 'Tandem flights available daily April – October. Book online or contact us directly.',
+  subtitle = 'Tandem flights available daily, all year round. Book online or contact us directly.',
   variant = 'orange',
 }: BookingCTAProps) {
   const locale = useLocale()
