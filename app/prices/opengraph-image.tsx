@@ -66,9 +66,9 @@ export default async function Image() {
           {/* Right: price cards */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, minWidth: 280 }}>
             {[
-              { label: 'Standard (1200m)', price: '$150', note: '25–35 min' },
-              { label: 'High Altitude (1700m)', price: '$150', note: '35–50 min', highlight: true },
-              { label: 'Sunset Flight', price: '$150', note: '20–30 min' },
+              { label: 'Standard (1200m)', price: '$150', note: '25–30 min' },
+              { label: 'High Altitude (1700m)', price: '$150', note: '25–30 min', highlight: true },
+              { label: 'Sunset Flight', price: '$150', note: '25–30 min' },
             ].map((pkg) => (
               <div
                 key={pkg.label}

@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { Phone, Mail, MessageCircle, CheckCircle, Clock, Shield, ArrowRight, AlertCircle } from 'lucide-react'
 
 const FLIGHT_OPTIONS = [
-  { value: 'standard', label: 'Standard Tandem — 1200m', price: 150, duration: '25–35 min' },
-  { value: 'high', label: 'High Altitude — 1700m', price: 150, duration: '35–50 min' },
-  { value: 'sunset', label: 'Sunset Flight — 1200m', price: 150, duration: '20–30 min' },
+  { value: 'standard', label: 'Standard Tandem — 1200m', price: 150, duration: '25–30 min' },
+  { value: 'high', label: 'High Altitude — 1700m', price: 150, duration: '25–30 min' },
+  { value: 'sunset', label: 'Sunset Flight — 1200m', price: 150, duration: '25–30 min' },
 ]
 
 function calcTotal(flightType: string, guests: number) {
