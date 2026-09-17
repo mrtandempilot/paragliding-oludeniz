@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic'
 
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { cookies } from 'next/headers'
 import nodemailer from 'nodemailer'
 
 function getSupabase() {
@@ -9,6 +10,19 @@ function getSupabase() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
+}
+
+// GET (list) and PATCH (update status) expose customer PII / let anyone change
+// booking status — only allow the admin panel (cookie) or the calendar-sync
+// scheduled task (CALENDAR_SYNC_SECRET bearer token) to call them.
+// POST (creating a booking) stays open — that's the public booking form.
+function isAuthorized(request: Request) {
+  const auth = request.headers.get('authorization')
+  if (auth && process.env.CALENDAR_SYNC_SECRET && auth === `Bearer ${process.env.CALENDAR_SYNC_SECRET}`) {
+    return true
+  }
+  const session = cookies().get('admin_session')
+  return !!session && !!process.env.ADMIN_PASSWORD && session.value === process.env.ADMIN_PASSWORD
 }
 
 const FLIGHT_PRICES: Record<string, number> = {
@@ -248,11 +262,16 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
+  if (!isAuthorized(request)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const supabase = getSupabase()
-  // Admin only — list bookings
   const { searchParams } = new URL(request.url)
   const status = searchParams.get('status')
   const limit = parseInt(searchParams.get('limit') || '50')
+  const from = searchParams.get('from') // flight_date >= from (YYYY-MM-DD)
+  const to = searchParams.get('to') // flight_date <= to (YYYY-MM-DD)
 
   let query = supabase
     .from('bookings')
@@ -261,6 +280,8 @@ export async function GET(request: Request) {
     .limit(limit)
 
   if (status) query = query.eq('status', status)
+  if (from) query = query.gte('flight_date', from)
+  if (to) query = query.lte('flight_date', to)
 
   const { data, error } = await query
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -269,6 +290,10 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+  if (!isAuthorized(request)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const supabase = getSupabase()
   // Admin: update booking status
   const body = await request.json()

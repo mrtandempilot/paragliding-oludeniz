@@ -2,6 +2,7 @@ import Link from 'next/link'
 import {
   LayoutDashboard,
   CalendarCheck,
+  CalendarDays,
   Instagram,
   MessageCircle,
   FileText,
@@ -17,6 +18,7 @@ const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/mission-control', label: 'Mission Control', icon: Radar },
   { href: '/admin/bookings', label: 'Rezervasyonlar', icon: CalendarCheck },
+  { href: '/admin/calendar', label: 'Takvim', icon: CalendarDays },
   { href: '/admin/content-pilot', label: 'ContentPilot AI', icon: Bot },
   { href: '/admin/instagram', label: 'Instagram', icon: Instagram },
   { href: '/admin/dm-automation', label: 'Otomatik DM', icon: MessageCircle },
