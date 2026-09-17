@@ -30,6 +30,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# calendar sync helper (contains customer PII / a secret token, never commit)
+calendar-sync-bookings.json
+calendar-sync-fetch.ps1
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

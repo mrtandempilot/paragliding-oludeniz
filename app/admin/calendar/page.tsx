@@ -19,9 +19,9 @@ interface Booking {
 }
 
 const FLIGHT_LABELS: Record<string, string> = {
-  standard: 'Standard (1200m)',
-  high: 'Yüksek İrtifa (1700m)',
-  sunset: 'Gün Batımı Uçuşu',
+  standard: 'Standard (2000m)',
+  high: 'Yüksek İrtifa (2000m)',
+  sunset: 'Gün Batımı Uçuşu (2000m)',
 }
 
 const STATUS_DOT: Record<string, string> = {

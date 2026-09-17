@@ -25,9 +25,9 @@ interface Booking {
 }
 
 const FLIGHT_LABELS: Record<string, string> = {
-  standard: 'Standard (1200m)',
-  high: 'High Altitude (1700m)',
-  sunset: 'Sunset Flight',
+  standard: 'Standard (2000m)',
+  high: 'High Altitude (2000m)',
+  sunset: 'Sunset Flight (2000m)',
 }
 
 const STATUS_STYLES: Record<string, string> = {

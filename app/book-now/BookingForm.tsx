@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { Phone, Mail, MessageCircle, CheckCircle, Clock, Shield, ArrowRight, AlertCircle } from 'lucide-react'
 
 const FLIGHT_OPTIONS = [
-  { value: 'standard', label: 'Standard Tandem — 1200m', price: 150, duration: '25–30 min' },
-  { value: 'high', label: 'High Altitude — 1700m', price: 150, duration: '25–30 min' },
-  { value: 'sunset', label: 'Sunset Flight — 1200m', price: 150, duration: '25–30 min' },
+  { value: 'standard', label: 'Standard Tandem — 2000m', price: 150, duration: '25–30 min' },
+  { value: 'high', label: 'High Altitude — 2000m', price: 150, duration: '25–30 min' },
+  { value: 'sunset', label: 'Sunset Flight — 2000m', price: 150, duration: '25–30 min' },
 ]
 
 function calcTotal(flightType: string, guests: number) {
@@ -341,9 +341,9 @@ export default function BookingForm() {
               <h3 className="font-bold text-slate-900 mb-4">Quick Price Guide</h3>
               <div className="space-y-2 text-sm">
                 {[
-                  { name: 'Standard (1200m)', price: '$150' },
-                  { name: 'High Altitude (1700m)', price: '$150' },
-                  { name: 'Sunset Flight', price: '$150' },
+                  { name: 'Standard (2000m)', price: '$150' },
+                  { name: 'High Altitude (2000m)', price: '$150' },
+                  { name: 'Sunset Flight (2000m)', price: '$150' },
                 ].map(p => (
                   <div key={p.name} className="flex justify-between text-slate-700">
                     <span>{p.name}</span>

@@ -32,9 +32,9 @@ const FLIGHT_PRICES: Record<string, number> = {
 }
 
 const FLIGHT_LABELS: Record<string, string> = {
-  standard: 'Standard Tandem — 1200m',
-  high: 'High Altitude — 1700m',
-  sunset: 'Sunset Flight — 1200m',
+  standard: 'Standard Tandem — 2000m',
+  high: 'High Altitude — 2000m',
+  sunset: 'Sunset Flight — 2000m',
 }
 
 export async function POST(request: Request) {
