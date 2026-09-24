@@ -83,7 +83,7 @@ export default async function Footer() {
               </a>
               <div className="flex items-start gap-2 text-slate-400">
                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                <span>Ölüdeniz, Fethiye, Muğla, Turkey</span>
+                <span>Elekli Cd. No:14, Ölüdeniz, 48300 Fethiye/Muğla, Türkiye</span>
               </div>
             </div>
           </div>

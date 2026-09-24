@@ -125,7 +125,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
             />
           </div>
           <p className="text-slate-500 text-sm mt-3">
-            📍 Ölüdeniz Mahallesi, Elekli Caddesi, 48000 Fethiye/Muğla, Türkiye
+            📍 Elekli Cd. No:14, Ölüdeniz, 48300 Fethiye/Muğla, Türkiye
           </p>
         </div>
       </section>

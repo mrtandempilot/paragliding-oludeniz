@@ -74,7 +74,9 @@ const LOCAL_BUSINESS_SCHEMA = {
   priceRange: '$$',
   address: {
     '@type': 'PostalAddress',
-    addressLocality: 'Ölüdeniz, Fethiye',
+    streetAddress: 'Elekli Cd. No:14, Ölüdeniz',
+    addressLocality: 'Fethiye',
+    postalCode: '48300',
     addressRegion: 'Muğla',
     addressCountry: 'TR',
   },

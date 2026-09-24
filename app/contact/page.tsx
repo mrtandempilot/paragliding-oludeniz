@@ -148,7 +148,7 @@ export default function ContactPage() {
             />
           </div>
           <p className="text-center text-slate-500 text-sm mt-4">
-            📍 Ölüdeniz Mahallesi, Fethiye, Muğla — on the main beach road
+            📍 Elekli Cd. No:14, Ölüdeniz, 48300 Fethiye/Muğla, Türkiye
           </p>
         </div>
       </section>
