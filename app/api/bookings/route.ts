@@ -4,12 +4,151 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import nodemailer from 'nodemailer'
+import crypto from 'crypto'
 
 function getSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
+}
+
+// ---------------------------------------------------------------------------
+// Instant Google Calendar sync ("skywalkers" calendar).
+//
+// This writes the event the moment a booking is created, so it shows up in
+// Google Calendar immediately — independent of the hourly PC-based polling
+// task (which fetches this same /api/bookings endpoint from Ceyhun's
+// computer). Both write the same "[BKG:<id>]" marker in the description, so
+// the hourly sync recognizes an instantly-created event as already synced
+// and won't duplicate it.
+//
+// Requires two env vars on Vercel (see project settings):
+//   GOOGLE_SERVICE_ACCOUNT_EMAIL     - the service account's email
+//   GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY - its PEM private key (\n escaped is fine)
+// The service account must be shared on the "skywalkers" calendar with
+// "Make changes to events" access. If either env var is missing, this is a
+// no-op (booking still saves fine; the hourly sync will pick it up later).
+// ---------------------------------------------------------------------------
+
+const SKYWALKERS_CALENDAR_ID =
+  process.env.GOOGLE_CALENDAR_ID ||
+  '16fd11edf8eff8e70a23274eee57e601f8c8c08e956280397ce56a206a0fbe31@group.calendar.google.com'
+
+const CALENDAR_FLIGHT_LABELS: Record<string, string> = {
+  standard: 'Standard (1200m)',
+  high: 'Yüksek İrtifa (1700m)',
+  sunset: 'Gün Batımı Uçuşu',
+}
+
+function base64url(input: Buffer | string): string {
+  return (Buffer.isBuffer(input) ? input : Buffer.from(input))
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '')
+}
+
+async function getGoogleCalendarAccessToken(): Promise<string | null> {
+  const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL
+  const privateKeyRaw = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
+  if (!clientEmail || !privateKeyRaw) return null
+
+  const privateKey = privateKeyRaw.replace(/\\n/g, '\n')
+  const now = Math.floor(Date.now() / 1000)
+
+  const unsigned = `${base64url(JSON.stringify({ alg: 'RS256', typ: 'JWT' }))}.${base64url(
+    JSON.stringify({
+      iss: clientEmail,
+      scope: 'https://www.googleapis.com/auth/calendar.events',
+      aud: 'https://oauth2.googleapis.com/token',
+      iat: now,
+      exp: now + 3600,
+    })
+  )}`
+
+  const signer = crypto.createSign('RSA-SHA256')
+  signer.update(unsigned)
+  signer.end()
+  const jwt = `${unsigned}.${base64url(signer.sign(privateKey))}`
+
+  const res = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+      assertion: jwt,
+    }),
+  })
+
+  if (!res.ok) {
+    console.error('[Calendar] token exchange failed:', res.status, await res.text())
+    return null
+  }
+  const json = await res.json()
+  return (json.access_token as string) || null
+}
+
+async function createCalendarEventForBooking(booking: {
+  id: string
+  first_name: string
+  last_name: string
+  guests: number
+  flight_type: string
+  flight_date: string
+  phone: string | null
+  notes: string | null
+  total_price: number
+  status: string
+}) {
+  const accessToken = await getGoogleCalendarAccessToken()
+  if (!accessToken) {
+    console.warn(
+      '[Calendar] GOOGLE_SERVICE_ACCOUNT_EMAIL / GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY not set — skipping instant calendar sync (hourly sync will still catch this up)'
+    )
+    return
+  }
+
+  const label = CALENDAR_FLIGHT_LABELS[booking.flight_type] || booking.flight_type
+  const startDate = booking.flight_date // 'YYYY-MM-DD'
+  const endDateObj = new Date(`${startDate}T00:00:00Z`)
+  endDateObj.setUTCDate(endDateObj.getUTCDate() + 1)
+  const endDate = endDateObj.toISOString().slice(0, 10)
+
+  const descriptionLines = [
+    `Telefon: ${booking.phone || 'belirtilmedi'}`,
+    `Durum: ${booking.status}`,
+    `Toplam: $${booking.total_price}`,
+  ]
+  if (booking.notes) descriptionLines.push(booking.notes)
+  descriptionLines.push('Admin panel: https://www.atmosparagliding.com/admin/bookings')
+  descriptionLines.push(`[BKG:${booking.id}]`)
+
+  const event = {
+    summary: `🪂 ${booking.first_name} ${booking.last_name} — ${booking.guests} kişi (${label})`,
+    description: descriptionLines.join('\n'),
+    start: { date: startDate },
+    end: { date: endDate },
+    colorId: booking.status === 'confirmed' ? '10' : '5',
+  }
+
+  const res = await fetch(
+    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(SKYWALKERS_CALENDAR_ID)}/events`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(event),
+    }
+  )
+
+  if (!res.ok) {
+    console.error('[Calendar] event create failed:', res.status, await res.text())
+  } else {
+    console.log('[Calendar] instant event created for booking', booking.id)
+  }
 }
 
 // GET (list) and PATCH (update status) expose customer PII / let anyone change
@@ -94,6 +233,26 @@ export async function POST(request: Request) {
     if (error) {
       console.error('[Bookings] Supabase error:', error)
       return NextResponse.json({ error: 'Failed to save booking' }, { status: 500 })
+    }
+
+    // Write instantly to the "skywalkers" Google Calendar — no need to wait
+    // for the hourly PC-based sync task anymore.
+    try {
+      await createCalendarEventForBooking({
+        id: booking.id,
+        first_name,
+        last_name,
+        guests: guestCount,
+        flight_type,
+        flight_date,
+        phone: phone || null,
+        notes: notes || null,
+        total_price: totalPrice,
+        status: 'pending',
+      })
+    } catch (calErr) {
+      console.error('[Bookings] Instant calendar sync failed:', calErr)
+      // Don't fail the request — booking is saved; hourly sync will catch it up.
     }
 
     // Send email notification via Gmail SMTP
