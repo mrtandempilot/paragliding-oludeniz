@@ -27,8 +27,6 @@ const PRICE_SCHEMA = {
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://atmosparagliding.com/book-now',
-      validFrom: '2025-04-01',
-      validThrough: '2025-10-31',
     },
     {
       '@type': 'Offer',
@@ -37,8 +35,6 @@ const PRICE_SCHEMA = {
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://atmosparagliding.com/book-now',
-      validFrom: '2025-04-01',
-      validThrough: '2025-10-31',
     },
     {
       '@type': 'Offer',
@@ -47,8 +43,6 @@ const PRICE_SCHEMA = {
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://atmosparagliding.com/book-now',
-      validFrom: '2025-04-01',
-      validThrough: '2025-10-31',
     },
   ],
 }
