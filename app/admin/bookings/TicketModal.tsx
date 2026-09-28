@@ -302,7 +302,7 @@ export default function TicketModal({ booking, onClose }: { booking: Booking; on
 
               <div className="bg-slate-50 border-t border-slate-200 px-6 py-4 mt-3 flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-500">
                 <div>📞 <strong className="text-slate-900">+90 536 461 6674</strong></div>
-                <div>✉️ <strong className="text-slate-900">info@paragliding-oludeniz.com</strong></div>
+                <div>✉️ <strong className="text-slate-900">atmosparagliding@gmail.com</strong></div>
                 <div>🌐 <strong className="text-slate-900">atmosparagliding.com</strong></div>
               </div>
               <div className="text-center py-3.5 px-6 text-sm font-bold text-sky-700">

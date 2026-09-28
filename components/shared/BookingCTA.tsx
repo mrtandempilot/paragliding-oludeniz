@@ -11,11 +11,11 @@ interface BookingCTAProps {
 }
 
 const COPY: Record<string, { title: string; subtitle: string; book: string; call: string }> = {
-  en: { title: 'Ready to Book Your Flight?', subtitle: 'Tandem flights daily in season (April–October) — one fixed $150 all-inclusive price. Book online or contact us directly.', book: 'Book Online', call: 'Call Us' },
-  tr: { title: 'Uçuşunuzu Ayırtmaya Hazır mısınız?', subtitle: 'Sezon boyunca (Nisan–Ekim) her gün tandem uçuş — sabit $150, her şey dahil. Online rezervasyon yapın ya da bize doğrudan ulaşın.', book: 'Online Rezervasyon', call: 'Bizi Arayın' },
-  de: { title: 'Bereit, Ihren Flug zu buchen?', subtitle: 'Tandemflüge täglich in der Saison (April–Oktober) — Festpreis $150, alles inklusive. Online buchen oder direkt Kontakt aufnehmen.', book: 'Online buchen', call: 'Anrufen' },
-  ru: { title: 'Готовы забронировать полёт?', subtitle: 'Тандемные полёты ежедневно в сезон (апрель–октябрь) — фиксированная цена $150, всё включено. Бронируйте онлайн или свяжитесь с нами напрямую.', book: 'Забронировать онлайн', call: 'Позвонить' },
-  zh: { title: '准备好预订您的飞行了吗？', subtitle: '飞行季（4 月–10 月）每天都有双人飞行——150 美元全包一口价。在线预订或直接联系我们。', book: '在线预订', call: '致电我们' },
+  en: { title: 'Ready to Book Your Flight?', subtitle: 'Tandem flights all year round — daily in season (April–October), weather permitting in winter — one fixed $150 all-inclusive price. Book online or contact us directly.', book: 'Book Online', call: 'Call Us' },
+  tr: { title: 'Uçuşunuzu Ayırtmaya Hazır mısınız?', subtitle: 'Yıl boyu tandem uçuş — sezonda (Nisan–Ekim) her gün, kışın hava uygun olduğunda — sabit $150, her şey dahil. Online rezervasyon yapın ya da bize doğrudan ulaşın.', book: 'Online Rezervasyon', call: 'Bizi Arayın' },
+  de: { title: 'Bereit, Ihren Flug zu buchen?', subtitle: 'Tandemflüge das ganze Jahr — täglich in der Saison (April–Oktober), im Winter wetterabhängig — Festpreis $150, alles inklusive. Online buchen oder direkt Kontakt aufnehmen.', book: 'Online buchen', call: 'Anrufen' },
+  ru: { title: 'Готовы забронировать полёт?', subtitle: 'Тандемные полёты круглый год — ежедневно в сезон (апрель–октябрь), зимой по погоде — фиксированная цена $150, всё включено. Бронируйте онлайн или свяжитесь с нами напрямую.', book: 'Забронировать онлайн', call: 'Позвонить' },
+  zh: { title: '准备好预订您的飞行了吗？', subtitle: '全年提供双人飞行——旺季（4 月–10 月）每天飞行，冬季视天气而定——150 美元全包一口价。在线预订或直接联系我们。', book: '在线预订', call: '致电我们' },
 }
 
 export default function BookingCTA({

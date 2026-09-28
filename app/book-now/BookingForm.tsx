@@ -326,12 +326,12 @@ export default function BookingForm() {
                     <p className="text-sky-600 text-xs">+90 536 461 6674</p>
                   </div>
                 </a>
-                <a href="mailto:info@paragliding-oludeniz.com"
+                <a href="mailto:atmosparagliding@gmail.com"
                   className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
                   <Mail className="w-5 h-5 text-slate-600" />
                   <div>
                     <p className="font-semibold text-slate-800 text-sm">Email</p>
-                    <p className="text-slate-600 text-xs">info@paragliding-oludeniz.com</p>
+                    <p className="text-slate-600 text-xs">atmosparagliding@gmail.com</p>
                   </div>
                 </a>
               </div>

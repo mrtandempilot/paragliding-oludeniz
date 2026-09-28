@@ -125,9 +125,9 @@ export default async function Footer() {
                 <Phone className="w-4 h-4 flex-shrink-0" />
                 +90 536 461 6674
               </a>
-              <a href="mailto:info@paragliding-oludeniz.com" className="flex items-center gap-2 text-slate-400 hover:text-orange-400 transition-colors">
+              <a href="mailto:atmosparagliding@gmail.com" className="flex items-center gap-2 text-slate-400 hover:text-orange-400 transition-colors">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                info@paragliding-oludeniz.com
+                atmosparagliding@gmail.com
               </a>
               <div className="flex items-start gap-2 text-slate-400">
                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />

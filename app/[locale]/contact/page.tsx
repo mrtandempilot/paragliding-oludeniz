@@ -58,13 +58,13 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                     <p className="text-slate-500 text-sm mt-1">{t('phoneDesc')}</p>
                   </div>
                 </a>
-                <a href="mailto:info@paragliding-oludeniz.com" className="flex items-start gap-4 p-5 bg-slate-50 border border-slate-200 rounded-2xl hover:bg-slate-100 transition-colors">
+                <a href="mailto:atmosparagliding@gmail.com" className="flex items-start gap-4 p-5 bg-slate-50 border border-slate-200 rounded-2xl hover:bg-slate-100 transition-colors">
                   <div className="w-12 h-12 bg-sky-500 rounded-xl flex items-center justify-center flex-shrink-0">
                     <Mail className="w-6 h-6 text-white" />
                   </div>
                   <div>
                     <p className="font-bold text-slate-800 mb-1">{t('email')}</p>
-                    <p className="text-slate-700 font-semibold">info@paragliding-oludeniz.com</p>
+                    <p className="text-slate-700 font-semibold">atmosparagliding@gmail.com</p>
                     <p className="text-slate-500 text-sm mt-1">{t('emailDesc')}</p>
                   </div>
                 </a>

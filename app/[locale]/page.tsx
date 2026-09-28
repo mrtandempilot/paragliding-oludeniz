@@ -74,7 +74,7 @@ const LOCAL_BUSINESS_SCHEMA = {
   name: 'Atmos Paragliding',
   url: 'https://www.atmosparagliding.com',
   telephone: '+905364616674',
-  email: 'info@paragliding-oludeniz.com',
+  email: 'atmosparagliding@gmail.com',
   image: 'https://www.atmosparagliding.com/opengraph-image',
   priceRange: '$$',
   address: {
