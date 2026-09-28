@@ -26,7 +26,7 @@ const PRICE_SCHEMA = {
       price: '150',
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
-      url: 'https://atmosparagliding.com/book-now',
+      url: 'https://www.atmosparagliding.com/book-now',
     },
     {
       '@type': 'Offer',
@@ -34,7 +34,7 @@ const PRICE_SCHEMA = {
       price: '150',
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
-      url: 'https://atmosparagliding.com/book-now',
+      url: 'https://www.atmosparagliding.com/book-now',
     },
     {
       '@type': 'Offer',
@@ -42,7 +42,7 @@ const PRICE_SCHEMA = {
       price: '150',
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
-      url: 'https://atmosparagliding.com/book-now',
+      url: 'https://www.atmosparagliding.com/book-now',
     },
   ],
 }

@@ -6,6 +6,14 @@ import type { NextRequest } from 'next/server'
 const intlMiddleware = createMiddleware(routing)
 
 export function middleware(request: NextRequest) {
+  const host = request.headers.get('host')
+  if (host === 'atmosparagliding.com') {
+    const url = request.nextUrl.clone()
+    url.host = 'www.atmosparagliding.com'
+    url.protocol = 'https:'
+    return NextResponse.redirect(url, 301)
+  }
+
   const { pathname } = request.nextUrl
 
   // Allow login page through

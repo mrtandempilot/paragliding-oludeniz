@@ -1,4 +1,4 @@
-const BASE_URL = 'https://atmosparagliding.com'
+const BASE_URL = 'https://www.atmosparagliding.com'
 
 type ServiceSchemaProps = {
   name: string

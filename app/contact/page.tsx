@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Contact Us | Atmos Paragliding',
   description:
     'Get in touch with Atmos Paragliding. Call, WhatsApp or email us to book a tandem flight or ask any questions. We respond within 2 hours.',
-  alternates: { canonical: 'https://atmosparagliding.com/contact' },
+  alternates: { canonical: 'https://www.atmosparagliding.com/contact' },
 }
 
 export default function ContactPage() {

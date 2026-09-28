@@ -299,7 +299,7 @@ export async function POST(request: Request) {
                                                                                                                                                                                                               <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Total (all-inclusive)</td><td style="padding:8px; font-size:18px; font-weight:bold; color:#f97316;">$${totalPrice}</td></tr>
                                                                                                                                                                                                                           </table>
                                                                                                                                                                                                                                       <br>
-                                                                                                                                                                                                                                                  <a href="https://atmosparagliding.com/admin/bookings" style="display:inline-block; background:#f97316; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">View in Admin Panel</a>
+                                                                                                                                                                                                                                                  <a href="https://www.atmosparagliding.com/admin/bookings" style="display:inline-block; background:#f97316; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">View in Admin Panel</a>
                                                                                                                                                                                                                                                             `,
                 })
 
@@ -335,7 +335,7 @@ export async function POST(request: Request) {
                             `Name: ${first_name} ${last_name}\n` +
                             `Phone: ${phone || 'not provided'}\n` +
                             `Total: $${totalPrice}\n` +
-                            `https://atmosparagliding.com/admin/bookings`
+                            `https://www.atmosparagliding.com/admin/bookings`
 
                 const waRes = await fetch(`https://graph.facebook.com/v21.0/${WA_PHONE_NUMBER_ID}/messages`, {
                             method: 'POST',
