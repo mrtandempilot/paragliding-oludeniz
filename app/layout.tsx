@@ -44,7 +44,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     // outside next-intl context (e.g. admin routes) -> default to en
   }
   return (
-    <html lang={locale}>
+    <html lang={locale === 'zh' ? 'zh-Hans' : locale}>
       <body className={inter.className}>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-XDHL6LYTX0"

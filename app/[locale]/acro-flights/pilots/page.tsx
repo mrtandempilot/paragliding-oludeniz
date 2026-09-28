@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Acro Pilots Oludeniz",tr:"Oludeniz Akro Pilotları",de:"Acro Pilots Oludeniz",ru:"Acro Pilots Oludeniz"}
-  const d = {en:"Advanced paragliding for experienced pilots.",tr:"Deneyimli pilotlar için ileri düzey paraşüt.",de:"Fortgeschrittenes Paragliding für erfahrene Piloten.",ru:"Продвинутый парапланеризм для опытных пилотов."}
+  const t = {en:"Acro Pilots Oludeniz",tr:"Oludeniz Akro Pilotları",de:"Acro Pilots Oludeniz",ru:"Acro Pilots Oludeniz", zh: "厄卢代尼兹特技飞行员"}
+  const d = {en:"Advanced paragliding for experienced pilots.",tr:"Deneyimli pilotlar için ileri düzey paraşüt.",de:"Fortgeschrittenes Paragliding für erfahrene Piloten.",ru:"Продвинутый парапланеризм для опытных пилотов.", zh: "面向有经验飞行员的进阶滑翔伞。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/acro-flights/pilots'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'acro' })
-  const titles = {en:"Acro Pilots Oludeniz",tr:"Oludeniz Akro Pilotları",de:"Acro Pilots Oludeniz",ru:"Acro Pilots Oludeniz"}
-  const subs = {en:"Advanced paragliding for experienced pilots.",tr:"Deneyimli pilotlar için ileri düzey paraşüt.",de:"Fortgeschrittenes Paragliding für erfahrene Piloten.",ru:"Продвинутый парапланеризм для опытных пилотов."}
-  const bodies = {en:["Oludeniz has a resident community of acro pilots and attracts visiting acro specialists from across Europe and beyond. Our team includes pilots with national and international acro competition experience.","Contact us for more information: +90 536 461 6674"],tr:["Oludeniz has a resident community of acro pilots and attracts visiting acro specialists from across Europe and beyond. Our team includes pilots with national and international acro competition experience.","Daha fazla bilgi için bize ulaşın: +90 536 461 6674"],de:["Oludeniz has a resident community of acro pilots and attracts visiting acro specialists from across Europe and beyond. Our team includes pilots with national and international acro competition experience.","Kontaktieren Sie uns: +90 536 461 6674"],ru:["Oludeniz has a resident community of acro pilots and attracts visiting acro specialists from across Europe and beyond. Our team includes pilots with national and international acro competition experience.","Свяжитесь с нами: +90 536 461 6674"]}
+  const titles = {en:"Acro Pilots Oludeniz",tr:"Oludeniz Akro Pilotları",de:"Acro Pilots Oludeniz",ru:"Acro Pilots Oludeniz", zh: "厄卢代尼兹特技飞行员"}
+  const subs = {en:"Advanced paragliding for experienced pilots.",tr:"Deneyimli pilotlar için ileri düzey paraşüt.",de:"Fortgeschrittenes Paragliding für erfahrene Piloten.",ru:"Продвинутый парапланеризм для опытных пилотов.", zh: "面向有经验飞行员的进阶滑翔伞。"}
+  const bodies = {en:["Oludeniz has a resident community of acro pilots and attracts visiting acro specialists from across Europe and beyond. Our team includes pilots with national and international acro competition experience.","Contact us for more information: +90 536 461 6674"],tr:["Oludeniz has a resident community of acro pilots and attracts visiting acro specialists from across Europe and beyond. Our team includes pilots with national and international acro competition experience.","Daha fazla bilgi için bize ulaşın: +90 536 461 6674"],de:["Oludeniz has a resident community of acro pilots and attracts visiting acro specialists from across Europe and beyond. Our team includes pilots with national and international acro competition experience.","Kontaktieren Sie uns: +90 536 461 6674"],ru:["Oludeniz has a resident community of acro pilots and attracts visiting acro specialists from across Europe and beyond. Our team includes pilots with national and international acro competition experience.","Свяжитесь с нами: +90 536 461 6674"], zh: ["厄卢代尼兹拥有常驻的特技飞行员社区，并吸引来自欧洲及其他地区的特技专家。我们的团队中有具备国家级和国际级特技比赛经验的飞行员。","如需了解更多信息，请联系我们：+90 536 461 6674"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Base Jumping Oludeniz",tr:"Oludeniz Base Jumping",de:"Base-Jumping Oludeniz",ru:"Бэйс-джампинг Олюдениз"}
-  const d = {en:"Oludeniz is a renowned base jumping location in Turkey.",tr:"Oludeniz, Türkiye'de tanınmış bir base jumping lokasyonudur.",de:"Oludeniz ist ein bekannter Base-Jumping-Standort in der Türkei.",ru:"Олюдениз — известное место для бэйс-джампинга в Турции."}
+  const t = {en:"Base Jumping Oludeniz",tr:"Oludeniz Base Jumping",de:"Base-Jumping Oludeniz",ru:"Бэйс-джампинг Олюдениз", zh: "厄卢代尼兹低空跳伞"}
+  const d = {en:"Oludeniz is a renowned base jumping location in Turkey.",tr:"Oludeniz, Türkiye'de tanınmış bir base jumping lokasyonudur.",de:"Oludeniz ist ein bekannter Base-Jumping-Standort in der Türkei.",ru:"Олюдениз — известное место для бэйс-джампинга в Турции.", zh: "厄卢代尼兹是土耳其著名的低空跳伞地点。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/base-jump'),
@@ -19,13 +19,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'baseJump' })
-  const titles = {en:"Base Jumping Oludeniz",tr:"Oludeniz Base Jumping",de:"Base-Jumping Oludeniz",ru:"Бэйс-джампинг Олюдениз"}
-  const subs = {en:"Oludeniz is a renowned base jumping location in Turkey.",tr:"Oludeniz, Türkiye'de tanınmış bir base jumping lokasyonudur.",de:"Oludeniz ist ein bekannter Base-Jumping-Standort in der Türkei.",ru:"Олюдениз — известное место для бэйс-джампинга в Турции."}
+  const titles = {en:"Base Jumping Oludeniz",tr:"Oludeniz Base Jumping",de:"Base-Jumping Oludeniz",ru:"Бэйс-джампинг Олюдениз", zh: "厄卢代尼兹低空跳伞"}
+  const subs = {en:"Oludeniz is a renowned base jumping location in Turkey.",tr:"Oludeniz, Türkiye'de tanınmış bir base jumping lokasyonudur.",de:"Oludeniz ist ein bekannter Base-Jumping-Standort in der Türkei.",ru:"Олюдениз — известное место для бэйс-джампинга в Турции.", zh: "厄卢代尼兹是土耳其著名的低空跳伞地点。"}
   const bodies: Record<string,string[]> = {
     en: ["Oludeniz and the surrounding Babadağ cliffs and Butterfly Valley have attracted base jumpers since the 1990s. The area offers limestone cliffs of various heights and aspects, with safe water landings available in the bay.","All base jumping in Turkey requires permits from SHGM and local authorities. Permit requirements change periodically — contact us before planning a trip. We can connect you with the local base jumping community.","We do not operate base jumping as a commercial activity, but we support the community and can provide information on the area, current permit status, and local contacts."],
     tr: ["Oludeniz ve çevresi, 1990'lardan beri base jumping tutkunlarını çekmektedir. Türkiye'de tüm base jumping faaliyetleri SHGM izni gerektirmektedir.","Base jumping ticari bir faaliyet olarak işletmiyoruz, ancak yerel topluluğu destekliyor ve bilgi sağlıyoruz."],
     de: ["Oludeniz and the surrounding Babadağ cliffs and Butterfly Valley have attracted base jumpers since the 1990s. The area offers limestone cliffs of various heights and aspects, with safe water landings available in the bay.","All base jumping in Turkey requires permits from SHGM and local authorities. Permit requirements change periodically — contact us before planning a trip. We can connect you with the local base jumping community.","We do not operate base jumping as a commercial activity, but we support the community and can provide information on the area, current permit status, and local contacts."],
-    ru: ["Oludeniz and the surrounding Babadağ cliffs and Butterfly Valley have attracted base jumpers since the 1990s. The area offers limestone cliffs of various heights and aspects, with safe water landings available in the bay.","All base jumping in Turkey requires permits from SHGM and local authorities. Permit requirements change periodically — contact us before planning a trip. We can connect you with the local base jumping community.","We do not operate base jumping as a commercial activity, but we support the community and can provide information on the area, current permit status, and local contacts."],
+    ru: ["Oludeniz and the surrounding Babadağ cliffs and Butterfly Valley have attracted base jumpers since the 1990s. The area offers limestone cliffs of various heights and aspects, with safe water landings available in the bay.","All base jumping in Turkey requires permits from SHGM and local authorities. Permit requirements change periodically — contact us before planning a trip. We can connect you with the local base jumping community.","We do not operate base jumping as a commercial activity, but we support the community and can provide information on the area, current permit status, and local contacts."], zh: ["自 20 世纪 90 年代以来，厄卢代尼兹及周边的巴巴达山悬崖和蝴蝶谷一直吸引着低空跳伞爱好者。这里有各种高度和朝向的石灰岩悬崖，海湾内可安全地降落在水面上。","在土耳其进行任何低空跳伞都需要获得土耳其民航总局（SHGM）和地方当局的许可。许可要求会定期变化——计划行程前请先联系我们。我们可以帮您联系当地的低空跳伞社区。","我们不以商业形式经营低空跳伞，但我们支持这个社区，并可提供该地区信息、最新许可状态和当地联系人。"],
   }
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en

@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Thermal Safety Guide",tr:"Termik Güvenlik Rehberi",de:"Thermik-Sicherheitsleitfaden",ru:"Безопасность в термиках"}
-  const d = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана."}
+  const t = {en:"Thermal Safety Guide",tr:"Termik Güvenlik Rehberi",de:"Thermik-Sicherheitsleitfaden",ru:"Безопасность в термиках", zh: "热气流安全指南"}
+  const d = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана.", zh: "面向滑翔伞飞行员的专业指南。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/thermals-guide/thermal-safety'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'thermalsGuide' })
-  const titles = {en:"Thermal Safety Guide",tr:"Termik Güvenlik Rehberi",de:"Thermik-Sicherheitsleitfaden",ru:"Безопасность в термиках"}
-  const subs = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана."}
-  const bodies = {en:["Strong thermals can cause glider collapses. This is normal in paragliding and all paragliders are designed to recover. Our tandem pilots are trained to handle collapses and fly conservatively with passengers. Never fly alone in strong thermals without SIV training.","Contact our team for full pilot briefing information."],tr:["Tam pilot brifing bilgisi için ekibimizle iletişime geçin."],de:["Kontaktieren Sie unser Team für vollständige Pilot-Briefinginformationen."],ru:["Свяжитесь с нашей командой для получения полной информации о брифинге пилотов."]}
+  const titles = {en:"Thermal Safety Guide",tr:"Termik Güvenlik Rehberi",de:"Thermik-Sicherheitsleitfaden",ru:"Безопасность в термиках", zh: "热气流安全指南"}
+  const subs = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана.", zh: "面向滑翔伞飞行员的专业指南。"}
+  const bodies = {en:["Strong thermals can cause glider collapses. This is normal in paragliding and all paragliders are designed to recover. Our tandem pilots are trained to handle collapses and fly conservatively with passengers. Never fly alone in strong thermals without SIV training.","Contact our team for full pilot briefing information."],tr:["Tam pilot brifing bilgisi için ekibimizle iletişime geçin."],de:["Kontaktieren Sie unser Team für vollständige Pilot-Briefinginformationen."],ru:["Свяжитесь с нашей командой для получения полной информации о брифинге пилотов."], zh: ["强热气流可能导致伞翼塌陷。这在滑翔伞运动中很正常，所有滑翔伞都设计为可以恢复。我们的双人飞行员受过处理塌陷的训练，带乘客时会保守飞行。未经 SIV 训练，切勿在强热气流中单独飞行。","如需完整的飞行员简报信息，请联系我们的团队。"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

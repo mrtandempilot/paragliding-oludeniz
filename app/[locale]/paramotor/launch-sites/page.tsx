@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Paramotor Launch Sites Oludeniz",tr:"Oludeniz Paramotor Kalkış Noktaları",de:"Paramotor Launch Sites Oludeniz",ru:"Paramotor Launch Sites Oludeniz"}
-  const d = {en:"Powered paragliding information for Oludeniz.",tr:"Oludeniz için motorlu paraşüt bilgileri.",de:"Motorisiertes Paragliding-Informationen für Oludeniz.",ru:"Информация о моторизованном парапланеризме для Олюдениз."}
+  const t = {en:"Paramotor Launch Sites Oludeniz",tr:"Oludeniz Paramotor Kalkış Noktaları",de:"Paramotor Launch Sites Oludeniz",ru:"Paramotor Launch Sites Oludeniz", zh: "厄卢代尼兹动力伞起飞场地"}
+  const d = {en:"Powered paragliding information for Oludeniz.",tr:"Oludeniz için motorlu paraşüt bilgileri.",de:"Motorisiertes Paragliding-Informationen für Oludeniz.",ru:"Информация о моторизованном парапланеризме для Олюдениз.", zh: "厄卢代尼兹动力滑翔伞信息。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/paramotor/launch-sites'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'paramotor' })
-  const titles = {en:"Paramotor Launch Sites Oludeniz",tr:"Oludeniz Paramotor Kalkış Noktaları",de:"Paramotor Launch Sites Oludeniz",ru:"Paramotor Launch Sites Oludeniz"}
-  const subs = {en:"Powered paragliding information for Oludeniz.",tr:"Oludeniz için motorlu paraşüt bilgileri.",de:"Motorisiertes Paragliding-Informationen für Oludeniz.",ru:"Информация о моторизованном парапланеризме для Олюдениз."}
-  const bodies = {en:["Paramotor operations at Oludeniz use beach and flat-ground launches separate from the Babadağ hill launches. Coordination with our operations team is required before flying.","Contact us for more details: +90 536 461 6674"],tr:["Paramotor operations at Oludeniz use beach and flat-ground launches separate from the Babadağ hill launches. Coordination with our operations team is required before flying.","Daha fazla bilgi için: +90 536 461 6674"],de:["Paramotor operations at Oludeniz use beach and flat-ground launches separate from the Babadağ hill launches. Coordination with our operations team is required before flying.","Für weitere Details: +90 536 461 6674"],ru:["Paramotor operations at Oludeniz use beach and flat-ground launches separate from the Babadağ hill launches. Coordination with our operations team is required before flying.","Для получения подробной информации: +90 536 461 6674"]}
+  const titles = {en:"Paramotor Launch Sites Oludeniz",tr:"Oludeniz Paramotor Kalkış Noktaları",de:"Paramotor Launch Sites Oludeniz",ru:"Paramotor Launch Sites Oludeniz", zh: "厄卢代尼兹动力伞起飞场地"}
+  const subs = {en:"Powered paragliding information for Oludeniz.",tr:"Oludeniz için motorlu paraşüt bilgileri.",de:"Motorisiertes Paragliding-Informationen für Oludeniz.",ru:"Информация о моторизованном парапланеризме для Олюдениз.", zh: "厄卢代尼兹动力滑翔伞信息。"}
+  const bodies = {en:["Paramotor operations at Oludeniz use beach and flat-ground launches separate from the Babadağ hill launches. Coordination with our operations team is required before flying.","Contact us for more details: +90 536 461 6674"],tr:["Paramotor operations at Oludeniz use beach and flat-ground launches separate from the Babadağ hill launches. Coordination with our operations team is required before flying.","Daha fazla bilgi için: +90 536 461 6674"],de:["Paramotor operations at Oludeniz use beach and flat-ground launches separate from the Babadağ hill launches. Coordination with our operations team is required before flying.","Für weitere Details: +90 536 461 6674"],ru:["Paramotor operations at Oludeniz use beach and flat-ground launches separate from the Babadağ hill launches. Coordination with our operations team is required before flying.","Для получения подробной информации: +90 536 461 6674"], zh: ["厄卢代尼兹的动力伞运营使用海滩和平地起飞，与巴巴达山的山坡起飞点分开。飞行前需要与我们的运营团队协调。","如需了解更多详情，请联系我们：+90 536 461 6674"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

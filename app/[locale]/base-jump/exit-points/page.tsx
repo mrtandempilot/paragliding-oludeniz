@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Base Jump Exit Points Oludeniz",tr:"Oludeniz Base Jump Çıkış Noktaları",de:"Base Jump Exit Points Oludeniz",ru:"Base Jump Exit Points Oludeniz"}
-  const d = {en:"Information for base jumping at Oludeniz.",tr:"Oludeniz'de base jumping bilgileri.",de:"Informationen zum Base-Jumping in Oludeniz.",ru:"Информация о бэйс-джампинге в Олюдениз."}
+  const t = {en:"Base Jump Exit Points Oludeniz",tr:"Oludeniz Base Jump Çıkış Noktaları",de:"Base Jump Exit Points Oludeniz",ru:"Base Jump Exit Points Oludeniz", zh: "厄卢代尼兹低空跳伞起跳点"}
+  const d = {en:"Information for base jumping at Oludeniz.",tr:"Oludeniz'de base jumping bilgileri.",de:"Informationen zum Base-Jumping in Oludeniz.",ru:"Информация о бэйс-джампинге в Олюдениз.", zh: "厄卢代尼兹低空跳伞信息。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/base-jump/exit-points'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'baseJump' })
-  const titles = {en:"Base Jump Exit Points Oludeniz",tr:"Oludeniz Base Jump Çıkış Noktaları",de:"Base Jump Exit Points Oludeniz",ru:"Base Jump Exit Points Oludeniz"}
-  const subs = {en:"Information for base jumping at Oludeniz.",tr:"Oludeniz'de base jumping bilgileri.",de:"Informationen zum Base-Jumping in Oludeniz.",ru:"Информация о бэйс-джампинге в Олюдениз."}
-  const bodies = {en:["Base jumping exit points around Oludeniz and the Fethiye region. All base jumping requires permits from local authorities and relevant Turkish aviation permits. Contact us for current permit status and access information.","WhatsApp: +90 536 461 6674"],tr:["Base jumping exit points around Oludeniz and the Fethiye region. All base jumping requires permits from local authorities and relevant Turkish aviation permits. Contact us for current permit status and access information.","WhatsApp: +90 536 461 6674"],de:["Base jumping exit points around Oludeniz and the Fethiye region. All base jumping requires permits from local authorities and relevant Turkish aviation permits. Contact us for current permit status and access information.","WhatsApp: +90 536 461 6674"],ru:["Base jumping exit points around Oludeniz and the Fethiye region. All base jumping requires permits from local authorities and relevant Turkish aviation permits. Contact us for current permit status and access information.","WhatsApp: +90 536 461 6674"]}
+  const titles = {en:"Base Jump Exit Points Oludeniz",tr:"Oludeniz Base Jump Çıkış Noktaları",de:"Base Jump Exit Points Oludeniz",ru:"Base Jump Exit Points Oludeniz", zh: "厄卢代尼兹低空跳伞起跳点"}
+  const subs = {en:"Information for base jumping at Oludeniz.",tr:"Oludeniz'de base jumping bilgileri.",de:"Informationen zum Base-Jumping in Oludeniz.",ru:"Информация о бэйс-джампинге в Олюдениз.", zh: "厄卢代尼兹低空跳伞信息。"}
+  const bodies = {en:["Base jumping exit points around Oludeniz and the Fethiye region. All base jumping requires permits from local authorities and relevant Turkish aviation permits. Contact us for current permit status and access information.","WhatsApp: +90 536 461 6674"],tr:["Base jumping exit points around Oludeniz and the Fethiye region. All base jumping requires permits from local authorities and relevant Turkish aviation permits. Contact us for current permit status and access information.","WhatsApp: +90 536 461 6674"],de:["Base jumping exit points around Oludeniz and the Fethiye region. All base jumping requires permits from local authorities and relevant Turkish aviation permits. Contact us for current permit status and access information.","WhatsApp: +90 536 461 6674"],ru:["Base jumping exit points around Oludeniz and the Fethiye region. All base jumping requires permits from local authorities and relevant Turkish aviation permits. Contact us for current permit status and access information.","WhatsApp: +90 536 461 6674"], zh: ["厄卢代尼兹及费特希耶地区周边的低空跳伞起跳点。所有低空跳伞都需要获得地方当局的许可以及土耳其相关航空许可。请联系我们了解最新许可状态和进入信息。","WhatsApp：+90 536 461 6674"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

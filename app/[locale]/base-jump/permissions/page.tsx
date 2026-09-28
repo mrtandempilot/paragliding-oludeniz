@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Base Jump Permits Turkey",tr:"Türkiye Base Jump İzinleri",de:"Base Jump Permits Turkey",ru:"Base Jump Permits Turkey"}
-  const d = {en:"Information for base jumping at Oludeniz.",tr:"Oludeniz'de base jumping bilgileri.",de:"Informationen zum Base-Jumping in Oludeniz.",ru:"Информация о бэйс-джампинге в Олюдениз."}
+  const t = {en:"Base Jump Permits Turkey",tr:"Türkiye Base Jump İzinleri",de:"Base Jump Permits Turkey",ru:"Base Jump Permits Turkey", zh: "土耳其低空跳伞许可"}
+  const d = {en:"Information for base jumping at Oludeniz.",tr:"Oludeniz'de base jumping bilgileri.",de:"Informationen zum Base-Jumping in Oludeniz.",ru:"Информация о бэйс-джампинге в Олюдениз.", zh: "厄卢代尼兹低空跳伞信息。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/base-jump/permissions'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'baseJump' })
-  const titles = {en:"Base Jump Permits Turkey",tr:"Türkiye Base Jump İzinleri",de:"Base Jump Permits Turkey",ru:"Base Jump Permits Turkey"}
-  const subs = {en:"Information for base jumping at Oludeniz.",tr:"Oludeniz'de base jumping bilgileri.",de:"Informationen zum Base-Jumping in Oludeniz.",ru:"Информация о бэйс-джампинге в Олюдениз."}
-  const bodies = {en:["Base jumping in Turkey requires permits from the Turkish Civil Aviation Authority (SHGM) and local municipality approvals. Requirements change periodically. Contact us for current permit requirements before planning your jump.","WhatsApp: +90 536 461 6674"],tr:["Base jumping in Turkey requires permits from the Turkish Civil Aviation Authority (SHGM) and local municipality approvals. Requirements change periodically. Contact us for current permit requirements before planning your jump.","WhatsApp: +90 536 461 6674"],de:["Base jumping in Turkey requires permits from the Turkish Civil Aviation Authority (SHGM) and local municipality approvals. Requirements change periodically. Contact us for current permit requirements before planning your jump.","WhatsApp: +90 536 461 6674"],ru:["Base jumping in Turkey requires permits from the Turkish Civil Aviation Authority (SHGM) and local municipality approvals. Requirements change periodically. Contact us for current permit requirements before planning your jump.","WhatsApp: +90 536 461 6674"]}
+  const titles = {en:"Base Jump Permits Turkey",tr:"Türkiye Base Jump İzinleri",de:"Base Jump Permits Turkey",ru:"Base Jump Permits Turkey", zh: "土耳其低空跳伞许可"}
+  const subs = {en:"Information for base jumping at Oludeniz.",tr:"Oludeniz'de base jumping bilgileri.",de:"Informationen zum Base-Jumping in Oludeniz.",ru:"Информация о бэйс-джампинге в Олюдениз.", zh: "厄卢代尼兹低空跳伞信息。"}
+  const bodies = {en:["Base jumping in Turkey requires permits from the Turkish Civil Aviation Authority (SHGM) and local municipality approvals. Requirements change periodically. Contact us for current permit requirements before planning your jump.","WhatsApp: +90 536 461 6674"],tr:["Base jumping in Turkey requires permits from the Turkish Civil Aviation Authority (SHGM) and local municipality approvals. Requirements change periodically. Contact us for current permit requirements before planning your jump.","WhatsApp: +90 536 461 6674"],de:["Base jumping in Turkey requires permits from the Turkish Civil Aviation Authority (SHGM) and local municipality approvals. Requirements change periodically. Contact us for current permit requirements before planning your jump.","WhatsApp: +90 536 461 6674"],ru:["Base jumping in Turkey requires permits from the Turkish Civil Aviation Authority (SHGM) and local municipality approvals. Requirements change periodically. Contact us for current permit requirements before planning your jump.","WhatsApp: +90 536 461 6674"], zh: ["在土耳其进行低空跳伞需要获得土耳其民航总局（SHGM）的许可以及当地市政部门的批准。要求会定期变化。计划跳伞前，请联系我们了解最新的许可要求。","WhatsApp：+90 536 461 6674"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

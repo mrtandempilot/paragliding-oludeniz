@@ -14,6 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     tr: localeUrl('tr', path),
     de: localeUrl('de', path),
     ru: localeUrl('ru', path),
+    'zh-Hans': localeUrl('zh', path),
   })
 
   const page = (

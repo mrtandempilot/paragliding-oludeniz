@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Cloudbase Guide",tr:"Bulut Tabanı Rehberi",de:"Wolkenbasis-Leitfaden",ru:"Гид по облачному основанию"}
-  const d = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана."}
+  const t = {en:"Cloudbase Guide",tr:"Bulut Tabanı Rehberi",de:"Wolkenbasis-Leitfaden",ru:"Гид по облачному основанию", zh: "云底高度指南"}
+  const d = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана.", zh: "面向滑翔伞飞行员的专业指南。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/thermals-guide/cloudbase-guide'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'thermalsGuide' })
-  const titles = {en:"Cloudbase Guide",tr:"Bulut Tabanı Rehberi",de:"Wolkenbasis-Leitfaden",ru:"Гид по облачному основанию"}
-  const subs = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана."}
-  const bodies = {en:["Cloudbase is the altitude at which thermals condense into cumulus clouds. Flying significantly above cloudbase risks entering cloud (illegal and dangerous). At Oludeniz, cloudbase ranges from 1500m (spring) to 2800m (summer).","Contact our team for full pilot briefing information."],tr:["Tam pilot brifing bilgisi için ekibimizle iletişime geçin."],de:["Kontaktieren Sie unser Team für vollständige Pilot-Briefinginformationen."],ru:["Свяжитесь с нашей командой для получения полной информации о брифинге пилотов."]}
+  const titles = {en:"Cloudbase Guide",tr:"Bulut Tabanı Rehberi",de:"Wolkenbasis-Leitfaden",ru:"Гид по облачному основанию", zh: "云底高度指南"}
+  const subs = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана.", zh: "面向滑翔伞飞行员的专业指南。"}
+  const bodies = {en:["Cloudbase is the altitude at which thermals condense into cumulus clouds. Flying significantly above cloudbase risks entering cloud (illegal and dangerous). At Oludeniz, cloudbase ranges from 1500m (spring) to 2800m (summer).","Contact our team for full pilot briefing information."],tr:["Tam pilot brifing bilgisi için ekibimizle iletişime geçin."],de:["Kontaktieren Sie unser Team für vollständige Pilot-Briefinginformationen."],ru:["Свяжитесь с нашей командой для получения полной информации о брифинге пилотов."], zh: ["云底是热气流凝结成积云的高度。明显飞到云底以上可能会进入云中（违法且危险）。在厄卢代尼兹，云底高度从 1500 米（春季）到 2800 米（夏季）不等。","如需完整的飞行员简报信息，请联系我们的团队。"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

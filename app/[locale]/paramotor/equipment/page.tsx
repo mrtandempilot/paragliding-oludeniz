@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Paramotor Equipment Guide",tr:"Paramotor Ekipman Rehberi",de:"Paramotor Equipment Guide",ru:"Paramotor Equipment Guide"}
-  const d = {en:"Powered paragliding information for Oludeniz.",tr:"Oludeniz için motorlu paraşüt bilgileri.",de:"Motorisiertes Paragliding-Informationen für Oludeniz.",ru:"Информация о моторизованном парапланеризме для Олюдениз."}
+  const t = {en:"Paramotor Equipment Guide",tr:"Paramotor Ekipman Rehberi",de:"Paramotor Equipment Guide",ru:"Paramotor Equipment Guide", zh: "动力伞装备指南"}
+  const d = {en:"Powered paragliding information for Oludeniz.",tr:"Oludeniz için motorlu paraşüt bilgileri.",de:"Motorisiertes Paragliding-Informationen für Oludeniz.",ru:"Информация о моторизованном парапланеризме для Олюдениз.", zh: "厄卢代尼兹动力滑翔伞信息。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/paramotor/equipment'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'paramotor' })
-  const titles = {en:"Paramotor Equipment Guide",tr:"Paramotor Ekipman Rehberi",de:"Paramotor Equipment Guide",ru:"Paramotor Equipment Guide"}
-  const subs = {en:"Powered paragliding information for Oludeniz.",tr:"Oludeniz için motorlu paraşüt bilgileri.",de:"Motorisiertes Paragliding-Informationen für Oludeniz.",ru:"Информация о моторизованном парапланеризме для Олюдениз."}
-  const bodies = {en:["Paramotor (powered paraglider) equipment includes the motor unit (frame, engine, propeller, harness) and the paramotor-specific wing. We can advise on equipment selection and have hire equipment available.","Contact us for more details: +90 536 461 6674"],tr:["Paramotor (powered paraglider) equipment includes the motor unit (frame, engine, propeller, harness) and the paramotor-specific wing. We can advise on equipment selection and have hire equipment available.","Daha fazla bilgi için: +90 536 461 6674"],de:["Paramotor (powered paraglider) equipment includes the motor unit (frame, engine, propeller, harness) and the paramotor-specific wing. We can advise on equipment selection and have hire equipment available.","Für weitere Details: +90 536 461 6674"],ru:["Paramotor (powered paraglider) equipment includes the motor unit (frame, engine, propeller, harness) and the paramotor-specific wing. We can advise on equipment selection and have hire equipment available.","Для получения подробной информации: +90 536 461 6674"]}
+  const titles = {en:"Paramotor Equipment Guide",tr:"Paramotor Ekipman Rehberi",de:"Paramotor Equipment Guide",ru:"Paramotor Equipment Guide", zh: "动力伞装备指南"}
+  const subs = {en:"Powered paragliding information for Oludeniz.",tr:"Oludeniz için motorlu paraşüt bilgileri.",de:"Motorisiertes Paragliding-Informationen für Oludeniz.",ru:"Информация о моторизованном парапланеризме для Олюдениз.", zh: "厄卢代尼兹动力滑翔伞信息。"}
+  const bodies = {en:["Paramotor (powered paraglider) equipment includes the motor unit (frame, engine, propeller, harness) and the paramotor-specific wing. We can advise on equipment selection and have hire equipment available.","Contact us for more details: +90 536 461 6674"],tr:["Paramotor (powered paraglider) equipment includes the motor unit (frame, engine, propeller, harness) and the paramotor-specific wing. We can advise on equipment selection and have hire equipment available.","Daha fazla bilgi için: +90 536 461 6674"],de:["Paramotor (powered paraglider) equipment includes the motor unit (frame, engine, propeller, harness) and the paramotor-specific wing. We can advise on equipment selection and have hire equipment available.","Für weitere Details: +90 536 461 6674"],ru:["Paramotor (powered paraglider) equipment includes the motor unit (frame, engine, propeller, harness) and the paramotor-specific wing. We can advise on equipment selection and have hire equipment available.","Для получения подробной информации: +90 536 461 6674"], zh: ["动力伞（动力滑翔伞）装备包括动力单元（框架、发动机、螺旋桨、吊带）和动力伞专用伞翼。我们可以为装备选择提供建议，并提供装备租赁。","如需了解更多详情，请联系我们：+90 536 461 6674"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

@@ -53,6 +53,16 @@ const CONTENT: Record<string, C> = {
       { id: VIDEO_IDS.kids, title: 'Полёты с детьми', desc: 'Тандемный параплан — семейное приключение. Вот как выглядит полёт с детьми.' },
     ],
     channelCta: 'Больше видео на нашем YouTube-канале',
+  }, zh: {
+    title: "飞行视频",
+    sub: "真实的飞行，真实的乘客——在蓝色泻湖上空拍摄。",
+    intro: "以下每一段视频都是由我们自己的飞行员在从巴巴达山起飞的真实双人飞行中拍摄的。没有素材库画面，没有无人机特效——这就是您的飞行将会呈现的样子。每一次 Atmos 飞行都免费包含专业照片和视频套餐，降落后您就可以带走一部属于自己的同类影片。",
+    videos: [
+      { id: VIDEO_IDS.women, title: "与女飞行员一起飞", desc: "我们的一位女性双人飞行员带着乘客飞越泻湖——沉着、专业、令人难忘。" },
+      { id: VIDEO_IDS.xc, title: "越野飞行", desc: "超越经典双人飞行：面向持证飞行员的利西亚海岸越野飞行。" },
+      { id: VIDEO_IDS.kids, title: "带孩子一起飞", desc: "双人滑翔伞是一种家庭体验——看看带孩子飞行是什么样子。" },
+    ],
+    channelCta: "更多视频请见我们的 YouTube 频道",
   },
 }
 
@@ -63,7 +73,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     en: 'Watch real tandem paragliding flights over Oludeniz: woman pilots, cross-country and family flights, filmed from Babadağ by Atmos pilots.',
     tr: 'Ölüdeniz üzerinde gerçek tandem uçuş videoları: kadın pilotlar, XC ve aile uçuşları — Babadağ’dan Atmos pilotlarınca çekildi.',
     de: 'Echte Tandemflüge über Ölüdeniz im Video: Pilotinnen, Streckenflüge und Familienflüge, gefilmt vom Babadağ.',
-    ru: 'Настоящие тандемные полёты над Олюденизом на видео: женщины-пилоты, маршрутные и семейные полёты с Бабадага.',
+    ru: 'Настоящие тандемные полёты над Олюденизом на видео: женщины-пилоты, маршрутные и семейные полёты с Бабадага.', zh: "观看厄卢代尼兹上空的真实双人滑翔伞飞行：女飞行员、越野飞行和家庭飞行，均由 Atmos 飞行员在巴巴达山拍摄。",
   }
   return {
     title: c.title,

@@ -8,7 +8,7 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'contact' })
-  const d: Record<string, string> = {"en": "Contact Paragliding Oludeniz — WhatsApp, phone or email. Same-day bookings, questions about flights, weather and transfers answered fast.", "tr": "Paragliding Ölüdeniz ile iletişime geçin — WhatsApp, telefon veya e-posta. Aynı gün rezervasyon, uçuş ve hava durumu sorularınıza hızlı yanıt.", "de": "Kontaktieren Sie Paragliding Ölüdeniz — WhatsApp, Telefon oder E-Mail. Buchungen am selben Tag, schnelle Antworten zu Flügen und Wetter.", "ru": "Свяжитесь с Paragliding Oludeniz — WhatsApp, телефон или email. Бронирование в тот же день, быстрые ответы о полётах и погоде."}
+  const d: Record<string, string> = {"en": "Contact Paragliding Oludeniz — WhatsApp, phone or email. Same-day bookings, questions about flights, weather and transfers answered fast.", "tr": "Paragliding Ölüdeniz ile iletişime geçin — WhatsApp, telefon veya e-posta. Aynı gün rezervasyon, uçuş ve hava durumu sorularınıza hızlı yanıt.", "de": "Kontaktieren Sie Paragliding Ölüdeniz — WhatsApp, Telefon oder E-Mail. Buchungen am selben Tag, schnelle Antworten zu Flügen und Wetter.", "ru": "Свяжитесь с Paragliding Oludeniz — WhatsApp, телефон или email. Бронирование в тот же день, быстрые ответы о полётах и погоде.", "zh": "联系厄卢代尼兹滑翔伞——WhatsApp、电话或电子邮件。支持当天预订，关于飞行、天气和接送的问题快速解答。"}
   return {
     description: d[locale] || d.en,
     title: `${t('title')}`,

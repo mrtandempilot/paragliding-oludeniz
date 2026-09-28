@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Base Jump Community Oludeniz",tr:"Oludeniz Base Jump Topluluğu",de:"Base Jump Community Oludeniz",ru:"Base Jump Community Oludeniz"}
-  const d = {en:"Information for base jumping at Oludeniz.",tr:"Oludeniz'de base jumping bilgileri.",de:"Informationen zum Base-Jumping in Oludeniz.",ru:"Информация о бэйс-джампинге в Олюдениз."}
+  const t = {en:"Base Jump Community Oludeniz",tr:"Oludeniz Base Jump Topluluğu",de:"Base Jump Community Oludeniz",ru:"Base Jump Community Oludeniz", zh: "厄卢代尼兹低空跳伞社区"}
+  const d = {en:"Information for base jumping at Oludeniz.",tr:"Oludeniz'de base jumping bilgileri.",de:"Informationen zum Base-Jumping in Oludeniz.",ru:"Информация о бэйс-джампинге в Олюдениз.", zh: "厄卢代尼兹低空跳伞信息。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/base-jump/community'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'baseJump' })
-  const titles = {en:"Base Jump Community Oludeniz",tr:"Oludeniz Base Jump Topluluğu",de:"Base Jump Community Oludeniz",ru:"Base Jump Community Oludeniz"}
-  const subs = {en:"Information for base jumping at Oludeniz.",tr:"Oludeniz'de base jumping bilgileri.",de:"Informationen zum Base-Jumping in Oludeniz.",ru:"Информация о бэйс-джампинге в Олюдениз."}
-  const bodies = {en:["Oludeniz has a small but active base jumping community. The area around Babadağ cliffs and the Butterfly Valley has attracted base jumpers since the 1990s. Contact us to connect with the local community.","WhatsApp: +90 536 461 6674"],tr:["Oludeniz has a small but active base jumping community. The area around Babadağ cliffs and the Butterfly Valley has attracted base jumpers since the 1990s. Contact us to connect with the local community.","WhatsApp: +90 536 461 6674"],de:["Oludeniz has a small but active base jumping community. The area around Babadağ cliffs and the Butterfly Valley has attracted base jumpers since the 1990s. Contact us to connect with the local community.","WhatsApp: +90 536 461 6674"],ru:["Oludeniz has a small but active base jumping community. The area around Babadağ cliffs and the Butterfly Valley has attracted base jumpers since the 1990s. Contact us to connect with the local community.","WhatsApp: +90 536 461 6674"]}
+  const titles = {en:"Base Jump Community Oludeniz",tr:"Oludeniz Base Jump Topluluğu",de:"Base Jump Community Oludeniz",ru:"Base Jump Community Oludeniz", zh: "厄卢代尼兹低空跳伞社区"}
+  const subs = {en:"Information for base jumping at Oludeniz.",tr:"Oludeniz'de base jumping bilgileri.",de:"Informationen zum Base-Jumping in Oludeniz.",ru:"Информация о бэйс-джампинге в Олюдениз.", zh: "厄卢代尼兹低空跳伞信息。"}
+  const bodies = {en:["Oludeniz has a small but active base jumping community. The area around Babadağ cliffs and the Butterfly Valley has attracted base jumpers since the 1990s. Contact us to connect with the local community.","WhatsApp: +90 536 461 6674"],tr:["Oludeniz has a small but active base jumping community. The area around Babadağ cliffs and the Butterfly Valley has attracted base jumpers since the 1990s. Contact us to connect with the local community.","WhatsApp: +90 536 461 6674"],de:["Oludeniz has a small but active base jumping community. The area around Babadağ cliffs and the Butterfly Valley has attracted base jumpers since the 1990s. Contact us to connect with the local community.","WhatsApp: +90 536 461 6674"],ru:["Oludeniz has a small but active base jumping community. The area around Babadağ cliffs and the Butterfly Valley has attracted base jumpers since the 1990s. Contact us to connect with the local community.","WhatsApp: +90 536 461 6674"], zh: ["厄卢代尼兹拥有一个规模虽小但十分活跃的低空跳伞（BASE）社区。自 20 世纪 90 年代以来，巴巴达山悬崖和蝴蝶谷一带一直吸引着低空跳伞爱好者。欢迎联系我们，与当地社区建立联系。","WhatsApp：+90 536 461 6674"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

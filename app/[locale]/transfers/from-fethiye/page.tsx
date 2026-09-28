@@ -8,8 +8,8 @@ import ServiceSchema from '@/components/shared/ServiceSchema'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Fethiye to Oludeniz Transfer",tr:"Fethiye Oludeniz Transfer",de:"Fethiye to Oludeniz Transfer",ru:"Fethiye to Oludeniz Transfer"}
-  const d = {en:"Transfer services to and from Oludeniz.",tr:"Oludeniz'e ve oradan transfer hizmetleri.",de:"Transferdienste nach und von Oludeniz.",ru:"Трансферные услуги в Олюдениз и обратно."}
+  const t = {en:"Fethiye to Oludeniz Transfer",tr:"Fethiye Oludeniz Transfer",de:"Fethiye to Oludeniz Transfer",ru:"Fethiye to Oludeniz Transfer", zh: "费特希耶至厄卢代尼兹接送"}
+  const d = {en:"Transfer services to and from Oludeniz.",tr:"Oludeniz'e ve oradan transfer hizmetleri.",de:"Transferdienste nach und von Oludeniz.",ru:"Трансферные услуги в Олюдениз и обратно.", zh: "往返厄卢代尼兹的接送服务。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/transfers/from-fethiye'),
@@ -20,9 +20,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'transfers' })
-  const titles = {en:"Fethiye to Oludeniz Transfer",tr:"Fethiye Oludeniz Transfer",de:"Fethiye to Oludeniz Transfer",ru:"Fethiye to Oludeniz Transfer"}
-  const subs = {en:"Transfer services to and from Oludeniz.",tr:"Oludeniz'e ve oradan transfer hizmetleri.",de:"Transferdienste nach und von Oludeniz.",ru:"Трансферные услуги в Олюдениз и обратно."}
-  const bodies = {en:["Fethiye is 15km from Oludeniz (approximately 20 minutes by road). Regular dolmus (minibus) services run between Fethiye bus station and Oludeniz throughout the day. We also offer free hotel pick-up from Fethiye with your flight booking.","Contact us to arrange: WhatsApp +90 536 461 6674"],tr:["Fethiye, Oludeniz'e 15 km uzaklıktadır. Fethiye otogarı ile Oludeniz arasında düzenli dolmus seferleri bulunmaktadır.","Düzenlemek için bize ulaşın: WhatsApp +90 536 461 6674"],de:["Fethiye is 15km from Oludeniz (approximately 20 minutes by road). Regular dolmus (minibus) services run between Fethiye bus station and Oludeniz throughout the day. We also offer free hotel pick-up from Fethiye with your flight booking.","Kontaktieren Sie uns: WhatsApp +90 536 461 6674"],ru:["Fethiye is 15km from Oludeniz (approximately 20 minutes by road). Regular dolmus (minibus) services run between Fethiye bus station and Oludeniz throughout the day. We also offer free hotel pick-up from Fethiye with your flight booking.","Свяжитесь с нами: WhatsApp +90 536 461 6674"]}
+  const titles = {en:"Fethiye to Oludeniz Transfer",tr:"Fethiye Oludeniz Transfer",de:"Fethiye to Oludeniz Transfer",ru:"Fethiye to Oludeniz Transfer", zh: "费特希耶至厄卢代尼兹接送"}
+  const subs = {en:"Transfer services to and from Oludeniz.",tr:"Oludeniz'e ve oradan transfer hizmetleri.",de:"Transferdienste nach und von Oludeniz.",ru:"Трансферные услуги в Олюдениз и обратно.", zh: "往返厄卢代尼兹的接送服务。"}
+  const bodies = {en:["Fethiye is 15km from Oludeniz (approximately 20 minutes by road). Regular dolmus (minibus) services run between Fethiye bus station and Oludeniz throughout the day. We also offer free hotel pick-up from Fethiye with your flight booking.","Contact us to arrange: WhatsApp +90 536 461 6674"],tr:["Fethiye, Oludeniz'e 15 km uzaklıktadır. Fethiye otogarı ile Oludeniz arasında düzenli dolmus seferleri bulunmaktadır.","Düzenlemek için bize ulaşın: WhatsApp +90 536 461 6674"],de:["Fethiye is 15km from Oludeniz (approximately 20 minutes by road). Regular dolmus (minibus) services run between Fethiye bus station and Oludeniz throughout the day. We also offer free hotel pick-up from Fethiye with your flight booking.","Kontaktieren Sie uns: WhatsApp +90 536 461 6674"],ru:["Fethiye is 15km from Oludeniz (approximately 20 minutes by road). Regular dolmus (minibus) services run between Fethiye bus station and Oludeniz throughout the day. We also offer free hotel pick-up from Fethiye with your flight booking.","Свяжитесь с нами: WhatsApp +90 536 461 6674"], zh: ["费特希耶距厄卢代尼兹 15 公里（车程约 20 分钟）。全天都有往返费特希耶汽车站和厄卢代尼兹的小巴（dolmuş）。预订飞行后，我们还提供费特希耶的免费酒店接送。","联系我们安排：WhatsApp +90 536 461 6674"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

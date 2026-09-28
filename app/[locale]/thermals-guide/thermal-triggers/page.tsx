@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Thermal Triggers Guide",tr:"Termik Tetikleyiciler Rehberi",de:"Thermikauslöser-Leitfaden",ru:"Триггеры термиков"}
-  const d = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана."}
+  const t = {en:"Thermal Triggers Guide",tr:"Termik Tetikleyiciler Rehberi",de:"Thermikauslöser-Leitfaden",ru:"Триггеры термиков", zh: "热气流触发点指南"}
+  const d = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана.", zh: "面向滑翔伞飞行员的专业指南。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/thermals-guide/thermal-triggers'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'thermalsGuide' })
-  const titles = {en:"Thermal Triggers Guide",tr:"Termik Tetikleyiciler Rehberi",de:"Thermikauslöser-Leitfaden",ru:"Триггеры термиков"}
-  const subs = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана."}
-  const bodies = {en:["Thermal triggers at Babadağ include: the south-east rock face (most reliable), the agricultural fields south of Fethiye, the dark limestone outcrops on the ridge, and the sea-land boundary near the beach.","Contact our team for full pilot briefing information."],tr:["Tam pilot brifing bilgisi için ekibimizle iletişime geçin."],de:["Kontaktieren Sie unser Team für vollständige Pilot-Briefinginformationen."],ru:["Свяжитесь с нашей командой для получения полной информации о брифинге пилотов."]}
+  const titles = {en:"Thermal Triggers Guide",tr:"Termik Tetikleyiciler Rehberi",de:"Thermikauslöser-Leitfaden",ru:"Триггеры термиков", zh: "热气流触发点指南"}
+  const subs = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана.", zh: "面向滑翔伞飞行员的专业指南。"}
+  const bodies = {en:["Thermal triggers at Babadağ include: the south-east rock face (most reliable), the agricultural fields south of Fethiye, the dark limestone outcrops on the ridge, and the sea-land boundary near the beach.","Contact our team for full pilot briefing information."],tr:["Tam pilot brifing bilgisi için ekibimizle iletişime geçin."],de:["Kontaktieren Sie unser Team für vollständige Pilot-Briefinginformationen."],ru:["Свяжитесь с нашей командой для получения полной информации о брифинге пилотов."], zh: ["巴巴达山的热气流触发点包括：东南面岩壁（最可靠）、费特希耶以南的农田、山脊上深色的石灰岩露头，以及海滩附近的海陆交界处。","如需完整的飞行员简报信息，请联系我们的团队。"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

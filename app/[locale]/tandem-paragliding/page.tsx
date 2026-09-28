@@ -180,13 +180,51 @@ const CONTENT: Record<string, PageContent> = {
       { question: '\u041A\u0430\u043A \u0431\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C? \u041D\u0443\u0436\u0435\u043D \u043B\u0438 \u0434\u0435\u043F\u043E\u0437\u0438\u0442?', answer: '\u041E\u043D\u043B\u0430\u0439\u043D \u0437\u0430 \u0434\u0432\u0435 \u043C\u0438\u043D\u0443\u0442\u044B \u0438\u043B\u0438 \u0447\u0435\u0440\u0435\u0437 WhatsApp. \u041E\u0431\u044B\u0447\u043D\u043E \u0431\u0435\u0437 \u043F\u0440\u0435\u0434\u043E\u043F\u043B\u0430\u0442\u044B; \u0432 \u0438\u044E\u043B\u0435\u2013\u0430\u0432\u0433\u0443\u0441\u0442\u0435 \u0432\u043E\u0437\u043C\u043E\u0436\u0435\u043D \u043D\u0435\u0431\u043E\u043B\u044C\u0448\u043E\u0439 \u0434\u0435\u043F\u043E\u0437\u0438\u0442.' },
       { question: '\u0413\u0434\u0435 \u0438\u043C\u0435\u043D\u043D\u043E \u043C\u044B \u0432\u0441\u0442\u0440\u0435\u0447\u0430\u0435\u043C\u0441\u044F?', answer: '\u0412 \u0446\u0435\u043D\u0442\u0440\u0435 \u041E\u043B\u044E\u0434\u0435\u043D\u0438\u0437\u0430 \u0443 \u043F\u043B\u044F\u0436\u0430 \u0411\u0435\u043B\u044C\u0434\u0436\u0435\u043A\u0438\u0437. \u0422\u043E\u0447\u043D\u043E\u0435 \u043C\u0435\u0441\u0442\u043E \u0438 \u0432\u0440\u0435\u043C\u044F \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u0435\u043C \u043D\u0430\u043A\u0430\u043D\u0443\u043D\u0435 \u0432 WhatsApp. \u0412\u043E\u0437\u043C\u043E\u0436\u0435\u043D \u0442\u0440\u0430\u043D\u0441\u0444\u0435\u0440 \u0438\u0437 \u043E\u0442\u0435\u043B\u044F.' },
     ],
+  }, zh: {
+    whyTitle: "为什么厄卢代尼兹是世界上最著名的滑翔伞目的地",
+    whyBody: "厄卢代尼兹是地球上极少数一座 1960 米高山几乎直接落入碧绿泻湖的地方。正是这种组合——巴巴达山的高度、稳定的热气流，以及就在海滩上的宽阔沙质降落区——让来自各大洲的飞行员纷至沓来，也让厄卢代尼兹双人滑翔伞成为许多人的人生愿望清单之一。4 月至 11 月每天都有飞行，起飞点在 1200 米至 1900 米之间，根据当天的风况和天气选择。您不需要任何经验，体能只需能走几步路，也不需要任何装备——一切都由飞行员负责。",
+    stepsTitle: "您的双人飞行流程，一步步来",
+    steps: [
+      { t: "1. 集合与接送（约 40 分钟）", d: "我们在厄卢代尼兹集合，乘坐我们的班车开上巴巴达山。这段路本身就是一种体验——松林、发夹弯，以及在您脚下越来越小的泻湖。" },
+      { t: "2. 起飞点讲解（10–15 分钟）", d: "飞行员会为您穿戴好吊带和头盔，讲解起飞过程，并回答您的每一个问题。最重要的指示也是最简单的：当飞行员说“跑”时，一直跑，直到双脚离开地面。" },
+      { t: "3. 起飞（几秒钟）", d: "你们一起跑 5–10 步，伞翼在头顶充气展开，山坡就这样从脚下退去。大多数乘客说这一刻比他们预想的要温和得多——没有跳跃，也没有自由落体。" },
+      { t: "4. 飞行（25–45 分钟）", d: "您舒适地靠坐在吊带中，飞行员驾驭热气流，带您飞越蓝色泻湖、贝尔杰克兹海滩和蝴蝶谷。想要平静的观光滑翔？告诉飞行员就好。想要螺旋和 G 力？那就要求特技动作——这是属于您的飞行。" },
+      { t: "5. 海滩降落", d: "您将轻轻降落在贝尔杰克兹海滩的海滨步道上，通常会有晒日光浴的游客为您鼓掌。" },
+    ],
+    stepsOutro: "整个体验：从出门到返回约 2 小时。",
+    optTitle: "选择您的飞行",
+    options: [
+      { name: "标准飞行（1700 米起飞）", price: '\u20AC100', desc: "在泻湖上空飞行 25–35 分钟——经典的厄卢代尼兹体验。" },
+      { name: "高空飞行（1900 米起飞）", price: '\u20AC100', desc: "从山顶附近俯瞰最远的风景，视天气而定。" },
+      { name: "日落飞行", price: '\u20AC110', desc: "爱琴海上的黄金时刻光线——摄影师的最爱。" },
+    ],
+    optNote: "照片和视频套餐为可选附加项——飞行员会用云台运动相机拍摄整个飞行过程。",
+    safetyTitle: "安全不是一个卖点——而是整个体系",
+    safetyBody: "每一位 Atmos 飞行员都持有土耳其民航总局（SHGM）执照，累计完成数千次双人飞行。伞翼、吊带和备用伞每天检查，并按照制造商规定的周期更换，而不是等到磨损才换。每次飞行都包含第三方责任险，条件不合适时我们绝不起飞——如果风况不允许，我们会为您免费改期。三十多年来，厄卢代尼兹已完成了数以百万计的双人飞行；由持证专业人员带飞，这是您能体验的最安全的冒险运动之一。",
+    timeTitle: "最佳飞行时间",
+    timeBody: "飞行季从 4 月下旬持续到 11 月初。6 月至 9 月条件最稳定、可飞行的日子最长；5 月和 10 月空气更清澈、光线更柔和、人也更少。早上的飞行通常最平稳——如果您有些紧张，这是理想选择。下午的热气流能带来更长、更有动感的飞行。7 月和 8 月会提前几天售罄，旺季请尽早预订。",
+    knowTitle: "飞行前须知",
+    knowBody: "请穿舒适的衣服和包头鞋——运动鞋就很合适。即使在 8 月也请带一件薄外套；1900 米高空明显更凉。建议佩戴太阳镜。乘客最大体重为 110 公斤，未满 18 岁需家长同意。眼镜和手机可以随身携带，但请固定好——掉进泻湖的东西可就找不回来了。",
+    atmosTitle: "直接与本地飞行员团队一起飞",
+    atmosBody: "通过转售商预订时，一大笔佣金会流向从未碰过滑翔伞的中间商。Atmos 是一家由飞行员自主经营的本地公司，在巴巴达山飞行已超过 25 年。直接预订意味着更好的价格、通过 WhatsApp 直接联系为您飞行的飞行员，以及天气变化时免费改期。",
+    faq: [
+      { question: "参加双人滑翔伞需要经验吗？", answer: "完全不需要任何经验。在双人飞行中，您与一名控制一切的认证飞行员连接在一起。您唯一要做的就是在起飞时跑几步，然后享受飞行。" },
+      { question: "有体重或年龄限制吗？", answer: "乘客最大体重为 110 公斤。未满 18 岁的乘客需要家长同意。" },
+      { question: "我应该穿什么？", answer: "舒适、可分层穿着的衣服和包头鞋。请带一件薄外套——高空可能会更凉。" },
+      { question: "飞行时间有多长？", answer: "根据您的套餐和天气条件，飞行持续 25–45 分钟。" },
+      { question: "在厄卢代尼兹玩滑翔伞安全吗？", answer: "由持有土耳其民航总局（SHGM）执照的专业飞行员带飞，厄卢代尼兹双人滑翔伞是最安全的冒险活动之一。装备每天检查，每次飞行都有保险，只有在风况和天气处于安全范围内时才会起飞。" },
+      { question: "如果天气不好怎么办？", answer: "安全第一：如果条件不合适，您的飞行将免费改期到下一个可用时段。如果您无法改约，则不收取任何费用。" },
+      { question: "我可以带手机或相机吗？", answer: "可以，但必须用绑带或拉链口袋固定好。大多数客人更喜欢我们的照片和视频套餐——飞行员用云台相机免手持拍摄，您只需尽情欣赏风景。" },
+      { question: "如何预订？需要付定金吗？", answer: "两分钟即可在线预订，或通过 WhatsApp 给我们发消息。大多数季节无需预付即可锁定时段；7–8 月因需求旺盛，可能需要支付少量定金。" },
+      { question: "我们具体在哪里集合？", answer: "我们在厄卢代尼兹市中心贝尔杰克兹海滩附近集合——具体集合地点和时间会在飞行前一天晚上通过 WhatsApp 确认。可安排厄卢代尼兹周边的酒店接送。" },
+    ],
   },
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'tandem' })
-  const d: Record<string, string> = {"en": "Tandem paragliding in Oludeniz with certified pilots. No experience needed \u2014 full briefing, all equipment, transfers and beach landing included.", "tr": "Sertifikal\u0131 pilotlarla \u00D6l\u00FCdeniz'de tandem yama\u00E7 para\u015F\u00FCt\u00FC. Deneyim gerekmez \u2014 brifing, t\u00FCm ekipman, transfer ve plaja ini\u015F dahil.", "de": "Tandem-Paragliding in \u00D6l\u00FCdeniz mit zertifizierten Piloten. Keine Erfahrung n\u00F6tig \u2014 Briefing, Ausr\u00FCstung, Transfer und Strandlandung inklusive.", "ru": "\u0422\u0430\u043D\u0434\u0435\u043C\u043D\u044B\u0435 \u043F\u043E\u043B\u0451\u0442\u044B \u043D\u0430 \u043F\u0430\u0440\u0430\u043F\u043B\u0430\u043D\u0435 \u0432 \u041E\u043B\u044E\u0434\u0435\u043D\u0438\u0437\u0435 \u0441 \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u043C\u0438 \u043F\u0438\u043B\u043E\u0442\u0430\u043C\u0438. \u041E\u043F\u044B\u0442 \u043D\u0435 \u043D\u0443\u0436\u0435\u043D \u2014 \u0438\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u0430\u0436, \u0441\u043D\u0430\u0440\u044F\u0436\u0435\u043D\u0438\u0435 \u0438 \u0442\u0440\u0430\u043D\u0441\u0444\u0435\u0440 \u0432\u043A\u043B\u044E\u0447\u0435\u043D\u044B."}
+  const d: Record<string, string> = {"en": "Tandem paragliding in Oludeniz with certified pilots. No experience needed \u2014 full briefing, all equipment, transfers and beach landing included.", "tr": "Sertifikal\u0131 pilotlarla \u00D6l\u00FCdeniz'de tandem yama\u00E7 para\u015F\u00FCt\u00FC. Deneyim gerekmez \u2014 brifing, t\u00FCm ekipman, transfer ve plaja ini\u015F dahil.", "de": "Tandem-Paragliding in \u00D6l\u00FCdeniz mit zertifizierten Piloten. Keine Erfahrung n\u00F6tig \u2014 Briefing, Ausr\u00FCstung, Transfer und Strandlandung inklusive.", "ru": "\u0422\u0430\u043D\u0434\u0435\u043C\u043D\u044B\u0435 \u043F\u043E\u043B\u0451\u0442\u044B \u043D\u0430 \u043F\u0430\u0440\u0430\u043F\u043B\u0430\u043D\u0435 \u0432 \u041E\u043B\u044E\u0434\u0435\u043D\u0438\u0437\u0435 \u0441 \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u043C\u0438 \u043F\u0438\u043B\u043E\u0442\u0430\u043C\u0438. \u041E\u043F\u044B\u0442 \u043D\u0435 \u043D\u0443\u0436\u0435\u043D \u2014 \u0438\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u0430\u0436, \u0441\u043D\u0430\u0440\u044F\u0436\u0435\u043D\u0438\u0435 \u0438 \u0442\u0440\u0430\u043D\u0441\u0444\u0435\u0440 \u0432\u043A\u043B\u044E\u0447\u0435\u043D\u044B.", "zh": "厄卢代尼兹双人滑翔伞，由认证飞行员带飞。无需经验——包含完整讲解、全部装备、接送和海滩降落。"}
   return {
     description: d[locale] || d.en,
     title: `${t('title')} | Book from Babada\u011F`,

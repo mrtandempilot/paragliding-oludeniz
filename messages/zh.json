@@ -1,0 +1,354 @@
+{
+  "nav": {
+    "bookNow": "立即预订",
+    "flights": "飞行项目",
+    "babadag": "巴巴达山",
+    "pilots": "飞行员",
+    "info": "信息",
+    "prices": "价格",
+    "contact": "联系我们"
+  },
+  "common": {
+    "bookNow": "立即预订",
+    "learnMore": "了解更多",
+    "viewAll": "查看全部",
+    "readMore": "阅读更多",
+    "perPerson": "每人",
+    "from": "起",
+    "phone": "+90 536 461 6674"
+  },
+  "hero": {
+    "badge": "世界顶级滑翔伞目的地 · 巴巴达山 1960 米",
+    "title1": "厄卢代尼兹双人滑翔伞——",
+    "titleHighlight": "飞越",
+    "title2": "蓝色泻湖",
+    "description": "体验土耳其最令人叹为观止的双人滑翔伞飞行。从巴巴达山起飞，翱翔于碧绿的海水、古老的遗迹和举世闻名的蓝色泻湖之上。",
+    "bookFlight": "预订飞行",
+    "learnMore": "了解更多",
+    "trust1": "全面认证并投保",
+    "trust2": "4.9 / 5 — 2,400+ 条评价",
+    "trust3": "25 年以上经验"
+  },
+  "whyOludeniz": {
+    "badge": "为什么选择厄卢代尼兹？",
+    "title": "世界上最美的滑翔伞飞行",
+    "subtitle": "厄卢代尼兹不只是一个目的地——它是衡量所有其他滑翔伞场地的标杆。",
+    "altitude": "起飞高度",
+    "altitudeDesc": "巴巴达山拥有欧洲最高的商业双人飞行起飞点之一",
+    "flight": "飞行时长",
+    "flightDesc": "绵长平稳的热气流，比大多数场地拥有更长的留空时间和更多美景",
+    "landing": "海滩降落",
+    "landingDesc": "直接降落在厄卢代尼兹海滩，离著名的蓝色泻湖仅几步之遥",
+    "weather": "每年可飞行天数",
+    "weatherDesc": "得益于厄卢代尼兹得天独厚的小气候，每年有 300 多个可飞行日",
+    "safety": "安全记录",
+    "safetyDesc": "数十年安全运营，飞行员均全面认证并持有国际执照",
+    "views": "标志性美景",
+    "viewsDesc": "蓝色泻湖、蝴蝶谷、盖米勒岛——从空中尽收眼底"
+  },
+  "flightTypes": {
+    "badge": "选择您的体验",
+    "title": "每一次飞行，都为您量身定制",
+    "subtitle": "从初次体验者到资深飞行员——我们都有适合您的飞行。",
+    "tandem": "双人滑翔伞",
+    "tandemDesc": "与认证教练一起飞行。无需任何经验。",
+    "acro": "特技飞行",
+    "acroDesc": "与专业飞行员一起体验惊心动魄的特技动作。",
+    "sunset": "日落飞行",
+    "sunsetDesc": "蓝色泻湖上空的黄金时刻——令人难忘。",
+    "xc": "越野飞行",
+    "xcDesc": "面向持证单人飞行员的长距离飞行。",
+    "bookNow": "立即预订",
+    "learnMore": "了解更多",
+    "paramotor": "动力伞",
+    "paramotorDesc": "乘坐动力滑翔伞探索厄卢代尼兹海岸线。提供飞行体验和培训。",
+    "paramotorSub": "动力驱动的自由",
+    "groups": "团体飞行",
+    "groupsDesc": "和朋友、家人或公司同事一起来？各种规模的团体我们都能安排。",
+    "groupsSub": "一起飞",
+    "tandemSub": "无需经验",
+    "sunsetSub": "黄金时刻的魔力",
+    "xcSub": "持证飞行员",
+    "acroSub": "极限特技"
+  },
+  "footer": {
+    "rights": "保留所有权利。",
+    "tandemFlights": "双人飞行",
+    "babadag": "巴巴达山",
+    "flyingPilots": "飞行与飞行员",
+    "infoHelp": "信息与帮助",
+    "followUs": "关注我们"
+  },
+  "booking": {
+    "title": "预订您的滑翔伞飞行",
+    "submit": "立即预订",
+    "success": "预订请求已发送！我们将在 24 小时内与您联系。",
+    "error": "出了点问题。请重试或致电我们。"
+  },
+  "babadag": {
+    "badge": "起飞之山",
+    "title": "巴巴达山——滑翔伞传奇",
+    "desc1": "巴巴达山在厄卢代尼兹碧绿的海水之上拔地而起，高达 1960 米。它不只是一座山——更是世界上最伟大的滑翔伞目的地之一的心脏。",
+    "desc2": "巴巴达山拥有四个独立的起飞点，高度从 1200 米到 1900 米不等，适合各种水平的飞行者——从紧张的初次体验者到世界级的特技和越野飞行员。",
+    "stat1": "山顶海拔",
+    "stat2": "起飞点",
+    "stat3": "每年可飞行天数",
+    "stat4": "来访国家数",
+    "cta": "浏览巴巴达山指南",
+    "floatingLabel": "海拔高度"
+  },
+  "reviews": {
+    "badge": "评价",
+    "title": "2,400+ 条五星好评",
+    "cta": "阅读全部评价",
+    "pageTitle": "客人评价",
+    "pageSubtitle": "来自真实飞行者的真实评价。"
+  },
+  "prices": {
+    "title": "2026 年厄卢代尼兹滑翔伞价格",
+    "subtitle": "价格透明。无隐藏费用。所见即所付。",
+    "badge": "价格与套餐",
+    "standard": "标准双人飞行",
+    "standardLaunch": "2000 米起飞",
+    "standardDuration": "25–30 分钟",
+    "high": "高空飞行",
+    "highLaunch": "2000 米起飞",
+    "highDuration": "25–30 分钟",
+    "highBadge": "最受欢迎",
+    "sunset": "日落飞行",
+    "sunsetLaunch": "2000 米起飞",
+    "sunsetDuration": "25–30 分钟",
+    "sunsetBadge": "高级",
+    "included": "包含内容",
+    "addOns": "全包",
+    "bookNow": "预订此飞行",
+    "feat1": "认证双人飞行员",
+    "feat2": "全套安全装备",
+    "feat3": "前往起飞点的接送",
+    "feat4": "海滩降落",
+    "feat5": "第三方责任险",
+    "featHigh": "更高的起飞点（2000 米）",
+    "featHigher": "更长的飞行时间",
+    "featSunset": "傍晚出发",
+    "featSunset2": "蓝色泻湖上空的黄金时刻",
+    "groupDiscount": "一口价",
+    "groupDesc": "每次飞行 150 美元全包——没有团体折扣，也没有隐藏费用。"
+  },
+  "bookNow": {
+    "title": "预订您的滑翔伞飞行",
+    "subtitle": "几分钟即可预留名额。飞行前 24 小时可免费取消。",
+    "badge": "在线预订",
+    "name": "您的姓名",
+    "email": "电子邮箱",
+    "phone": "电话号码",
+    "date": "首选日期",
+    "flightType": "飞行类型",
+    "passengers": "乘客人数",
+    "message": "留言（可选）",
+    "submit": "发送预订请求",
+    "success": "谢谢！我们将在 2 小时内确认您的预订。",
+    "error": "出了点问题。请重试或直接联系我们。",
+    "whyBook": "为什么选择我们",
+    "certified": "认证并投保",
+    "free": "免费取消",
+    "daily": "每天都有飞行",
+    "instant": "快速确认"
+  },
+  "contact": {
+    "title": "联系我们",
+    "subtitle": "我们会在 2 小时内回复。可通过电话、WhatsApp 或电子邮件联系我们。",
+    "badge": "联系方式",
+    "getInTouch": "联系我们",
+    "whatsapp": "WhatsApp（最快）",
+    "whatsappDesc": "随时给我们发消息——我们回复很快",
+    "phone": "电话",
+    "phoneDesc": "直接致电我们",
+    "email": "电子邮件",
+    "emailDesc": "我们会在 2 小时内回复",
+    "location": "地址",
+    "locationDesc": "土耳其费特希耶，厄卢代尼兹海滩",
+    "hours": "营业时间",
+    "hoursDesc": "全年每天 07:00 – 20:00",
+    "sendMessage": "给我们留言",
+    "yourName": "您的姓名",
+    "yourEmail": "您的邮箱",
+    "yourMessage": "您的留言",
+    "send": "发送留言"
+  },
+  "faq": {
+    "title": "常见问题",
+    "subtitle": "飞行前您需要了解的一切。",
+    "badge": "常见问题",
+    "stillQ": "还有疑问？",
+    "contactUs": "联系我们"
+  },
+  "about": {
+    "title": "关于 Ceyhun Aksoy——厄卢代尼兹滑翔伞飞行员",
+    "subtitle": "25 年以上从巴巴达山飞越蓝色泻湖的双人滑翔伞飞行经验。",
+    "badge": "认识您的飞行员",
+    "story": "认识 Ceyhun Aksoy",
+    "storyText": "我叫 Ceyhun Aksoy。自 1999 年起，我就在厄卢代尼兹从事双人滑翔伞飞行——是最早在巴巴达山开展商业飞行的飞行员之一。在过去 25 年多的时间里，我完成了超过 50,000 次双人飞行，安全地带着来自 60 多个国家的乘客飞越蓝色泻湖。",
+    "mission": "我们的使命",
+    "missionText": "我持有土耳其民航总局（SHGM）认证的双人滑翔伞执照，并严格遵守每年的安全和装备检查。我对每一次飞行的目标都很简单：给您带来一生中最震撼、最安全的体验。",
+    "certified": "认证飞行员",
+    "certifiedDesc": "我们所有的飞行员都持有国际 BHPA/DHV 认证，并每年接受安全审查。",
+    "experience": "年经验",
+    "safety": "安全第一",
+    "safetyDesc": "在数千次双人飞行中保持着无懈可击的安全记录。"
+  },
+  "tandem": {
+    "title": "厄卢代尼兹双人滑翔伞",
+    "subtitle": "无需经验。与认证飞行员一起飞越蓝色泻湖。",
+    "badge": "双人飞行",
+    "included": "包含内容",
+    "inc1": "飞行前完整的安全讲解",
+    "inc2": "经验丰富的认证双人飞行员",
+    "inc3": "全部装备（吊带、头盔、伞翼）",
+    "inc4": "从厄卢代尼兹到巴巴达山起飞点的接送",
+    "inc5": "约 25–45 分钟的飞行",
+    "inc6": "降落在厄卢代尼兹海滩",
+    "inc7": "第三方责任险",
+    "bookNow": "立即预订",
+    "viewPrices": "查看价格",
+    "firstTime": "首次飞行",
+    "firstTimeDesc": "初学者完整指南——会经历什么、穿什么、小贴士。",
+    "sunsetTitle": "日落飞行",
+    "sunsetDesc": "从 1200 米高空观看蓝色泻湖上的日落。",
+    "groupTitle": "团体飞行",
+    "groupDesc": "和朋友或家人一起来？各种规模的团体我们都能接待。",
+    "safetyTitle": "安全指南",
+    "safetyDesc": "关于我们的安全记录、装备和飞行员资质的一切。"
+  },
+  "safety": {
+    "title": "安全记录",
+    "subtitle": "25 年以上。零严重事故。以下是我们的做法。",
+    "badge": "安全第一",
+    "certified": "认证飞行员",
+    "equipment": "装备",
+    "record": "安全记录",
+    "procedures": "操作规程"
+  },
+  "weather": {
+    "title": "厄卢代尼兹滑翔伞天气指南",
+    "subtitle": "关于飞行条件您需要了解的一切。",
+    "badge": "天气指南",
+    "best": "最佳月份",
+    "wind": "风向",
+    "thermals": "热气流"
+  },
+  "liveWeather": {
+    "title": "厄卢代尼兹实时天气",
+    "subtitle": "巴巴达山和厄卢代尼兹海滩的当前天气条件。",
+    "badge": "实时天气"
+  },
+  "acro": {
+    "title": "厄卢代尼兹特技滑翔伞",
+    "subtitle": "世界顶级的特技飞行目的地之一。",
+    "badge": "特技飞行"
+  },
+  "training": {
+    "title": "厄卢代尼兹滑翔伞培训",
+    "subtitle": "跟随我们的认证教练学习飞行。",
+    "badge": "培训课程"
+  },
+  "solo": {
+    "title": "厄卢代尼兹单人滑翔伞",
+    "subtitle": "面向来厄卢代尼兹的持证飞行员。",
+    "badge": "单人飞行"
+  },
+  "groups": {
+    "title": "厄卢代尼兹团体滑翔伞",
+    "subtitle": "从单身派对到学校旅行——各种规模的团体我们都能安排。",
+    "badge": "团体预订"
+  },
+  "transfers": {
+    "title": "前往巴巴达山的接送",
+    "subtitle": "从该地区任何地方前往巴巴达山。",
+    "badge": "接送"
+  },
+  "babadagGuide": {
+    "title": "巴巴达山指南",
+    "subtitle": "关于这座传奇起飞之山，您需要了解的一切。",
+    "badge": "巴巴达山指南"
+  },
+  "weatherGuide": {
+    "title": "厄卢代尼兹滑翔伞天气指南",
+    "subtitle": "了解厄卢代尼兹的飞行条件。",
+    "badge": "天气指南"
+  },
+  "paramotor": {
+    "title": "厄卢代尼兹动力伞",
+    "subtitle": "沿厄卢代尼兹海岸线的动力滑翔伞飞行。",
+    "badge": "动力伞"
+  },
+  "safetyRecord": {
+    "title": "我们的安全记录",
+    "subtitle": "25 年以上。零严重事故。以下是我们的做法。",
+    "badge": "安全第一"
+  },
+  "certifications": {
+    "title": "飞行员资质认证",
+    "subtitle": "我们的飞行员拥有最高级别的国际认证。",
+    "badge": "资质认证"
+  },
+  "community": {
+    "title": "厄卢代尼兹滑翔伞社区",
+    "subtitle": "加入厄卢代尼兹的全球滑翔伞社区。",
+    "badge": "社区"
+  },
+  "crossCountry": {
+    "title": "厄卢代尼兹越野滑翔伞",
+    "subtitle": "从巴巴达山出发，飞越费特希耶地区的越野飞行。",
+    "badge": "越野飞行"
+  },
+  "oludenizPara": {
+    "title": "厄卢代尼兹滑翔伞",
+    "subtitle": "土耳其厄卢代尼兹滑翔伞完整指南。",
+    "badge": "厄卢代尼兹"
+  },
+  "fethiyePara": {
+    "title": "费特希耶滑翔伞",
+    "subtitle": "在土耳其费特希耶及周边玩滑翔伞。",
+    "badge": "费特希耶"
+  },
+  "blueLagoon": {
+    "title": "蓝色泻湖滑翔伞",
+    "subtitle": "飞越厄卢代尼兹举世闻名的蓝色泻湖。",
+    "badge": "蓝色泻湖"
+  },
+  "butterfly": {
+    "title": "蝴蝶谷滑翔伞",
+    "subtitle": "从巴巴达山出发，翱翔于壮丽的蝴蝶谷上空。",
+    "badge": "蝴蝶谷"
+  },
+  "turkey": {
+    "title": "土耳其滑翔伞",
+    "subtitle": "厄卢代尼兹——土耳其排名第一的滑翔伞目的地。",
+    "badge": "土耳其滑翔伞"
+  },
+  "thermalsGuide": {
+    "title": "厄卢代尼兹热气流指南",
+    "subtitle": "了解滑翔伞运动中的热气流和天气。",
+    "badge": "热气流"
+  },
+  "baseJump": {
+    "title": "厄卢代尼兹低空跳伞",
+    "subtitle": "厄卢代尼兹也是著名的低空跳伞地点。",
+    "badge": "低空跳伞"
+  },
+  "pilotServices": {
+    "title": "厄卢代尼兹飞行员服务",
+    "subtitle": "为持证飞行员提供装备、天气简报、回收和存放服务。",
+    "badge": "飞行员服务"
+  },
+  "turkeyPara": {
+    "title": "土耳其滑翔伞",
+    "subtitle": "土耳其最好的滑翔伞——厄卢代尼兹。",
+    "badge": "土耳其"
+  },
+  "blog": {
+    "title": "滑翔伞博客",
+    "subtitle": "来自厄卢代尼兹上空的小贴士、指南和故事。",
+    "badge": "博客"
+  }
+}

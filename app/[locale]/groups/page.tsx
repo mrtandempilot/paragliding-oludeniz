@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'groups' })
-  const d: Record<string, string> = {"en": "Group paragliding in Oludeniz for families, friends, corporate events, hen & stag parties and schools. One fixed all-inclusive price and full logistics.", "tr": "Aileler, arkadaş grupları, kurumsal etkinlikler ve okullar için Ölüdeniz'de grup yamaç paraşütü. Sabit all-inclusive fiyat ve tam lojistik destek.", "de": "Gruppen-Paragliding in Ölüdeniz für Familien, Freunde, Firmenevents und Schulen. Ein Festpreis all-inclusive und komplette Logistik.", "ru": "Групповые полёты на параплане в Олюденизе для семей, друзей, корпоративов и школ. Единая цена всё включено и полная логистика."}
+  const d: Record<string, string> = {"en": "Group paragliding in Oludeniz for families, friends, corporate events, hen & stag parties and schools. One fixed all-inclusive price and full logistics.", "tr": "Aileler, arkadaş grupları, kurumsal etkinlikler ve okullar için Ölüdeniz'de grup yamaç paraşütü. Sabit all-inclusive fiyat ve tam lojistik destek.", "de": "Gruppen-Paragliding in Ölüdeniz für Familien, Freunde, Firmenevents und Schulen. Ein Festpreis all-inclusive und komplette Logistik.", "ru": "Групповые полёты на параплане в Олюденизе для семей, друзей, корпоративов и школ. Единая цена всё включено и полная логистика.", "zh": "厄卢代尼兹团体滑翔伞，适合家庭、朋友、企业活动、单身派对和学校团体。一口价全包，后勤全程安排。"}
   return {
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/groups'),

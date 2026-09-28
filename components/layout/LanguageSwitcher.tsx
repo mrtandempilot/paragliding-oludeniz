@@ -9,12 +9,13 @@ const languages = [
   { code: 'tr', label: 'TR', flag: '🇹🇷', name: 'Türkçe' },
   { code: 'de', label: 'DE', flag: '🇩🇪', name: 'Deutsch' },
   { code: 'ru', label: 'RU', flag: '🇷🇺', name: 'Русский' },
+  { code: 'zh', label: '中文', flag: '🇨🇳', name: '简体中文' },
 ]
 
 export default function LanguageSwitcher({ isDark }: { isDark: boolean }) {
   const pathname = usePathname()
   const firstSeg = pathname.split('/')[1]
-  const locale = ['tr', 'de', 'ru'].includes(firstSeg) ? firstSeg : 'en'
+  const locale = ['tr', 'de', 'ru', 'zh'].includes(firstSeg) ? firstSeg : 'en'
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 

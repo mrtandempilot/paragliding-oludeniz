@@ -32,6 +32,11 @@ const META: Record<string, { title: string; description: string; ogLocale: strin
     description:
       'Бронируйте тандемные полёты на параплане в Олюденизе. Старт с горы Бабадаг (1960 м), полёт над Голубой лагуной. Опыт 25+ лет.',
     ogLocale: 'ru_RU',
+  }, zh: {
+    title: "Atmos Paragliding | 巴巴达山双人滑翔伞飞行",
+    description:
+      "预订土耳其厄卢代尼兹的双人滑翔伞飞行。从 1960 米的巴巴达山起飞，翱翔于蓝色泻湖上空。认证飞行员，25 年以上经验。",
+    ogLocale: "zh_CN",
   },
 }
 

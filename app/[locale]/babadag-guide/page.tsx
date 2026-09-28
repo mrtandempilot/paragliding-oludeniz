@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Babadağ Mountain Guide",tr:"Babadağ Rehberi",de:"Babadağ-Bergführer",ru:"Путеводитель по горе Бабадаг"}
-  const d = {en:"Everything you need to know about the legendary Babadağ paragliding mountain.",tr:"Efsanevi Babadağ paraşüt dağı hakkında bilmeniz gereken her şey.",de:"Alles über den legendären Babadağ-Paragliding-Berg.",ru:"Всё о легендарной горе Бабадаг для парапланеризма."}
+  const t = {en:"Babadağ Mountain Guide",tr:"Babadağ Rehberi",de:"Babadağ-Bergführer",ru:"Путеводитель по горе Бабадаг", zh: "巴巴达山指南"}
+  const d = {en:"Everything you need to know about the legendary Babadağ paragliding mountain.",tr:"Efsanevi Babadağ paraşüt dağı hakkında bilmeniz gereken her şey.",de:"Alles über den legendären Babadağ-Paragliding-Berg.",ru:"Всё о легендарной горе Бабадаг для парапланеризма.", zh: "关于传奇滑翔伞圣地巴巴达山，您需要了解的一切。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/babadag-guide'),
@@ -19,13 +19,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'babadagGuide' })
-  const titles = {en:"Babadağ Mountain Guide",tr:"Babadağ Rehberi",de:"Babadağ-Bergführer",ru:"Путеводитель по горе Бабадаг"}
-  const subs = {en:"Everything you need to know about the legendary Babadağ paragliding mountain.",tr:"Efsanevi Babadağ paraşüt dağı hakkında bilmeniz gereken her şey.",de:"Alles über den legendären Babadağ-Paragliding-Berg.",ru:"Всё о легендарной горе Бабадаг для парапланеризма."}
+  const titles = {en:"Babadağ Mountain Guide",tr:"Babadağ Rehberi",de:"Babadağ-Bergführer",ru:"Путеводитель по горе Бабадаг", zh: "巴巴达山指南"}
+  const subs = {en:"Everything you need to know about the legendary Babadağ paragliding mountain.",tr:"Efsanevi Babadağ paraşüt dağı hakkında bilmeniz gereken her şey.",de:"Alles über den legendären Babadağ-Paragliding-Berg.",ru:"Всё о легендарной горе Бабадаг для парапланеризма.", zh: "关于传奇滑翔伞圣地巴巴达山，您需要了解的一切。"}
   const bodies: Record<string,string[]> = {
     en: ["Babadağ Mountain (1960m) rises directly above Oludeniz beach and the Blue Lagoon, making it one of the most spectacular paragliding sites in the world. The mountain offers four separate launch points between 1200m and 1960m for different skill levels.","Access: by mountain road (30-35 min from Oludeniz) or cable car (teleferik). Tandem flight transfers are included in all our packages.","Flying season: April to October. Peak months for perfect conditions are May-June and September-October.","Explore the guide sections below for detailed information on launch points, landing zones, weather, and access."],
     tr: ["Babadağ (1960m), Oludeniz plajının ve Mavi Lagünün hemen üzerinde yükselerek dünyanın en muhteşem paraşüt noktalarından biri olmaktadır. 1200m ile 1960m arasında farklı beceri seviyeleri için dört ayrı kalkış noktası sunar.","Erişim: dağ yoluyla (Oludeniz'den 30-35 dk) veya teleferikle. Uçuş sezonu Nisan'dan Ekim'e kadardır."],
     de: ["Babadağ Mountain (1960m) rises directly above Oludeniz beach and the Blue Lagoon, making it one of the most spectacular paragliding sites in the world. The mountain offers four separate launch points between 1200m and 1960m for different skill levels.","Access: by mountain road (30-35 min from Oludeniz) or cable car (teleferik). Tandem flight transfers are included in all our packages.","Flying season: April to October. Peak months for perfect conditions are May-June and September-October.","Explore the guide sections below for detailed information on launch points, landing zones, weather, and access."],
-    ru: ["Babadağ Mountain (1960m) rises directly above Oludeniz beach and the Blue Lagoon, making it one of the most spectacular paragliding sites in the world. The mountain offers four separate launch points between 1200m and 1960m for different skill levels.","Access: by mountain road (30-35 min from Oludeniz) or cable car (teleferik). Tandem flight transfers are included in all our packages.","Flying season: April to October. Peak months for perfect conditions are May-June and September-October.","Explore the guide sections below for detailed information on launch points, landing zones, weather, and access."],
+    ru: ["Babadağ Mountain (1960m) rises directly above Oludeniz beach and the Blue Lagoon, making it one of the most spectacular paragliding sites in the world. The mountain offers four separate launch points between 1200m and 1960m for different skill levels.","Access: by mountain road (30-35 min from Oludeniz) or cable car (teleferik). Tandem flight transfers are included in all our packages.","Flying season: April to October. Peak months for perfect conditions are May-June and September-October.","Explore the guide sections below for detailed information on launch points, landing zones, weather, and access."], zh: ["巴巴达山（1960 米）就耸立在厄卢代尼兹海滩和蓝色泻湖的正上方，是世界上最壮观的滑翔伞场地之一。这座山在 1200 米至 1960 米之间设有四个独立起飞点，适合不同水平的飞行者。","交通：经山路（距厄卢代尼兹 30–35 分钟）或乘坐缆车（teleferik）。我们所有套餐均包含双人飞行接送。","飞行季：4 月至 10 月。条件最佳的高峰月份是 5–6 月和 9–10 月。","浏览下方指南板块，了解起飞点、降落区、天气和交通的详细信息。"],
   }
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en

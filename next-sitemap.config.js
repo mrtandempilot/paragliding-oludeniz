@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://atmosparagliding.com'
-const LOCALES = ['en', 'tr', 'de', 'ru']
+const LOCALES = ['en', 'tr', 'de', 'ru', 'zh']
 
 module.exports = {
   siteUrl: SITE_URL,
@@ -31,7 +31,7 @@ module.exports = {
     // Build hreflang alternates for all locales
     const alternateRefs = LOCALES.map(locale => ({
       href: `${SITE_URL}/${locale}${subPath}`,
-      hreflang: locale,
+      hreflang: locale === 'zh' ? 'zh-Hans' : locale,
     }))
     // Add x-default pointing to /en
     alternateRefs.push({

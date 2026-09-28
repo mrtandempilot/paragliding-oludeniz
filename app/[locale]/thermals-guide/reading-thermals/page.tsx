@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Reading Thermals Guide",tr:"Termik Okuma Rehberi",de:"Thermik lesen Leitfaden",ru:"Как читать термики"}
-  const d = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана."}
+  const t = {en:"Reading Thermals Guide",tr:"Termik Okuma Rehberi",de:"Thermik lesen Leitfaden",ru:"Как читать термики", zh: "热气流识别指南"}
+  const d = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана.", zh: "面向滑翔伞飞行员的专业指南。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/thermals-guide/reading-thermals'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'thermalsGuide' })
-  const titles = {en:"Reading Thermals Guide",tr:"Termik Okuma Rehberi",de:"Thermik lesen Leitfaden",ru:"Как читать термики"}
-  const subs = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана."}
-  const bodies = {en:["Thermals are columns of rising warm air. Signs to look for: birds circling without flapping (eagle circles = thermal), dust devils on the ground below, cloud streets forming above ridge lines, and cumulus clouds building vertically.","Contact our team for full pilot briefing information."],tr:["Tam pilot brifing bilgisi için ekibimizle iletişime geçin."],de:["Kontaktieren Sie unser Team für vollständige Pilot-Briefinginformationen."],ru:["Свяжитесь с нашей командой для получения полной информации о брифинге пилотов."]}
+  const titles = {en:"Reading Thermals Guide",tr:"Termik Okuma Rehberi",de:"Thermik lesen Leitfaden",ru:"Как читать термики", zh: "热气流识别指南"}
+  const subs = {en:"Expert guide for paragliding pilots.",tr:"Paraşüt pilotları için uzman rehberi.",de:"Expertenführer für Paragliding-Piloten.",ru:"Экспертный гид для пилотов параплана.", zh: "面向滑翔伞飞行员的专业指南。"}
+  const bodies = {en:["Thermals are columns of rising warm air. Signs to look for: birds circling without flapping (eagle circles = thermal), dust devils on the ground below, cloud streets forming above ridge lines, and cumulus clouds building vertically.","Contact our team for full pilot briefing information."],tr:["Tam pilot brifing bilgisi için ekibimizle iletişime geçin."],de:["Kontaktieren Sie unser Team für vollständige Pilot-Briefinginformationen."],ru:["Свяжитесь с нашей командой для получения полной информации о брифинге пилотов."], zh: ["热气流是上升的暖空气柱。可留意的迹象包括：不扇动翅膀盘旋的鸟类（老鹰盘旋 = 热气流）、下方地面的尘卷风、山脊线上方形成的云街，以及垂直发展的积云。","如需完整的飞行员简报信息，请联系我们的团队。"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

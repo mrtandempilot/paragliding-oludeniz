@@ -15,7 +15,7 @@ export default function Header() {
   const pathname = usePathname()
 
   const firstSeg = pathname.split('/')[1]
-  const curLocale = ['tr', 'de', 'ru'].includes(firstSeg) ? firstSeg : 'en'
+  const curLocale = ['tr', 'de', 'ru', 'zh'].includes(firstSeg) ? firstSeg : 'en'
   const lp = (href: string) =>
     curLocale === 'en' ? href : href === '/' ? `/${curLocale}` : `/${curLocale}${href}`
 

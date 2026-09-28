@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Acro Pilots Meeting Point",tr:"Akro Pilot Buluşma Noktaları",de:"Acro Pilots Meeting Point",ru:"Acro Pilots Meeting Point"}
-  const d = {en:"Advanced paragliding for experienced pilots.",tr:"Deneyimli pilotlar için ileri düzey paraşüt.",de:"Fortgeschrittenes Paragliding für erfahrene Piloten.",ru:"Продвинутый парапланеризм для опытных пилотов."}
+  const t = {en:"Acro Pilots Meeting Point",tr:"Akro Pilot Buluşma Noktaları",de:"Acro Pilots Meeting Point",ru:"Acro Pilots Meeting Point", zh: "特技飞行员集合点"}
+  const d = {en:"Advanced paragliding for experienced pilots.",tr:"Deneyimli pilotlar için ileri düzey paraşüt.",de:"Fortgeschrittenes Paragliding für erfahrene Piloten.",ru:"Продвинутый парапланеризм для опытных пилотов.", zh: "面向有经验飞行员的进阶滑翔伞。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/acro-flights/meeting-points'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'acro' })
-  const titles = {en:"Acro Pilots Meeting Point",tr:"Akro Pilot Buluşma Noktaları",de:"Acro Pilots Meeting Point",ru:"Acro Pilots Meeting Point"}
-  const subs = {en:"Advanced paragliding for experienced pilots.",tr:"Deneyimli pilotlar için ileri düzey paraşüt.",de:"Fortgeschrittenes Paragliding für erfahrene Piloten.",ru:"Продвинутый парапланеризм для опытных пилотов."}
-  const bodies = {en:["The acro flying area is designated over the deep water section of the bay, well clear of tandem flight paths and the beach. Briefing and meetup point is our office at 08:30 on flying mornings.","Contact us for more information: +90 536 461 6674"],tr:["The acro flying area is designated over the deep water section of the bay, well clear of tandem flight paths and the beach. Briefing and meetup point is our office at 08:30 on flying mornings.","Daha fazla bilgi için bize ulaşın: +90 536 461 6674"],de:["The acro flying area is designated over the deep water section of the bay, well clear of tandem flight paths and the beach. Briefing and meetup point is our office at 08:30 on flying mornings.","Kontaktieren Sie uns: +90 536 461 6674"],ru:["The acro flying area is designated over the deep water section of the bay, well clear of tandem flight paths and the beach. Briefing and meetup point is our office at 08:30 on flying mornings.","Свяжитесь с нами: +90 536 461 6674"]}
+  const titles = {en:"Acro Pilots Meeting Point",tr:"Akro Pilot Buluşma Noktaları",de:"Acro Pilots Meeting Point",ru:"Acro Pilots Meeting Point", zh: "特技飞行员集合点"}
+  const subs = {en:"Advanced paragliding for experienced pilots.",tr:"Deneyimli pilotlar için ileri düzey paraşüt.",de:"Fortgeschrittenes Paragliding für erfahrene Piloten.",ru:"Продвинутый парапланеризм для опытных пилотов.", zh: "面向有经验飞行员的进阶滑翔伞。"}
+  const bodies = {en:["The acro flying area is designated over the deep water section of the bay, well clear of tandem flight paths and the beach. Briefing and meetup point is our office at 08:30 on flying mornings.","Contact us for more information: +90 536 461 6674"],tr:["The acro flying area is designated over the deep water section of the bay, well clear of tandem flight paths and the beach. Briefing and meetup point is our office at 08:30 on flying mornings.","Daha fazla bilgi için bize ulaşın: +90 536 461 6674"],de:["The acro flying area is designated over the deep water section of the bay, well clear of tandem flight paths and the beach. Briefing and meetup point is our office at 08:30 on flying mornings.","Kontaktieren Sie uns: +90 536 461 6674"],ru:["The acro flying area is designated over the deep water section of the bay, well clear of tandem flight paths and the beach. Briefing and meetup point is our office at 08:30 on flying mornings.","Свяжитесь с нами: +90 536 461 6674"], zh: ["特技飞行区域划定在海湾深水区上空，远离双人飞行航线和海滩。飞行日早上 08:30 在我们的办公室进行简报和集合。","如需了解更多信息，请联系我们：+90 536 461 6674"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

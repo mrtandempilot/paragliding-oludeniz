@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     en: 'Paragliding news, guides and stories from Oludeniz — flight tips, Babadağ conditions, travel advice and more from local tandem pilots.',
     tr: "Ölüdeniz'den yamaç paraşütü haberleri, rehberler ve hikayeler — uçuş ipuçları, Babadağ koşulları ve yerel pilotlardan tavsiyeler.",
     de: 'Paragliding-News, Guides und Geschichten aus Ölüdeniz — Flugtipps, Babadağ-Bedingungen und Reisetipps von lokalen Tandempiloten.',
-    ru: 'Новости, гиды и истории о парапланеризме из Олюдениза — советы по полётам, условия на Бабадаге и рекомендации местных пилотов.',
+    ru: 'Новости, гиды и истории о парапланеризме из Олюдениза — советы по полётам, условия на Бабадаге и рекомендации местных пилотов.', zh: "来自厄卢代尼兹的滑翔伞新闻、指南和故事——由本地双人飞行员分享飞行技巧、巴巴达山天气条件、旅行建议等更多内容。",
   }
   return {
     description: d[locale] || d.en,

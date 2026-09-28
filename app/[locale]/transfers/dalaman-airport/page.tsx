@@ -8,8 +8,8 @@ import ServiceSchema from '@/components/shared/ServiceSchema'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Dalaman Airport to Oludeniz Transfer",tr:"Dalaman Havalimanı Oludeniz Transfer",de:"Dalaman Airport to Oludeniz Transfer",ru:"Dalaman Airport to Oludeniz Transfer"}
-  const d = {en:"Transfer services to and from Oludeniz.",tr:"Oludeniz'e ve oradan transfer hizmetleri.",de:"Transferdienste nach und von Oludeniz.",ru:"Трансферные услуги в Олюдениз и обратно."}
+  const t = {en:"Dalaman Airport to Oludeniz Transfer",tr:"Dalaman Havalimanı Oludeniz Transfer",de:"Dalaman Airport to Oludeniz Transfer",ru:"Dalaman Airport to Oludeniz Transfer", zh: "达拉曼机场至厄卢代尼兹接送"}
+  const d = {en:"Transfer services to and from Oludeniz.",tr:"Oludeniz'e ve oradan transfer hizmetleri.",de:"Transferdienste nach und von Oludeniz.",ru:"Трансферные услуги в Олюдениз и обратно.", zh: "往返厄卢代尼兹的接送服务。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/transfers/dalaman-airport'),
@@ -20,9 +20,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'transfers' })
-  const titles = {en:"Dalaman Airport to Oludeniz Transfer",tr:"Dalaman Havalimanı Oludeniz Transfer",de:"Dalaman Airport to Oludeniz Transfer",ru:"Dalaman Airport to Oludeniz Transfer"}
-  const subs = {en:"Transfer services to and from Oludeniz.",tr:"Oludeniz'e ve oradan transfer hizmetleri.",de:"Transferdienste nach und von Oludeniz.",ru:"Трансферные услуги в Олюдениз и обратно."}
-  const bodies = {en:["Dalaman Airport (IATA: DLM) is the nearest international airport to Oludeniz, approximately 55km away (1 hour drive). We can arrange private transfers from the airport directly to your hotel or our office.","Contact us to arrange: WhatsApp +90 536 461 6674"],tr:["Dalaman Havalimanı, Oludeniz'e en yakın uluslararası havalimanıdır (yaklaşık 55 km). Havalimanından doğrudan otelinize veya ofisimize özel transfer ayarlayabiliriz.","Düzenlemek için bize ulaşın: WhatsApp +90 536 461 6674"],de:["Dalaman Airport (IATA: DLM) is the nearest international airport to Oludeniz, approximately 55km away (1 hour drive). We can arrange private transfers from the airport directly to your hotel or our office.","Kontaktieren Sie uns: WhatsApp +90 536 461 6674"],ru:["Dalaman Airport (IATA: DLM) is the nearest international airport to Oludeniz, approximately 55km away (1 hour drive). We can arrange private transfers from the airport directly to your hotel or our office.","Свяжитесь с нами: WhatsApp +90 536 461 6674"]}
+  const titles = {en:"Dalaman Airport to Oludeniz Transfer",tr:"Dalaman Havalimanı Oludeniz Transfer",de:"Dalaman Airport to Oludeniz Transfer",ru:"Dalaman Airport to Oludeniz Transfer", zh: "达拉曼机场至厄卢代尼兹接送"}
+  const subs = {en:"Transfer services to and from Oludeniz.",tr:"Oludeniz'e ve oradan transfer hizmetleri.",de:"Transferdienste nach und von Oludeniz.",ru:"Трансферные услуги в Олюдениз и обратно.", zh: "往返厄卢代尼兹的接送服务。"}
+  const bodies = {en:["Dalaman Airport (IATA: DLM) is the nearest international airport to Oludeniz, approximately 55km away (1 hour drive). We can arrange private transfers from the airport directly to your hotel or our office.","Contact us to arrange: WhatsApp +90 536 461 6674"],tr:["Dalaman Havalimanı, Oludeniz'e en yakın uluslararası havalimanıdır (yaklaşık 55 km). Havalimanından doğrudan otelinize veya ofisimize özel transfer ayarlayabiliriz.","Düzenlemek için bize ulaşın: WhatsApp +90 536 461 6674"],de:["Dalaman Airport (IATA: DLM) is the nearest international airport to Oludeniz, approximately 55km away (1 hour drive). We can arrange private transfers from the airport directly to your hotel or our office.","Kontaktieren Sie uns: WhatsApp +90 536 461 6674"],ru:["Dalaman Airport (IATA: DLM) is the nearest international airport to Oludeniz, approximately 55km away (1 hour drive). We can arrange private transfers from the airport directly to your hotel or our office.","Свяжитесь с нами: WhatsApp +90 536 461 6674"], zh: ["达拉曼机场（IATA：DLM）是距离厄卢代尼兹最近的国际机场，约 55 公里（1 小时车程）。我们可以安排从机场直接送到您的酒店或我们办公室的私人接送。","联系我们安排：WhatsApp +90 536 461 6674"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

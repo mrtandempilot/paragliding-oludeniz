@@ -192,13 +192,55 @@ const CONTENT: Record<string, C> = {
       { question: 'Можно подняться по канатной дороге и не летать?', answer: 'Да. Канатная дорога Бабадага продаёт обзорные билеты; многие семьи поднимаются вместе, пока летит один. У кафе на вершине — лучшая терраса побережья.' },
       { question: 'Могут ли летать дети?', answer: 'Да — дети здесь регулярно летают в тандеме. До 18 лет нужно согласие родителей; практические ограничения — посадка подвески и максимальный вес пассажира 110 кг.' },
     ],
+  }, zh: {
+    introTitle: "土耳其的滑翔伞之都",
+    intro: "让任何一位滑翔伞飞行员说出世界上最伟大的飞行场地，厄卢代尼兹都会脱口而出——与因特拉肯和皇后镇齐名。但这两个地方都无法让您从近 2000 米的高度起飞，25 分钟后降落在蓝旗海滩上。自 20 世纪 80 年代末第一批飞行员扛着伞翼沿巴巴达山的林间小路登山以来，土耳其绿松石海岸的这一角已发展成为全球最繁忙的双人飞行场地——而它之所以始终与众不同，是因为这里的地理条件无法复制：一座高山、一片受保护的泻湖，以及稳定的沿海气流，全都在一次滑翔的距离之内。",
+    launchTitle: "巴巴达山及其四个起飞点",
+    launchIntro: "巴巴达山在海滩正上方拔地而起，高达 1960 米。四个不同高度和朝向的起飞点意味着这座山几乎总有一个安全、可飞的选择：",
+    launches: [
+      { t: "1200 米——训练坡", d: "较低且更平缓；在高空风强时使用，也供学员飞行员熟悉这座山。" },
+      { t: "1700 米——主力起飞点", d: "经典的双人飞行起飞点：条件可靠，宽阔的起飞坡道正对泻湖。" },
+      { t: "1800 米——北侧起飞点", d: "在风向变化时启用，让厄卢代尼兹在其他场地关闭时依然可以飞行。" },
+      { t: "1900 米——山顶附近", d: "位于缆车山顶站旁的高空起飞点：飞行时间最长、视野最广、空气最清凉。" },
+    ],
+    cable: "自 2021 年起，巴巴达山缆车可在 20 分钟内将飞行员和乘客从海平面送上山顶——这也是厄卢代尼兹每年拥有 300 多个可飞行日的原因之一。",
+    babadagLink: "浏览完整的巴巴达山指南",
+    feelTitle: "在这里进行双人飞行是什么感觉",
+    feel: "您不需要跳下去；只需跑几步，双脚就会离开地面。泻湖上空的气流非常平稳，大多数初次飞行者形容这次飞行就像坐在扶手椅上欣赏世界上最美的风景。飞行员可以让飞行保持平静、以观光为主；如果您愿意，也可以用螺旋和大角度转弯收尾。二十五到四十五分钟后，您将轻轻降落在贝尔杰克兹海滩的海滨步道上。",
+    feelLink: "完整的分步指南、价格和常见问题，请见我们的双人滑翔伞页面",
+    seasonTitle: "逐月季节指南",
+    months: [
+      { t: "4 月 – 5 月", d: "飞行季开幕：能见度清晰，山坡青翠，起飞点人不多。如果您喜欢安静的早晨，这是理想时段。" },
+      { t: "6 月 – 8 月", d: "旺季：热气流最强，白昼最长，日落飞行最为精彩。请提前两三天预订。" },
+      { t: "9 月 – 10 月", d: "许多飞行员最喜欢的月份——海水温暖，光线柔和，气流稳定，夏季的人潮也已散去。" },
+      { t: "11 月", d: "飞行季的最后几周：天气好的日子可以飞，比一年中任何时候都更安静。" },
+    ],
+    viewsTitle: "从空中看到的景色",
+    views: "那张著名的明信片美景是真实存在的：蓝色泻湖的沙洲就在您脚下，蜿蜒伸入碧绿的海水中。更远处，蝴蝶谷高达 100 米的悬崖切入海岸，盖米勒岛上的拜占庭遗迹散落在海面上，晴天时托罗斯山脉的群峰在地平线上连绵不绝。飞行在贝尔杰克兹的海滨酒店上空结束，您将降落在离海水仅几步之遥的地方。",
+    pilotsTitle: "致持证飞行员",
+    pilots: "厄卢代尼兹不仅仅是双人飞行目的地。持证飞行员来这里飞利西亚海岸的越野航线、在海面上空进行世界级的特技飞行，以及享受轻松的傍晚滑翔。如果您是单人飞行，请从这里开始：",
+    pilotLinks: [
+      { href: '/solo-paragliding', label: "在厄卢代尼兹单人飞行" },
+      { href: '/cross-country-flights', label: "越野航线" },
+      { href: '/acro-flights', label: "特技飞行" },
+    ],
+    practicalTitle: "实用指南",
+    practical: "厄卢代尼兹距费特希耶 15 公里，距达拉曼机场（DLM）约一小时车程。双人飞行固定价格为 150 美元全包——接送、全部装备、保险、海滩降落以及专业照片和视频套餐——最新套餐请见我们的价格页面。直接向本地运营商预订，意味着您可以在 WhatsApp 上直接与飞行员本人沟通，因天气改期也不收取任何费用。",
+    faq: [
+      { question: "在厄卢代尼兹玩滑翔伞最好的月份是哪个月？", answer: "从 4 月下旬到 11 月初的每个月都不错。6 月至 9 月最稳定；5 月和 10 月空气更清澈，人也更少。如果想体验最美的日落飞行，请在盛夏前来。" },
+      { question: "在厄卢代尼兹玩滑翔伞要多少钱？", answer: "双人飞行固定价格为 150 美元全包——前往起飞点的接送、全部装备、保险、海滩降落以及专业照片和视频套餐。无附加费用，无折扣。" },
+      { question: "在厄卢代尼兹玩滑翔伞安全吗？", answer: "由持证专业人员带飞的话，是安全的——这是最安全的冒险活动之一。三十多年来，厄卢代尼兹已经完成了数以百万计的双人飞行。请选择拥有土耳其民航总局（SHGM）持证飞行员、每次飞行均有保险并每天检查装备的运营商。" },
+      { question: "如何选择滑翔伞运营商？", answer: "问三个问题：飞行员是否持有土耳其民航总局（SHGM）执照？每次飞行是否都有保险？能否看到近期真实的乘客评价？值得信赖的运营商会立即回答这三个问题。直接预订——而不是通过街头代理——也意味着您清楚地知道是谁在带您飞。" },
+      { question: "我可以只坐缆车上山而不飞吗？", answer: "可以。巴巴达山缆车出售观光票，很多家庭会一起乘缆车上山，由其中一人飞行。山顶咖啡馆拥有整个海岸线上最好的观景露台。" },
+      { question: "儿童可以参加双人滑翔伞吗？", answer: "可以——在这里儿童经常参加双人飞行。未满 18 岁的乘客需要家长同意，实际的限制是吊带是否合身，以及乘客体重不超过 110 公斤。" },
+    ],
   },
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Paragliding Oludeniz Turkey",tr:"Oludeniz Yamaç Paraşütü",de:"Paragliding Oludeniz Türkei",ru:"Парапланеризм Олюдениз Турция"}
-  const d = {en:"The complete guide to paragliding in Oludeniz: Babadağ launch points, season by month, prices from $150, safety and how to book direct.",tr:"Ölüdeniz'de yamaç paraşütü için eksiksiz rehber: Babadağ kalkış noktaları, ay ay sezon, $150'den fiyatlar, güvenlik ve doğrudan rezervasyon.",de:"Der komplette Guide zum Paragliding in Ölüdeniz: Babadağ-Startplätze, Saison im Monatsüberblick, Preise ab $150, Sicherheit und Direktbuchung.",ru:"Полный гид по парапланеризму в Олюденизе: старты Бабадага, сезон по месяцам, цены от $150, безопасность и прямое бронирование."}
+  const t = {en:"Paragliding Oludeniz Turkey",tr:"Oludeniz Yamaç Paraşütü",de:"Paragliding Oludeniz Türkei",ru:"Парапланеризм Олюдениз Турция", zh: "土耳其厄卢代尼兹滑翔伞"}
+  const d = {en:"The complete guide to paragliding in Oludeniz: Babadağ launch points, season by month, prices from $150, safety and how to book direct.",tr:"Ölüdeniz'de yamaç paraşütü için eksiksiz rehber: Babadağ kalkış noktaları, ay ay sezon, $150'den fiyatlar, güvenlik ve doğrudan rezervasyon.",de:"Der komplette Guide zum Paragliding in Ölüdeniz: Babadağ-Startplätze, Saison im Monatsüberblick, Preise ab $150, Sicherheit und Direktbuchung.",ru:"Полный гид по парапланеризму в Олюденизе: старты Бабадага, сезон по месяцам, цены от $150, безопасность и прямое бронирование.", zh: "厄卢代尼兹滑翔伞完整指南：巴巴达山起飞点、逐月季节、150 美元起的价格、安全须知以及如何直接预订。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/oludeniz-paragliding'),
@@ -210,8 +252,8 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const { locale } = await params
   await getTranslations({ locale, namespace: 'oludenizPara' })
   const lp = (href: string) => (locale === 'en' ? href : `/${locale}${href}`)
-  const titles = {en:"Paragliding Oludeniz Turkey",tr:"Oludeniz Yamaç Paraşütü",de:"Paragliding Oludeniz Türkei",ru:"Парапланеризм Олюдениз Турция"}
-  const subs = {en:"The complete guide to paragliding in Oludeniz.",tr:"Oludeniz'de yamaç paraşütü için eksiksiz rehber.",de:"Der vollständige Leitfaden zum Paragliding in Oludeniz.",ru:"Полный гид по парапланеризму в Олюдениз."}
+  const titles = {en:"Paragliding Oludeniz Turkey",tr:"Oludeniz Yamaç Paraşütü",de:"Paragliding Oludeniz Türkei",ru:"Парапланеризм Олюдениз Турция", zh: "土耳其厄卢代尼兹滑翔伞"}
+  const subs = {en:"The complete guide to paragliding in Oludeniz.",tr:"Oludeniz'de yamaç paraşütü için eksiksiz rehber.",de:"Der vollständige Leitfaden zum Paragliding in Oludeniz.",ru:"Полный гид по парапланеризму в Олюдениз.", zh: "厄卢代尼兹滑翔伞完整指南。"}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const c = CONTENT[locale] || CONTENT.en

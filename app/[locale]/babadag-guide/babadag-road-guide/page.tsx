@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Babadag Road Guide",tr:"Babadag Yol Rehberi",de:"Babadag Strassenführer",ru:"Дорожный гид Бабадаг"}
-  const d = {en:"How to get to Babadag launch by road.",tr:"Babadag kalki noktasina yolla nasil gidilir.",de:"So gelangen Sie zum Babadag-Start.",ru:"Как добраться до Бабадага по дороге."}
+  const t = {en:"Babadag Road Guide",tr:"Babadag Yol Rehberi",de:"Babadag Strassenführer",ru:"Дорожный гид Бабадаг", zh: "巴巴达山公路指南"}
+  const d = {en:"How to get to Babadag launch by road.",tr:"Babadag kalki noktasina yolla nasil gidilir.",de:"So gelangen Sie zum Babadag-Start.",ru:"Как добраться до Бабадага по дороге.", zh: "如何经公路前往巴巴达山起飞点。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/babadag-guide/babadag-road-guide'),
@@ -19,13 +19,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'babadagGuide' })
-  const titles = {en:"Babadag Road Guide",tr:"Babadag Yol Rehberi",de:"Babadag Strassenführer",ru:"Дорожный гид Бабадаг"}
-  const subs = {en:"How to get to Babadag launch by road.",tr:"Babadag kalki noktasina yolla nasil gidilir.",de:"So gelangen Sie zum Babadag-Start.",ru:"Как добраться до Бабадага по дороге."}
+  const titles = {en:"Babadag Road Guide",tr:"Babadag Yol Rehberi",de:"Babadag Strassenführer",ru:"Дорожный гид Бабадаг", zh: "巴巴达山公路指南"}
+  const subs = {en:"How to get to Babadag launch by road.",tr:"Babadag kalki noktasina yolla nasil gidilir.",de:"So gelangen Sie zum Babadag-Start.",ru:"Как добраться до Бабадага по дороге.", zh: "如何经公路前往巴巴达山起飞点。"}
   const bodies: Record<string,string[]> = {
     en: ["The mountain road to Babadağ starts from the Oludeniz junction on the main D400 highway and climbs approximately 1700m. The road is well-maintained tarmac with passing places. Drive time from Oludeniz beach: 30-35 minutes.","All tandem flight transfers are included in our packages. Solo pilots can park at designated areas at the 1200m and 1700m launch points. Road opens daily at 07:00 during season."],
     tr: ["Babadağ dağ yolu, ana D400 karayolundaki Oludeniz kavşağından başlar ve yaklaşık 1700m'ye tırmanır. Oludeniz plajından sürüş süresi 30-35 dakikadır.","Tüm tandem uçuş transferleri paketlerimize dahildir. Solo pilotlar 1200m ve 1700m kalkış noktalarındaki belirlenen alanlara park edebilir."],
     de: ["The mountain road to Babadağ starts from the Oludeniz junction on the main D400 highway and climbs approximately 1700m. The road is well-maintained tarmac with passing places. Drive time from Oludeniz beach: 30-35 minutes.","All tandem flight transfers are included in our packages. Solo pilots can park at designated areas at the 1200m and 1700m launch points. Road opens daily at 07:00 during season."],
-    ru: ["The mountain road to Babadağ starts from the Oludeniz junction on the main D400 highway and climbs approximately 1700m. The road is well-maintained tarmac with passing places. Drive time from Oludeniz beach: 30-35 minutes.","All tandem flight transfers are included in our packages. Solo pilots can park at designated areas at the 1200m and 1700m launch points. Road opens daily at 07:00 during season."],
+    ru: ["The mountain road to Babadağ starts from the Oludeniz junction on the main D400 highway and climbs approximately 1700m. The road is well-maintained tarmac with passing places. Drive time from Oludeniz beach: 30-35 minutes.","All tandem flight transfers are included in our packages. Solo pilots can park at designated areas at the 1200m and 1700m launch points. Road opens daily at 07:00 during season."], zh: ["通往巴巴达山的山路从 D400 主干道上的厄卢代尼兹路口出发，爬升约 1700 米。道路为维护良好的柏油路，设有会车点。从厄卢代尼兹海滩出发车程 30–35 分钟。","我们的套餐包含所有双人飞行的接送。单人飞行员可在 1200 米和 1700 米起飞点的指定区域停车。飞行季期间道路每天 07:00 开放。"],
   }
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en

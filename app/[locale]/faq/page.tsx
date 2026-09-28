@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const t = await getTranslations({ locale, namespace: 'faq' })
-  const d: Record<string, string> = {"en": "Answers to the most common questions about tandem paragliding in Oludeniz: safety, weight limits, what to wear, booking, weather and more.", "tr": "Ölüdeniz'de tandem yamaç paraşütü hakkında en sık sorulan sorular: güvenlik, kilo limiti, kıyafet, rezervasyon ve hava durumu.", "de": "Antworten auf die häufigsten Fragen zum Tandem-Paragliding in Ölüdeniz: Sicherheit, Gewichtslimits, Kleidung, Buchung und Wetter.", "ru": "Ответы на самые частые вопросы о тандемных полётах в Олюденизе: безопасность, ограничения по весу, одежда, бронирование."}
+  const d: Record<string, string> = {"en": "Answers to the most common questions about tandem paragliding in Oludeniz: safety, weight limits, what to wear, booking, weather and more.", "tr": "Ölüdeniz'de tandem yamaç paraşütü hakkında en sık sorulan sorular: güvenlik, kilo limiti, kıyafet, rezervasyon ve hava durumu.", "de": "Antworten auf die häufigsten Fragen zum Tandem-Paragliding in Ölüdeniz: Sicherheit, Gewichtslimits, Kleidung, Buchung und Wetter.", "ru": "Ответы на самые частые вопросы о тандемных полётах в Олюденизе: безопасность, ограничения по весу, одежда, бронирование.", "zh": "关于厄卢代尼兹双人滑翔伞最常见问题的解答：安全、体重限制、着装、预订、天气等。"}
   return {
     description: d[locale] || d.en,
     title: `${t('title')}`,

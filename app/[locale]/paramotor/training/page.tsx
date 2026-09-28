@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Paramotor Training Oludeniz",tr:"Oludeniz Paramotor Eğitimi",de:"Paramotor Training Oludeniz",ru:"Paramotor Training Oludeniz"}
-  const d = {en:"Powered paragliding information for Oludeniz.",tr:"Oludeniz için motorlu paraşüt bilgileri.",de:"Motorisiertes Paragliding-Informationen für Oludeniz.",ru:"Информация о моторизованном парапланеризме для Олюдениз."}
+  const t = {en:"Paramotor Training Oludeniz",tr:"Oludeniz Paramotor Eğitimi",de:"Paramotor Training Oludeniz",ru:"Paramotor Training Oludeniz", zh: "厄卢代尼兹动力伞培训"}
+  const d = {en:"Powered paragliding information for Oludeniz.",tr:"Oludeniz için motorlu paraşüt bilgileri.",de:"Motorisiertes Paragliding-Informationen für Oludeniz.",ru:"Информация о моторизованном парапланеризме для Олюдениз.", zh: "厄卢代尼兹动力滑翔伞信息。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/paramotor/training'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'paramotor' })
-  const titles = {en:"Paramotor Training Oludeniz",tr:"Oludeniz Paramotor Eğitimi",de:"Paramotor Training Oludeniz",ru:"Paramotor Training Oludeniz"}
-  const subs = {en:"Powered paragliding information for Oludeniz.",tr:"Oludeniz için motorlu paraşüt bilgileri.",de:"Motorisiertes Paragliding-Informationen für Oludeniz.",ru:"Информация о моторизованном парапланеризме для Олюдениз."}
-  const bodies = {en:["We offer introductory and full paramotor training courses at Oludeniz. Courses lead to SHGM paramotor certification. Contact us for course dates and pricing.","Contact us for more details: +90 536 461 6674"],tr:["We offer introductory and full paramotor training courses at Oludeniz. Courses lead to SHGM paramotor certification. Contact us for course dates and pricing.","Daha fazla bilgi için: +90 536 461 6674"],de:["We offer introductory and full paramotor training courses at Oludeniz. Courses lead to SHGM paramotor certification. Contact us for course dates and pricing.","Für weitere Details: +90 536 461 6674"],ru:["We offer introductory and full paramotor training courses at Oludeniz. Courses lead to SHGM paramotor certification. Contact us for course dates and pricing.","Для получения подробной информации: +90 536 461 6674"]}
+  const titles = {en:"Paramotor Training Oludeniz",tr:"Oludeniz Paramotor Eğitimi",de:"Paramotor Training Oludeniz",ru:"Paramotor Training Oludeniz", zh: "厄卢代尼兹动力伞培训"}
+  const subs = {en:"Powered paragliding information for Oludeniz.",tr:"Oludeniz için motorlu paraşüt bilgileri.",de:"Motorisiertes Paragliding-Informationen für Oludeniz.",ru:"Информация о моторизованном парапланеризме для Олюдениз.", zh: "厄卢代尼兹动力滑翔伞信息。"}
+  const bodies = {en:["We offer introductory and full paramotor training courses at Oludeniz. Courses lead to SHGM paramotor certification. Contact us for course dates and pricing.","Contact us for more details: +90 536 461 6674"],tr:["We offer introductory and full paramotor training courses at Oludeniz. Courses lead to SHGM paramotor certification. Contact us for course dates and pricing.","Daha fazla bilgi için: +90 536 461 6674"],de:["We offer introductory and full paramotor training courses at Oludeniz. Courses lead to SHGM paramotor certification. Contact us for course dates and pricing.","Für weitere Details: +90 536 461 6674"],ru:["We offer introductory and full paramotor training courses at Oludeniz. Courses lead to SHGM paramotor certification. Contact us for course dates and pricing.","Для получения подробной информации: +90 536 461 6674"], zh: ["我们在厄卢代尼兹提供动力伞入门课程和完整培训课程。课程结业可获得土耳其民航总局（SHGM）动力伞认证。请联系我们了解课程日期和价格。","如需了解更多详情，请联系我们：+90 536 461 6674"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

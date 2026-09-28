@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"Thermal Maps Oludeniz",tr:"Oludeniz Termik Haritaları",de:"Thermikkarten Oludeniz",ru:"Карты термиков Олюдениз"}
-  const d = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов."}
+  const t = {en:"Thermal Maps Oludeniz",tr:"Oludeniz Termik Haritaları",de:"Thermikkarten Oludeniz",ru:"Карты термиков Олюдениз", zh: "厄卢代尼兹热气流地图"}
+  const d = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов.", zh: "为持证滑翔伞飞行员提供的详细信息。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/cross-country-flights/thermal-maps'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'crossCountry' })
-  const titles = {en:"Thermal Maps Oludeniz",tr:"Oludeniz Termik Haritaları",de:"Thermikkarten Oludeniz",ru:"Карты термиков Олюдениз"}
-  const subs = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов."}
-  const bodies = {en:["Oludeniz thermals are driven by the limestone terrain, sea-land temperature differential, and consistent north-westerly flow. Key trigger points include the south-east face of Babadağ, the valley above Faralya, and the rocky headlands north of Oludeniz beach.","Contact us for full briefing packs, retrieve coordination, and local knowledge."],tr:["Oludeniz termikleri kireçtaşı arazi, deniz-kara sıcaklık farkı ve tutarlı kuzey-batı akışı tarafından yönlendirilir.","Tam brifing paketi, geri alma koordinasyonu ve yerel bilgi için bize ulaşın."],de:["Oludeniz-Thermik wird durch das Kalksteingelände, den See-Land-Temperaturunterschied und den gleichmäßigen Nordwestwind angetrieben.","Kontaktieren Sie uns für vollständige Briefingpakete und Abholkoordination."],ru:["Термики Олюдениза обусловлены известняковым рельефом, разницей температур море-суша и устойчивым северо-западным потоком.","Свяжитесь с нами для полных брифинг-пакетов и координации подбора."]}
+  const titles = {en:"Thermal Maps Oludeniz",tr:"Oludeniz Termik Haritaları",de:"Thermikkarten Oludeniz",ru:"Карты термиков Олюдениз", zh: "厄卢代尼兹热气流地图"}
+  const subs = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов.", zh: "为持证滑翔伞飞行员提供的详细信息。"}
+  const bodies = {en:["Oludeniz thermals are driven by the limestone terrain, sea-land temperature differential, and consistent north-westerly flow. Key trigger points include the south-east face of Babadağ, the valley above Faralya, and the rocky headlands north of Oludeniz beach.","Contact us for full briefing packs, retrieve coordination, and local knowledge."],tr:["Oludeniz termikleri kireçtaşı arazi, deniz-kara sıcaklık farkı ve tutarlı kuzey-batı akışı tarafından yönlendirilir.","Tam brifing paketi, geri alma koordinasyonu ve yerel bilgi için bize ulaşın."],de:["Oludeniz-Thermik wird durch das Kalksteingelände, den See-Land-Temperaturunterschied und den gleichmäßigen Nordwestwind angetrieben.","Kontaktieren Sie uns für vollständige Briefingpakete und Abholkoordination."],ru:["Термики Олюдениза обусловлены известняковым рельефом, разницей температур море-суша и устойчивым северо-западным потоком.","Свяжитесь с нами для полных брифинг-пакетов и координации подбора."], zh: ["厄卢代尼兹的热气流由石灰岩地形、海陆温差和稳定的西北气流驱动。主要触发点包括巴巴达山的东南坡、法拉利亚（Faralya）上方的山谷，以及厄卢代尼兹海滩以北的岩石岬角。","如需完整的简报资料、回收协调和本地知识，请联系我们。"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

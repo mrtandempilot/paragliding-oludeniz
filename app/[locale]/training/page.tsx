@@ -11,7 +11,7 @@ import ServiceSchema from '@/components/shared/ServiceSchema'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'training' })
-  const d: Record<string, string> = {"en": "Paragliding courses in Oludeniz: beginner to advanced training, SIV clinics and tandem conversion with certified instructors on Babadağ.", "tr": "Ölüdeniz'de yamaç paraşütü kursları: başlangıçtan ileri seviyeye eğitim, SIV klinikleri ve sertifikalı eğitmenlerle tandem dönüşümü.", "de": "Paragliding-Kurse in Ölüdeniz: Training vom Anfänger bis Fortgeschrittenen, SIV-Kurse und Tandem-Umschulung mit zertifizierten Lehrern.", "ru": "Курсы парапланеризма в Олюденизе: обучение от начального до продвинутого уровня, SIV-клиники с сертифицированными инструкторами."}
+  const d: Record<string, string> = {"en": "Paragliding courses in Oludeniz: beginner to advanced training, SIV clinics and tandem conversion with certified instructors on Babadağ.", "tr": "Ölüdeniz'de yamaç paraşütü kursları: başlangıçtan ileri seviyeye eğitim, SIV klinikleri ve sertifikalı eğitmenlerle tandem dönüşümü.", "de": "Paragliding-Kurse in Ölüdeniz: Training vom Anfänger bis Fortgeschrittenen, SIV-Kurse und Tandem-Umschulung mit zertifizierten Lehrern.", "ru": "Курсы парапланеризма в Олюденизе: обучение от начального до продвинутого уровня, SIV-клиники с сертифицированными инструкторами.", "zh": "厄卢代尼兹滑翔伞课程：由巴巴达山认证教练提供从初级到高级的培训、SIV 课程和双人飞行员转换培训。"}
   return {
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/training'),

@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
 
 const BASE_URL = 'https://www.atmosparagliding.com'
-const LOCALES = ['en', 'tr', 'de', 'ru'] as const
+const LOCALES = ['en', 'tr', 'de', 'ru', 'zh'] as const
+
+/** hreflang code for a URL locale — /zh pages are Simplified Chinese. */
+export const hreflang = (l: string) => (l === 'zh' ? 'zh-Hans' : l)
 
 /** Returns the absolute URL for a given locale + path ('/x' or '/'). */
 export function localeUrl(locale: string, path: string): string {
@@ -17,7 +20,7 @@ export function localeUrl(locale: string, path: string): string {
 export function localeAlternates(locale: string, path: string): Metadata['alternates'] {
   const languages: Record<string, string> = {}
   for (const l of LOCALES) {
-    languages[l] = localeUrl(l, path)
+    languages[hreflang(l)] = localeUrl(l, path)
   }
   languages['x-default'] = localeUrl('en', path)
   return {

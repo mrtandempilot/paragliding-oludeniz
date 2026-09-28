@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"XC Flying Seasons Oludeniz",tr:"Oludeniz XC Uçuş Mevsimleri",de:"XC-Flugsaisons Oludeniz",ru:"Сезоны XC Олюдениз"}
-  const d = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов."}
+  const t = {en:"XC Flying Seasons Oludeniz",tr:"Oludeniz XC Uçuş Mevsimleri",de:"XC-Flugsaisons Oludeniz",ru:"Сезоны XC Олюдениз", zh: "厄卢代尼兹越野飞行季节"}
+  const d = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов.", zh: "为持证滑翔伞飞行员提供的详细信息。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/cross-country-flights/seasons'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'crossCountry' })
-  const titles = {en:"XC Flying Seasons Oludeniz",tr:"Oludeniz XC Uçuş Mevsimleri",de:"XC-Flugsaisons Oludeniz",ru:"Сезоны XC Олюдениз"}
-  const subs = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов."}
-  const bodies = {en:["April-May: thermals build from 11:00, moderate strength, ideal for learning XC routes. June-July: strong summer thermals, best for ambitious routes. August: powerful, can be turbulent in the afternoon. September-October: classic conditions return, Air Games competition month in October.","Contact us for full briefing packs, retrieve coordination, and local knowledge."],tr:["Nisan-Mayıs: termikler saat 11'den itibaren oluşur, orta güç. Haziran-Temmuz: güçlü yaz termikleri. Ekim: Air Games yarışma ayı.","Tam brifing paketi, geri alma koordinasyonu ve yerel bilgi için bize ulaşın."],de:["April-Mai: Thermik ab 11:00, moderat. Juni-Juli: starke Sommerthermik. Oktober: Air Games-Wettbewerbsmonat.","Kontaktieren Sie uns für vollständige Briefingpakete und Abholkoordination."],ru:["Апрель-май: термики с 11:00, умеренные. Июнь-июль: сильные летние термики. Октябрь: месяц соревнований Air Games.","Свяжитесь с нами для полных брифинг-пакетов и координации подбора."]}
+  const titles = {en:"XC Flying Seasons Oludeniz",tr:"Oludeniz XC Uçuş Mevsimleri",de:"XC-Flugsaisons Oludeniz",ru:"Сезоны XC Олюдениз", zh: "厄卢代尼兹越野飞行季节"}
+  const subs = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов.", zh: "为持证滑翔伞飞行员提供的详细信息。"}
+  const bodies = {en:["April-May: thermals build from 11:00, moderate strength, ideal for learning XC routes. June-July: strong summer thermals, best for ambitious routes. August: powerful, can be turbulent in the afternoon. September-October: classic conditions return, Air Games competition month in October.","Contact us for full briefing packs, retrieve coordination, and local knowledge."],tr:["Nisan-Mayıs: termikler saat 11'den itibaren oluşur, orta güç. Haziran-Temmuz: güçlü yaz termikleri. Ekim: Air Games yarışma ayı.","Tam brifing paketi, geri alma koordinasyonu ve yerel bilgi için bize ulaşın."],de:["April-Mai: Thermik ab 11:00, moderat. Juni-Juli: starke Sommerthermik. Oktober: Air Games-Wettbewerbsmonat.","Kontaktieren Sie uns für vollständige Briefingpakete und Abholkoordination."],ru:["Апрель-май: термики с 11:00, умеренные. Июнь-июль: сильные летние термики. Октябрь: месяц соревнований Air Games.","Свяжитесь с нами для полных брифинг-пакетов и координации подбора."], zh: ["4–5 月：热气流从 11:00 开始形成，强度适中，非常适合熟悉越野航线。6–7 月：夏季热气流强劲，最适合有挑战性的航线。8 月：气流强劲，下午可能有湍流。9–10 月：经典条件回归，10 月是航空节比赛月。","如需完整的简报资料、回收协调和本地知识，请联系我们。"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

@@ -7,8 +7,8 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const t = {en:"XC Routes from Babadağ",tr:"Babadağ XC Rotaları",de:"XC-Routen vom Babadağ",ru:"Маршруты XC с Бабадага"}
-  const d = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов."}
+  const t = {en:"XC Routes from Babadağ",tr:"Babadağ XC Rotaları",de:"XC-Routen vom Babadağ",ru:"Маршруты XC с Бабадага", zh: "巴巴达山越野航线"}
+  const d = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов.", zh: "为持证滑翔伞飞行员提供的详细信息。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/cross-country-flights/routes'),
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'crossCountry' })
-  const titles = {en:"XC Routes from Babadağ",tr:"Babadağ XC Rotaları",de:"XC-Routen vom Babadağ",ru:"Маршруты XC с Бабадага"}
-  const subs = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов."}
-  const bodies = {en:["The classic Babadağ to Fethiye route covers approximately 18km north along the coastal ridge. Experienced pilots extend to Gocek (40km) or attempt 100km+ tasks on strong days.","Contact us for full briefing packs, retrieve coordination, and local knowledge."],tr:["Klasik Babadağ-Fethiye rotası kıyı sırtı boyunca yaklaşık 18 km kuzeye uzanır.","Tam brifing paketi, geri alma koordinasyonu ve yerel bilgi için bize ulaşın."],de:["Die klassische Route Babadağ-Fethiye erstreckt sich ca. 18 km nordwärts entlang des Küstenkamms.","Kontaktieren Sie uns für vollständige Briefingpakete und Abholkoordination."],ru:["Классический маршрут Бабадаг-Фетхие охватывает около 18 км к северу вдоль прибрежного хребта.","Свяжитесь с нами для полных брифинг-пакетов и координации подбора."]}
+  const titles = {en:"XC Routes from Babadağ",tr:"Babadağ XC Rotaları",de:"XC-Routen vom Babadağ",ru:"Маршруты XC с Бабадага", zh: "巴巴达山越野航线"}
+  const subs = {en:"Detailed information for licensed paragliding pilots.",tr:"Lisanslı paraşütçüler için ayrıntılı bilgi.",de:"Detaillierte Informationen für lizenzierte Paragliding-Piloten.",ru:"Подробная информация для лицензированных пилотов.", zh: "为持证滑翔伞飞行员提供的详细信息。"}
+  const bodies = {en:["The classic Babadağ to Fethiye route covers approximately 18km north along the coastal ridge. Experienced pilots extend to Gocek (40km) or attempt 100km+ tasks on strong days.","Contact us for full briefing packs, retrieve coordination, and local knowledge."],tr:["Klasik Babadağ-Fethiye rotası kıyı sırtı boyunca yaklaşık 18 km kuzeye uzanır.","Tam brifing paketi, geri alma koordinasyonu ve yerel bilgi için bize ulaşın."],de:["Die klassische Route Babadağ-Fethiye erstreckt sich ca. 18 km nordwärts entlang des Küstenkamms.","Kontaktieren Sie uns für vollständige Briefingpakete und Abholkoordination."],ru:["Классический маршрут Бабадаг-Фетхие охватывает около 18 км к северу вдоль прибрежного хребта.","Свяжитесь с нами для полных брифинг-пакетов и координации подбора."], zh: ["经典的巴巴达山至费特希耶航线沿海岸山脊向北约 18 公里。经验丰富的飞行员会延伸至格奇克（40 公里），或在条件强劲的日子尝试 100 公里以上的任务。","如需完整的简报资料、回收协调和本地知识，请联系我们。"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
   const body = (bodies as any)[locale]||bodies.en

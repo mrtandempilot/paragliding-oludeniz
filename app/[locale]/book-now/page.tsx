@@ -10,7 +10,7 @@ import ServiceSchema from '@/components/shared/ServiceSchema'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'bookNow' })
-  const d: Record<string, string> = {"en": "Book your tandem paragliding flight in Oludeniz online. Instant confirmation, free transfer to Babadağ launch, certified pilots. Fly today!", "tr": "Ölüdeniz'de tandem yamaç paraşütü uçuşunuzu online rezerve edin. Anında onay, Babadağ'a ücretsiz transfer, sertifikalı pilotlar.", "de": "Buchen Sie Ihren Tandem-Gleitschirmflug in Ölüdeniz online. Sofortige Bestätigung, kostenloser Transfer zum Babadağ, zertifizierte Piloten.", "ru": "Забронируйте тандемный полёт на параплане в Олюденизе онлайн. Мгновенное подтверждение, бесплатный трансфер на Бабадаг."}
+  const d: Record<string, string> = {"en": "Book your tandem paragliding flight in Oludeniz online. Instant confirmation, free transfer to Babadağ launch, certified pilots. Fly today!", "tr": "Ölüdeniz'de tandem yamaç paraşütü uçuşunuzu online rezerve edin. Anında onay, Babadağ'a ücretsiz transfer, sertifikalı pilotlar.", "de": "Buchen Sie Ihren Tandem-Gleitschirmflug in Ölüdeniz online. Sofortige Bestätigung, kostenloser Transfer zum Babadağ, zertifizierte Piloten.", "ru": "Забронируйте тандемный полёт на параплане в Олюденизе онлайн. Мгновенное подтверждение, бесплатный трансфер на Бабадаг.", "zh": "在线预订厄卢代尼兹双人滑翔伞飞行。即时确认，免费接送至巴巴达山起飞点，认证飞行员。今天就去飞吧！"}
   return {
     description: d[locale] || d.en,
     title: `${t('title')}`,
