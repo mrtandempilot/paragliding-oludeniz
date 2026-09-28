@@ -1,6 +1,11 @@
 /** @type {import('next-sitemap').IConfig} */
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://atmosparagliding.com'
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.atmosparagliding.com').replace(/\/$/, '')
 const LOCALES = ['en', 'tr', 'de', 'ru', 'zh']
+
+function getUrlForLocale(locale: string, subPath: string): string {
+  const cleanSubPath = subPath === '/' ? '' : subPath
+  return locale === 'en' ? `${SITE_URL}${cleanSubPath}` : `${SITE_URL}/${locale}${cleanSubPath}`
+}
 
 module.exports = {
   siteUrl: SITE_URL,
@@ -14,40 +19,44 @@ module.exports = {
       { userAgent: '*', disallow: '/api/' },
     ],
   },
-  additionalPaths: async (config) => {
-    return []
-  },
   transform: async (config, path) => {
-    // Skip non-locale paths (they redirect, shouldn't be in sitemap)
-    const isLocalePath = LOCALES.some(l => path.startsWith(`/${l}/`) || path === `/${l}`)
-    if (!isLocalePath) return null
+    // Extract locale if present at start of path
+    const match = path.match(/^\/([a-z]{2})(\/.*)?$/)
+    let currentLocale = 'en'
+    let subPath = path
 
-    // Extract the locale and the rest of the path
-    const localeMatch = path.match(/^\/([a-z]{2})(\/.+)?$/)
-    if (!localeMatch) return null
-    const currentLocale = localeMatch[1]
-    const subPath = localeMatch[2] || ''
+    if (match && LOCALES.includes(match[1])) {
+      currentLocale = match[1]
+      subPath = match[2] || '/'
+    }
 
     // Build hreflang alternates for all locales
     const alternateRefs = LOCALES.map(locale => ({
-      href: `${SITE_URL}/${locale}${subPath}`,
+      href: getUrlForLocale(locale, subPath),
       hreflang: locale === 'zh' ? 'zh-Hans' : locale,
     }))
-    // Add x-default pointing to /en
+
+    // Add x-default pointing to English version
     alternateRefs.push({
-      href: `${SITE_URL}/en${subPath}`,
+      href: getUrlForLocale('en', subPath),
       hreflang: 'x-default',
     })
 
     // Priority by path type
     let priority = 0.6
     let changefreq = 'weekly'
-    if (path === '/en' || path === '/') { priority = 1.0; changefreq = 'daily' }
-    else if (subPath === '' || ['/tandem-paragliding', '/babadag-guide', '/book-now', '/prices'].includes(subPath)) {
+    if (subPath === '/' || subPath === '') {
+      priority = 1.0
+      changefreq = 'daily'
+    } else if (['/tandem-paragliding', '/babadag-guide', '/book-now', '/prices'].includes(subPath)) {
       priority = currentLocale === 'en' ? 0.9 : 0.7
+    } else if (subPath.startsWith('/blog/')) {
+      priority = 0.7
+      changefreq = 'monthly'
     }
-    else if (subPath.startsWith('/blog/')) { priority = 0.7; changefreq = 'monthly' }
 
-    return { loc: path, changefreq, priority, alternateRefs }
+    const loc = getUrlForLocale(currentLocale, subPath)
+
+    return { loc, changefreq, priority, alternateRefs }
   },
 }
