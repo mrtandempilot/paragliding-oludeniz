@@ -7,7 +7,7 @@ import { localeAlternates, localeUrl } from '@/lib/seo'
 type Video = { id: string; title: string; desc: string }
 type C = { title: string; sub: string; intro: string; videos: Video[]; channelCta: string }
 
-const VIDEO_IDS = { women: 'LbEVpV-Iso0', xc: '3ca4LPORpZ0', kids: 'FAVJ2B7QA_E' }
+const VIDEO_IDS = { women: 'LbEVpV-Iso0', xc: '3ca4LPORpZ0', kids: 'FAVJ2B7QA_E', sunset: 'PGW-p2uaQSY' }
 
 const CONTENT: Record<string, C> = {
   en: {
@@ -17,7 +17,8 @@ const CONTENT: Record<string, C> = {
     videos: [
       { id: VIDEO_IDS.women, title: 'Fly with a Woman Pilot', desc: 'One of our women tandem pilots takes a passenger over the lagoon — calm, professional and unforgettable.' },
       { id: VIDEO_IDS.xc, title: 'Cross-Country Flight', desc: 'Beyond the tandem classic: cross-country flying along the Lycian coast for licensed pilots.' },
-      { id: VIDEO_IDS.kids, title: 'Flying with Children', desc: 'Tandem paragliding is a family experience — here’s what a flight with kids looks like.' },
+      { id: VIDEO_IDS.kids, title: 'Flying with Children', desc: 'Tandem paragliding is a family experience — here\u2019s what a flight with kids looks like.' },
+      { id: VIDEO_IDS.sunset, title: 'Sunset Flight over the Water', desc: 'Golden hour paragliding as the sun drops over the bay — the calmest, most photogenic flight of the day.' },
     ],
     channelCta: 'More videos on our YouTube channel',
   },
@@ -29,6 +30,7 @@ const CONTENT: Record<string, C> = {
       { id: VIDEO_IDS.women, title: 'Kadın Pilotla Uçuş', desc: 'Kadın tandem pilotlarımızdan biri yolcusunu lagün üzerinde uçuruyor — sakin, profesyonel ve unutulmaz.' },
       { id: VIDEO_IDS.xc, title: 'XC (Yol) Uçuşu', desc: 'Klasik tandemin ötesi: lisanslı pilotlar için Likya kıyısı boyunca yol uçuşu.' },
       { id: VIDEO_IDS.kids, title: 'Çocuklarla Uçuş', desc: 'Tandem yamaç paraşütü bir aile deneyimidir — çocuklarla uçuş böyle görünüyor.' },
+      { id: VIDEO_IDS.sunset, title: 'Su Üzerinde Gün Batımı Uçuşu', desc: 'Güneş körfezin üzerinde batarken altın saat uçuşu — günün en sakin ve en fotojenik uçuşu.' },
     ],
     channelCta: 'Daha fazla video YouTube kanalımızda',
   },
@@ -40,6 +42,7 @@ const CONTENT: Record<string, C> = {
       { id: VIDEO_IDS.women, title: 'Flug mit Pilotin', desc: 'Eine unserer Tandempilotinnen fliegt mit einem Passagier über die Lagune — ruhig, professionell, unvergesslich.' },
       { id: VIDEO_IDS.xc, title: 'Streckenflug', desc: 'Jenseits des Tandem-Klassikers: Streckenfliegen entlang der lykischen Küste für lizenzierte Piloten.' },
       { id: VIDEO_IDS.kids, title: 'Fliegen mit Kindern', desc: 'Tandem-Paragliding ist ein Familienerlebnis — so sieht ein Flug mit Kindern aus.' },
+      { id: VIDEO_IDS.sunset, title: 'Sonnenuntergangsflug über dem Wasser', desc: 'Goldene Stunde beim Paragliding, während die Sonne über der Bucht untergeht — der ruhigste und fotogenste Flug des Tages.' },
     ],
     channelCta: 'Mehr Videos auf unserem YouTube-Kanal',
   },
@@ -51,6 +54,7 @@ const CONTENT: Record<string, C> = {
       { id: VIDEO_IDS.women, title: 'Полёт с женщиной-пилотом', desc: 'Одна из наших женщин-пилотов летит с пассажиром над лагуной — спокойно, профессионально, незабываемо.' },
       { id: VIDEO_IDS.xc, title: 'Маршрутный полёт (XC)', desc: 'За пределами классического тандема: маршрутные полёты вдоль ликийского побережья для лицензированных пилотов.' },
       { id: VIDEO_IDS.kids, title: 'Полёты с детьми', desc: 'Тандемный параплан — семейное приключение. Вот как выглядит полёт с детьми.' },
+      { id: VIDEO_IDS.sunset, title: 'Закатный полёт над водой', desc: 'Полёт в золотой час, когда солнце садится над заливом — самый спокойный и фотогеничный полёт дня.' },
     ],
     channelCta: 'Больше видео на нашем YouTube-канале',
   }, zh: {
@@ -61,6 +65,7 @@ const CONTENT: Record<string, C> = {
       { id: VIDEO_IDS.women, title: "与女飞行员一起飞", desc: "我们的一位女性双人飞行员带着乘客飞越泻湖——沉着、专业、令人难忘。" },
       { id: VIDEO_IDS.xc, title: "越野飞行", desc: "超越经典双人飞行：面向持证飞行员的利西亚海岸越野飞行。" },
       { id: VIDEO_IDS.kids, title: "带孩子一起飞", desc: "双人滑翔伞是一种家庭体验——看看带孩子飞行是什么样子。" },
+      { id: VIDEO_IDS.sunset, title: "水面上空的日落飞行", desc: "太阳落向海湾时的黄金时刻滑翔伞飞行——一天中最平静、最上镜的飞行。" },
     ],
     channelCta: "更多视频请见我们的 YouTube 频道",
   },
@@ -70,16 +75,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   const c = CONTENT[locale] || CONTENT.en
   const d: Record<string, string> = {
-    en: 'Watch real tandem paragliding flights over Oludeniz: woman pilots, cross-country and family flights, filmed from Babadağ by Atmos pilots.',
-    tr: 'Ölüdeniz üzerinde gerçek tandem uçuş videoları: kadın pilotlar, XC ve aile uçuşları — Babadağ’dan Atmos pilotlarınca çekildi.',
-    de: 'Echte Tandemflüge über Ölüdeniz im Video: Pilotinnen, Streckenflüge und Familienflüge, gefilmt vom Babadağ.',
-    ru: 'Настоящие тандемные полёты над Олюденизом на видео: женщины-пилоты, маршрутные и семейные полёты с Бабадага.', zh: "观看厄卢代尼兹上空的真实双人滑翔伞飞行：女飞行员、越野飞行和家庭飞行，均由 Atmos 飞行员在巴巴达山拍摄。",
+    en: 'Watch real tandem paragliding flights over Oludeniz: woman pilots, cross-country, family and sunset flights, filmed from Babadağ by Atmos pilots.',
+    tr: 'Ölüdeniz üzerinde gerçek tandem uçuş videoları: kadın pilotlar, XC, aile ve gün batımı uçuşları — Babadağ\u2019dan Atmos pilotlarınca çekildi.',
+    de: 'Echte Tandemflüge über Ölüdeniz im Video: Pilotinnen, Streckenflüge, Familien- und Sonnenuntergangsflüge, gefilmt vom Babadağ.',
+    ru: 'Настоящие тандемные полёты над Олюденизом на видео: женщины-пилоты, маршрутные, семейные и закатные полёты с Бабадага.', zh: "观看厄卢代尼兹上空的真实双人滑翔伞飞行：女飞行员、越野、家庭和日落飞行，均由 Atmos 飞行员在巴巴达山拍摄。",
   }
   return {
     title: c.title,
     description: d[locale] || d.en,
     alternates: localeAlternates(locale, '/videos'),
-    openGraph: { url: localeUrl(locale, '/videos'), title: c.title, description: d[locale] || d.en },
+    openGraph: { url: localeUrl(locale, '/videos'), title: c.title, description: d[locale] || d.en, images: ['https://www.atmosparagliding.com/videos/opengraph-image'] },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },
   }
 }

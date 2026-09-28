@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import PageHero from '@/components/shared/PageHero'
 import BreadcrumbNav from '@/components/shared/BreadcrumbNav'
 import BookingCTA from '@/components/shared/BookingCTA'
@@ -13,19 +14,21 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/pilot-services/retrieval'),
-    openGraph: { url: localeUrl(locale, '/pilot-services/retrieval'), description: (d as any)[locale] || d.en },
+    openGraph: { url: localeUrl(locale, '/pilot-services/retrieval'), description: (d as any)[locale] || d.en, images: ['https://www.atmosparagliding.com/pilot-services/opengraph-image'] },
     twitter: { card: 'summary_large_image', description: (d as any)[locale] || d.en }, title: `${(t as any)[locale]||t.en}` }
 }
+
+const CONTENT: any = {"en": {"sections": [{"h2": "How Does the Retrieve Service Work?", "ps": ["Our retrieve vehicle covers Ölüdeniz, Fethiye, Çalış, Göcek and surrounding areas. Pre-book your retrieve before launch so we know your planned route and landing options, and we track your location via WhatsApp location sharing during the flight."]}], "faqTitle": "FAQ", "faqs": [{"q": "How far does the retrieve service cover?", "a": "Ölüdeniz, Fethiye, Çalış, Göcek and the surrounding area."}], "relatedTitle": "Pilot Services", "related": [{"href": "/pilot-services", "label": "All Pilot Services"}, {"href": "/solo-paragliding", "label": "Solo Paragliding"}, {"href": "/cross-country-flights", "label": "Cross Country Flying"}]}, "tr": {"sections": [{"h2": "Geri Alma Hizmeti Nasıl Çalışır?", "ps": ["Geri alma aracımız Ölüdeniz, Fethiye, Çalış, Göcek ve çevre bölgeleri kapsar. Planladığınız rotayı ve iniş seçeneklerini bilmemiz için kalkıştan önce rezervasyon yapın; uçuş sırasında WhatsApp konum paylaşımıyla sizi takip ediyoruz."]}], "faqTitle": "SSS", "faqs": [{"q": "Geri alma hizmeti ne kadar alanı kapsıyor?", "a": "Ölüdeniz, Fethiye, Çalış, Göcek ve çevresini kapsar."}], "relatedTitle": "Pilot Hizmetleri", "related": [{"href": "/pilot-services", "label": "Tüm Pilot Hizmetleri"}, {"href": "/solo-paragliding", "label": "Solo Yamaç Paraşütü"}, {"href": "/cross-country-flights", "label": "Cross Country Uçuşlar"}]}, "de": {"sections": [{"h2": "Wie funktioniert der Abholservice?", "ps": ["Unser Abholfahrzeug deckt Ölüdeniz, Fethiye, Çalış, Göcek und die umliegenden Gebiete ab. Buchen Sie Ihre Abholung vor dem Start, damit wir Ihre geplante Route und Landeoptionen kennen — wir verfolgen Ihren Standort während des Flugs per WhatsApp."]}], "faqTitle": "FAQ", "faqs": [{"q": "Wie weit reicht der Abholservice?", "a": "Ölüdeniz, Fethiye, Çalış, Göcek und die umliegende Region."}], "relatedTitle": "Pilotendienste", "related": [{"href": "/pilot-services", "label": "Alle Pilotendienste"}, {"href": "/solo-paragliding", "label": "Solo-Paragliding"}, {"href": "/cross-country-flights", "label": "Streckenflug (XC)"}]}, "ru": {"sections": [{"h2": "Как работает услуга подбора?", "ps": ["Наш автомобиль для подбора обслуживает Олюдениз, Фетхие, Чалыш, Гёджек и окрестности. Забронируйте подбор перед стартом, чтобы мы знали ваш планируемый маршрут и варианты посадки — мы отслеживаем ваше местоположение через геолокацию WhatsApp во время полёта."]}], "faqTitle": "FAQ", "faqs": [{"q": "Насколько далеко распространяется услуга подбора?", "a": "Олюдениз, Фетхие, Чалыш, Гёджек и окрестности."}], "relatedTitle": "Услуги для пилотов", "related": [{"href": "/pilot-services", "label": "Все услуги для пилотов"}, {"href": "/solo-paragliding", "label": "Соло-парапланеризм"}, {"href": "/cross-country-flights", "label": "Маршрутные полёты (XC)"}]}, "zh": {"sections": [{"h2": "回收服务是如何运作的？", "ps": ["我们的回收车辆覆盖厄卢代尼兹、费特希耶、恰勒什、格奇克及周边地区。请在起飞前预订回收服务，以便我们了解您计划的航线和降落选项，飞行期间我们会通过 WhatsApp 位置共享追踪您的位置。"]}], "faqTitle": "常见问题", "faqs": [{"q": "回收服务覆盖多大范围？", "a": "厄卢代尼兹、费特希耶、恰勒什、格奇克及周边地区。"}], "relatedTitle": "飞行员服务", "related": [{"href": "/pilot-services", "label": "全部飞行员服务"}, {"href": "/solo-paragliding", "label": "单人滑翔伞"}, {"href": "/cross-country-flights", "label": "越野飞行"}]}}
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   await getTranslations({ locale, namespace: 'pilotServices' })
   const titles = {en:"Retrieve Service",tr:"Geri Alma Hizmeti",de:"Abholservice",ru:"Услуга подбора", zh: "回收服务"}
   const subs = {en:"Professional services for licensed paragliding pilots visiting Oludeniz.",tr:"Oludeniz'i ziyaret eden lisanslı paraşüt pilotları için profesyonel hizmetler.",de:"Professionelle Dienste für lizenzierte Paragliding-Piloten, die Oludeniz besuchen.",ru:"Профессиональные услуги для лицензированных пилотов, посещающих Олюдениз.", zh: "为来厄卢代尼兹的持证滑翔伞飞行员提供的专业服务。"}
-  const bodies = {en:["Our retrieve vehicle covers Oludeniz, Fethiye, Calis, Gocek, and surrounding areas. Pre-book your retrieve before launch so we know your planned route and landing options. We track WhatsApp location sharing during your flight.","Contact us at +90 536 461 6674 or visit our office on Oludeniz beach."],tr:["Geri alma aracımız Oludeniz, Fethiye, Calis, Gocek ve çevre alanları kapsar.","Oludeniz plajındaki ofisimizi ziyaret edin veya +90 536 461 6674 numaralı telefonu arayın."],de:["Our retrieve vehicle covers Oludeniz, Fethiye, Calis, Gocek, and surrounding areas. Pre-book your retrieve before launch so we know your planned route and landing options. We track WhatsApp location sharing during your flight.","Besuchen Sie unser Büro am Oludeniz-Strand oder rufen Sie uns an: +90 536 461 6674."],ru:["Our retrieve vehicle covers Oludeniz, Fethiye, Calis, Gocek, and surrounding areas. Pre-book your retrieve before launch so we know your planned route and landing options. We track WhatsApp location sharing during your flight.","Посетите наш офис на пляже Олюдениз или позвоните нам: +90 536 461 6674."], zh: ["我们的回收车辆覆盖厄卢代尼兹、费特希耶、恰勒什、格奇克及周边地区。请在起飞前预订回收服务，以便我们了解您计划的航线和降落选项。飞行期间我们会通过 WhatsApp 位置共享追踪您的位置。","请致电 +90 536 461 6674 联系我们，或前往我们位于厄卢代尼兹海滩的办公室。"]}
   const title = (titles as any)[locale]||titles.en
   const sub = (subs as any)[locale]||subs.en
-  const body = (bodies as any)[locale]||bodies.en
+  const c: any = (CONTENT as any)[locale] || CONTENT.en
+  const lp = (p: string) => (locale === 'en' ? p : `/${locale}${p}`)
   return (
     <>
       <ServiceSchema name="Paragliding Retrieval Service Oludeniz" description="Safe and efficient retrieval service for paragliding pilots landing away from Oludeniz." path="/pilot-services/retrieval" serviceType="Paragliding Retrieval Service" />
@@ -34,8 +37,31 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
         <div className="container-default py-3"><BreadcrumbNav items={[{ label: title }]} /></div>
       </div>
       <section className="section-padding bg-white">
-        <div className="container-default max-w-3xl space-y-4">
-          {body.map((p: string, i: number) => <p key={i} className="text-slate-600 leading-relaxed">{p}</p>)}
+        <div className="container-default max-w-3xl">
+          {c.sections.map((s: any) => (
+            <div key={s.h2} className="mb-10">
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">{s.h2}</h2>
+              {s.ps.map((p: string, i: number) => <p key={i} className="text-slate-600 leading-relaxed mb-4">{p}</p>)}
+              {s.bullets && <ul className="list-disc pl-6 space-y-2 text-slate-600 mb-4">{s.bullets.map((b: string, i: number) => <li key={i}>{b}</li>)}</ul>}
+            </div>
+          ))}
+          <div className="mb-10">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">{c.faqTitle}</h2>
+            {c.faqs.map((f: any) => (
+              <div key={f.q} className="mb-6">
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">{f.q}</h3>
+                <p className="text-slate-600 leading-relaxed">{f.a}</p>
+              </div>
+            ))}
+          </div>
+          <div className="bg-orange-50 border border-orange-200 rounded-2xl p-6">
+            <h2 className="text-xl font-bold text-slate-900 mb-3">{c.relatedTitle}</h2>
+            <ul className="space-y-2">
+              {c.related.map((r: any) => (
+                <li key={r.href}><Link href={lp(r.href)} className="text-orange-600 hover:underline">{r.label}</Link></li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
       <BookingCTA />

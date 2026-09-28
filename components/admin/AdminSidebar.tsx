@@ -12,6 +12,7 @@ import {
   Search,
   Radar,
   BarChart3,
+  Sparkles,
 } from 'lucide-react'
 
 const navItems = [
@@ -26,6 +27,7 @@ const navItems = [
   { href: '/admin/meta-ads', label: 'Meta Reklamlar', icon: Megaphone },
   { href: '/admin/google-ads', label: 'Google Ads', icon: Search },
   { href: '/admin/analyze', label: 'Analiz', icon: BarChart3 },
+  { href: '/admin/ai-visibility', label: 'AI Görünürlük', icon: Sparkles },
 ]
 
 export default function AdminSidebar() {

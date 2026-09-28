@@ -107,14 +107,6 @@ const WEBSITE_SCHEMA = {
   '@type': 'WebSite',
   name: 'Atmos Paragliding',
   url: 'https://www.atmosparagliding.com',
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: 'https://www.atmosparagliding.com/search?q={search_term_string}',
-    },
-    'query-input': 'required name=search_term_string',
-  },
 }
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {

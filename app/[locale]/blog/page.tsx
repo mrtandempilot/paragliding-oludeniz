@@ -24,19 +24,33 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: d[locale] || d.en,
     title: `${t('title')}`,
     alternates: localeAlternates(locale, '/blog'),
-    openGraph: { url: localeUrl(locale, '/blog'), description: d[locale] || d.en },
+    openGraph: { url: localeUrl(locale, '/blog'), description: d[locale] || d.en, images: ['https://www.atmosparagliding.com/blog/opengraph-image'] },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },
   }
 }
 
-async function getArticles() {
+// Non-English article translations are stored as regular rows in the SAME
+// `articles` table, distinguished only by a slug prefix (e.g. "i18n-tr-...").
+// This avoids a DB schema change — see agents/translate.ts.
+const I18N_LOCALES = ['tr', 'de', 'ru', 'zh'] as const
+const i18nPrefix = (locale: string) => `i18n-${locale}-`
+
+async function getArticles(locale: string) {
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from('articles')
       .select('slug, title, meta_description, published_at, word_count, hero_image_url, hero_image_alt')
       .eq('status', 'published')
-      .order('published_at', { ascending: false })
-      .limit(30)
+
+    if (locale === 'en') {
+      for (const l of I18N_LOCALES) {
+        query = query.not('slug', 'like', `${i18nPrefix(l)}%`)
+      }
+    } else {
+      query = query.like('slug', `${i18nPrefix(locale)}%`)
+    }
+
+    const { data, error } = await query.order('published_at', { ascending: false }).limit(30)
 
     if (error) {
       console.error('[Blog] Supabase error:', error.message, error.code)
@@ -45,6 +59,7 @@ async function getArticles() {
 
     return (data || []).map((a: any) => ({
       ...a,
+      slug: locale === 'en' ? a.slug : a.slug.slice(i18nPrefix(locale).length),
       excerpt: a.meta_description,
       read_time: a.word_count ? `${Math.max(1, Math.round(a.word_count / 200))} min read` : '5 min read',
     }))
@@ -57,12 +72,12 @@ async function getArticles() {
 export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'blog' })
-  const articles = await getArticles()
-  const posts = articles.length > 0 ? articles : blogPosts || []
+  const articles = await getArticles(locale)
+  const posts = articles.length > 0 ? articles : (locale === 'en' ? blogPosts || [] : [])
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"Paragliding Oludeniz Blog\", \"description\": \"Paragliding blog \\u2014 tips, guides and stories from Oludeniz and Babada\\u011f Mountain.\", \"url\": \"https://atmosparagliding.com/blog\", \"author\": {\"@type\": \"Person\", \"name\": \"Ceyhun\", \"url\": \"https://atmosparagliding.com/en/about-us\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Atmos Paragliding\", \"url\": \"https://atmosparagliding.com\"}}" }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: "{\"@context\": \"https://schema.org\", \"@type\": \"Article\", \"headline\": \"Atmos Paragliding Blog\", \"description\": \"Paragliding blog \\u2014 tips, guides and stories from Oludeniz and Babada\\u011f Mountain.\", \"url\": \"https://www.atmosparagliding.com/blog\", \"author\": {\"@type\": \"Person\", \"name\": \"Ceyhun\", \"url\": \"https://www.atmosparagliding.com/en/about-us\"}, \"publisher\": {\"@type\": \"Organization\", \"name\": \"Atmos Paragliding\", \"url\": \"https://www.atmosparagliding.com\"}}" }} />
       <PageHero title={t('title')} subtitle={t('subtitle')} badge={t('badge')} size="sm" bgImage="https://v3b.fal.media/files/b/0a9d7c0c/Dn0br3flHariTrqYqhISR.jpg" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container-default py-3">
@@ -78,7 +93,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {posts.map((post: any) => (
-                <Link key={post.slug} href={`/blog/${post.slug}`} className="card overflow-hidden group hover:shadow-lg transition-shadow">
+                <Link key={post.slug} href={locale === 'en' ? `/blog/${post.slug}` : `/${locale}/blog/${post.slug}`} className="card overflow-hidden group hover:shadow-lg transition-shadow">
                   {post.hero_image_url && (
                     <div className="aspect-[16/9] overflow-hidden relative">
                       <Image

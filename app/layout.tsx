@@ -1,10 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import ConversionTracker from '@/components/shared/ConversionTracker'
-import WhatsAppButton from '@/components/shared/WhatsAppButton'
 import Script from 'next/script'
 import { getLocale } from 'next-intl/server'
 
@@ -60,10 +57,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             gtag('config', 'AW-1048206545');
           `}
         </Script>
-        <Header />
         {children}
-        <Footer />
-        <WhatsAppButton />
         <ConversionTracker />
       </body>
     </html>

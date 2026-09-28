@@ -25,9 +25,11 @@
     "description": "体验土耳其最令人叹为观止的双人滑翔伞飞行。从巴巴达山起飞，翱翔于碧绿的海水、古老的遗迹和举世闻名的蓝色泻湖之上。",
     "bookFlight": "预订飞行",
     "learnMore": "了解更多",
+    "learnMoreAria": "了解更多关于厄卢代尼兹双人滑翔伞飞行的信息",
     "trust1": "全面认证并投保",
     "trust2": "4.9 / 5 — 2,400+ 条评价",
-    "trust3": "25 年以上经验"
+    "trust3": "25 年以上经验",
+    "heroAlt": "在土耳其厄卢代尼兹蓝色泻湖上空玩滑翔伞"
   },
   "whyOludeniz": {
     "badge": "为什么选择厄卢代尼兹？",
@@ -69,7 +71,12 @@
     "tandemSub": "无需经验",
     "sunsetSub": "黄金时刻的魔力",
     "xcSub": "持证飞行员",
-    "acroSub": "极限特技"
+    "acroSub": "极限特技",
+    "badgeTandem": "最受欢迎",
+    "badgeSunset": "高级",
+    "badgeXc": "持证飞行员",
+    "badgeAcro": "进阶",
+    "badgeGroups": "各种规模团体均可"
   },
   "footer": {
     "rights": "保留所有权利。",
@@ -349,6 +356,7 @@
   "blog": {
     "title": "滑翔伞博客",
     "subtitle": "来自厄卢代尼兹上空的小贴士、指南和故事。",
-    "badge": "博客"
+    "badge": "博客",
+    "related": "相关文章"
   }
 }

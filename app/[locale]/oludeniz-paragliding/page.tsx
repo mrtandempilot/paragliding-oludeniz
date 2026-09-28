@@ -240,11 +240,11 @@ const CONTENT: Record<string, C> = {
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = {en:"Paragliding Oludeniz Turkey",tr:"Oludeniz Yamaç Paraşütü",de:"Paragliding Oludeniz Türkei",ru:"Парапланеризм Олюдениз Турция", zh: "土耳其厄卢代尼兹滑翔伞"}
-  const d = {en:"The complete guide to paragliding in Oludeniz: Babadağ launch points, season by month, prices from $150, safety and how to book direct.",tr:"Ölüdeniz'de yamaç paraşütü için eksiksiz rehber: Babadağ kalkış noktaları, ay ay sezon, $150'den fiyatlar, güvenlik ve doğrudan rezervasyon.",de:"Der komplette Guide zum Paragliding in Ölüdeniz: Babadağ-Startplätze, Saison im Monatsüberblick, Preise ab $150, Sicherheit und Direktbuchung.",ru:"Полный гид по парапланеризму в Олюденизе: старты Бабадага, сезон по месяцам, цены от $150, безопасность и прямое бронирование.", zh: "厄卢代尼兹滑翔伞完整指南：巴巴达山起飞点、逐月季节、150 美元起的价格、安全须知以及如何直接预订。"}
+  const d = {en:"The complete guide to paragliding in Oludeniz: Babadağ launch points, season by month, one fixed $150 all-inclusive price, safety and how to book direct.",tr:"Ölüdeniz'de yamaç paraşütü için eksiksiz rehber: Babadağ kalkış noktaları, ay ay sezon, $150'den fiyatlar, güvenlik ve doğrudan rezervasyon.",de:"Der komplette Guide zum Paragliding in Ölüdeniz: Babadağ-Startplätze, Saison im Monatsüberblick, Festpreis $150 alles inklusive, Sicherheit und Direktbuchung.",ru:"Полный гид по парапланеризму в Олюденизе: старты Бабадага, сезон по месяцам, фиксированная цена $150 всё включено, безопасность и прямое бронирование.", zh: "厄卢代尼兹滑翔伞完整指南：巴巴达山起飞点、逐月季节、150 美元全包一口价、安全须知以及如何直接预订。"}
   return {
     description: (d as any)[locale] || d.en,
     alternates: localeAlternates(locale, '/oludeniz-paragliding'),
-    openGraph: { url: localeUrl(locale, '/oludeniz-paragliding'), description: (d as any)[locale] || d.en },
+    openGraph: { url: localeUrl(locale, '/oludeniz-paragliding'), description: (d as any)[locale] || d.en, images: ['https://www.atmosparagliding.com/oludeniz-paragliding/opengraph-image'] },
     twitter: { card: 'summary_large_image', description: (d as any)[locale] || d.en }, title: `${(t as any)[locale]||t.en}` }
 }
 

@@ -3,6 +3,7 @@ import { runSEOAgent, SEOBrief } from './seo'
 import { runWriterAgent, ArticleResult } from './writer'
 import { runImageAgent, ImageResult } from './image'
 import { runSocialAgent, SocialResult } from './social'
+import { translateArticleToAllLocales, TranslationOutcome } from './translate'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -16,6 +17,7 @@ export interface OrchestratorResult {
   article?: ArticleResult
   image?: ImageResult
   social?: SocialResult
+  translations?: TranslationOutcome[]
   error?: string
   duration_ms: number
   total_cost_usd?: number
@@ -32,6 +34,7 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
   let article: ArticleResult | undefined
   let image: ImageResult | undefined
   let social: SocialResult | undefined
+  let translations: TranslationOutcome[] | undefined
 
   try {
     // ── Step 1: SEO Research ────────────────────────────────────────────
@@ -63,6 +66,12 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
     )
 
     // ── Step 5: Social Media Post ───────────────────────────────────────
+    // Runs BEFORE translation on purpose: translation is the slowest, most
+    // variable-duration step (real-world observed: ~150-200s for a full
+    // article across 3 locales). If the whole request ever runs into
+    // Vercel's maxDuration cap, we want Instagram/GitHub/publish already
+    // done — translation is the one thing safe to lose to a timeout, since
+    // it's non-blocking and simply won't run again until the next article.
     console.log('[Orchestrator] Step 5: Social Media')
     social = await runSocialAgent(article, image, brief.keywords)
 
@@ -72,10 +81,10 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       console.log(`[Orchestrator] Instagram skipped: ${social.error}`)
     }
 
-    // ── Step 5: Push article to GitHub (optional, non-blocking) ───────
+    // ── Step 6: Push article to GitHub (optional, non-blocking) ───────
     if (process.env.GITHUB_TOKEN && process.env.GITHUB_OWNER && process.env.GITHUB_REPO) {
       try {
-        console.log('[Orchestrator] Step 5: Publishing to GitHub')
+        console.log('[Orchestrator] Step 6: Publishing to GitHub')
         await pushArticleToGitHub(article, brief)
         console.log('[Orchestrator] Article published to GitHub')
       } catch (githubErr: any) {
@@ -84,6 +93,20 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       }
     } else {
       console.log('[Orchestrator] GitHub not configured, skipping blog publish')
+    }
+
+    // ── Step 7: Translate to TR/DE/RU ─────────────────────────────────
+    // Wrapped in try/catch and never re-thrown: a translation failure or
+    // slow API call must never fail the whole run. Locales run in parallel
+    // inside translateArticleToAllLocales. Placed last (after the
+    // time-sensitive publish/social/github steps) so it's the step that
+    // absorbs a timeout, not the step that causes one to hurt anything else.
+    try {
+      console.log('[Orchestrator] Step 7: Translating to TR/DE/RU')
+      translations = await translateArticleToAllLocales(article.article_id)
+      console.log(`[Orchestrator] Translations: ${JSON.stringify(translations)}`)
+    } catch (translateErr: any) {
+      console.warn('[Orchestrator] Translation step failed (non-fatal):', translateErr.message)
     }
 
     // ── Calculate total cost ────────────────────────────────────────────
@@ -109,6 +132,7 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       article_id: article.article_id,
       slug: article.slug,
       instagram_post_id: social.instagram_post_id,
+      translations,
       total_cost_usd: totalCost,
     }, duration)
 
@@ -119,6 +143,7 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       article,
       image,
       social,
+      translations,
       duration_ms: duration,
       total_cost_usd: totalCost,
     }
@@ -145,6 +170,7 @@ export async function runOrchestrator(): Promise<OrchestratorResult> {
       article,
       image,
       social,
+      translations,
       error: errorMsg,
       duration_ms: duration,
     }
@@ -243,4 +269,75 @@ async function notifyPilotTelegram(text: string): Promise<void> {
 
 async function logAgent(agent: string, action: string, status: string, output: object, duration_ms?: number) {
   await supabase.from('agent_logs').insert({ agent, action, status, output, duration_ms: duration_ms || 0 })
+}
+
+// Sends Ceyhun a WhatsApp ping via the same Meta WhatsApp Cloud API call
+// already used for booking notifications (see app/api/bookings/route.ts
+// and app/api/webhooks/whatsapp/route.ts's notifyPilot) — reuses
+// WHATSAPP_PHONE_NUMBER_ID / WHATSAPP_NOTIFY_PHONE / WHATSAPP_ACCESS_TOKEN.
+// Always best-effort: never throws, so a WhatsApp API hiccup can't fail
+// the orchestrator run or block anything downstream.
+async function notifyPilotWhatsApp(text: string): Promise<void> {
+  try {
+    const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID
+    const recipient = process.env.WHATSAPP_NOTIFY_PHONE
+    const token = process.env.WHATSAPP_ACCESS_TOKEN
+    if (!phoneNumberId || !recipient || !token) {
+      console.warn('[Orchestrator] WhatsApp notify skipped — env vars not set')
+      return
+    }
+
+    const res = await fetch(`https://graph.facebook.com/v21.0/${phoneNumberId}/messages`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        messaging_product: 'whatsapp',
+        to: recipient,
+        type: 'text',
+        text: { body: text },
+      }),
+    })
+
+    if (!res.ok) {
+      console.warn('[Orchestrator] WhatsApp notify failed:', res.status, await res.text())
+    }
+  } catch (err: any) {
+    console.warn('[Orchestrator] WhatsApp notify error (non-fatal):', err.message)
+  }
+}
+
+function buildSummaryMessage(
+  article: ArticleResult,
+  social: SocialResult,
+  translations: TranslationOutcome[] | undefined,
+  totalCost: number,
+  durationMs: number
+): string {
+  const igLine = social.instagram_post_id
+    ? `✅ Instagram'a paylaşıldı`
+    : `⏭️ Instagram atlandı${social.error ? ` (${social.error})` : ''}`
+
+  let trLine = '⏳ Çeviri henüz yapılamadı (bir sonraki kontrol otomatik yakalayacak)'
+  if (translations && translations.length > 0) {
+    const ok = translations.filter(t => t.status === 'ok').map(t => t.locale.toUpperCase())
+    const skip = translations.filter(t => t.status === 'skip').map(t => t.locale.toUpperCase())
+    const fail = translations.filter(t => t.status === 'fail').map(t => t.locale.toUpperCase())
+    const parts: string[] = []
+    if (ok.length) parts.push(`✅ ${ok.join('/')}`)
+    if (skip.length) parts.push(`(zaten vardı: ${skip.join('/')})`)
+    if (fail.length) parts.push(`❌ ${fail.join('/')} başarısız`)
+    trLine = `Çeviriler: ${parts.join(' ')}`
+  }
+
+  return (
+    `🚀 ContentPilot günlük özet\n\n` +
+    `📝 ${article.title}\n` +
+    `${igLine}\n` +
+    `${trLine}\n\n` +
+    `⏱️ ${(durationMs / 1000).toFixed(0)}s · 💰 $${totalCost.toFixed(2)}\n` +
+    `https://www.atmosparagliding.com/blog/${article.slug}`
+  )
 }

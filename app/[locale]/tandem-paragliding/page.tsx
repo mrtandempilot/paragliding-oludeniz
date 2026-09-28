@@ -43,7 +43,7 @@ const CONTENT: Record<string, PageContent> = {
       { name: 'High-Altitude Flight (from 1,900 m)', price: '\u20AC100', desc: 'The longest views from near the summit, subject to weather.' },
       { name: 'Sunset Flight', price: '\u20AC110', desc: 'Golden-hour light over the Aegean \u2014 the photographers\u2019 favourite.' },
     ],
-    optNote: 'Photo & video packages are optional extras \u2014 your pilot films the whole flight with a gimbal-mounted action camera.',
+    optNote: 'Photo & video are included free \u2014 your pilot films the whole flight with a gimbal-mounted action camera.',
     safetyTitle: 'Safety Is Not a Feature \u2014 It\u2019s the Whole System',
     safetyBody: 'Every Atmos pilot is SHGM-licensed (Turkish Directorate General of Civil Aviation) with thousands of tandem flights logged. Wings, harnesses and reserves are inspected daily and replaced on manufacturer schedules, not when they wear out. Every flight includes third-party liability insurance, and we simply don\u2019t fly when conditions aren\u2019t right \u2014 if the wind says no, we reschedule you free of charge. Oludeniz has hosted millions of tandem flights over three decades; flown with a licensed professional, it is one of the safest adventure sports you can do.',
     timeTitle: 'The Best Time to Fly',
@@ -82,7 +82,7 @@ const CONTENT: Record<string, PageContent> = {
       { name: 'Yüksek İrtifa Uçuşu (1.900 m)', price: '\u20AC100', desc: 'Zirveye yakın kalkışla en uzun manzara; hava durumuna bağlıdır.' },
       { name: 'Gün Batımı Uçuşu', price: '\u20AC110', desc: 'Ege üzerinde altın saat ışığı \u2014 fotoğrafçıların favorisi.' },
     ],
-    optNote: 'Foto ve video paketleri opsiyonel ektir \u2014 pilotunuz tüm uçuşu gimbal kamerayla çeker.',
+    optNote: 'Foto ve video ücretsiz dahildir \u2014 pilotunuz tüm uçuşu gimbal kamerayla çeker.',
     safetyTitle: 'Güvenlik Bir Özellik Değil, Sistemin Kendisidir',
     safetyBody: 'Her Atmos pilotu SHGM lisanslıdır ve binlerce tandem uçuşa sahiptir. Kanatlar, harnessler ve yedek paraşütler her gün kontrol edilir; eskidiğinde değil, üretici takvimine göre değiştirilir. Her uçuşta üçüncü şahıs sorumluluk sigortası vardır ve koşullar uygun değilse uçmayız \u2014 rüzgâr hayır diyorsa uçuşunuzu ücretsiz erteleriz. Ölüdeniz otuz yılda milyonlarca tandem uçuşa ev sahipliği yaptı; lisanslı bir profesyonelle yapıldığında en güvenli macera sporlarından biridir.',
     timeTitle: 'Uçmak İçin En İyi Zaman',
@@ -121,7 +121,7 @@ const CONTENT: Record<string, PageContent> = {
       { name: 'Hohenflug (ab 1.900 m)', price: '\u20AC100', desc: 'Die langste Aussicht nahe dem Gipfel, wetterabhangig.' },
       { name: 'Sonnenuntergangsflug', price: '\u20AC110', desc: 'Goldenes Licht uber der Agais \u2014 der Favorit der Fotografen.' },
     ],
-    optNote: 'Foto- und Videopakete sind optionale Extras \u2014 Ihr Pilot filmt den gesamten Flug mit einer Gimbal-Actionkamera.',
+    optNote: 'Foto und Video sind kostenlos inklusive \u2014 Ihr Pilot filmt den gesamten Flug mit einer Gimbal-Actionkamera.',
     safetyTitle: 'Sicherheit ist kein Extra \u2014 sie ist das ganze System',
     safetyBody: 'Jeder Atmos-Pilot ist SHGM-lizenziert (turkische Zivilluftfahrtbehorde) und hat tausende Tandemfluge im Logbuch. Schirme, Gurtzeuge und Rettungssysteme werden taglich gepruft und nach Herstellerplan ersetzt. Jeder Flug beinhaltet eine Haftpflichtversicherung \u2014 und bei ungeeigneten Bedingungen fliegen wir schlicht nicht: Sagt der Wind nein, verschieben wir kostenlos. Mit einem lizenzierten Profi ist Tandemfliegen in Oludeniz eine der sichersten Abenteuersportarten uberhaupt.',
     timeTitle: 'Die beste Zeit zum Fliegen',
@@ -198,7 +198,7 @@ const CONTENT: Record<string, PageContent> = {
       { name: "高空飞行（1900 米起飞）", price: '\u20AC100', desc: "从山顶附近俯瞰最远的风景，视天气而定。" },
       { name: "日落飞行", price: '\u20AC110', desc: "爱琴海上的黄金时刻光线——摄影师的最爱。" },
     ],
-    optNote: "照片和视频套餐为可选附加项——飞行员会用云台运动相机拍摄整个飞行过程。",
+    optNote: "照片和视频免费包含——飞行员会用云台运动相机拍摄整个飞行过程。",
     safetyTitle: "安全不是一个卖点——而是整个体系",
     safetyBody: "每一位 Atmos 飞行员都持有土耳其民航总局（SHGM）执照，累计完成数千次双人飞行。伞翼、吊带和备用伞每天检查，并按照制造商规定的周期更换，而不是等到磨损才换。每次飞行都包含第三方责任险，条件不合适时我们绝不起飞——如果风况不允许，我们会为您免费改期。三十多年来，厄卢代尼兹已完成了数以百万计的双人飞行；由持证专业人员带飞，这是您能体验的最安全的冒险运动之一。",
     timeTitle: "最佳飞行时间",
@@ -225,11 +225,18 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'tandem' })
   const d: Record<string, string> = {"en": "Tandem paragliding in Oludeniz with certified pilots. No experience needed \u2014 full briefing, all equipment, transfers and beach landing included.", "tr": "Sertifikal\u0131 pilotlarla \u00D6l\u00FCdeniz'de tandem yama\u00E7 para\u015F\u00FCt\u00FC. Deneyim gerekmez \u2014 brifing, t\u00FCm ekipman, transfer ve plaja ini\u015F dahil.", "de": "Tandem-Paragliding in \u00D6l\u00FCdeniz mit zertifizierten Piloten. Keine Erfahrung n\u00F6tig \u2014 Briefing, Ausr\u00FCstung, Transfer und Strandlandung inklusive.", "ru": "\u0422\u0430\u043D\u0434\u0435\u043C\u043D\u044B\u0435 \u043F\u043E\u043B\u0451\u0442\u044B \u043D\u0430 \u043F\u0430\u0440\u0430\u043F\u043B\u0430\u043D\u0435 \u0432 \u041E\u043B\u044E\u0434\u0435\u043D\u0438\u0437\u0435 \u0441 \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u043C\u0438 \u043F\u0438\u043B\u043E\u0442\u0430\u043C\u0438. \u041E\u043F\u044B\u0442 \u043D\u0435 \u043D\u0443\u0436\u0435\u043D \u2014 \u0438\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u0430\u0436, \u0441\u043D\u0430\u0440\u044F\u0436\u0435\u043D\u0438\u0435 \u0438 \u0442\u0440\u0430\u043D\u0441\u0444\u0435\u0440 \u0432\u043A\u043B\u044E\u0447\u0435\u043D\u044B.", "zh": "厄卢代尼兹双人滑翔伞，由认证飞行员带飞。无需经验——包含完整讲解、全部装备、接送和海滩降落。"}
+  const suffix: Record<string, string> = {
+    en: 'Book from Babada\u011F',
+    tr: 'Babada\u011F\u2019dan Rezervasyon',
+    de: 'Buchung ab Babada\u011F',
+    ru: '\u0411\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 \u0441 \u0411\u0430\u0431\u0430\u0434\u0430\u0433\u0430', zh: "从巴巴达山出发预订",
+  }
+  const fullTitle = `${t('title')} | ${suffix[locale] || suffix.en}`
   return {
     description: d[locale] || d.en,
-    title: `${t('title')} | Book from Babada\u011F`,
+    title: { absolute: fullTitle },
     alternates: localeAlternates(locale, '/tandem-paragliding'),
-    openGraph: { url: localeUrl(locale, '/tandem-paragliding'), title: `${t('title')} | Book from Babada\u011F`, description: d[locale] || d.en },
+    openGraph: { url: localeUrl(locale, '/tandem-paragliding'), title: fullTitle, description: d[locale] || d.en },
     twitter: { card: 'summary_large_image', description: d[locale] || d.en },
   }
 }
