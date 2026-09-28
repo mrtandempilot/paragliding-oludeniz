@@ -72,7 +72,10 @@ export default function LanguageSwitcher({ isDark }: { isDark: boolean }) {
               className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-orange-50 hover:text-orange-600 ${
                 lang.code === locale ? 'text-orange-600 font-semibold' : 'text-slate-700'
               }`}
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                document.cookie = `NEXT_LOCALE=${lang.code}; path=/; max-age=31536000; SameSite=Lax`
+                setOpen(false)
+              }}
             >
               <span>{lang.flag}</span>
               <span>{lang.name}</span>
