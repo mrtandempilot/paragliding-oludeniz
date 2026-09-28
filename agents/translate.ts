@@ -170,8 +170,28 @@ Call the submit_translation tool with the result.`
   return result
 }
 
+
+// The LLM is told to return an ASCII slug, but it occasionally mixes in
+// look-alike Cyrillic letters or Turkish characters (e.g. "paraplanерizma",
+// "parasütu") which produced 404s in production. Enforce ASCII in code.
+const SLUG_MAP: Record<string, string> = {
+  ç:'c',ğ:'g',ı:'i',İ:'i',ö:'o',ş:'s',ü:'u',ä:'ae',ß:'ss',
+  а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'y',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'kh',ц:'ts',ч:'ch',ш:'sh',щ:'shch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya',
+}
+function asciiSlug(s: string): string {
+  return s
+    .toLowerCase()
+    .split('')
+    .map(ch => (ch in SLUG_MAP ? SLUG_MAP[ch] : ch))
+    .join('')
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
 async function insertTranslation(source: SourceArticle, locale: Locale, t: TranslatedArticle) {
-  const slug = `i18n-${locale}-${t.slug}`
+  const slug = `i18n-${locale}-${asciiSlug(t.slug)}`
   const wordCount = t.content.split(/\s+/).length
 
   const { error } = await supabase.from('articles').insert({

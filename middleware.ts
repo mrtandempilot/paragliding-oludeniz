@@ -37,6 +37,27 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // Translated blog articles live in the DB as "i18n-<loc>-<slug>" but their
+  // real public URL is /<loc>/blog/<slug>. The EN blog route used to serve
+  // /blog/i18n-<loc>-<slug> as a second (duplicate) URL with lang="en", which
+  // Google indexed and flagged as duplicate content. 301 every variant of
+  // that path (with or without a locale prefix) to the one real URL.
+  const i18nBlog = pathname.match(/^\/(?:(?:en|tr|de|ru|zh)\/)?blog\/i18n-(tr|de|ru|zh)-(.+)$/)
+  if (i18nBlog) {
+    const url = request.nextUrl.clone()
+    url.pathname = `/${i18nBlog[1]}/blog/${i18nBlog[2]}`
+    return NextResponse.redirect(url, 301)
+  }
+
+  // English is the default locale with no URL prefix. next-intl redirects
+  // /en/... to /... with a temporary 307; make it permanent (308) so Google
+  // consolidates the many legacy /en/ links it still crawls.
+  if (pathname === '/en' || pathname.startsWith('/en/')) {
+    const url = request.nextUrl.clone()
+    url.pathname = pathname.slice(3) || '/'
+    return NextResponse.redirect(url, 308)
+  }
+
   // Handle i18n routing for all other routes
   return intlMiddleware(request)
 }

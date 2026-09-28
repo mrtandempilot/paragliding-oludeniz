@@ -111,7 +111,7 @@ async function generateCaption(
   article: ArticleResult,
   keywords: string[]
 ): Promise<{ text: string; hashtags: string[] }> {
-  const prompt = `You are a social media expert for atmosparagliding.com, a paragliding company in Ölüdeniz, Turkey.
+  const prompt = `You are the social media manager for Atmos Paragliding (atmosparagliding.com), a paragliding company in Ölüdeniz, Turkey.
 
 Write an engaging Instagram caption for this blog article:
 Title: ${article.title}
@@ -120,12 +120,14 @@ Article excerpt: ${article.content.slice(0, 500)}...
 
 Caption Requirements:
 - 150-200 characters for the main text (before hashtags)
+- Mention the brand name "Atmos Paragliding" naturally once in the caption text (e.g. at the start or in the call to action) so the brand is visible in the post
 - Exciting, adventurous tone
 - Include 1 relevant emoji at start and 1 at end
 - End with a call to action (link in bio, book now, etc.)
 - Do NOT include hashtags in the main text
 
 Also generate 20 relevant hashtags mixing:
+- Branded: #atmosparagliding
 - High volume: #paragliding #travel #turkey #adventure
 - Medium: #oludeniz #fethiye #parapente #tandem
 - Niche: #oludenizparagliding #babadagmountain #bluelagoon #paraglider
