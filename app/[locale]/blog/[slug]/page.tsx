@@ -10,7 +10,7 @@ import { getTranslations } from 'next-intl/server'
 import { localeUrl, hreflang } from '@/lib/seo'
 import { renderArticleHtml } from '@/lib/markdown'
 
-export const revalidate = 300
+export const revalidate = 86400 // 1 gun - CPU tasarrufu
 
 // Non-English translations are stored as regular rows in the SAME `articles`
 // table, distinguished only by a slug prefix (e.g. "i18n-tr-..."). This

@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
 import { localeUrl } from '@/lib/seo'
 
-export const revalidate = 3600 // her saat güncelle
+export const revalidate = 86400 // her saat güncelle
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
