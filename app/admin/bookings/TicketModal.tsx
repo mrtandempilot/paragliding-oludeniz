@@ -63,9 +63,8 @@ export default function TicketModal({ booking, onClose }: { booking: Booking; on
   const [ref, setRef] = useState(generateRef(booking.id))
   const [location, setLocation] = useState('Ölüdeniz Beach / Hotel pickup')
   const [flightLabel, setFlightLabel] = useState(FLIGHT_LABELS[booking.flight_type] || booking.flight_type)
-  const [flightAmount, setFlightAmount] = useState(booking.base_price || 0)
-  const [addonOn, setAddonOn] = useState(!!(booking.addon_bundle || booking.addon_photo || booking.addon_video))
-  const [addonAmount, setAddonAmount] = useState(booking.addon_price || 35)
+  // Fixed all-inclusive pricing (since 2026-09-13): $150/person incl. photo & video, no add-ons
+  const [flightAmount, setFlightAmount] = useState(booking.total_price || booking.base_price || 150 * (booking.guests || 1))
   const [extraItems, setExtraItems] = useState<ExtraItem[]>([])
   const [note, setNote] = useState(booking.notes || '')
 
@@ -79,7 +78,7 @@ export default function TicketModal({ booking, onClose }: { booking: Booking; on
     return () => { document.body.removeChild(script) }
   }, [])
 
-  const total = flightAmount + (addonOn ? addonAmount : 0) + extraItems.reduce((s, i) => s + i.qty * i.price, 0)
+  const total = flightAmount + extraItems.reduce((s, i) => s + i.qty * i.price, 0)
 
   function addExtra() {
     setExtraItems([...extraItems, { label: '', qty: 1, price: 0 }])
@@ -113,8 +112,7 @@ export default function TicketModal({ booking, onClose }: { booking: Booking; on
     text += `Date: ${fmtDate(flightDate)}${flightTime ? ' · ' + flightTime : ''}\n`
     text += `Pax: ${pax}\n`
     text += `Meeting point: ${location}\n\n`
-    text += `- ${flightLabel} x${pax}: $${flightAmount.toFixed(0)}\n`
-    if (addonOn) text += `- Photo & Video Package x${pax}: $${addonAmount.toFixed(0)}\n`
+    text += `- ${flightLabel} (incl. photo & video) x${pax}: $${flightAmount.toFixed(0)}\n`
     extraItems.forEach(it => {
       if (it.label && it.qty > 0) text += `- ${it.label} x${it.qty}: $${(it.qty * it.price).toFixed(0)}\n`
     })
@@ -180,12 +178,6 @@ export default function TicketModal({ booking, onClose }: { booking: Booking; on
             <div>
               <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Uçuş Fiyatı (toplam, $)</label>
               <input type="number" min={0} value={flightAmount} onChange={e => setFlightAmount(parseFloat(e.target.value) || 0)} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
-            </div>
-
-            <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5">
-              <input type="checkbox" checked={addonOn} onChange={e => setAddonOn(e.target.checked)} className="w-4 h-4 accent-orange-500" />
-              <span className="flex-1 text-sm font-semibold">Foto &amp; Video Paketi</span>
-              <input type="number" min={0} value={addonAmount} onChange={e => setAddonAmount(parseFloat(e.target.value) || 0)} className="w-24 border border-slate-200 rounded-lg px-2 py-1.5 text-sm" />
             </div>
 
             {extraItems.map((it, idx) => (
@@ -267,17 +259,10 @@ export default function TicketModal({ booking, onClose }: { booking: Booking; on
                   </thead>
                   <tbody>
                     <tr className="border-b border-slate-100">
-                      <td className="py-2 text-sm">{flightLabel}</td>
+                      <td className="py-2 text-sm">{flightLabel}<div className="text-[10px] text-slate-400">incl. photo &amp; video</div></td>
                       <td className="py-2 text-sm text-right">{pax}</td>
                       <td className="py-2 text-sm text-right">${flightAmount.toFixed(0)}</td>
                     </tr>
-                    {addonOn && (
-                      <tr className="border-b border-slate-100">
-                        <td className="py-2 text-sm">Photo &amp; Video Package</td>
-                        <td className="py-2 text-sm text-right">{pax}</td>
-                        <td className="py-2 text-sm text-right">${addonAmount.toFixed(0)}</td>
-                      </tr>
-                    )}
                     {extraItems.filter(it => it.label && it.qty > 0).map((it, idx) => (
                       <tr key={idx} className="border-b border-slate-100">
                         <td className="py-2 text-sm">{it.label}</td>
