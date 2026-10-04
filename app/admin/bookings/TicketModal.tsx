@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { X, Download, Copy, Plus, Trash2 } from 'lucide-react'
 
-interface Booking {
+export interface Booking {
   id: string
   created_at: string
   first_name: string
@@ -51,7 +51,7 @@ function fmtDate(iso: string) {
   return d.toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })
 }
 
-export default function TicketModal({ booking, onClose }: { booking: Booking; onClose: () => void }) {
+export default function TicketModal({ booking, onClose, inline = false }: { booking: Booking; onClose?: () => void; inline?: boolean }) {
   const ticketRef = useRef<HTMLDivElement>(null)
   const [ready, setReady] = useState(false)
 
@@ -65,7 +65,13 @@ export default function TicketModal({ booking, onClose }: { booking: Booking; on
   const [flightLabel, setFlightLabel] = useState(FLIGHT_LABELS[booking.flight_type] || booking.flight_type)
   // Fixed all-inclusive pricing (since 2026-09-13): $150/person incl. photo & video, no add-ons
   const [flightAmount, setFlightAmount] = useState(booking.total_price || booking.base_price || 150 * (booking.guests || 1))
+  const [priceTouched, setPriceTouched] = useState(false)
   const [extraItems, setExtraItems] = useState<ExtraItem[]>([])
+
+  // Manual mode: keep the flight total at $150 × pax until the price is edited by hand
+  useEffect(() => {
+    if (inline && !priceTouched) setFlightAmount(150 * (pax || 1))
+  }, [inline, pax, priceTouched])
   const [note, setNote] = useState(booking.notes || '')
 
   useEffect(() => {
@@ -127,13 +133,17 @@ export default function TicketModal({ booking, onClose }: { booking: Booking; on
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-start sm:items-center justify-center p-3 sm:p-6 overflow-y-auto">
-      <div className="bg-white rounded-2xl w-full max-w-5xl my-6 shadow-2xl">
+    <div className={inline ? '' : 'fixed inset-0 bg-black/60 z-50 flex items-start sm:items-center justify-center p-3 sm:p-6 overflow-y-auto'}>
+      <div className={inline ? 'bg-white rounded-2xl w-full max-w-6xl shadow-sm border border-slate-200' : 'bg-white rounded-2xl w-full max-w-5xl my-6 shadow-2xl'}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
-          <h2 className="font-bold text-slate-900 text-lg">🎫 Bilet Bas — {booking.first_name} {booking.last_name}</h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-700">
-            <X className="w-5 h-5" />
-          </button>
+          <h2 className="font-bold text-slate-900 text-lg">
+            {inline ? '🎫 Bilet Bas — bilgileri kendin gir' : `🎫 Bilet Bas — ${booking.first_name} ${booking.last_name}`}
+          </h2>
+          {!inline && onClose && (
+            <button onClick={onClose} className="text-slate-400 hover:text-slate-700">
+              <X className="w-5 h-5" />
+            </button>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 p-6">
@@ -177,7 +187,7 @@ export default function TicketModal({ booking, onClose }: { booking: Booking; on
             </div>
             <div>
               <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Uçuş Fiyatı (toplam, $)</label>
-              <input type="number" min={0} value={flightAmount} onChange={e => setFlightAmount(parseFloat(e.target.value) || 0)} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
+              <input type="number" min={0} value={flightAmount} onChange={e => { setPriceTouched(true); setFlightAmount(parseFloat(e.target.value) || 0) }} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
             </div>
 
             {extraItems.map((it, idx) => (
