@@ -13,12 +13,14 @@ import {
   Radar,
   BarChart3,
   Sparkles,
+  Ticket,
 } from 'lucide-react'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/mission-control', label: 'Mission Control', icon: Radar },
   { href: '/admin/bookings', label: 'Rezervasyonlar', icon: CalendarCheck },
+  { href: '/admin/ticket', label: 'Bilet Bas', icon: Ticket },
   { href: '/admin/calendar', label: 'Takvim', icon: CalendarDays },
   { href: '/admin/content-pilot', label: 'ContentPilot AI', icon: Bot },
   { href: '/admin/instagram', label: 'Instagram', icon: Instagram },
