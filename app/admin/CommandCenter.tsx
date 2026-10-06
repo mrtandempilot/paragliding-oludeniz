@@ -186,9 +186,9 @@ function MonthGrid({ year, month, days, today }: {
   const cells: (number | null)[] = [...Array(lead).fill(null), ...Array.from({ length: daysIn }, (_, i) => i + 1)]
   return (
     <div>
-      <div className="mb-2 text-[14px] capitalize text-[#E7EEF6]">{TR_MONTH.format(first)}</div>
-      <div className="grid grid-cols-7 gap-1 text-center text-[11px] text-[#5F7894]">
-        {['Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct', 'Pz'].map(d => <div key={d} className="pb-1">{d}</div>)}
+      <div className="mb-1.5 text-[13px] capitalize text-[#C9D6E4]">{TR_MONTH.format(first)}</div>
+      <div className="grid grid-cols-7 gap-0.5 text-center text-[10px] text-[#5F7894]">
+        {['Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct', 'Pz'].map(d => <div key={d} className="pb-0.5">{d}</div>)}
         {cells.map((d, i) => {
           if (d == null) return <div key={i} />
           const key = `${year}-${String(month).padStart(2, '0')}-${String(d).padStart(2, '0')}`
@@ -200,12 +200,11 @@ function MonthGrid({ year, month, days, today }: {
             <div
               key={i}
               title={info ? `${info.bookings} rezervasyon, ${info.guests} yolcu${info.pending ? `, ${info.pending} bekliyor` : ''}` : undefined}
-              className={`relative flex aspect-square flex-col items-center justify-center rounded-md text-[12px] tabular-nums ${isToday ? 'ring-1 ring-[#2DD4BF]' : ''} ${past && !info ? 'text-[#35506F]' : 'text-[#C9D6E4]'}`}
+              className={`relative flex h-6 items-center justify-center rounded text-[11px] tabular-nums ${isToday ? 'ring-1 ring-[#2DD4BF]' : ''} ${past && !info ? 'text-[#35506F]' : 'text-[#C9D6E4]'}`}
               style={info ? { background: `rgba(249,115,22,${alpha})`, color: '#fff' } : { background: '#10233A' }}
             >
               {d}
-              {info && <span className="text-[10px] leading-none opacity-90">{info.guests}</span>}
-              {info?.pending ? <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-[#FBBF24]" aria-hidden /> : null}
+              {info?.pending ? <span className="absolute right-0.5 top-0.5 h-1 w-1 rounded-full bg-[#FBBF24]" aria-hidden /> : null}
             </div>
           )
         })}
@@ -515,19 +514,19 @@ export default function CommandCenter(p: Props) {
         {/* ───────── REZERVASYONLAR ───────── */}
         <Section title="Rezervasyonlar" note="Takvim, yaklaşan uçuşlar, son 30 gün">
           <div className="grid gap-5 lg:grid-cols-12">
-            <Panel title="Uçuş takvimi" icon={CalendarDays} href="/admin/calendar" className="lg:col-span-7" right={
+            <Panel title="Uçuş takvimi" icon={CalendarDays} href="/admin/calendar" className="lg:col-span-5" right={
               <span className="flex items-center gap-3 text-[12px] text-[#5F7894]">
                 <span className="flex items-center gap-1"><span className="h-2.5 w-2.5 rounded-sm bg-[#F97316]" />yolcu</span>
                 <span className="flex items-center gap-1"><span className="h-1.5 w-1.5 rounded-full bg-[#FBBF24]" />bekleyen</span>
               </span>
             }>
-              <div className="grid gap-6 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <MonthGrid year={cy} month={cm} days={p.calendar.days} today={p.today} />
                 <MonthGrid year={nextMonth.y} month={nextMonth.m} days={p.calendar.days} today={p.today} />
               </div>
             </Panel>
 
-            <Panel title="Önümüzdeki 7 gün" icon={ListChecks} href="/admin/bookings" className="lg:col-span-5">
+            <Panel title="Önümüzdeki 7 gün" icon={ListChecks} href="/admin/bookings" className="lg:col-span-7">
               {flightsByDay.length === 0 ? (
                 <p className="text-[13px] text-[#5F7894]">Önümüzdeki 7 günde kayıtlı uçuş yok.</p>
               ) : (
