@@ -64,7 +64,7 @@ export default function BookingForm() {
       setSuccess({ whatsapp_url: data.whatsapp_url, total: data.total_price })
       // Google Ads conversion tracking
       if (typeof window !== 'undefined' && (window as any).gtag) {
-        (window as any).gtag('event', 'conversion', { send_to: 'AW-1048206545/cXNxCN20udQBENG56fMD' })
+        (window as any).gtag('event', 'conversion', { send_to: 'AW-1048206545/h7tlCJzqnZMdENG56fMD', value: Number(data.total_price) || 150, currency: 'USD', transaction_id: String(data.id || data.booking_id || '') || undefined })
       }
     } catch (err: any) {
       setError(err.message || 'Failed to submit booking. Please try WhatsApp or email.')

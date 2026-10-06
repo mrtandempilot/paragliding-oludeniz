@@ -14,8 +14,10 @@ export default function ConversionTracker() {
       const page = window.location.pathname
       if (a.href.includes('wa.me/') || a.href.includes('api.whatsapp.com')) {
         gtag('event', 'whatsapp_click', { link_url: a.href, page_path: page })
+        gtag('event', 'conversion', { send_to: 'AW-1048206545/piCrCJ_qnZMdENG56fMD' })
       } else if (a.href.startsWith('tel:')) {
         gtag('event', 'phone_click', { link_url: a.href, page_path: page })
+        gtag('event', 'conversion', { send_to: 'AW-1048206545/PL-2CKLqnZMdENG56fMD' })
       }
     }
     document.addEventListener('click', onClick, { capture: true })

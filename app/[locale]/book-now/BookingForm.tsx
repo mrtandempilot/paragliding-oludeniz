@@ -70,7 +70,7 @@ export default function BookingForm() {
       // Analytics: booking conversion tracking (was missing on this page —
       // only the unused legacy /book-now copy had it)
       if (typeof window !== 'undefined' && (window as any).gtag) {
-        (window as any).gtag('event', 'conversion', { send_to: 'AW-1048206545/cXNxCN20udQBENG56fMD' })
+        (window as any).gtag('event', 'conversion', { send_to: 'AW-1048206545/h7tlCJzqnZMdENG56fMD', value: Number(data.total_price) || 150, currency: 'USD', transaction_id: String(data.id || data.booking_id || '') || undefined })
         ;(window as any).gtag('event', 'generate_lead', {
           currency: 'USD',
           value: data.total_price,
