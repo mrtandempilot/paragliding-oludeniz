@@ -28,7 +28,7 @@ type Props = {
   weather: { stations: Station[]; fetchedAt: string } | null
   bookings: {
     todayFlights: Booking[]; upcoming: Booking[]; newToday: number; newWeek: number; newMonth: number
-    revenueMonth: number; pending: number
+    revenueMonth: number; pending: number; stalePending: number
   }
   pilot: {
     enabled: boolean; slots: string[]; costToday: number; pendingTopics: number
@@ -170,7 +170,7 @@ function WindLadder({ weather }: { weather: Props['weather'] }) {
               <span className="ml-1 text-[13px] text-[#8098B3]">km/s</span>
             </div>
             <div className="text-[13px] leading-snug text-[#8098B3]">
-              <div>Hamle <span className="tabular-nums text-[#E7EEF6]">{s.windGustKmh != null ? Math.round(s.windGustKmh) : '—'}</span> km/s</div>
+              <div>{s.windGustKmh != null ? <>Hamle <span className="tabular-nums text-[#E7EEF6]">{Math.round(s.windGustKmh)}</span> km/s</> : 'İrtifa rüzgarı'}</div>
               <div className="flex items-center gap-1.5">
                 <ArrowUp
                   className="h-3.5 w-3.5 text-[#2DD4BF]"
@@ -297,10 +297,11 @@ export default function CommandCenter(p: Props) {
   const alerts: { tone: 'warn' | 'bad'; text: string; href?: string }[] = []
   if (metaStatus && metaStatus.tone !== 'ok') alerts.push({ tone: metaStatus.tone, text: `Meta reklam hesabı: ${metaStatus.label}${meta?.account?.balance ? ` (₺${nf(Number(meta.account.balance))})` : ''}`, href: '/admin/meta-ads' })
   if (gads?.error) alerts.push({ tone: 'warn', text: `Google Ads verisi alınamadı: ${gads.error}`, href: '/admin/google-ads' })
-  if (p.bookings.pending > 0) alerts.push({ tone: 'warn', text: `${p.bookings.pending} rezervasyon onay bekliyor`, href: '/admin/bookings' })
+  if (p.bookings.pending > 0) alerts.push({ tone: 'warn', text: `${p.bookings.pending} yaklaşan rezervasyon onay bekliyor`, href: '/admin/bookings' })
+  if (p.bookings.stalePending > 0) alerts.push({ tone: 'warn', text: `${p.bookings.stalePending} rezervasyonun uçuş tarihi geçmiş ama hâlâ "bekliyor" görünüyor. Tamamlandı ya da iptal olarak işaretle.`, href: '/admin/bookings' })
   if (p.instagram.failed > 0) alerts.push({ tone: 'warn', text: `${p.instagram.failed} Instagram gönderisi başarısız`, href: '/admin/instagram' })
   if (p.instagram.gapDays != null && p.instagram.gapDays >= 3) alerts.push({ tone: 'warn', text: `Instagram'a ${p.instagram.gapDays} gündür paylaşım yapılmadı`, href: '/admin/instagram' })
-  for (const a of p.agents) if (a.status === 'error' && Date.now() - new Date(a.created_at).getTime() < 86400000) alerts.push({ tone: 'bad', text: `${a.agent} ajanı hata verdi: ${(a.error || a.action || '').slice(0, 90)}`, href: '/admin/mission-control' })
+  for (const a of p.agents) if (a.status === 'error') alerts.push({ tone: 'bad', text: `${a.agent} ajanı son çalışmasında hata verdi (${ago(a.created_at)}): ${(a.error || a.action || '').slice(0, 90)}`, href: '/admin/mission-control' })
 
   const dateTitle = now
     ? new Intl.DateTimeFormat('tr-TR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Istanbul' }).format(now)
@@ -388,7 +389,7 @@ export default function CommandCenter(p: Props) {
             { v: p.bookings.newWeek, l: 'Yeni rezervasyon, 7 gün', s: `Bugün ${p.bookings.newToday}, 30 günde ${p.bookings.newMonth}` },
             { v: `$${nf(p.bookings.revenueMonth)}`, l: 'Rezervasyon tutarı, 30 gün', s: 'İptaller hariç' },
             { v: gads ? `₺${nf(g7.cost)}` : '…', l: 'Google Ads harcama, 7 gün', s: gads ? `${nf(g7.clicks)} tıklama, ${nf(g7.conversions, 0)} dönüşüm` : 'yükleniyor' },
-            { v: metaStatus ? (metaStatus.tone === 'ok' ? `₺${nf(metaSpend7)}` : metaStatus.label) : '…', l: 'Meta reklam, 7 gün', s: metaStatus?.tone === 'ok' ? 'harcama' : 'hesap durumu', tone: metaStatus && metaStatus.tone !== 'ok' ? metaStatus.tone : undefined },
+            { v: metaStatus ? (metaStatus.tone === 'ok' ? `₺${nf(metaSpend7)}` : 'Durdu') : '…', l: 'Meta reklam, 7 gün', s: metaStatus?.tone === 'ok' ? 'harcama' : metaStatus?.label, tone: metaStatus && metaStatus.tone !== 'ok' ? metaStatus.tone : undefined },
             { v: ga4?.overview ? nf(ga4.overview.activeUsers) : '…', l: 'Site ziyaretçisi, 7 gün', s: ga4?.overview ? `${nf(ga4.overview.sessions)} oturum` : ga4?.error ? 'alınamadı' : 'yükleniyor' },
             { v: gsc?.gsc7d ? nf(gsc.gsc7d.clicks) : '…', l: 'Google arama tıklaması, 7 gün', s: gsc?.gsc7d ? `ort. sıra ${nf(gsc.gsc7d.position, 1)}` : gsc?.error ? 'alınamadı' : 'yükleniyor' },
           ].map((k, i) => (
