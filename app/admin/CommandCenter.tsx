@@ -165,7 +165,7 @@ function WindLadder({ weather }: { weather: Props['weather'] }) {
           </div>
           <div className="relative flex items-center gap-4 border-l border-[#1E3654] pl-5">
             <span className={`absolute -left-[5px] h-[9px] w-[9px] rounded-full ${i === 1 ? 'bg-[#F97316]' : 'bg-[#2DD4BF]'}`} aria-hidden />
-            <div className={`${sora.className} text-[34px] font-light leading-none tabular-nums text-[#E7EEF6]`}>
+            <div className={`${sora.className} w-[104px] shrink-0 text-[34px] font-light leading-none tabular-nums text-[#E7EEF6]`}>
               {s.windSpeedKmh != null ? Math.round(s.windSpeedKmh) : '—'}
               <span className="ml-1 text-[13px] text-[#8098B3]">km/s</span>
             </div>
