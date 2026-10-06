@@ -161,48 +161,6 @@ function Bars({ values, labels, accent = '#F97316' }: { values: number[]; labels
   )
 }
 
-/* ── wind ladder (hero) ────────────────────────────────────────────────── */
-function WindLadder({ weather }: { weather: Props['weather'] }) {
-  if (!weather) return <ErrorLine msg="Hava durumu alınamadı (Open-Meteo yanıt vermedi)." />
-  const order = ['Babadağ Summit', 'Babadağ 1200m Take-off', 'Ölüdeniz Beach (Landing)']
-  const stations = [...weather.stations].sort((a, b) => order.indexOf(a.label) - order.indexOf(b.label))
-  return (
-    <ol className="relative space-y-0">
-      {stations.map((s, i) => (
-        <li key={s.label} className="relative grid grid-cols-[88px_1fr_auto] items-center gap-4 py-3">
-          {/* altitude rail */}
-          <div className="text-right">
-            <div className={`${sora.className} text-[15px] tabular-nums text-[#E7EEF6]`}>{s.elevation.replace(' ASL', '')}</div>
-            <div className="text-[12px] text-[#5F7894]">{STATION_TR[s.label] || s.label}</div>
-          </div>
-          <div className="relative flex items-center gap-4 border-l border-[#1E3654] pl-5">
-            <span className={`absolute -left-[5px] h-[9px] w-[9px] rounded-full ${i === 1 ? 'bg-[#F97316]' : 'bg-[#2DD4BF]'}`} aria-hidden />
-            <div className={`${sora.className} w-[104px] shrink-0 text-[34px] font-light leading-none tabular-nums text-[#E7EEF6]`}>
-              {s.windSpeedKmh != null ? Math.round(s.windSpeedKmh) : '—'}
-              <span className="ml-1 text-[13px] text-[#8098B3]">km/s</span>
-            </div>
-            <div className="text-[13px] leading-snug text-[#8098B3]">
-              <div>{s.windGustKmh != null ? <>Hamle <span className="tabular-nums text-[#E7EEF6]">{Math.round(s.windGustKmh)}</span> km/s</> : 'İrtifa rüzgarı'}</div>
-              <div className="flex items-center gap-1.5">
-                <ArrowUp
-                  className="h-3.5 w-3.5 text-[#2DD4BF]"
-                  style={{ transform: `rotate(${((s.windDirectionDeg ?? 0) + 180) % 360}deg)` }}
-                  aria-label={`Rüzgar yönü ${s.windDirectionDeg ?? '—'} derece`}
-                />
-                <span className="tabular-nums">{s.windDirectionDeg != null ? `${Math.round(s.windDirectionDeg)}°` : '—'}</span>
-              </div>
-            </div>
-          </div>
-          <div className="text-right text-[13px] text-[#8098B3]">
-            <div className={`${sora.className} text-[18px] tabular-nums text-[#E7EEF6]`}>{s.temperatureC != null ? `${Math.round(s.temperatureC)}°` : '—'}</div>
-            <div>{s.weatherCode != null ? WMO[s.weatherCode] || '—' : '—'}</div>
-          </div>
-        </li>
-      ))}
-    </ol>
-  )
-}
-
 /* ── section heading ───────────────────────────────────────────────────── */
 function Section({ title, note, children }: { title: string; note?: string; children: React.ReactNode }) {
   return (
@@ -490,41 +448,53 @@ export default function CommandCenter(p: Props) {
           </ul>
         )}
 
-        {/* ───────── BUGÜN ───────── */}
-        <div className="grid gap-5 lg:grid-cols-12">
-          <Panel title="Babadağ rüzgarı, şu an" className="lg:col-span-7" right={
-            p.weather ? <span className="text-[12px] text-[#5F7894]">Open-Meteo, {ago(p.weather.fetchedAt)}</span> : null
-          } href="/live-weather">
-            <WindLadder weather={p.weather} />
-          </Panel>
+        {/* ───────── BUGÜN: slim strip ───────── */}
+        <section aria-label="Bugün" className="flex flex-col gap-px overflow-hidden rounded-xl border border-[#1E3654] bg-[#1E3654] lg:flex-row">
+          <div className="flex flex-1 flex-wrap items-center gap-x-6 gap-y-2 bg-[#0F2136] px-4 py-3">
+            <Link href="/live-weather" className="text-[12px] text-[#5F7894] hover:text-[#E7EEF6]">Babadağ rüzgarı</Link>
+            {!p.weather ? <span className="text-[13px] text-[#FBBF24]">Hava durumu alınamadı</span> : (
+              [...p.weather.stations]
+                .sort((x, y) => ['Babadağ Summit', 'Babadağ 1200m Take-off', 'Ölüdeniz Beach (Landing)'].indexOf(x.label) - ['Babadağ Summit', 'Babadağ 1200m Take-off', 'Ölüdeniz Beach (Landing)'].indexOf(y.label))
+                .map(st => (
+                  <div key={st.label} className="flex items-center gap-2 text-[13px]" title={`${STATION_TR[st.label] || st.label}${st.weatherCode != null ? `, ${WMO[st.weatherCode] || ''}` : ''}`}>
+                    <span className="text-[#8098B3]">{st.elevation.replace(' ASL', '')}</span>
+                    <span className={`${sora.className} tabular-nums text-[16px] text-[#E7EEF6]`}>{st.windSpeedKmh != null ? Math.round(st.windSpeedKmh) : '—'}</span>
+                    <span className="text-[#5F7894]">km/s</span>
+                    <ArrowUp
+                      className="h-3.5 w-3.5 text-[#2DD4BF]"
+                      style={{ transform: `rotate(${((st.windDirectionDeg ?? 0) + 180) % 360}deg)` }}
+                      aria-label={`Rüzgar yönü ${st.windDirectionDeg != null ? Math.round(st.windDirectionDeg) : '—'} derece`}
+                    />
+                    {st.windGustKmh != null && <span className="tabular-nums text-[#8098B3]">hamle {Math.round(st.windGustKmh)}</span>}
+                    <span className="tabular-nums text-[#5F7894]">{st.temperatureC != null ? `${Math.round(st.temperatureC)}°` : ''}</span>
+                  </div>
+                ))
+            )}
+          </div>
+          <Link href="/admin/bookings" className="flex items-center gap-5 bg-[#0F2136] px-4 py-3 text-[13px] hover:bg-[#13294A] lg:w-auto">
+            <span className="text-[12px] text-[#5F7894]">Bugün</span>
+            <span><span className={`${sora.className} text-[16px] tabular-nums`}>{p.bookings.todayFlights.length}</span> <span className="text-[#8098B3]">uçuş</span></span>
+            <span><span className={`${sora.className} text-[16px] tabular-nums`}>{todayGuests}</span> <span className="text-[#8098B3]">yolcu</span></span>
+            <span className={p.bookings.pending ? 'text-[#FBBF24]' : ''}><span className={`${sora.className} text-[16px] tabular-nums`}>{p.bookings.pending}</span> <span className={p.bookings.pending ? '' : 'text-[#8098B3]'}>onay bekleyen</span></span>
+          </Link>
+        </section>
 
-          <Panel title="Bugünkü uçuşlar" icon={CalendarDays} href="/admin/bookings" className="lg:col-span-5">
-            <div className="flex items-end gap-8">
-              <Stat value={p.bookings.todayFlights.length} label="rezervasyon" />
-              <Stat value={todayGuests} label="yolcu" />
-              <Stat value={p.bookings.pending} label="onay bekleyen" tone={p.bookings.pending ? 'warn' : undefined} />
-            </div>
-            <ul className="mt-5 divide-y divide-[#1E3654] border-t border-[#1E3654]">
-              {p.bookings.todayFlights.length === 0 && (
-                <li className="py-3 text-[13px] text-[#5F7894]">Bugün için kayıtlı uçuş yok.</li>
-              )}
-              {p.bookings.todayFlights.slice(0, 6).map(b => (
-                <li key={b.id} className="flex items-center justify-between gap-3 py-2.5 text-[14px]">
-                  <span className="truncate">{[b.first_name, b.last_name].filter(Boolean).join(' ') || 'İsimsiz'}</span>
-                  <span className="flex shrink-0 items-center gap-3 text-[13px] text-[#8098B3]">
-                    <span className="tabular-nums">{b.guests || 1} kişi</span>
-                    <span style={{ color: STATUS_COLOR[b.status] || '#8098B3' }}>{STATUS_TR[b.status] || b.status}</span>
-                    {b.phone && (
-                      <a href={`https://wa.me/${b.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#2DD4BF]" aria-label={`${b.first_name || ''} WhatsApp`}>
-                        <Phone className="h-4 w-4" />
-                      </a>
-                    )}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </Panel>
-        </div>
+        {p.bookings.todayFlights.length > 0 && (
+          <ul className="flex flex-wrap gap-2" aria-label="Bugünkü yolcular">
+            {p.bookings.todayFlights.map(b => (
+              <li key={b.id} className="flex items-center gap-2 rounded-lg border border-[#1E3654] px-3 py-1.5 text-[13px]">
+                <span>{[b.first_name, b.last_name].filter(Boolean).join(' ') || 'İsimsiz'}</span>
+                <span className="tabular-nums text-[#8098B3]">{b.guests || 1} kişi</span>
+                <span style={{ color: STATUS_COLOR[b.status] || '#8098B3' }}>{STATUS_TR[b.status] || b.status}</span>
+                {b.phone && (
+                  <a href={`https://wa.me/${b.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-[#8098B3] hover:text-[#2DD4BF]" aria-label={`${b.first_name || ''} WhatsApp`}>
+                    <Phone className="h-3.5 w-3.5" />
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
 
         {/* KPI strip */}
         <section aria-label="Özet rakamlar" className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-[#1E3654] bg-[#1E3654] md:grid-cols-3 xl:grid-cols-6">
