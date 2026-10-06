@@ -103,6 +103,36 @@ export async function GET(request: Request) {
       return NextResponse.json({ campaigns: rows })
     }
 
+    if (type === 'overview') {
+      const run = async (query: string) => {
+        const r = await fetch(`${GOOGLE_ADS_API}/customers/${customerId}/googleAds:searchStream`, { method: 'POST', headers, body: JSON.stringify({ query }) })
+        const d = await r.json()
+        if (d?.error) throw new Error(d.error.message)
+        return (d || []).flatMap((b: any) => b.results || [])
+      }
+      const [daily, camps, campMetrics] = await Promise.all([
+        run(`SELECT segments.date, metrics.impressions, metrics.clicks, metrics.cost_micros, metrics.conversions FROM customer WHERE segments.date DURING LAST_14_DAYS`),
+        run(`SELECT campaign.id, campaign.name, campaign.status, campaign.primary_status, campaign_budget.amount_micros FROM campaign WHERE campaign.status = 'ENABLED'`),
+        run(`SELECT campaign.id, metrics.clicks, metrics.impressions, metrics.cost_micros, metrics.conversions FROM campaign WHERE campaign.status = 'ENABLED' AND segments.date DURING LAST_7_DAYS`),
+      ])
+      const mById: Record<string, any> = {}
+      for (const r of campMetrics) mById[r.campaign?.id] = r.metrics || {}
+      const days = daily.map((r: any) => ({
+        date: r.segments?.date,
+        impressions: Number(r.metrics?.impressions || 0),
+        clicks: Number(r.metrics?.clicks || 0),
+        cost: Number(r.metrics?.costMicros || 0) / 1e6,
+        conversions: Number(r.metrics?.conversions || 0),
+      })).sort((a: any, b: any) => (a.date < b.date ? -1 : 1))
+      const campaigns = camps.map((r: any) => ({
+        id: r.campaign?.id, name: r.campaign?.name, status: r.campaign?.primaryStatus || r.campaign?.status,
+        budget: Number(r.campaignBudget?.amountMicros || 0) / 1e6,
+        clicks: Number(mById[r.campaign?.id]?.clicks || 0), impressions: Number(mById[r.campaign?.id]?.impressions || 0),
+        cost: Number(mById[r.campaign?.id]?.costMicros || 0) / 1e6, conversions: Number(mById[r.campaign?.id]?.conversions || 0),
+      }))
+      return NextResponse.json({ days, campaigns })
+    }
+
     if (type === 'metrics') {
       const dateRange = searchParams.get('range') || 'LAST_30_DAYS'
       const query = `
@@ -130,7 +160,7 @@ export async function GET(request: Request) {
         const m = row.metrics || {}
         acc.impressions += Number(m.impressions || 0)
         acc.clicks += Number(m.clicks || 0)
-        acc.cost_micros += Number(m.cost_micros || 0)
+        acc.cost_micros += Number(m.costMicros ?? m.cost_micros ?? 0)
         acc.conversions += Number(m.conversions || 0)
         return acc
       }, { impressions: 0, clicks: 0, cost_micros: 0, conversions: 0 })

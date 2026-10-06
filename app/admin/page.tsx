@@ -1,9 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
-import DashboardPilotControl from './DashboardPilotControl'
-import DashboardSocialPanel from './DashboardSocialPanel'
-import DashboardCronPanel from './DashboardCronPanel'
-import DashboardActivityPanel from './DashboardActivityPanel'
-import DashboardSeoPanel from './DashboardSeoPanel'
+import { getOludenizWeather } from '@/lib/weather'
+import CommandCenter from './CommandCenter'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -15,135 +12,83 @@ function getSupabase() {
   )
 }
 
+function istanbulDate(offsetDays = 0) {
+  const d = new Date(Date.now() + offsetDays * 86400000)
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Istanbul' }).format(d) // YYYY-MM-DD
+}
+
 export default async function AdminDashboardPage() {
   const supabase = getSupabase()
-  const now = new Date()
-  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
-  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
-  const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+  const today = istanbulDate(0)
+  const in7 = istanbulDate(7)
+  const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString()
+  const monthAgo = new Date(Date.now() - 30 * 86400000).toISOString()
+  const todayStartIso = new Date(`${today}T00:00:00+03:00`).toISOString()
 
-  const [settingsRes, lastRunRes, todayCostRes, pendingTopicsRes, articlesRes, recentLogsRes, recentArticlesRes] =
-    await Promise.allSettled([
-      supabase.from('settings').select('key,value').in('key', ['pilot_enabled', 'pilot_slots']),
-      supabase.from('agent_logs').select('*').eq('agent', 'orchestrator').order('created_at', { ascending: false }).limit(1).single(),
-      supabase.from('usage_logs').select('cost_usd').gte('created_at', todayStart),
-      supabase.from('topics').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-      supabase.from('articles').select('id', { count: 'exact', head: true }).gte('created_at', weekAgo),
-      supabase.from('agent_logs').select('id,agent,action,status,created_at').order('created_at', { ascending: false }).limit(8),
-      supabase.from('articles').select('id,title,slug,hero_image_url,created_at,status').eq('status', 'published').order('created_at', { ascending: false }).limit(4),
-    ])
+  const q = await Promise.allSettled([
+    /* 0 */ supabase.from('bookings').select('id,first_name,last_name,flight_date,flight_type,guests,total_price,status,phone').gte('flight_date', today).lte('flight_date', in7).neq('status', 'cancelled').order('flight_date', { ascending: true }).limit(40),
+    /* 1 */ supabase.from('bookings').select('id,total_price,status,created_at').gte('created_at', monthAgo),
+    /* 2 */ supabase.from('bookings').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+    /* 3 */ supabase.from('settings').select('key,value').in('key', ['pilot_enabled', 'pilot_slots']),
+    /* 4 */ supabase.from('agent_logs').select('agent,action,status,error,created_at').order('created_at', { ascending: false }).limit(60),
+    /* 5 */ supabase.from('usage_logs').select('cost_usd').gte('created_at', todayStartIso),
+    /* 6 */ supabase.from('topics').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+    /* 7 */ supabase.from('articles').select('id', { count: 'exact', head: true }).eq('status', 'published').gte('created_at', weekAgo),
+    /* 8 */ supabase.from('articles').select('id', { count: 'exact', head: true }).eq('status', 'published'),
+    /* 9 */ supabase.from('instagram_posts').select('id', { count: 'exact', head: true }).eq('status', 'posted').gte('posted_at', weekAgo),
+    /* 10 */ supabase.from('instagram_posts').select('id', { count: 'exact', head: true }).eq('status', 'draft'),
+    /* 11 */ supabase.from('instagram_posts').select('id', { count: 'exact', head: true }).eq('status', 'scheduled'),
+    /* 12 */ supabase.from('instagram_posts').select('id', { count: 'exact', head: true }).eq('status', 'failed'),
+    /* 13 */ supabase.from('instagram_posts').select('posted_at').eq('status', 'posted').order('posted_at', { ascending: false }).limit(1),
+    /* 14 */ supabase.from('articles').select('title,slug,created_at').eq('status', 'published').order('created_at', { ascending: false }).limit(3),
+    /* 15 */ getOludenizWeather(),
+  ])
+  const val = (i: number): any => (q[i].status === 'fulfilled' ? (q[i] as PromiseFulfilledResult<any>).value : null)
+  const data = (i: number): any[] => val(i)?.data || []
+  const count = (i: number): number => val(i)?.count || 0
+
+  const upcoming = data(0)
+  const month = data(1).filter((b: any) => b.status !== 'cancelled')
+  const weekStart = Date.now() - 7 * 86400000
+  const bookings = {
+    todayFlights: upcoming.filter((b: any) => (b.flight_date || '').slice(0, 10) === today),
+    upcoming,
+    newToday: month.filter((b: any) => new Date(b.created_at) >= new Date(todayStartIso)).length,
+    newWeek: month.filter((b: any) => new Date(b.created_at).getTime() >= weekStart).length,
+    newMonth: month.length,
+    revenueMonth: month.reduce((s: number, b: any) => s + (Number(b.total_price) || 0), 0),
+    pending: count(2),
+  }
 
   const settings: Record<string, string> = {}
-  if (settingsRes.status === 'fulfilled' && settingsRes.value.data) {
-    for (const row of settingsRes.value.data) settings[row.key] = row.value
-  }
-  const pilotEnabled = settings['pilot_enabled'] === 'true'
-  const pilotSlots = settings['pilot_slots']
-    ? settings['pilot_slots'].split(',').map(s => s.trim()).filter(Boolean)
-    : ['06:00', '12:00', '18:00']
+  for (const r of data(3)) settings[r.key] = r.value
 
-  const lastRun = lastRunRes.status === 'fulfilled' ? lastRunRes.value.data : null
-  const todayCost = todayCostRes.status === 'fulfilled' && todayCostRes.value.data
-    ? (todayCostRes.value.data as any[]).reduce((sum, r) => sum + (r.cost_usd || 0), 0)
-    : 0
-  const pendingTopics = pendingTopicsRes.status === 'fulfilled' ? (pendingTopicsRes.value.count || 0) : 0
-  const articlesThisWeek = articlesRes.status === 'fulfilled' ? (articlesRes.value.count || 0) : 0
-  const recentLogs = recentLogsRes.status === 'fulfilled' && recentLogsRes.value.data
-    ? recentLogsRes.value.data : []
-  const recentArticlesRaw = recentArticlesRes.status === 'fulfilled' && recentArticlesRes.value.data
-    ? recentArticlesRes.value.data : []
-  const recentArticles = recentArticlesRaw.map((a: any) => ({
-    ...a,
-    image_url: a.hero_image_url,
-  }))
+  // latest log per agent
+  const agentMap: Record<string, any> = {}
+  for (const l of data(4)) if (!agentMap[l.agent]) agentMap[l.agent] = l
 
-  // ── Instagram / Social stats ────────────────────────────────────────────
-  const [
-    postedWeekRes, postedMonthRes, draftsRes, scheduledRes,
-    failedRes, recentPostedRes, nextScheduledRes, typeBreakdownRes, lastPostedRes,
-  ] = await Promise.allSettled([
-    supabase.from('instagram_posts').select('id', { count: 'exact', head: true }).eq('status', 'posted').gte('posted_at', weekAgo),
-    supabase.from('instagram_posts').select('id', { count: 'exact', head: true }).eq('status', 'posted').gte('posted_at', monthAgo),
-    supabase.from('instagram_posts').select('id', { count: 'exact', head: true }).eq('status', 'draft'),
-    supabase.from('instagram_posts').select('id', { count: 'exact', head: true }).eq('status', 'scheduled'),
-    supabase.from('instagram_posts').select('id,caption,post_type,notes').eq('status', 'failed').order('created_at', { ascending: false }).limit(5),
-    supabase.from('instagram_posts').select('id,image_url,caption,post_type,posted_at,instagram_id').eq('status', 'posted').order('posted_at', { ascending: false }).limit(4),
-    supabase.from('instagram_posts').select('id,caption,image_url,scheduled_at').eq('status', 'scheduled').gte('scheduled_at', now.toISOString()).order('scheduled_at', { ascending: true }).limit(1).single(),
-    supabase.from('instagram_posts').select('post_type').eq('status', 'posted').gte('posted_at', monthAgo),
-    supabase.from('instagram_posts').select('posted_at').eq('status', 'posted').order('posted_at', { ascending: false }).limit(1).single(),
-  ])
-
-  const postedThisWeek = postedWeekRes.status === 'fulfilled' ? (postedWeekRes.value.count || 0) : 0
-  const postedThisMonth = postedMonthRes.status === 'fulfilled' ? (postedMonthRes.value.count || 0) : 0
-  const draftsCount = draftsRes.status === 'fulfilled' ? (draftsRes.value.count || 0) : 0
-  const scheduledCount = scheduledRes.status === 'fulfilled' ? (scheduledRes.value.count || 0) : 0
-  const failedPosts = failedRes.status === 'fulfilled' && failedRes.value.data ? failedRes.value.data : []
-  const recentPosted = recentPostedRes.status === 'fulfilled' && recentPostedRes.value.data ? recentPostedRes.value.data : []
-  const nextScheduled = nextScheduledRes.status === 'fulfilled' ? nextScheduledRes.value.data : null
-
-  const typeBreakdown: Record<string, number> = {}
-  if (typeBreakdownRes.status === 'fulfilled' && typeBreakdownRes.value.data) {
-    for (const row of typeBreakdownRes.value.data as any[]) {
-      const t = row.post_type || 'image'
-      typeBreakdown[t] = (typeBreakdown[t] || 0) + 1
-    }
-  }
-
-  let postingGapDays = 0
-  if (lastPostedRes.status === 'fulfilled' && lastPostedRes.value.data) {
-    const lastPostedAt = (lastPostedRes.value.data as any).posted_at
-    if (lastPostedAt) postingGapDays = Math.floor((Date.now() - new Date(lastPostedAt).getTime()) / 86400000)
-  }
-
-  const postStats = {
-    postedThisWeek, postedThisMonth, draftsCount, scheduledCount,
-    failedPosts, recentPosted, nextScheduled, typeBreakdown, postingGapDays,
-  }
-
-  // ── Reservation stats (real bookings table, not the unused legacy 'reservations' table) ──
-  const [resTodayRes, resWeekRes, resMonthRes, resPendingRes] = await Promise.allSettled([
-    supabase.from('bookings').select('id', { count: 'exact', head: true }).gte('created_at', todayStart),
-    supabase.from('bookings').select('id', { count: 'exact', head: true }).gte('created_at', weekAgo),
-    supabase.from('bookings').select('id', { count: 'exact', head: true }).gte('created_at', monthAgo),
-    supabase.from('bookings').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-  ])
-
-  const reservationStats = {
-    today: resTodayRes.status === 'fulfilled' ? (resTodayRes.value.count || 0) : 0,
-    thisWeek: resWeekRes.status === 'fulfilled' ? (resWeekRes.value.count || 0) : 0,
-    thisMonth: resMonthRes.status === 'fulfilled' ? (resMonthRes.value.count || 0) : 0,
-    pending: resPendingRes.status === 'fulfilled' ? (resPendingRes.value.count || 0) : 0,
-  }
+  const lastPosted = data(13)[0]?.posted_at || null
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Merhaba Ceyhun 👋</h1>
-        <p className="text-slate-500 mt-1">İşte bugünün özeti</p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
-        <DashboardPilotControl
-          initialEnabled={pilotEnabled}
-          initialSlots={pilotSlots}
-          lastRun={lastRun}
-          todayCost={todayCost}
-          pendingTopics={pendingTopics}
-          articlesThisWeek={articlesThisWeek}
-          recentLogs={recentLogs}
-        />
-        <DashboardSocialPanel stats={postStats} />
-        <DashboardActivityPanel
-          articles={recentArticles as any[]}
-          instaPosts={recentPosted as any[]}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
-        <DashboardSeoPanel reservations={reservationStats} />
-      </div>
-
-      <DashboardCronPanel />
-    </div>
+    <CommandCenter
+      today={today}
+      weather={val(15)}
+      bookings={bookings}
+      pilot={{
+        enabled: settings['pilot_enabled'] === 'true',
+        slots: (settings['pilot_slots'] || '06:00,12:00,18:00').split(',').map(s => s.trim()).filter(Boolean),
+        costToday: data(5).reduce((s: number, r: any) => s + (r.cost_usd || 0), 0),
+        pendingTopics: count(6),
+        articlesWeek: count(7),
+        articlesTotal: count(8),
+        latestArticles: data(14),
+      }}
+      instagram={{
+        postedWeek: count(9), drafts: count(10), scheduled: count(11), failed: count(12),
+        gapDays: lastPosted ? Math.floor((Date.now() - new Date(lastPosted).getTime()) / 86400000) : null,
+      }}
+      agents={Object.values(agentMap)}
+      recentLogs={data(4).slice(0, 10)}
+    />
   )
 }
