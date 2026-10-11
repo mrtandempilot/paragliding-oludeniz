@@ -5,7 +5,8 @@ import { Mic, MicOff, PhoneOff, Send, Loader2, AudioLines, Check, X, Power } fro
 import LiveDisplay from './LiveDisplay'
 import type { Display } from '@/lib/neslihan/tools'
 
-// Voice = the browser's own speech recognition + speech synthesis (free).
+// Voice = the browser's speech recognition (free) + Gemini TTS for a natural
+// voice (free tier), falling back to the browser's own voice when unavailable.
 // Brain = /api/admin/neslihan/chat (Gemini + Neslihan's tools).
 
 type Line = { id: string; role: 'user' | 'assistant'; text: string }
@@ -18,6 +19,8 @@ const BRIEFING = '[Sistem] Günün ilk konuşması. Ceyhun Bey\'i selamla ve sab
 
 // First conversation of the day (Istanbul date, per browser) gets the morning briefing.
 const BRIEF_KEY = 'neslihan_last_briefing'
+// a tiny silent WAV, played on the first tap so mobile browsers allow audio later
+const SILENT_WAV = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA='
 function openingMessage() {
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Istanbul' }).format(new Date())
   try {
@@ -40,8 +43,8 @@ function pickVoice(): SpeechSynthesisVoice | null {
   return tr.find(v => /google/i.test(v.name)) || tr.find(v => /(yelda|seda|emel|female|kadın)/i.test(v.name)) || tr[0] || null
 }
 
-// Sentence-by-sentence, because Chrome cuts off long utterances.
-function speak(text: string): Promise<void> {
+// Built-in browser voice, sentence-by-sentence because Chrome cuts off long utterances.
+function speakBrowser(text: string): Promise<void> {
   return new Promise(resolve => {
     const synth = window.speechSynthesis
     if (!synth || !text) return resolve()
@@ -72,12 +75,15 @@ export default function VoiceAssistant() {
   const [pending, setPending] = useState<Pending | null>(null)
   const [text, setText] = useState('')
   const [voiceSupported, setVoiceSupported] = useState(true)
+  const [naturalVoice, setNaturalVoice] = useState(true)
 
   const contentsRef = useRef<Content[]>([])
   const pendingRef = useRef<Pending | null>(null)
   const liveRef = useRef(false)
   const recRef = useRef<any>(null)
   const transcriptEnd = useRef<HTMLDivElement | null>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const naturalRef = useRef(true)
 
   const setPendingBoth = (p: Pending | null) => { pendingRef.current = p; setPending(p) }
 
@@ -86,6 +92,38 @@ export default function VoiceAssistant() {
     window.speechSynthesis?.getVoices() // warm up the voice list
   }, [])
   useEffect(() => { transcriptEnd.current?.scrollIntoView({ behavior: 'smooth', block: 'end' }) }, [lines, interim])
+
+  const stopAudio = useCallback(() => {
+    window.speechSynthesis?.cancel()
+    const a = audioRef.current
+    if (a) { a.pause(); a.onended = null }
+  }, [])
+
+  // Natural Gemini voice first; the browser voice if that fails (e.g. free daily limit).
+  const say = useCallback(async (reply: string) => {
+    if (naturalRef.current && audioRef.current) {
+      try {
+        const res = await fetch('/api/admin/neslihan/tts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: reply }) })
+        if (!res.ok) throw new Error('tts')
+        const url = URL.createObjectURL(await res.blob())
+        const a = audioRef.current
+        if (!liveRef.current) return
+        await new Promise<void>(resolve => {
+          a.onended = () => resolve()
+          a.onpause = () => resolve()
+          a.onerror = () => resolve()
+          a.src = url
+          a.play().catch(() => resolve())
+        })
+        URL.revokeObjectURL(url)
+        return
+      } catch {
+        naturalRef.current = false // stay on the browser voice for the rest of this conversation
+        setNaturalVoice(false)
+      }
+    }
+    await speakBrowser(reply)
+  }, [])
 
   const addLine = (role: Line['role'], t: string) => setLines(ls => [...ls, { id: `${Date.now()}-${ls.length}`, role, text: t }])
 
@@ -118,10 +156,11 @@ export default function VoiceAssistant() {
       setThinking(false)
       if (!liveRef.current) return
       setSpeaking(true)
-      await speak(data.reply)
+      await say(data.reply)
       setSpeaking(false)
       // keep the conversation going hands-free
-      if (liveRef.current && voiceSupported) listen()
+      // (skip if the user already tapped the mic to interrupt)
+      if (liveRef.current && voiceSupported && !recRef.current) listen()
     } catch (e: any) {
       setThinking(false)
       setSpeaking(false)
@@ -129,12 +168,12 @@ export default function VoiceAssistant() {
     }
     // listen is defined below and stable; voiceSupported read at call time
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [voiceSupported])
+  }, [voiceSupported, say])
 
   const listen = useCallback(() => {
     const rec = getRecognition()
     if (!rec) return
-    window.speechSynthesis?.cancel()
+    stopAudio()
     setSpeaking(false)
     stopListening()
     rec.lang = 'tr-TR'
@@ -165,13 +204,18 @@ export default function VoiceAssistant() {
     recRef.current = rec
     setListening(true)
     try { rec.start() } catch { setListening(false) }
-  }, [ask, stopListening])
+  }, [ask, stopListening, stopAudio])
 
   const start = useCallback(() => {
     liveRef.current = true
     setLive(true)
     setError(null)
-    speak('') // unlock speech on iOS/Chrome within the tap
+    speakBrowser('') // unlock speech on iOS/Chrome within the tap
+    if (!audioRef.current) audioRef.current = new Audio()
+    audioRef.current.src = SILENT_WAV
+    audioRef.current.play().catch(() => {})
+    naturalRef.current = true
+    setNaturalVoice(true)
     ask(openingMessage(), true)
   }, [ask])
 
@@ -179,9 +223,9 @@ export default function VoiceAssistant() {
     liveRef.current = false
     setLive(false)
     stopListening()
-    window.speechSynthesis?.cancel()
+    stopAudio()
     setSpeaking(false)
-  }, [stopListening])
+  }, [stopListening, stopAudio])
 
   useEffect(() => stop, [stop])
 
@@ -265,6 +309,7 @@ export default function VoiceAssistant() {
                 <PhoneOff className="h-3.5 w-3.5" /> Konuşmayı bitir
               </button>
             )}
+            {live && !naturalVoice && <p className="mt-2 text-[11px] text-[#5F7894]">Doğal ses şu an kullanılamıyor (günlük ücretsiz sınır olabilir) — tarayıcı sesi kullanılıyor.</p>}
             {!voiceSupported && <p className="mt-3 text-xs text-[#8098B3]">Bu tarayıcı sesli konuşmayı desteklemiyor. Chrome veya Edge kullanın; yazarak da sorabilirsiniz.</p>}
             {error && <p className="mt-3 rounded-lg bg-[#F87171]/10 px-3 py-2 text-xs text-[#F87171]">{error}</p>}
           </div>

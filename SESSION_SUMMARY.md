@@ -1,5 +1,11 @@
 # Session Summary
 
+## 2026-10-11 (5) — Doğal ses: Gemini TTS
+- Ücretsiz düzen canlıda çalıştı (Ceyhun onayladı); tarayıcı sesi robotik bulundu.
+- `POST /api/admin/neslihan/tts` → Gemini TTS (`GEMINI_TTS_MODEL` varsayılan gemini-2.5-flash-preview-tts, ses `NESLIHAN_TTS_VOICE` varsayılan Sulafat), PCM → WAV.
+- Tarayıcı önce doğal sesi dener; hata/limit olursa o konuşma boyunca tarayıcı sesine düşer (ekranda küçük uyarı).
+- Maliyet: ücretsiz katman (günlük sınırlı). Faturalandırma açılırsa ~0.015$/dk → ayda birkaç dolar.
+
 ## 2026-10-11 (4) — Neslihan ÜCRETSİZ düzene geçti (OpenAI kaldırıldı)
 - Sebep: OpenAI Realtime çok pahalıydı (Ceyhun fark etti).
 - Ses: tarayıcının kendi Web Speech API'si (SpeechRecognition tr-TR + speechSynthesis) → ücretsiz. Chrome/Edge/Android; Firefox'ta sadece yazı.

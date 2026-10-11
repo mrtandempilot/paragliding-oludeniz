@@ -12,7 +12,7 @@ Tarayıcı (/admin/voice-assistant)
         │     ├─ prepare_* → actions.prepareAction → imzalı token (tarayıcıya, modele değil)
         │     └─ confirm_action → confirm.isYes(son kullanıcı mesajı) && önceki turdaki pending → executeAction
         │   ← {reply, contents (geçmiş), displays, proposal, clearPending}
-        │  reply → speechSynthesis (tr-TR)   displays → LiveDisplay.tsx (canlı ekran)
+        │  reply → POST /api/admin/neslihan/tts (Gemini TTS → WAV) → <audio>; hata/limit → speechSynthesis (tr-TR)   displays → LiveDisplay.tsx (canlı ekran)
 ```
 - `lib/neslihan/gemini.ts` — Gemini REST + şema dönüştürücü (additionalProperties / sayı enum'ları atılır).
 - `lib/neslihan/confirm.ts` — "evet" algılama (olumsuzlar önce).
