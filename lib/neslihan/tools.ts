@@ -11,6 +11,15 @@ export type DisplayStat = { label: string; value: string; hint?: string; tone?: 
 export type DisplayChart = { kind: 'bar' | 'line'; label: string; points: { x: string; y: number }[] }
 export type DisplayTable = { columns: string[]; rows: (string | number)[][] }
 export type DisplayEmbed = { url: string; title: string }
+export type Tone = 'good' | 'warn' | 'bad'
+export type WeatherSpot = { label: string; speed: number | null; gust?: number | null; dir: number | null; temp?: number | null; tone: Tone }
+export type WeatherHour = {
+  hour: string; tone: Tone; rain: number | null
+  beach: { speed: number | null; gust: number | null; dir: number | null }
+  t1900: { speed: number | null; dir: number | null }
+  t1200: { speed: number | null; dir: number | null }
+}
+export type DisplayWeather = { mode: 'now' | 'forecast'; model: string; time?: string; spots?: WeatherSpot[]; overall?: Tone; rain?: number | null; hours?: WeatherHour[]; bestWindow?: string | null }
 export type Display = {
   title: string
   subtitle?: string
@@ -18,6 +27,7 @@ export type Display = {
   chart?: DisplayChart
   table?: DisplayTable
   embed?: DisplayEmbed
+  weather?: DisplayWeather
   note?: string
 }
 export type ToolOutput = { result: unknown; display: Display | null }
@@ -176,13 +186,15 @@ async function getWeather(args: any = {}): Promise<ToolOutput> {
       result: { now: h, model: f.model, note },
       display: {
         title: 'Rüzgâr · şu an',
-        subtitle: `${h.hour} · ${f.model} modeli · ${h.estimate}`,
-        stats: [
-          { label: 'Plaj (iniş)', value: `${h.beach_kmh ?? '—'} km/s ${h.beach_dir}`, hint: `hamle ${h.beach_gust_kmh ?? '—'} · ${h.beach_temp_c ?? '—'}°C`, tone: (h.beach_gust_kmh ?? 0) > 30 ? 'bad' : (h.beach_gust_kmh ?? 0) > 22 ? 'warn' : 'good' },
-          { label: '1900 m kalkış', value: `${h.takeoff_1900_kmh ?? '—'} km/s ${h.takeoff_1900_dir}`, hint: `${h.takeoff_1900_temp_c ?? '—'}°C`, tone: (h.takeoff_1900_kmh ?? 0) > 28 ? 'bad' : (h.takeoff_1900_kmh ?? 0) > 20 ? 'warn' : 'good' },
-          { label: '1200 m kalkış', value: `${h.takeoff_1200_kmh ?? '—'} km/s ${h.takeoff_1200_dir}`, tone: (h.takeoff_1200_kmh ?? 0) > 25 ? 'bad' : (h.takeoff_1200_kmh ?? 0) > 18 ? 'warn' : 'good' },
-          { label: 'Yağmur ihtimali', value: h.rain_chance_pct != null ? `%${h.rain_chance_pct}` : '—' },
-        ],
+        subtitle: `${h.hour} · ${f.model} modeli`,
+        weather: {
+          mode: 'now', model: f.model, time: h.hour, overall: h._tone as Tone, rain: h.rain_chance_pct,
+          spots: [
+            { label: 'Plaj (iniş)', speed: h.beach_kmh, gust: h.beach_gust_kmh, dir: kmh(f.hours[0].beach.dir), temp: h.beach_temp_c, tone: (h.beach_gust_kmh ?? 0) > 30 ? 'bad' : (h.beach_gust_kmh ?? 0) > 22 ? 'warn' : 'good' },
+            { label: '1900 m kalkış', speed: h.takeoff_1900_kmh, dir: kmh(f.hours[0].t1900.dir), temp: h.takeoff_1900_temp_c, tone: (h.takeoff_1900_kmh ?? 0) > 28 ? 'bad' : (h.takeoff_1900_kmh ?? 0) > 20 ? 'warn' : 'good' },
+            { label: '1200 m kalkış', speed: h.takeoff_1200_kmh, dir: kmh(f.hours[0].t1200.dir), tone: (h.takeoff_1200_kmh ?? 0) > 25 ? 'bad' : (h.takeoff_1200_kmh ?? 0) > 18 ? 'warn' : 'good' },
+          ],
+        },
         embed,
       },
     }
@@ -195,10 +207,14 @@ async function getWeather(args: any = {}): Promise<ToolOutput> {
     display: {
       title: `Hava tahmini · ${date.slice(8, 10)}.${date.slice(5, 7)} · ${f.model}`,
       subtitle: window ? `En uygun saatler (tahmini): ${window}` : 'Uygun saat görünmüyor (tahmini)',
-      chart: { kind: 'line', label: '1900 m kalkış rüzgârı (km/s)', points: hours.map(h => ({ x: h.hour, y: h.takeoff_1900_kmh ?? 0 })) },
-      table: {
-        columns: ['Saat', 'Plaj (hamle)', '1900 m', '1200 m', 'Yağmur', 'Durum'],
-        rows: hours.map(h => [h.hour, `${h.beach_kmh ?? '—'} (${h.beach_gust_kmh ?? '—'}) ${h.beach_dir}`, `${h.takeoff_1900_kmh ?? '—'} ${h.takeoff_1900_dir}`, `${h.takeoff_1200_kmh ?? '—'} ${h.takeoff_1200_dir}`, h.rain_chance_pct != null ? `%${h.rain_chance_pct}` : '—', h.estimate]),
+      weather: {
+        mode: 'forecast', model: f.model, bestWindow: window,
+        hours: f.hours.map((x, i) => ({
+          hour: hours[i].hour, tone: hours[i]._tone as Tone, rain: x.rainChance,
+          beach: { speed: kmh(x.beach.speed), gust: kmh(x.beach.gust), dir: kmh(x.beach.dir) },
+          t1900: { speed: kmh(x.t1900.speed), dir: kmh(x.t1900.dir) },
+          t1200: { speed: kmh(x.t1200.speed), dir: kmh(x.t1200.dir) },
+        })),
       },
       embed,
     },

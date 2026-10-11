@@ -1,5 +1,8 @@
 # Session Summary
 
+## 2026-10-11 (8) — Görsel hava panosu
+- Ceyhun tabloyu yeterince anlaşılır bulmadı (örnek: hava istasyonu panosu). `WeatherDisplay.tsx`: şu an için 3 pusula kadranı (plaj / 1900 m / 1200 m; renkli halka = durum, hamle), tahmin için windguru tarzı saatlik renkli şerit + 'en uygun saatler' bandı. `Display.weather` alanı; mobilde 3 kadran yan yana.
+
 ## 2026-10-11 (7) — Hava DÜZELTME (güvenlik)
 - Windy ile karşılaştırma: ücretsiz ECMWF (Open-Meteo) 900/800 hPa vermiyor → 1900-2000 m rüzgârı ~yarı değerde çıkıyordu (13 vs Windy ECMWF 24 km/s). ECMWF yüksek irtifa için KALDIRILDI; varsayılan ICON (800 hPa doğrudan), seçenek GFS.
 - Babadağ koordinatı yanlıştı (36.565/29.07 = Kayaköy civarı) → `BABADAG = {36.535, 29.175}` (dashboard rüzgâr kutusu da düzeldi).

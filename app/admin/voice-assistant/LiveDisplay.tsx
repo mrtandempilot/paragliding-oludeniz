@@ -2,6 +2,7 @@
 
 import { Bar, BarChart, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import type { Display } from '@/lib/neslihan/tools'
+import WeatherDisplay from './WeatherDisplay'
 
 const TONE: Record<string, string> = {
   good: 'text-[#2DD4BF]',
@@ -11,7 +12,7 @@ const TONE: Record<string, string> = {
 
 // Renders one tool result on Neslihan's live screen.
 export default function LiveDisplay({ display, compact = false }: { display: Display; compact?: boolean }) {
-  const { title, subtitle, stats, chart, table, embed, note } = display
+  const { title, subtitle, stats, chart, table, embed, weather, note } = display
   return (
     <section className={`rounded-2xl border border-[#1E3654] bg-[#0F2238] ${compact ? 'p-4' : 'p-5 md:p-6'}`}>
       <header className="mb-4">
@@ -30,6 +31,10 @@ export default function LiveDisplay({ display, compact = false }: { display: Dis
           ))}
         </div>
       )}
+
+      {weather && (compact
+        ? <p className="text-sm text-[#C9D6E4]">{weather.mode === 'now' ? weather.spots?.map(s => `${s.label}: ${s.speed ?? '—'} km/s`).join(' · ') : `En uygun: ${weather.bestWindow || 'yok'}`}</p>
+        : <WeatherDisplay w={weather} />)}
 
       {!compact && chart && chart.points.length > 0 && (
         <div className="mt-5">
