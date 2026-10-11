@@ -2,7 +2,7 @@
 // Each tool returns a compact `result` (what the model reads) and a
 // `display` (what the live screen renders next to the conversation).
 
-import { getSupabase, istanbulDate, getSearchConsole, getBabadagWindLadder } from '@/lib/admin/dashboard-data'
+import { getSupabase, istanbulDate, getSearchConsole, getBabadagWindLadder, getBabadagForecast } from '@/lib/admin/dashboard-data'
 import { listEmails, readEmail, type MailFolder } from './gmail'
 import { addMemory, completeMemory, loadMemory, type MemoryKind } from './memory'
 import { diagnoseBookings, competitorCheck, deepAnalysis } from './advisor'
@@ -130,7 +130,49 @@ const compass = (deg: number | null) => {
   return ['K', 'KD', 'D', 'GD', 'G', 'GB', 'B', 'KB'][Math.round(deg / 45) % 8]
 }
 
-async function getWeather(): Promise<ToolOutput> {
+// Rough flyability for a tandem hour; Ceyhun Bey makes the real call.
+function flyable(h: any) {
+  const t = h.takeoff.speed, g = h.beach.gust ?? h.beach.speed ?? 0, rain = h.rainChance ?? 0
+  if (t > 25 || g > 30 || rain >= 60) return 'bad'
+  if (t > 18 || g > 22 || rain >= 30) return 'warn'
+  return 'good'
+}
+const FLY_TR: Record<string, string> = { good: 'Uygun', warn: 'Dikkat', bad: 'Uygun değil' }
+
+async function getWeatherForecast(date: string): Promise<ToolOutput> {
+  const f = await getBabadagForecast(date)
+  if (!f.hours.length) throw new Error(`${date} için tahmin yok (en fazla 7 gün ileri)`)
+  const r = (n: number | null) => (n == null ? null : Math.round(n))
+  const hours = f.hours.map(h => ({
+    hour: `${String(h.hour).padStart(2, '0')}:00`,
+    summit_kmh: r(h.summit.speed), summit_dir: compass(h.summit.dir),
+    takeoff_1200_kmh: r(h.takeoff.speed), takeoff_dir: compass(h.takeoff.dir), takeoff_temp_c: r(h.takeoff.temp),
+    beach_kmh: r(h.beach.speed), beach_gust_kmh: r(h.beach.gust), beach_dir: compass(h.beach.dir), beach_temp_c: r(h.beach.temp),
+    rain_chance_pct: h.rainChance, cloud_pct: h.cloudCover,
+    estimate: FLY_TR[flyable(h)],
+  }))
+  const good = f.hours.filter(h => flyable(h) === 'good').map(h => h.hour)
+  const window = good.length ? `${String(good[0]).padStart(2, '0')}:00–${String(good[good.length - 1] + 1).padStart(2, '0')}:00` : null
+  return {
+    result: {
+      date, hours, best_window: window,
+      note: 'Model tahmini (Open-Meteo). "estimate" kaba bir ölçüt: 1200 m rüzgâr ≤18 km/s, plaj hamlesi ≤22 km/s, yağmur <%30 = uygun. Son karar pilotun. Yönler: K=kuzey, G=güney, B=batı, D=doğu.',
+    },
+    display: {
+      title: `Hava tahmini · ${date.slice(8, 10)}.${date.slice(5, 7)}`,
+      subtitle: window ? `En uygun saatler (tahmini): ${window}` : 'Uygun saat görünmüyor (tahmini)',
+      chart: { kind: 'line', label: '1200 m kalkış rüzgârı (km/s)', points: hours.map(h => ({ x: h.hour, y: h.takeoff_1200_kmh ?? 0 })) },
+      table: {
+        columns: ['Saat', 'Zirve', '1200 m', 'Plaj (hamle)', 'Yağmur', 'Durum'],
+        rows: hours.map(h => [h.hour, `${h.summit_kmh} ${h.summit_dir}`, `${h.takeoff_1200_kmh} ${h.takeoff_dir}`, `${h.beach_kmh ?? '—'} (${h.beach_gust_kmh ?? '—'}) ${h.beach_dir}`, h.rain_chance_pct != null ? `%${h.rain_chance_pct}` : '—', h.estimate]),
+      },
+    },
+  }
+}
+
+async function getWeather(args: any = {}): Promise<ToolOutput> {
+  if (isDate(args?.date) && args.date !== istanbulDate(0)) return getWeatherForecast(args.date)
+  if (args?.date === istanbulDate(0) && args?.forecast) return getWeatherForecast(args.date)
   const w: any = await getBabadagWindLadder()
   const stations = (w?.stations || []).map((s: any) => ({
     label: s.label, elevation: s.elevation,
@@ -384,7 +426,7 @@ export async function runNeslihanTool(name: string, args: any, ctx: ToolContext)
   switch (name) {
     case 'get_bookings': return getBookings(args)
     case 'get_booking_stats': return getBookingStats(args)
-    case 'get_weather': return getWeather()
+    case 'get_weather': return getWeather(args)
     case 'get_google_ads': return getGoogleAds(ctx)
     case 'get_meta_ads': return getMetaAds(args, ctx)
     case 'get_site_traffic': return getSiteTraffic(ctx)

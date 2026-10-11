@@ -62,10 +62,31 @@ export async function getSearchConsole() {
 // Wind aloft for Babadağ: surface stations share one model cell, so for the
 // take-off (1200 m) and summit (1969 m) we interpolate Open-Meteo pressure-level
 // winds to those altitudes (vector interpolation on geopotential height).
+const LEVELS = [1000, 925, 900, 850, 800, 700]
+const UPPER_VARS = LEVELS.flatMap(l => [`wind_speed_${l}hPa`, `wind_direction_${l}hPa`, `geopotential_height_${l}hPa`, `temperature_${l}hPa`]).join(',')
+
+// Wind/temperature at altitude z (m) for hour index i of an Open-Meteo pressure-level response.
+function windAloft(hourly: any, i: number) {
+  const pts = LEVELS.map(l => {
+    const spd = hourly[`wind_speed_${l}hPa`][i], dir = hourly[`wind_direction_${l}hPa`][i]
+    const rad = (dir * Math.PI) / 180
+    return { z: hourly[`geopotential_height_${l}hPa`][i], u: -spd * Math.sin(rad), v: -spd * Math.cos(rad), t: hourly[`temperature_${l}hPa`][i] }
+  }).filter(p => [p.z, p.u, p.v, p.t].every(x => typeof x === 'number' && !Number.isNaN(x))).sort((a, b) => a.z - b.z)
+  return (z: number) => {
+    let a = pts[0], b = pts[pts.length - 1]
+    for (let k = 0; k < pts.length - 1; k++) if (pts[k].z <= z && pts[k + 1].z >= z) { a = pts[k]; b = pts[k + 1]; break }
+    const w = b.z === a.z ? 0 : Math.min(1, Math.max(0, (z - a.z) / (b.z - a.z)))
+    const u = a.u + (b.u - a.u) * w, v = a.v + (b.v - a.v) * w
+    return {
+      speed: Math.sqrt(u * u + v * v),
+      dir: ((Math.atan2(-u, -v) * 180) / Math.PI + 360) % 360,
+      temp: a.t + (b.t - a.t) * w,
+    }
+  }
+}
+
 export async function getBabadagWindLadder() {
-  const levels = [1000, 925, 900, 850, 800, 700]
-  const vars = levels.flatMap(l => [`wind_speed_${l}hPa`, `wind_direction_${l}hPa`, `geopotential_height_${l}hPa`, `temperature_${l}hPa`]).join(',')
-  const upperUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.565&longitude=29.07&hourly=${vars}&wind_speed_unit=kmh&timezone=Europe%2FIstanbul&forecast_days=1`
+  const upperUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.565&longitude=29.07&hourly=${UPPER_VARS}&wind_speed_unit=kmh&timezone=Europe%2FIstanbul&forecast_days=1`
   const beachUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.5497&longitude=29.1198&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,weather_code&wind_speed_unit=kmh&timezone=Europe%2FIstanbul`
   try {
     const [up, beach] = await Promise.all([
@@ -74,22 +95,7 @@ export async function getBabadagWindLadder() {
     ])
     const hourKey = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Istanbul' }).slice(0, 13).replace(' ', 'T')
     const i = Math.max(0, (up.hourly?.time || []).findIndex((t: string) => t.startsWith(hourKey)))
-    const pts = levels.map(l => {
-      const spd = up.hourly[`wind_speed_${l}hPa`][i], dir = up.hourly[`wind_direction_${l}hPa`][i]
-      const rad = (dir * Math.PI) / 180
-      return { z: up.hourly[`geopotential_height_${l}hPa`][i], u: -spd * Math.sin(rad), v: -spd * Math.cos(rad), t: up.hourly[`temperature_${l}hPa`][i] }
-    }).filter(p => [p.z, p.u, p.v, p.t].every(x => typeof x === 'number' && !Number.isNaN(x))).sort((a, b) => a.z - b.z)
-    const at = (z: number) => {
-      let a = pts[0], b = pts[pts.length - 1]
-      for (let k = 0; k < pts.length - 1; k++) if (pts[k].z <= z && pts[k + 1].z >= z) { a = pts[k]; b = pts[k + 1]; break }
-      const w = b.z === a.z ? 0 : Math.min(1, Math.max(0, (z - a.z) / (b.z - a.z)))
-      const u = a.u + (b.u - a.u) * w, v = a.v + (b.v - a.v) * w
-      return {
-        speed: Math.sqrt(u * u + v * v),
-        dir: ((Math.atan2(-u, -v) * 180) / Math.PI + 360) % 360,
-        temp: a.t + (b.t - a.t) * w,
-      }
-    }
+    const at = windAloft(up.hourly, i)
     const c = beach.current || {}
     const s1969 = at(1969), s1200 = at(1200)
     return {
@@ -103,4 +109,36 @@ export async function getBabadagWindLadder() {
   } catch {
     return getOludenizWeather()
   }
+}
+
+// Hour-by-hour forecast for one day (up to 7 days ahead): summit, 1200 m
+// take-off (pressure-level winds interpolated like the live ladder) and the
+// Ölüdeniz beach landing (10 m wind + gusts), plus rain chance and cloud cover.
+export async function getBabadagForecast(date: string, fromHour = 7, toHour = 19) {
+  const upperUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.565&longitude=29.07&hourly=${UPPER_VARS}&wind_speed_unit=kmh&timezone=Europe%2FIstanbul&start_date=${date}&end_date=${date}`
+  const beachUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.5497&longitude=29.1198&hourly=wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation_probability,cloud_cover,temperature_2m,weather_code&wind_speed_unit=kmh&timezone=Europe%2FIstanbul&start_date=${date}&end_date=${date}`
+  const [up, beach] = await Promise.all([
+    fetch(upperUrl, { next: { revalidate: 1800 } }).then(r => r.json()),
+    fetch(beachUrl, { next: { revalidate: 1800 } }).then(r => r.json()),
+  ])
+  if (up?.error || beach?.error) throw new Error(up?.reason || beach?.reason || 'Hava tahmini alınamadı')
+  const times: string[] = up.hourly?.time || []
+  const b = beach.hourly || {}
+  const hours = []
+  for (let i = 0; i < times.length; i++) {
+    const hour = Number(times[i].slice(11, 13))
+    if (hour < fromHour || hour > toHour) continue
+    const at = windAloft(up.hourly, i)
+    const s1969 = at(1969), s1200 = at(1200)
+    hours.push({
+      hour,
+      summit: { speed: s1969.speed, dir: s1969.dir, temp: s1969.temp },
+      takeoff: { speed: s1200.speed, dir: s1200.dir, temp: s1200.temp },
+      beach: { speed: b.wind_speed_10m?.[i] ?? null, gust: b.wind_gusts_10m?.[i] ?? null, dir: b.wind_direction_10m?.[i] ?? null, temp: b.temperature_2m?.[i] ?? null },
+      rainChance: b.precipitation_probability?.[i] ?? null,
+      cloudCover: b.cloud_cover?.[i] ?? null,
+      weatherCode: b.weather_code?.[i] ?? null,
+    })
+  }
+  return { date, hours }
 }

@@ -39,6 +39,9 @@ Bugünün tarihi: ${todayIstanbul} (${weekday}), saat dilimi Europe/Istanbul. "Y
 - Kendi kendine onay verme, onay varsaymadan confirm_action çağırma. confirm_action sonucu gelmeden "gönderdim/yaptım" deme. Sonuç hata ise dürüstçe söyle.
 - Rezervasyon için booking id'yi get_bookings sonucundan al; Instagram için post id'yi list_instagram_posts sonucundan al. İsimler benzerse hangisi olduğunu sor.
 
+# Hava
+- "Yarın/hafta sonu hava nasıl, uçabilir miyiz" → get_weather date ile. En uygun saat aralığını ve riskli saatleri (kuvvetli rüzgâr, hamle, yağmur) söyle; "tahmini, son karar sizin" diye belirt.
+
 # Danışman rolü
 - "Neden rezervasyon gelmedi / tıklama var ama satış yok" → önce diagnose_bookings. Huninin hangi adımında kayıp olduğunu söyle (tıklama → siteye giriş → rezervasyon sayfası → form → rezervasyon) ve 1-2 somut öneri ver.
 - Daha kapsamlı/karşılaştırmalı sorularda ("bu ay neden kötü", "bütçeyi nereye kaydırayım", "genel bir analiz yap") deep_analysis çağır; Sonuçtaki spoken_summary'yi oku, önerileri ekrana bırak.
@@ -93,8 +96,11 @@ export const NESLIHAN_TOOLS = [
   {
     type: 'function',
     name: 'get_weather',
-    description: 'Babadağ zirve (1969 m), 1200 m kalkış ve Ölüdeniz plajı için şu anki rüzgâr hızı/yönü, hamle ve sıcaklık.',
-    parameters: obj(),
+    description: 'Babadağ zirve (1969 m), 1200 m kalkış ve Ölüdeniz plajı rüzgârı. date verilmezse ŞU ANKİ durum. date verilirse (bugün dahil 7 gün ileriye kadar) o günün 07:00-19:00 saatlik TAHMİNİ: rüzgâr, plaj hamlesi, yağmur ihtimali, tahmini uçuş uygunluğu ve en uygun saat aralığı.',
+    parameters: obj({
+      date: { type: 'string', description: 'Tahmin günü YYYY-MM-DD ("yarın", "cumartesi" gibi ifadeleri tarihe çevir). Şu anki durum için boş bırak.' },
+      forecast: { type: 'boolean', description: 'Bugünün geri kalanı için saatlik tahmin istenirse true (date ile birlikte).' },
+    }),
   },
   {
     type: 'function',

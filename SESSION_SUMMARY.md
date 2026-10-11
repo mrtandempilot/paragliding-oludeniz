@@ -1,5 +1,10 @@
 # Session Summary
 
+## 2026-10-11 (6) — Hava tahmini + Gemini ücretli
+- Gemini ücretsiz kotası (~20 istek/gün) hemen bitti → Ceyhun Google faturalandırmasını açtı (ücretli katman, aynı anahtar). Tahmini 5-10$/ay. Bütçe uyarısı (10$) önerildi; uygulama içi günlük sert fren önerildi, henüz yapılmadı.
+- Avatar (3D, TalkingHead) denendi, Ceyhun vazgeçti → tüm avatar kodu/paketleri geri alındı, siteye hiç yüklenmedi. (Not: MPFB CC0 kadın avatar 8.8MB'a küçültülebiliyordu; test panelinde lip-sync düşük FPS yüzünden doğrulanamadı.)
+- `get_weather` artık `date` alıyor → `getBabadagForecast(date)` (lib/admin/dashboard-data.ts): 07-19 saatlik zirve/1200m/plaj rüzgârı, hamle, yağmur, tahmini uçuş uygunluğu, en uygun saat aralığı. İrtifa enterpolasyonu `windAloft()` olarak ortaklaştırıldı (dashboard davranışı aynı).
+
 ## 2026-10-11 (5) — Doğal ses: Gemini TTS
 - Ücretsiz düzen canlıda çalıştı (Ceyhun onayladı); tarayıcı sesi robotik bulundu.
 - `POST /api/admin/neslihan/tts` → Gemini TTS (`GEMINI_TTS_MODEL` varsayılan gemini-2.5-flash-preview-tts, ses `NESLIHAN_TTS_VOICE` varsayılan Sulafat), PCM → WAV.
