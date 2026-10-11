@@ -145,7 +145,7 @@ const kmh = (n: number | null | undefined) => (n == null || !Number.isFinite(n) 
 
 // Windy's own free embed (map + forecast for Babadağ) for a visual cross-check.
 function windyEmbed(model: string) {
-  const product = model === 'GFS' ? 'gfs' : 'iconEu'
+  const product = model === 'GFS' ? 'gfs' : 'icon'
   return `https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=%C2%B0C&metricWind=km%2Fh&zoom=10&overlay=wind&product=${product}&level=800h&lat=36.545&lon=29.15&detailLat=${BABADAG.lat}&detailLon=${BABADAG.lon}&detail=true&message=true`
 }
 

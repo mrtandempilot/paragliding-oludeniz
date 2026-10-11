@@ -118,8 +118,10 @@ export async function getBabadagWindLadder() {
 // 900 and 800 hPa levels: the free ECMWF feed jumps from 850 hPa (~1500 m) to
 // 700 hPa (~3100 m), which badly under-reads wind at 1900-2000 m (checked
 // against Windy on 2026-10-11: 13 vs 24 km/h), so it is not offered here.
+// ICON = the global 13 km run, the same one Windy shows as "ICON 13km"
+// (matched Windy at 800 hPa: 31 vs 30 km/h); icon_seamless/icon_eu read lower here.
 export const FORECAST_MODELS: Record<string, { id: string; label: string }> = {
-  icon: { id: 'icon_seamless', label: 'ICON' },
+  icon: { id: 'icon_global', label: 'ICON' },
   gfs: { id: 'gfs_seamless', label: 'GFS' },
 }
 
