@@ -11,7 +11,7 @@ const TONE: Record<string, string> = {
 
 // Renders one tool result on Neslihan's live screen.
 export default function LiveDisplay({ display, compact = false }: { display: Display; compact?: boolean }) {
-  const { title, subtitle, stats, chart, table, note } = display
+  const { title, subtitle, stats, chart, table, embed, note } = display
   return (
     <section className={`rounded-2xl border border-[#1E3654] bg-[#0F2238] ${compact ? 'p-4' : 'p-5 md:p-6'}`}>
       <header className="mb-4">
@@ -72,6 +72,12 @@ export default function LiveDisplay({ display, compact = false }: { display: Dis
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {!compact && embed && (
+        <div className="mt-5 overflow-hidden rounded-xl border border-[#1E3654]">
+          <iframe src={embed.url} title={embed.title} className="h-[420px] w-full" loading="lazy" />
         </div>
       )}
 

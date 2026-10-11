@@ -68,9 +68,9 @@ const UPPER_VARS = LEVELS.flatMap(l => [`wind_speed_${l}hPa`, `wind_direction_${
 // Wind/temperature at altitude z (m) for hour index i of an Open-Meteo pressure-level response.
 function windAloft(hourly: any, i: number) {
   const pts = LEVELS.map(l => {
-    const spd = hourly[`wind_speed_${l}hPa`][i], dir = hourly[`wind_direction_${l}hPa`][i]
+    const spd = hourly[`wind_speed_${l}hPa`]?.[i], dir = hourly[`wind_direction_${l}hPa`]?.[i]
     const rad = (dir * Math.PI) / 180
-    return { z: hourly[`geopotential_height_${l}hPa`][i], u: -spd * Math.sin(rad), v: -spd * Math.cos(rad), t: hourly[`temperature_${l}hPa`][i] }
+    return { z: hourly[`geopotential_height_${l}hPa`]?.[i], u: -spd * Math.sin(rad), v: -spd * Math.cos(rad), t: hourly[`temperature_${l}hPa`]?.[i] }
   }).filter(p => [p.z, p.u, p.v, p.t].every(x => typeof x === 'number' && !Number.isNaN(x))).sort((a, b) => a.z - b.z)
   return (z: number) => {
     let a = pts[0], b = pts[pts.length - 1]
@@ -111,34 +111,48 @@ export async function getBabadagWindLadder() {
   }
 }
 
-// Hour-by-hour forecast for one day (up to 7 days ahead): summit, 1200 m
-// take-off (pressure-level winds interpolated like the live ladder) and the
-// Ölüdeniz beach landing (10 m wind + gusts), plus rain chance and cloud cover.
-export async function getBabadagForecast(date: string, fromHour = 7, toHour = 19) {
-  const upperUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.565&longitude=29.07&hourly=${UPPER_VARS}&wind_speed_unit=kmh&timezone=Europe%2FIstanbul&start_date=${date}&end_date=${date}`
-  const beachUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.5497&longitude=29.1198&hourly=wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation_probability,cloud_cover,temperature_2m,weather_code&wind_speed_unit=kmh&timezone=Europe%2FIstanbul&start_date=${date}&end_date=${date}`
-  const [up, beach] = await Promise.all([
+// Weather models Neslihan can use (Open-Meteo, free). ECMWF is Windy's default.
+export const FORECAST_MODELS: Record<string, { id: string; label: string }> = {
+  ecmwf: { id: 'ecmwf_ifs025', label: 'ECMWF' },
+  icon: { id: 'icon_seamless', label: 'ICON' },
+  gfs: { id: 'gfs_seamless', label: 'GFS' },
+}
+
+// Hour-by-hour forecast for one day (up to 7 days ahead) at the heights that
+// matter for tandem flights: 1900 m and 1200 m take-offs (pressure-level winds
+// interpolated by altitude) and the Ölüdeniz beach landing (10 m wind + gusts),
+// plus rain chance and cloud cover.
+export async function getBabadagForecast(date: string, fromHour = 7, toHour = 19, model = 'ecmwf') {
+  const m = FORECAST_MODELS[model] || FORECAST_MODELS.ecmwf
+  const q = `wind_speed_unit=kmh&timezone=Europe%2FIstanbul&start_date=${date}&end_date=${date}`
+  const upperUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.565&longitude=29.07&hourly=${UPPER_VARS}&models=${m.id}&${q}`
+  const beachUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.5497&longitude=29.1198&hourly=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m,cloud_cover&models=${m.id}&${q}`
+  // rain chance comes from the blended forecast (single models don't all publish probabilities)
+  const rainUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.5497&longitude=29.1198&hourly=precipitation_probability,weather_code&${q}`
+  const [up, beach, rain] = await Promise.all([
     fetch(upperUrl, { next: { revalidate: 1800 } }).then(r => r.json()),
     fetch(beachUrl, { next: { revalidate: 1800 } }).then(r => r.json()),
+    fetch(rainUrl, { next: { revalidate: 1800 } }).then(r => r.json()).catch(() => ({})),
   ])
   if (up?.error || beach?.error) throw new Error(up?.reason || beach?.reason || 'Hava tahmini alınamadı')
   const times: string[] = up.hourly?.time || []
   const b = beach.hourly || {}
+  const rh = rain.hourly || {}
   const hours = []
   for (let i = 0; i < times.length; i++) {
     const hour = Number(times[i].slice(11, 13))
     if (hour < fromHour || hour > toHour) continue
     const at = windAloft(up.hourly, i)
-    const s1969 = at(1969), s1200 = at(1200)
+    const s1900 = at(1900), s1200 = at(1200)
     hours.push({
       hour,
-      summit: { speed: s1969.speed, dir: s1969.dir, temp: s1969.temp },
-      takeoff: { speed: s1200.speed, dir: s1200.dir, temp: s1200.temp },
+      t1900: { speed: s1900.speed, dir: s1900.dir, temp: s1900.temp },
+      t1200: { speed: s1200.speed, dir: s1200.dir, temp: s1200.temp },
       beach: { speed: b.wind_speed_10m?.[i] ?? null, gust: b.wind_gusts_10m?.[i] ?? null, dir: b.wind_direction_10m?.[i] ?? null, temp: b.temperature_2m?.[i] ?? null },
-      rainChance: b.precipitation_probability?.[i] ?? null,
+      rainChance: rh.precipitation_probability?.[i] ?? null,
       cloudCover: b.cloud_cover?.[i] ?? null,
-      weatherCode: b.weather_code?.[i] ?? null,
+      weatherCode: rh.weather_code?.[i] ?? null,
     })
   }
-  return { date, hours }
+  return { date, model: m.label, hours }
 }

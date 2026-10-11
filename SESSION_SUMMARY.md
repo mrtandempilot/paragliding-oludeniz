@@ -3,6 +3,7 @@
 ## 2026-10-11 (6) — Hava tahmini + Gemini ücretli
 - Gemini ücretsiz kotası (~20 istek/gün) hemen bitti → Ceyhun Google faturalandırmasını açtı (ücretli katman, aynı anahtar). Tahmini 5-10$/ay. Bütçe uyarısı (10$) önerildi; uygulama içi günlük sert fren önerildi, henüz yapılmadı.
 - Avatar (3D, TalkingHead) denendi, Ceyhun vazgeçti → tüm avatar kodu/paketleri geri alındı, siteye hiç yüklenmedi. (Not: MPFB CC0 kadın avatar 8.8MB'a küçültülebiliyordu; test panelinde lip-sync düşük FPS yüzünden doğrulanamadı.)
+- Hava (Ceyhun'un isteği): öncelik PLAJ + 1900 m, sonra 1200 m; anlık değer de aynı üç nokta. Varsayılan model ECMWF (Windy'nin varsayılanı, Open-Meteo `ecmwf_ifs025`; 925/850/700 hPa'dan irtifa enterpolasyonu), `model: icon|gfs` ile değiştirilebilir. Canlı ekranda Windy'nin ücretsiz embed haritası (embed.windy.com). Windy Point Forecast API ~990€/yıl → kullanılmadı; Ceyhun'un paylaştığı Windy şifresi KULLANILMADI, değiştirmesi önerildi.
 - `get_weather` artık `date` alıyor → `getBabadagForecast(date)` (lib/admin/dashboard-data.ts): 07-19 saatlik zirve/1200m/plaj rüzgârı, hamle, yağmur, tahmini uçuş uygunluğu, en uygun saat aralığı. İrtifa enterpolasyonu `windAloft()` olarak ortaklaştırıldı (dashboard davranışı aynı).
 
 ## 2026-10-11 (5) — Doğal ses: Gemini TTS

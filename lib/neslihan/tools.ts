@@ -2,7 +2,7 @@
 // Each tool returns a compact `result` (what the model reads) and a
 // `display` (what the live screen renders next to the conversation).
 
-import { getSupabase, istanbulDate, getSearchConsole, getBabadagWindLadder, getBabadagForecast } from '@/lib/admin/dashboard-data'
+import { getSupabase, istanbulDate, getSearchConsole, getBabadagForecast } from '@/lib/admin/dashboard-data'
 import { listEmails, readEmail, type MailFolder } from './gmail'
 import { addMemory, completeMemory, loadMemory, type MemoryKind } from './memory'
 import { diagnoseBookings, competitorCheck, deepAnalysis } from './advisor'
@@ -10,12 +10,14 @@ import { diagnoseBookings, competitorCheck, deepAnalysis } from './advisor'
 export type DisplayStat = { label: string; value: string; hint?: string; tone?: 'good' | 'bad' | 'warn' }
 export type DisplayChart = { kind: 'bar' | 'line'; label: string; points: { x: string; y: number }[] }
 export type DisplayTable = { columns: string[]; rows: (string | number)[][] }
+export type DisplayEmbed = { url: string; title: string }
 export type Display = {
   title: string
   subtitle?: string
   stats?: DisplayStat[]
   chart?: DisplayChart
   table?: DisplayTable
+  embed?: DisplayEmbed
   note?: string
 }
 export type ToolOutput = { result: unknown; display: Display | null }
@@ -130,68 +132,75 @@ const compass = (deg: number | null) => {
   return ['K', 'KD', 'D', 'GD', 'G', 'GB', 'B', 'KB'][Math.round(deg / 45) % 8]
 }
 
-// Rough flyability for a tandem hour; Ceyhun Bey makes the real call.
+// Rough flyability for a tandem hour, led by the beach and the 1900 m take-off.
+// Ceyhun Bey makes the real call.
 function flyable(h: any) {
-  const t = h.takeoff.speed, g = h.beach.gust ?? h.beach.speed ?? 0, rain = h.rainChance ?? 0
-  if (t > 25 || g > 30 || rain >= 60) return 'bad'
-  if (t > 18 || g > 22 || rain >= 30) return 'warn'
+  const top = h.t1900.speed, low = h.t1200.speed, g = h.beach.gust ?? h.beach.speed ?? 0, rain = h.rainChance ?? 0
+  if (top > 28 || low > 25 || g > 30 || rain >= 60) return 'bad'
+  if (top > 20 || low > 18 || g > 22 || rain >= 30) return 'warn'
   return 'good'
 }
 const FLY_TR: Record<string, string> = { good: 'Uygun', warn: 'Dikkat', bad: 'Uygun değil' }
+const kmh = (n: number | null | undefined) => (n == null || !Number.isFinite(n) ? null : Math.round(n))
 
-async function getWeatherForecast(date: string): Promise<ToolOutput> {
-  const f = await getBabadagForecast(date)
-  if (!f.hours.length) throw new Error(`${date} için tahmin yok (en fazla 7 gün ileri)`)
-  const r = (n: number | null) => (n == null ? null : Math.round(n))
-  const hours = f.hours.map(h => ({
-    hour: `${String(h.hour).padStart(2, '0')}:00`,
-    summit_kmh: r(h.summit.speed), summit_dir: compass(h.summit.dir),
-    takeoff_1200_kmh: r(h.takeoff.speed), takeoff_dir: compass(h.takeoff.dir), takeoff_temp_c: r(h.takeoff.temp),
-    beach_kmh: r(h.beach.speed), beach_gust_kmh: r(h.beach.gust), beach_dir: compass(h.beach.dir), beach_temp_c: r(h.beach.temp),
-    rain_chance_pct: h.rainChance, cloud_pct: h.cloudCover,
-    estimate: FLY_TR[flyable(h)],
-  }))
-  const good = f.hours.filter(h => flyable(h) === 'good').map(h => h.hour)
-  const window = good.length ? `${String(good[0]).padStart(2, '0')}:00–${String(good[good.length - 1] + 1).padStart(2, '0')}:00` : null
-  return {
-    result: {
-      date, hours, best_window: window,
-      note: 'Model tahmini (Open-Meteo). "estimate" kaba bir ölçüt: 1200 m rüzgâr ≤18 km/s, plaj hamlesi ≤22 km/s, yağmur <%30 = uygun. Son karar pilotun. Yönler: K=kuzey, G=güney, B=batı, D=doğu.',
-    },
-    display: {
-      title: `Hava tahmini · ${date.slice(8, 10)}.${date.slice(5, 7)}`,
-      subtitle: window ? `En uygun saatler (tahmini): ${window}` : 'Uygun saat görünmüyor (tahmini)',
-      chart: { kind: 'line', label: '1200 m kalkış rüzgârı (km/s)', points: hours.map(h => ({ x: h.hour, y: h.takeoff_1200_kmh ?? 0 })) },
-      table: {
-        columns: ['Saat', 'Zirve', '1200 m', 'Plaj (hamle)', 'Yağmur', 'Durum'],
-        rows: hours.map(h => [h.hour, `${h.summit_kmh} ${h.summit_dir}`, `${h.takeoff_1200_kmh} ${h.takeoff_dir}`, `${h.beach_kmh ?? '—'} (${h.beach_gust_kmh ?? '—'}) ${h.beach_dir}`, h.rain_chance_pct != null ? `%${h.rain_chance_pct}` : '—', h.estimate]),
-      },
-    },
-  }
+// Windy's own free embed (map + forecast for Babadağ) for a visual cross-check.
+function windyEmbed(model: string) {
+  const product = model === 'ICON' ? 'iconEu' : model === 'GFS' ? 'gfs' : 'ecmwf'
+  return `https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=%C2%B0C&metricWind=km%2Fh&zoom=10&overlay=wind&product=${product}&level=surface&lat=36.56&lon=29.1&detailLat=36.565&detailLon=29.07&detail=true&message=true`
 }
 
 async function getWeather(args: any = {}): Promise<ToolOutput> {
-  if (isDate(args?.date) && args.date !== istanbulDate(0)) return getWeatherForecast(args.date)
-  if (args?.date === istanbulDate(0) && args?.forecast) return getWeatherForecast(args.date)
-  const w: any = await getBabadagWindLadder()
-  const stations = (w?.stations || []).map((s: any) => ({
-    label: s.label, elevation: s.elevation,
-    wind_kmh: s.windSpeedKmh != null ? Math.round(s.windSpeedKmh) : null,
-    gust_kmh: s.windGustKmh != null ? Math.round(s.windGustKmh) : null,
-    direction: compass(s.windDirectionDeg), direction_deg: s.windDirectionDeg != null ? Math.round(s.windDirectionDeg) : null,
-    temp_c: s.temperatureC != null ? Math.round(s.temperatureC) : null,
+  const today = istanbulDate(0)
+  const date = isDate(args?.date) ? args.date : today
+  const model = ['ecmwf', 'icon', 'gfs'].includes(args?.model) ? args.model : 'ecmwf'
+  const nowHour = Number(new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Istanbul' }).slice(11, 13))
+  const current = date === today && !args?.forecast
+
+  const f = await getBabadagForecast(date, current ? nowHour : 7, current ? nowHour : 19, model)
+  if (!f.hours.length) throw new Error(`${date} için tahmin yok (en fazla 7 gün ileri)`)
+  const hours = f.hours.map(h => ({
+    hour: `${String(h.hour).padStart(2, '0')}:00`,
+    beach_kmh: kmh(h.beach.speed), beach_gust_kmh: kmh(h.beach.gust), beach_dir: compass(h.beach.dir), beach_temp_c: kmh(h.beach.temp),
+    takeoff_1900_kmh: kmh(h.t1900.speed), takeoff_1900_dir: compass(h.t1900.dir), takeoff_1900_temp_c: kmh(h.t1900.temp),
+    takeoff_1200_kmh: kmh(h.t1200.speed), takeoff_1200_dir: compass(h.t1200.dir),
+    rain_chance_pct: h.rainChance, cloud_pct: h.cloudCover,
+    estimate: FLY_TR[flyable(h)],
+    _tone: flyable(h),
   }))
+  const note = `Model: ${f.model} (Windy'nin varsayılanı ECMWF). Öncelik plaj ve 1900 m, sonra 1200 m. "estimate" kaba ölçüt: 1900 m ≤20, 1200 m ≤18, plaj hamlesi ≤22 km/s, yağmur <%30 = uygun. Son karar pilotun. Yönler: K, KD, D, GD, G, GB, B, KB.`
+  const embed = { url: windyEmbed(f.model), title: `Windy · ${f.model}` }
+
+  if (current) {
+    const h = hours[0]
+    return {
+      result: { now: h, model: f.model, note },
+      display: {
+        title: 'Rüzgâr · şu an',
+        subtitle: `${h.hour} · ${f.model} modeli · ${h.estimate}`,
+        stats: [
+          { label: 'Plaj (iniş)', value: `${h.beach_kmh ?? '—'} km/s ${h.beach_dir}`, hint: `hamle ${h.beach_gust_kmh ?? '—'} · ${h.beach_temp_c ?? '—'}°C`, tone: (h.beach_gust_kmh ?? 0) > 30 ? 'bad' : (h.beach_gust_kmh ?? 0) > 22 ? 'warn' : 'good' },
+          { label: '1900 m kalkış', value: `${h.takeoff_1900_kmh ?? '—'} km/s ${h.takeoff_1900_dir}`, hint: `${h.takeoff_1900_temp_c ?? '—'}°C`, tone: (h.takeoff_1900_kmh ?? 0) > 28 ? 'bad' : (h.takeoff_1900_kmh ?? 0) > 20 ? 'warn' : 'good' },
+          { label: '1200 m kalkış', value: `${h.takeoff_1200_kmh ?? '—'} km/s ${h.takeoff_1200_dir}`, tone: (h.takeoff_1200_kmh ?? 0) > 25 ? 'bad' : (h.takeoff_1200_kmh ?? 0) > 18 ? 'warn' : 'good' },
+          { label: 'Yağmur ihtimali', value: h.rain_chance_pct != null ? `%${h.rain_chance_pct}` : '—' },
+        ],
+        embed,
+      },
+    }
+  }
+
+  const good = f.hours.filter(h => flyable(h) === 'good').map(h => h.hour)
+  const window = good.length ? `${String(good[0]).padStart(2, '0')}:00–${String(good[good.length - 1] + 1).padStart(2, '0')}:00` : null
   return {
-    result: { fetched_at: w?.fetchedAt, stations, note: 'Yönler: K=kuzey, G=güney, B=batı, D=doğu. Model verisi (Open-Meteo), saha gözlemi değil.' },
+    result: { date, model: f.model, best_window: window, hours: hours.map(({ _tone, ...h }) => h), note },
     display: {
-      title: 'Rüzgâr · Babadağ & Ölüdeniz',
-      subtitle: 'Şu anki saat · Open-Meteo modeli',
-      stats: stations.map((s: any) => ({
-        label: s.label,
-        value: s.wind_kmh != null ? `${s.wind_kmh} km/s ${s.direction}` : '—',
-        hint: [s.gust_kmh != null ? `hamle ${s.gust_kmh}` : null, s.temp_c != null ? `${s.temp_c}°C` : null].filter(Boolean).join(' · '),
-        tone: s.wind_kmh == null ? undefined : s.wind_kmh > 30 ? 'bad' : s.wind_kmh > 20 ? 'warn' : 'good',
-      })),
+      title: `Hava tahmini · ${date.slice(8, 10)}.${date.slice(5, 7)} · ${f.model}`,
+      subtitle: window ? `En uygun saatler (tahmini): ${window}` : 'Uygun saat görünmüyor (tahmini)',
+      chart: { kind: 'line', label: '1900 m kalkış rüzgârı (km/s)', points: hours.map(h => ({ x: h.hour, y: h.takeoff_1900_kmh ?? 0 })) },
+      table: {
+        columns: ['Saat', 'Plaj (hamle)', '1900 m', '1200 m', 'Yağmur', 'Durum'],
+        rows: hours.map(h => [h.hour, `${h.beach_kmh ?? '—'} (${h.beach_gust_kmh ?? '—'}) ${h.beach_dir}`, `${h.takeoff_1900_kmh ?? '—'} ${h.takeoff_1900_dir}`, `${h.takeoff_1200_kmh ?? '—'} ${h.takeoff_1200_dir}`, h.rain_chance_pct != null ? `%${h.rain_chance_pct}` : '—', h.estimate]),
+      },
+      embed,
     },
   }
 }
