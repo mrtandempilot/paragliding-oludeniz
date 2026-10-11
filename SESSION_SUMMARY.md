@@ -1,5 +1,10 @@
 # Session Summary
 
+## 2026-10-11 (7) — Hava DÜZELTME (güvenlik)
+- Windy ile karşılaştırma: ücretsiz ECMWF (Open-Meteo) 900/800 hPa vermiyor → 1900-2000 m rüzgârı ~yarı değerde çıkıyordu (13 vs Windy ECMWF 24 km/s). ECMWF yüksek irtifa için KALDIRILDI; varsayılan ICON (800 hPa doğrudan), seçenek GFS.
+- Babadağ koordinatı yanlıştı (36.565/29.07 = Kayaköy civarı) → `BABADAG = {36.535, 29.175}` (dashboard rüzgâr kutusu da düzeldi).
+- Hâlâ Windy ICON'dan ~5-7 km/s düşük olabilir (Windy ICON-EU işleme farkı). Pilot Windy haritasıyla karşılaştırsın; gerekirse güvenlik payı eklenebilir.
+
 ## 2026-10-11 (6) — Hava tahmini + Gemini ücretli
 - Gemini ücretsiz kotası (~20 istek/gün) hemen bitti → Ceyhun Google faturalandırmasını açtı (ücretli katman, aynı anahtar). Tahmini 5-10$/ay. Bütçe uyarısı (10$) önerildi; uygulama içi günlük sert fren önerildi, henüz yapılmadı.
 - Avatar (3D, TalkingHead) denendi, Ceyhun vazgeçti → tüm avatar kodu/paketleri geri alındı, siteye hiç yüklenmedi. (Not: MPFB CC0 kadın avatar 8.8MB'a küçültülebiliyordu; test panelinde lip-sync düşük FPS yüzünden doğrulanamadı.)

@@ -41,7 +41,7 @@ Bugünün tarihi: ${todayIstanbul} (${weekday}), saat dilimi Europe/Istanbul. "Y
 
 # Hava
 - "Yarın/hafta sonu hava nasıl, uçabilir miyiz" → get_weather date ile. ÖNCE plaj (hamle dahil) ve 1900 m rüzgârını söyle, sonra 1200 m. En uygun saat aralığını ve riskli saatleri söyle; "tahmini, son karar sizin" diye belirt.
-- Modeller farklı söylüyorsa (istenirse ecmwf/icon/gfs karşılaştır) bunu belirt.
+- Modeller farklı söylüyorsa (istenirse icon ile gfs karşılaştır) bunu belirt; şüphede yüksek olan değeri esas alıp uyar.
 
 # Danışman rolü
 - "Neden rezervasyon gelmedi / tıklama var ama satış yok" → önce diagnose_bookings. Huninin hangi adımında kayıp olduğunu söyle (tıklama → siteye giriş → rezervasyon sayfası → form → rezervasyon) ve 1-2 somut öneri ver.
@@ -97,11 +97,11 @@ export const NESLIHAN_TOOLS = [
   {
     type: 'function',
     name: 'get_weather',
-    description: 'Ölüdeniz plajı (iniş), Babadağ 1900 m ve 1200 m kalkış rüzgârı + yağmur ihtimali. Varsayılan model ECMWF (Windy\'nin varsayılanı). date verilmezse ŞU ANKİ saat. date verilirse (7 gün ileriye kadar) 07:00-19:00 saatlik TAHMİN, tahmini uçuş uygunluğu ve en uygun saat aralığı. Ekranda Windy haritası da açılır.',
+    description: 'Ölüdeniz plajı (iniş), Babadağ 1900 m ve 1200 m kalkış rüzgârı + yağmur ihtimali. Varsayılan model ICON (2000 m seviyesi doğrudan var). date verilmezse ŞU ANKİ saat. date verilirse (7 gün ileriye kadar) 07:00-19:00 saatlik TAHMİN, tahmini uçuş uygunluğu ve en uygun saat aralığı. Ekranda Windy haritası da açılır.',
     parameters: obj({
       date: { type: 'string', description: 'Tahmin günü YYYY-MM-DD ("yarın", "cumartesi" gibi ifadeleri tarihe çevir). Şu anki durum için boş bırak.' },
       forecast: { type: 'boolean', description: 'Bugünün saatlik tahmini istenirse true (date ile birlikte).' },
-      model: { type: 'string', enum: ['ecmwf', 'icon', 'gfs'], description: 'Hava modeli. Varsayılan ecmwf. "ICON\'a göre", "GFS\'e göre" denirse değiştir.' },
+      model: { type: 'string', enum: ['icon', 'gfs'], description: 'Hava modeli. Varsayılan icon. "GFS\'e göre" denirse gfs. ECMWF istenirse: ücretsiz ECMWF verisinde 2000 m seviyesi olmadığını, ECMWF için ekrandaki Windy haritasına bakılabileceğini söyle.' },
     }),
   },
   {

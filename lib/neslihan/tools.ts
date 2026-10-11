@@ -2,7 +2,7 @@
 // Each tool returns a compact `result` (what the model reads) and a
 // `display` (what the live screen renders next to the conversation).
 
-import { getSupabase, istanbulDate, getSearchConsole, getBabadagForecast } from '@/lib/admin/dashboard-data'
+import { getSupabase, istanbulDate, getSearchConsole, getBabadagForecast, BABADAG } from '@/lib/admin/dashboard-data'
 import { listEmails, readEmail, type MailFolder } from './gmail'
 import { addMemory, completeMemory, loadMemory, type MemoryKind } from './memory'
 import { diagnoseBookings, competitorCheck, deepAnalysis } from './advisor'
@@ -145,14 +145,14 @@ const kmh = (n: number | null | undefined) => (n == null || !Number.isFinite(n) 
 
 // Windy's own free embed (map + forecast for Babadağ) for a visual cross-check.
 function windyEmbed(model: string) {
-  const product = model === 'ICON' ? 'iconEu' : model === 'GFS' ? 'gfs' : 'ecmwf'
-  return `https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=%C2%B0C&metricWind=km%2Fh&zoom=10&overlay=wind&product=${product}&level=surface&lat=36.56&lon=29.1&detailLat=36.565&detailLon=29.07&detail=true&message=true`
+  const product = model === 'GFS' ? 'gfs' : 'iconEu'
+  return `https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=%C2%B0C&metricWind=km%2Fh&zoom=10&overlay=wind&product=${product}&level=800h&lat=36.545&lon=29.15&detailLat=${BABADAG.lat}&detailLon=${BABADAG.lon}&detail=true&message=true`
 }
 
 async function getWeather(args: any = {}): Promise<ToolOutput> {
   const today = istanbulDate(0)
   const date = isDate(args?.date) ? args.date : today
-  const model = ['ecmwf', 'icon', 'gfs'].includes(args?.model) ? args.model : 'ecmwf'
+  const model = ['icon', 'gfs'].includes(args?.model) ? args.model : 'icon'
   const nowHour = Number(new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Istanbul' }).slice(11, 13))
   const current = date === today && !args?.forecast
 
@@ -167,7 +167,7 @@ async function getWeather(args: any = {}): Promise<ToolOutput> {
     estimate: FLY_TR[flyable(h)],
     _tone: flyable(h),
   }))
-  const note = `Model: ${f.model} (Windy'nin varsayılanı ECMWF). Öncelik plaj ve 1900 m, sonra 1200 m. "estimate" kaba ölçüt: 1900 m ≤20, 1200 m ≤18, plaj hamlesi ≤22 km/s, yağmur <%30 = uygun. Son karar pilotun. Yönler: K, KD, D, GD, G, GB, B, KB.`
+  const note = `Model: ${f.model}. Öncelik plaj ve 1900 m, sonra 1200 m. Ücretsiz ECMWF verisinde 2000 m seviyesi olmadığı için yüksek irtifa ICON/GFS'ten; Windy'nin ECMWF değeri ekrandaki haritada görülebilir. "estimate" kaba ölçüt: 1900 m ≤20, 1200 m ≤18, plaj hamlesi ≤22 km/s, yağmur <%30 = uygun. Son karar pilotun. Yönler: K, KD, D, GD, G, GB, B, KB.`
   const embed = { url: windyEmbed(f.model), title: `Windy · ${f.model}` }
 
   if (current) {

@@ -62,6 +62,9 @@ export async function getSearchConsole() {
 // Wind aloft for Babadağ: surface stations share one model cell, so for the
 // take-off (1200 m) and summit (1969 m) we interpolate Open-Meteo pressure-level
 // winds to those altitudes (vector interpolation on geopotential height).
+// Babadağ take-off area (the old 36.565 / 29.07 point was near Kayaköy, not Babadağ).
+export const BABADAG = { lat: 36.535, lon: 29.175 }
+
 const LEVELS = [1000, 925, 900, 850, 800, 700]
 const UPPER_VARS = LEVELS.flatMap(l => [`wind_speed_${l}hPa`, `wind_direction_${l}hPa`, `geopotential_height_${l}hPa`, `temperature_${l}hPa`]).join(',')
 
@@ -86,7 +89,7 @@ function windAloft(hourly: any, i: number) {
 }
 
 export async function getBabadagWindLadder() {
-  const upperUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.565&longitude=29.07&hourly=${UPPER_VARS}&wind_speed_unit=kmh&timezone=Europe%2FIstanbul&forecast_days=1`
+  const upperUrl = `https://api.open-meteo.com/v1/forecast?latitude=${BABADAG.lat}&longitude=${BABADAG.lon}&hourly=${UPPER_VARS}&wind_speed_unit=kmh&timezone=Europe%2FIstanbul&forecast_days=1`
   const beachUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.5497&longitude=29.1198&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,weather_code&wind_speed_unit=kmh&timezone=Europe%2FIstanbul`
   try {
     const [up, beach] = await Promise.all([
@@ -111,9 +114,11 @@ export async function getBabadagWindLadder() {
   }
 }
 
-// Weather models Neslihan can use (Open-Meteo, free). ECMWF is Windy's default.
+// Weather models for Neslihan (Open-Meteo, free). Only models that publish the
+// 900 and 800 hPa levels: the free ECMWF feed jumps from 850 hPa (~1500 m) to
+// 700 hPa (~3100 m), which badly under-reads wind at 1900-2000 m (checked
+// against Windy on 2026-10-11: 13 vs 24 km/h), so it is not offered here.
 export const FORECAST_MODELS: Record<string, { id: string; label: string }> = {
-  ecmwf: { id: 'ecmwf_ifs025', label: 'ECMWF' },
   icon: { id: 'icon_seamless', label: 'ICON' },
   gfs: { id: 'gfs_seamless', label: 'GFS' },
 }
@@ -122,10 +127,10 @@ export const FORECAST_MODELS: Record<string, { id: string; label: string }> = {
 // matter for tandem flights: 1900 m and 1200 m take-offs (pressure-level winds
 // interpolated by altitude) and the Ölüdeniz beach landing (10 m wind + gusts),
 // plus rain chance and cloud cover.
-export async function getBabadagForecast(date: string, fromHour = 7, toHour = 19, model = 'ecmwf') {
-  const m = FORECAST_MODELS[model] || FORECAST_MODELS.ecmwf
+export async function getBabadagForecast(date: string, fromHour = 7, toHour = 19, model = 'icon') {
+  const m = FORECAST_MODELS[model] || FORECAST_MODELS.icon
   const q = `wind_speed_unit=kmh&timezone=Europe%2FIstanbul&start_date=${date}&end_date=${date}`
-  const upperUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.565&longitude=29.07&hourly=${UPPER_VARS}&models=${m.id}&${q}`
+  const upperUrl = `https://api.open-meteo.com/v1/forecast?latitude=${BABADAG.lat}&longitude=${BABADAG.lon}&hourly=${UPPER_VARS}&models=${m.id}&${q}`
   const beachUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.5497&longitude=29.1198&hourly=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m,cloud_cover&models=${m.id}&${q}`
   // rain chance comes from the blended forecast (single models don't all publish probabilities)
   const rainUrl = `https://api.open-meteo.com/v1/forecast?latitude=36.5497&longitude=29.1198&hourly=precipitation_probability,weather_code&${q}`
