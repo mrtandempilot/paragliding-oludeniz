@@ -87,6 +87,7 @@ Sonra doğrula: `python3 -c "d=open('f','rb').read(); print(d.count(b'\\x00'), '
 - **Hermes → Claude bağlantısı:** Hermes curl ile Next.js API'yi çağırır
 
 ## WhatsApp Otomatik Cevap Botu (2026-07-18'den itibaren)
+> ⚠️ 2026-10-11 kontrolü: `agents/whatsapp.ts` ve `app/api/webhooks/whatsapp/` bu repoda bulunamadı.
 Müşteriler işletme WhatsApp numarasına (+90 536 461 6674) yazdığında Claude otomatik cevap veriyor.
 
 - **Bilgi tabanı:** `lib/knowledge/whatsapp-kb.ts` — fiyatlar, güvenlik, SSS, iletişim bilgisi (TR/EN). Fiyat/politika değişirse bu dosya güncellenmeli.
@@ -98,6 +99,13 @@ Müşteriler işletme WhatsApp numarasına (+90 536 461 6674) yazdığında Clau
 - **Gerekli env (Vercel):** `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_NOTIFY_PHONE` zaten mevcut (bildirim için kullanılıyordu). Yeni eklenmesi gereken: `WHATSAPP_VERIFY_TOKEN` (Meta App > WhatsApp > Configuration > Webhook'ta aynı değerle eşleşmeli).
 - **Meta App dashboard kurulumu (yapılması gereken, henüz yapılmadı):** Callback URL = `https://paragliding-oludeniz.com/api/webhooks/whatsapp`, Verify token = `WHATSAPP_VERIFY_TOKEN` ile aynı, "messages" field'ına subscribe et. App ID: 1543333883484600, Business ID: 728026526701126.
 - **Bilinen sınırlama:** KB tamamı her mesajda system prompt olarak gönderiliyor (~9K token) — basit ama maliyetli; ileride RAG'a geçilebilir.
+
+## Voice Asistan — Neslihan Hanım (2026-10-11'den itibaren)
+- **Sayfa:** `/admin/voice-assistant` (sol menü: "Voice Asistan"). Sadece admin.
+- **Ne:** Türkçe konuşan şirket asistanı (OpenAI Realtime, ses `marin`). Konuşurken veriyi sağdaki "Canlı ekran"da gösterir.
+- **Dosyalar:** `lib/neslihan/persona.ts` (kişilik + araç şemaları), `lib/neslihan/tools.ts` (veri araçları), `app/api/admin/neslihan/{session,tool}`, `app/admin/voice-assistant/`.
+- **Env:** `OPENAI_API_KEY` (zorunlu), `NESLIHAN_VOICE`, `OPENAI_REALTIME_MODEL` (isteğe bağlı).
+- **Faz 1:** sadece okuma. Faz 2 (analiz/rakip/hafıza) ve Faz 3 (onaylı işlemler) TODO.md'de.
 
 ## Supabase Tabloları (Önemli Sütunlar)
 - **articles:** id, title, slug, content, hero_image_url, hero_image_alt, status, created_at, published_at

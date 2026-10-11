@@ -18,12 +18,14 @@ import {
   BarChart3,
   Sparkles,
   Ticket,
+  AudioLines,
   Menu,
   X,
 } from 'lucide-react'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/voice-assistant', label: 'Voice Asistan', icon: AudioLines },
   { href: '/admin/mission-control', label: 'Mission Control', icon: Radar },
   { href: '/admin/bookings', label: 'Rezervasyonlar', icon: CalendarCheck },
   { href: '/admin/ticket', label: 'Bilet Bas', icon: Ticket },
@@ -89,6 +91,7 @@ export default function AdminSidebar() {
           {navItems.map((item) => {
             const Icon = item.icon
             const isMission = item.href === '/admin/mission-control'
+            const isVoice = item.href === '/admin/voice-assistant'
             const active = isActive(item.href)
             return (
               <Link
@@ -100,12 +103,15 @@ export default function AdminSidebar() {
                     ? 'bg-orange-500/15 text-orange-300'
                     : isMission
                       ? 'text-violet-300 hover:bg-violet-900/40 hover:text-violet-100'
-                      : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                      : isVoice
+                        ? 'text-orange-300 hover:bg-orange-500/10 hover:text-orange-200'
+                        : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                 }`}
               >
                 <Icon className="h-4 w-4 flex-shrink-0" />
                 <span>{item.label}</span>
                 {isMission && <span className="ml-auto h-2 w-2 animate-pulse rounded-full bg-green-400" />}
+                {isVoice && <span className="ml-auto text-[10px] font-normal text-orange-400/70">Neslihan</span>}
               </Link>
             )
           })}
