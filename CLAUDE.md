@@ -102,12 +102,12 @@ Müşteriler işletme WhatsApp numarasına (+90 536 461 6674) yazdığında Clau
 
 ## Voice Asistan — Neslihan Hanım (2026-10-11'den itibaren)
 - **Sayfa:** `/admin/voice-assistant` (sol menü: "Voice Asistan"). Sadece admin.
-- **Ne:** Türkçe konuşan şirket asistanı (OpenAI Realtime, ses `marin`). Konuşurken veriyi sağdaki "Canlı ekran"da gösterir.
-- **Dosyalar:** `lib/neslihan/persona.ts` (kişilik + araç şemaları), `lib/neslihan/tools.ts` (veri araçları), `app/api/admin/neslihan/{session,tool}`, `app/admin/voice-assistant/`.
-- **Env:** `OPENAI_API_KEY` (zorunlu), `NESLIHAN_VOICE`, `OPENAI_REALTIME_MODEL` (isteğe bağlı).
+- **Ne:** Türkçe konuşan şirket asistanı. ÜCRETSİZ düzen: ses = tarayıcının Web Speech API'si, beyin = Google Gemini free tier (`/api/admin/neslihan/chat`). OpenAI Realtime pahalı olduğu için 2026-10-11'de KALDIRILDI — geri getirme. Konuşurken veriyi sağdaki "Canlı ekran"da gösterir.
+- **Dosyalar:** `lib/neslihan/persona.ts` (kişilik + araç şemaları), `lib/neslihan/tools.ts` (veri araçları), `lib/neslihan/gemini.ts`, `app/api/admin/neslihan/{chat,tool,execute}`, `app/admin/voice-assistant/`.
+- **Env:** `GEMINI_API_KEY` (zorunlu), `GEMINI_MODEL` / `GEMINI_ANALYSIS_MODEL` (isteğe bağlı).
 - **Yetkiler:** her şeyi okur + Gmail'in tamamını okur. İşlemler (mail gönder/cevapla, rezervasyon durumu, Instagram taslağı paylaş, blog konusu) önce ekranda hazırlanır, Ceyhun sesli "evet" deyince yapılır (`lib/neslihan/actions.ts`, `lib/neslihan/gmail.ts`).
 - **Reklamlar:** sadece öneri — değişiklik yetkisi YOK (Ceyhun'un kararı).
-- **Danışman (Faz 2):** huni teşhisi ("neden rezervasyon yok"), rakip kontrolü (SerpAPI), Claude ile derin analiz, hafıza (settings.neslihan_memory), sabah brifingi. `lib/neslihan/advisor.ts`, `lib/neslihan/memory.ts`.
+- **Danışman (Faz 2):** huni teşhisi ("neden rezervasyon yok"), rakip kontrolü (SerpAPI), Gemini ile derin analiz, hafıza (settings.neslihan_memory), sabah brifingi. `lib/neslihan/advisor.ts`, `lib/neslihan/memory.ts`.
 - **Sıradaki:** Instagram'da sıfırdan post; WhatsApp EN SONA (Ceyhun'un kararı).
 - **tsc uyarısı:** `_ads/` taslak dosyaları tsc'yi bozuyor; kontrol için bu klasörleri exclude eden geçici tsconfig kullan.
 

@@ -1,6 +1,10 @@
 # TODO
 
 ## Voice Asistan — Neslihan Hanım
+- [ ] Ceyhun: Vercel'e `GEMINI_API_KEY` ekle (sonra redeploy)
+- [ ] Ücretsiz düzeni canlıda test et (Chrome, telefon); Türkçe ses kalitesi
+- [ ] Karar: `ai-visibility-check` cron'u OpenAI gpt-4o-search-preview kullanıyor — maliyet kontrolü / kapatma / ucuz modele geçiş
+- [ ] (İsteğe bağlı) Vercel'den OPENAI_API_KEY'i kaldır veya OpenAI'de aylık limit koy
 - [x] OPENAI_API_KEY Vercel'de mevcut; Faz 1 canlıda çalışıyor
 - [x] Gmail okuma/cevaplama + onaylı işlemler (rezervasyon durumu, Instagram paylaş, blog konusu)
 - [ ] Canlıda ilk sesli mail cevabı testi (kendine test maili atıp cevaplat)

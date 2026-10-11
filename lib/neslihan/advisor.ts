@@ -1,7 +1,7 @@
 // Neslihan's advisor tools: "why no bookings?" diagnostics, competitor check,
-// and deep analysis handed to Claude.
+// and deep analysis (Gemini, free tier).
 
-import Anthropic from '@anthropic-ai/sdk'
+import { geminiGenerate, textOf } from './gemini'
 import { getSupabase, istanbulDate, getSearchConsole } from '@/lib/admin/dashboard-data'
 import type { ToolContext, ToolOutput } from './tools'
 
@@ -159,15 +159,14 @@ export async function deepAnalysis(args: any, ctx: ToolContext): Promise<ToolOut
     args?.include_competitors ? settle(competitorCheck({ keyword: args?.keyword }).then(c => c.result)) : Promise.resolve(null),
   ])
 
-  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
-  const model = process.env.CLAUDE_MODEL || 'claude-sonnet-4-6'
-  const msg = await anthropic.messages.create({
-    model,
-    max_tokens: 2000,
+  const answer = await geminiGenerate({
     system: ANALYST_PROMPT,
-    messages: [{ role: 'user', content: `Bugün: ${istanbulDate(0)}\nSoru: ${question}\n\nVERİ:\n${JSON.stringify({ funnel, search_console: gsc, competitors })}` }],
+    contents: [{ role: 'user', parts: [{ text: `Bugün: ${istanbulDate(0)}\nSoru: ${question}\n\nVERİ:\n${JSON.stringify({ funnel, search_console: gsc, competitors })}` }] }],
+    json: true,
+    maxOutputTokens: 4096,
+    model: process.env.GEMINI_ANALYSIS_MODEL || undefined,
   })
-  const text = msg.content.map((c: any) => (c.type === 'text' ? c.text : '')).join('')
+  const text = textOf(answer)
   let report: any
   try {
     report = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1))
@@ -175,17 +174,12 @@ export async function deepAnalysis(args: any, ctx: ToolContext): Promise<ToolOut
     report = { spoken_summary: text.slice(0, 400), findings: [], recommendations: [], data_gaps: [] }
   }
 
-  // AI cost → usage_logs (same table the content pilot uses); Sonnet-class pricing estimate
-  const tokens = (msg.usage?.input_tokens || 0) + (msg.usage?.output_tokens || 0)
-  const cost = ((msg.usage?.input_tokens || 0) * 3 + (msg.usage?.output_tokens || 0) * 15) / 1e6
-  await getSupabase().from('usage_logs').insert({ cost_usd: cost, tokens }).then(() => {}, () => {})
-
   const recs: any[] = Array.isArray(report.recommendations) ? report.recommendations : []
   return {
     result: report,
     display: {
       title: `Analiz · ${question}`,
-      subtitle: `Son ${days} gün · Claude analizi`,
+      subtitle: `Son ${days} gün · Gemini analizi`,
       note: [report.spoken_summary, ...(report.findings || []).map((f: string) => `• ${f}`), ...((report.data_gaps || []).length ? [`Eksik veri: ${report.data_gaps.join(', ')}`] : [])].join('\n'),
       table: recs.length ? { columns: ['Öneri', 'Neden', 'Etki'], rows: recs.map(r => [r.action, r.why, r.impact]) } : undefined,
     },

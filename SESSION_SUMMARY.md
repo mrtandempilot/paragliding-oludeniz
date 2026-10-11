@@ -1,5 +1,16 @@
 # Session Summary
 
+## 2026-10-11 (4) — Neslihan ÜCRETSİZ düzene geçti (OpenAI kaldırıldı)
+- Sebep: OpenAI Realtime çok pahalıydı (Ceyhun fark etti).
+- Ses: tarayıcının kendi Web Speech API'si (SpeechRecognition tr-TR + speechSynthesis) → ücretsiz. Chrome/Edge/Android; Firefox'ta sadece yazı.
+- Beyin: Google Gemini ücretsiz katman (`GEMINI_API_KEY`, model `GEMINI_MODEL` varsayılan gemini-2.5-flash). Sunucu tarafı araç döngüsü: `POST /api/admin/neslihan/chat`.
+- deep_analysis da Gemini'ye taşındı (Claude maliyeti yok).
+- `app/api/admin/neslihan/session` (OpenAI ephemeral key) SİLİNDİ ki kazara maliyet olmasın.
+- Onay kontrolü artık sunucuda (`lib/neslihan/confirm.ts`): sadece ÖNCEKİ turda hazırlanmış işlem, kullanıcının son mesajı açık "evet" ise çalışır (aynı turda hazırlanan asla).
+- Ceyhun'un yapması gereken: Vercel'e `GEMINI_API_KEY` eklemek (anahtar sohbette paylaşıldı — istenirse aistudio'dan yenilenebilir). OPENAI_API_KEY Neslihan için artık gerekmiyor.
+- ⚠️ `app/api/cron/ai-visibility-check` hâlâ OpenAI `gpt-4o-search-preview` kullanıyor (vercel.json'da yok; Hermes/manuel tetikleniyor olabilir) — OpenAI faturasının bir kısmı buradan olabilir.
+- Gizlilik: Gemini ücretsiz katmanda Google veriyi model geliştirmede kullanabilir (Ceyhun bunu kabul etti).
+
 ## 2026-10-11 (3) — Neslihan Faz 2: Danışman
 - `diagnose_bookings`: huni teşhisi (Ads tıklama/harcama/arama terimleri/cihaz/saat → GA4 paid oturum, giriş sayfası, book-now görüntüleme, generate_lead → bookings).
   - Yeni endpoint dalları: `/api/admin/google-ads?type=diagnostics&range=...`, `/api/admin/seo-data?type=ga4-funnel&days=...` (mevcut dallara dokunulmadı).
