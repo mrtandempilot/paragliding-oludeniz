@@ -133,6 +133,40 @@ export async function GET(request: Request) {
       return NextResponse.json({ days, campaigns })
     }
 
+    // Diagnostics for "why no bookings?": what people searched, which device,
+    // and which ads/keywords spent without converting. range = LAST_7_DAYS | LAST_14_DAYS | LAST_30_DAYS
+    if (type === 'diagnostics') {
+      const range = ['LAST_7_DAYS', 'LAST_14_DAYS', 'LAST_30_DAYS'].includes(searchParams.get('range') || '') ? searchParams.get('range') : 'LAST_14_DAYS'
+      const run = async (query: string) => {
+        const r = await fetch(`${GOOGLE_ADS_API}/customers/${customerId}/googleAds:searchStream`, { method: 'POST', headers, body: JSON.stringify({ query }) })
+        const d = await r.json()
+        if (d?.error) throw new Error(d.error.message)
+        return (d || []).flatMap((b: any) => b.results || [])
+      }
+      const m = (r: any) => ({
+        clicks: Number(r.metrics?.clicks || 0), impressions: Number(r.metrics?.impressions || 0),
+        cost: Number(r.metrics?.costMicros || 0) / 1e6, conversions: Number(r.metrics?.conversions || 0),
+      })
+      const [terms, devices, hours] = await Promise.all([
+        run(`SELECT search_term_view.search_term, campaign.name, metrics.clicks, metrics.impressions, metrics.cost_micros, metrics.conversions FROM search_term_view WHERE segments.date DURING ${range} AND metrics.impressions > 0 ORDER BY metrics.clicks DESC LIMIT 30`),
+        run(`SELECT segments.device, metrics.clicks, metrics.impressions, metrics.cost_micros, metrics.conversions FROM customer WHERE segments.date DURING ${range}`),
+        run(`SELECT segments.hour, metrics.clicks, metrics.cost_micros, metrics.conversions FROM customer WHERE segments.date DURING ${range}`),
+      ])
+      const byDevice: Record<string, any> = {}
+      for (const r of devices) {
+        const k = r.segments?.device || 'UNKNOWN', v = m(r), a = (byDevice[k] ||= { clicks: 0, impressions: 0, cost: 0, conversions: 0 })
+        a.clicks += v.clicks; a.impressions += v.impressions; a.cost += v.cost; a.conversions += v.conversions
+      }
+      const byHour: Record<number, number> = {}
+      for (const r of hours) byHour[Number(r.segments?.hour || 0)] = (byHour[Number(r.segments?.hour || 0)] || 0) + Number(r.metrics?.clicks || 0)
+      return NextResponse.json({
+        range,
+        searchTerms: terms.map((r: any) => ({ term: r.searchTermView?.searchTerm, campaign: r.campaign?.name, ...m(r) })),
+        devices: Object.entries(byDevice).map(([device, v]) => ({ device, ...v })),
+        clicksByHour: byHour,
+      })
+    }
+
     if (type === 'metrics') {
       const dateRange = searchParams.get('range') || 'LAST_30_DAYS'
       const query = `

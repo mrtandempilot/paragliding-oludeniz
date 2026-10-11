@@ -4,7 +4,7 @@
 export const NESLIHAN_VOICE = process.env.NESLIHAN_VOICE || 'marin'
 export const NESLIHAN_MODEL = process.env.OPENAI_REALTIME_MODEL || 'gpt-realtime'
 
-export function buildInstructions(todayIstanbul: string, weekday: string) {
+export function buildInstructions(todayIstanbul: string, weekday: string, memory = '') {
   return `# Kimlik
 Sen Neslihan Hanım'sın — Atmos Paragliding'in (Ölüdeniz, Türkiye; site: atmosparagliding.com) şirket asistanısın.
 Patronun Ceyhun Bey: tandem yamaç paraşütü pilotu ve şirketin sahibi. Ona her zaman "Ceyhun Bey" diye hitap et.
@@ -42,6 +42,23 @@ Bugünün tarihi: ${todayIstanbul} (${weekday}), saat dilimi Europe/Istanbul. "Y
 - Ceyhun Bey açıkça "evet / onaylıyorum / gönder / tamam" derse confirm_action çağır. "Hayır", "dur", "değiştir" derse çağırma; değişiklik istenirse yeniden prepare_* yap.
 - Kendi kendine onay verme, onay varsaymadan confirm_action çağırma. confirm_action sonucu gelmeden "gönderdim/yaptım" deme. Sonuç hata ise dürüstçe söyle.
 - Rezervasyon için booking id'yi get_bookings sonucundan al; Instagram için post id'yi list_instagram_posts sonucundan al. İsimler benzerse hangisi olduğunu sor.
+
+# Danışman rolü
+- "Neden rezervasyon gelmedi / tıklama var ama satış yok" → önce diagnose_bookings. Huninin hangi adımında kayıp olduğunu söyle (tıklama → siteye giriş → rezervasyon sayfası → form → rezervasyon) ve 1-2 somut öneri ver.
+- Daha kapsamlı/karşılaştırmalı sorularda ("bu ay neden kötü", "bütçeyi nereye kaydırayım", "genel bir analiz yap") deep_analysis çağır; çağırmadan önce "Detaylı analiz ediyorum, yarım dakika sürebilir" de. Sonuçtaki spoken_summary'yi oku, önerileri ekrana bırak.
+- Rakip sorularında competitor_check (varsayılan "paragliding oludeniz", İngiltere Google'ı; Türk müşteri için country=tr).
+- Önemli bir tespit yaptığında (ör. "X kelimesi boşa para yiyor") remember ile kind=insight kaydet ki sonra takip edebilesin.
+
+# Hafıza
+- "Not al", "unutma", "hatırlat" → remember (hatırlatma ise kind=reminder ve tarih varsa due=YYYY-MM-DD). Onay gerekmez, kaydettikten sonra kısaca söyle.
+- Hatırlatma yapıldıysa / Ceyhun Bey "tamam hallettim" derse complete_memory ile kapat.
+- Aşağıdaki hafızayı bil; bugünkü veya geciken hatırlatma varsa konuşmanın başında kısaca söyle.
+
+## Hafızan
+${memory || 'Henüz kayıtlı not yok.'}
+
+# Sabah brifingi
+- "Brifing ver" veya günün ilk konuşmasında istenirse: get_bookings (bugün), get_weather, list_emails (unread_only), get_google_ads; bugünkü hatırlatmalar. 4-5 cümlelik özet: bugünkü uçuşlar, rüzgâr uygun mu, önemli mailler, dünkü reklam durumu, hatırlatmalar.
 
 # Reklamlar
 - Reklamlarda SADECE analiz ve öneri ver (hangi kampanya/kelime durdurulmalı, bütçe nereye kaymalı). Reklam ayarlarını değiştiremezsin; değişikliği Ceyhun Bey kendisi yapar.
@@ -181,6 +198,57 @@ export const NESLIHAN_TOOLS = [
       title: { type: 'string', description: 'Konu başlığı (İngilizce tercih edilir, site dili).' },
       keywords: { type: 'string', description: 'Virgülle ayrılmış anahtar kelimeler.' },
     }, ['title']),
+  },
+  {
+    type: 'function',
+    name: 'diagnose_bookings',
+    description: 'Reklam tıklamasından rezervasyona huni teşhisi: Google Ads tıklama/harcama/arama terimleri/cihaz/saat + GA4 reklamdan gelen oturumlar, giriş sayfaları, rezervasyon sayfası görüntüleme, form gönderimi + gerçek rezervasyon sayısı. "Neden rezervasyon gelmedi?" için.',
+    parameters: obj({ days: { type: 'number', enum: [7, 14, 30], description: 'Varsayılan 14.' } }),
+  },
+  {
+    type: 'function',
+    name: 'competitor_check',
+    description: 'Google\'da bir arama için rakipler: reklam verenler, organik ilk 10, harita sonuçları (puan/yorum) ve bizim sıramız.',
+    parameters: obj({
+      keyword: { type: 'string', description: 'Arama ifadesi. Varsayılan "paragliding oludeniz".' },
+      country: { type: 'string', enum: ['gb', 'tr'], description: 'gb = İngilizce/İngiltere (varsayılan), tr = Türkiye.' },
+    }),
+  },
+  {
+    type: 'function',
+    name: 'deep_analysis',
+    description: 'Tüm veriyi (reklam, analytics, arama, rezervasyon, istenirse rakipler) Claude\'a analiz ettirir; özet, tespitler ve önceliklendirilmiş öneriler döner. 20-60 sn sürebilir.',
+    parameters: obj({
+      question: { type: 'string', description: 'Ceyhun Bey\'in sorusu, net haliyle.' },
+      days: { type: 'number', enum: [7, 14, 30], description: 'Varsayılan 14.' },
+      include_competitors: { type: 'boolean', description: 'Rakip verisini de kat.' },
+      keyword: { type: 'string', description: 'Rakip kontrolü için arama ifadesi.' },
+    }, ['question']),
+  },
+  {
+    type: 'function',
+    name: 'remember',
+    description: 'Hafızaya kaydeder: not, hatırlatma (tarihli olabilir) veya analiz tespiti. Onay gerekmez.',
+    parameters: obj({
+      content: { type: 'string', description: 'Kaydedilecek şey, tek başına anlaşılır şekilde.' },
+      kind: { type: 'string', enum: ['note', 'reminder', 'insight'] },
+      due: { type: 'string', description: 'Hatırlatma tarihi YYYY-MM-DD (varsa).' },
+    }, ['content', 'kind']),
+  },
+  {
+    type: 'function',
+    name: 'list_memory',
+    description: 'Hafızadaki notları/hatırlatmaları/tespitleri ekranda listeler.',
+    parameters: obj({
+      kind: { type: 'string', enum: ['note', 'reminder', 'insight'] },
+      include_done: { type: 'boolean' },
+    }),
+  },
+  {
+    type: 'function',
+    name: 'complete_memory',
+    description: 'Bir hatırlatmayı/notu tamamlandı olarak işaretler (id hafızada köşeli parantez içinde).',
+    parameters: obj({ id: { type: 'string' } }, ['id']),
   },
   {
     type: 'function',

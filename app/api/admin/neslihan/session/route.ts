@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import { NextResponse } from 'next/server'
 import { istanbulDate } from '@/lib/admin/dashboard-data'
 import { buildInstructions, NESLIHAN_MODEL, NESLIHAN_TOOLS, NESLIHAN_VOICE } from '@/lib/neslihan/persona'
+import { memoryForPrompt } from '@/lib/neslihan/memory'
 
 // POST /api/admin/neslihan/session
 // Mints a short-lived OpenAI Realtime client secret so the browser can open a
@@ -15,6 +16,7 @@ export async function POST() {
   }
 
   const weekday = new Intl.DateTimeFormat('tr-TR', { timeZone: 'Europe/Istanbul', weekday: 'long' }).format(new Date())
+  const memory = await memoryForPrompt()
 
   try {
     const res = await fetch('https://api.openai.com/v1/realtime/client_secrets', {
@@ -25,7 +27,7 @@ export async function POST() {
         session: {
           type: 'realtime',
           model: NESLIHAN_MODEL,
-          instructions: buildInstructions(istanbulDate(0), weekday),
+          instructions: buildInstructions(istanbulDate(0), weekday, memory),
           tools: NESLIHAN_TOOLS,
           tool_choice: 'auto',
           audio: {

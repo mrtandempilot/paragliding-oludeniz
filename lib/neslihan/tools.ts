@@ -4,6 +4,8 @@
 
 import { getSupabase, istanbulDate, getSearchConsole, getBabadagWindLadder } from '@/lib/admin/dashboard-data'
 import { listEmails, readEmail, type MailFolder } from './gmail'
+import { addMemory, completeMemory, loadMemory, type MemoryKind } from './memory'
+import { diagnoseBookings, competitorCheck, deepAnalysis } from './advisor'
 
 export type DisplayStat = { label: string; value: string; hint?: string; tone?: 'good' | 'bad' | 'warn' }
 export type DisplayChart = { kind: 'bar' | 'line'; label: string; points: { x: string; y: number }[] }
@@ -349,6 +351,35 @@ async function getInstagramPosts(args: any): Promise<ToolOutput> {
   }
 }
 
+const KIND_TR: Record<string, string> = { note: 'Not', reminder: 'Hatırlatma', insight: 'Tespit' }
+
+async function remember(args: any): Promise<ToolOutput> {
+  const kind: MemoryKind = ['note', 'reminder', 'insight'].includes(args?.kind) ? args.kind : 'note'
+  const item = await addMemory(kind, String(args?.content || ''), typeof args?.due === 'string' ? args.due : undefined)
+  return {
+    result: { saved: true, id: item.id, kind, due: item.due || null },
+    display: { title: `🧠 ${KIND_TR[kind]} kaydedildi`, subtitle: item.due ? `Tarih: ${item.due}` : undefined, note: item.content },
+  }
+}
+
+async function listMemory(args: any): Promise<ToolOutput> {
+  const all = await loadMemory()
+  const items = all.filter(i => (args?.include_done ? true : !i.done) && (!args?.kind || i.kind === args.kind)).slice(0, 40)
+  return {
+    result: { count: items.length, items },
+    display: {
+      title: 'Hafıza · notlar ve hatırlatmalar',
+      table: { columns: ['Tür', 'Tarih', 'İçerik', 'Durum'], rows: items.map(i => [KIND_TR[i.kind], i.due || i.created.slice(0, 10), i.content, i.done ? 'Tamam' : 'Açık']) },
+      note: items.length ? undefined : 'Kayıt yok.',
+    },
+  }
+}
+
+async function completeMemoryTool(args: any): Promise<ToolOutput> {
+  const item = await completeMemory(String(args?.id || ''))
+  return { result: { done: true, id: item.id }, display: { title: '✅ Tamamlandı olarak işaretlendi', note: item.content } }
+}
+
 export async function runNeslihanTool(name: string, args: any, ctx: ToolContext): Promise<ToolOutput> {
   switch (name) {
     case 'get_bookings': return getBookings(args)
@@ -362,6 +393,12 @@ export async function runNeslihanTool(name: string, args: any, ctx: ToolContext)
     case 'list_emails': return getEmails(args)
     case 'read_email': return getEmail(args)
     case 'list_instagram_posts': return getInstagramPosts(args)
+    case 'remember': return remember(args)
+    case 'list_memory': return listMemory(args)
+    case 'complete_memory': return completeMemoryTool(args)
+    case 'diagnose_bookings': return diagnoseBookings(args, ctx)
+    case 'competitor_check': return competitorCheck(args)
+    case 'deep_analysis': return deepAnalysis(args, ctx)
     default: throw new Error(`Bilinmeyen araç: ${name}`)
   }
 }

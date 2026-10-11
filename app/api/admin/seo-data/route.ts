@@ -206,6 +206,43 @@ export async function GET(request: Request) {
     }
 
     // 3b) GA4: genel bakis - son 7 gun toplam metrikler + kanal dagilimi (son 28 gun)
+    // 3c) GA4: ziyaretci yolculugu (Neslihan "neden rezervasyon yok?" analizi icin)
+    // kanal kalitesi, reklamdan gelenlerin giris sayfalari, cihaz, rezervasyon sayfasi ve olaylar
+    if (type === 'ga4-funnel') {
+      if (!GA4_PROPERTY_ID) return NextResponse.json({ error: 'GA4_PROPERTY_ID tanimli degil' }, { status: 400 })
+      const days = Math.min(90, Math.max(1, Number(searchParams.get('days') || 14)))
+      const dateRanges = [{ startDate: `${days}daysAgo`, endDate: 'today' }]
+      const report = async (body: any) => {
+        const r = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${GA4_PROPERTY_ID}:runReport`, {
+          method: 'POST', headers, body: JSON.stringify({ dateRanges, ...body }),
+        })
+        const d = await r.json()
+        if (!r.ok) throw new Error(d?.error?.message || `GA4 HTTP ${r.status}`)
+        return (d.rows || []).map((row: any) => ({
+          dims: (row.dimensionValues || []).map((v: any) => v.value),
+          vals: (row.metricValues || []).map((v: any) => Number(v.value || 0)),
+        }))
+      }
+      const quality = [{ name: 'sessions' }, { name: 'engagementRate' }, { name: 'averageSessionDuration' }]
+      const paidFilter = { filter: { fieldName: 'sessionDefaultChannelGroup', stringFilter: { matchType: 'CONTAINS', value: 'Paid' } } }
+      const [channels, paidLanding, devices, bookPage, events] = await Promise.all([
+        report({ dimensions: [{ name: 'sessionDefaultChannelGroup' }], metrics: quality, limit: 10, orderBys: [{ metric: { metricName: 'sessions' }, desc: true }] }),
+        report({ dimensions: [{ name: 'landingPage' }], metrics: quality, dimensionFilter: paidFilter, limit: 10, orderBys: [{ metric: { metricName: 'sessions' }, desc: true }] }),
+        report({ dimensions: [{ name: 'deviceCategory' }], metrics: quality }),
+        report({ dimensions: [{ name: 'sessionDefaultChannelGroup' }], metrics: [{ name: 'screenPageViews' }, { name: 'activeUsers' }], dimensionFilter: { filter: { fieldName: 'pagePath', stringFilter: { matchType: 'CONTAINS', value: 'book-now' } } } }),
+        report({ dimensions: [{ name: 'eventName' }], metrics: [{ name: 'eventCount' }], limit: 20, orderBys: [{ metric: { metricName: 'eventCount' }, desc: true }] }),
+      ])
+      const q = (r: any) => ({ sessions: r.vals[0], engagementRate: r.vals[1], avgSessionSec: Math.round(r.vals[2]) })
+      return NextResponse.json({
+        days,
+        channels: channels.map((r: any) => ({ channel: r.dims[0], ...q(r) })),
+        paidLandingPages: paidLanding.map((r: any) => ({ page: r.dims[0], ...q(r) })),
+        devices: devices.map((r: any) => ({ device: r.dims[0], ...q(r) })),
+        bookNowViewsByChannel: bookPage.map((r: any) => ({ channel: r.dims[0], views: r.vals[0], users: r.vals[1] })),
+        events: events.map((r: any) => ({ event: r.dims[0], count: r.vals[0] })),
+      })
+    }
+
     if (type === 'ga4-overview') {
       if (!GA4_PROPERTY_ID) return NextResponse.json({ error: 'GA4_PROPERTY_ID tanimli degil' }, { status: 400 })
 

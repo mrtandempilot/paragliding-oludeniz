@@ -1,5 +1,15 @@
 # Session Summary
 
+## 2026-10-11 (3) — Neslihan Faz 2: Danışman
+- `diagnose_bookings`: huni teşhisi (Ads tıklama/harcama/arama terimleri/cihaz/saat → GA4 paid oturum, giriş sayfası, book-now görüntüleme, generate_lead → bookings).
+  - Yeni endpoint dalları: `/api/admin/google-ads?type=diagnostics&range=...`, `/api/admin/seo-data?type=ga4-funnel&days=...` (mevcut dallara dokunulmadı).
+- `competitor_check`: SerpAPI ile reklam verenler, organik ilk 10, harita (puan/yorum), bizim sıramız. Her çağrı 1 SerpAPI kredisi.
+- `deep_analysis`: tüm veri Claude'a (CLAUDE_MODEL) → JSON rapor (sesli özet, tespitler, öneriler); maliyet `usage_logs`'a.
+- Hafıza: `remember` / `list_memory` / `complete_memory`; `settings` tablosunda `neslihan_memory` JSON (migration yok). Oturum açılışında talimata eklenir.
+- Sabah brifingi: tarayıcıda günün ilk konuşması (localStorage) → bugünkü uçuşlar, rüzgâr, okunmamış mail, reklam, hatırlatmalar.
+- Not: `_ads/` vb. git dışı taslak klasörlerdeki sözdizimi hataları `tsc`'nin semantik kontrolünü engelliyor → kontrol için bu klasörleri exclude eden geçici tsconfig kullan.
+- Canlıda henüz test edilmedi: diagnose / competitor / deep_analysis / hafıza / brifing.
+
 ## 2026-10-11 (2) — Neslihan Faz 1.5: Gmail + onaylı işlemler
 - Faz 1 canlıda test edildi, çalışıyor (Ceyhun onayladı).
 - Gmail: tüm mailleri okuma (IMAP, `imapflow` + `mailparser`), arama tüm etiketlerde (All Mail), cevap/yeni mail gönderme (nodemailer). Hesap: GMAIL_USER (+ GMAIL_APP_PASSWORD). Lokal test: IMAP bağlantısı OK.

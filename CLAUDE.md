@@ -107,7 +107,9 @@ Müşteriler işletme WhatsApp numarasına (+90 536 461 6674) yazdığında Clau
 - **Env:** `OPENAI_API_KEY` (zorunlu), `NESLIHAN_VOICE`, `OPENAI_REALTIME_MODEL` (isteğe bağlı).
 - **Yetkiler:** her şeyi okur + Gmail'in tamamını okur. İşlemler (mail gönder/cevapla, rezervasyon durumu, Instagram taslağı paylaş, blog konusu) önce ekranda hazırlanır, Ceyhun sesli "evet" deyince yapılır (`lib/neslihan/actions.ts`, `lib/neslihan/gmail.ts`).
 - **Reklamlar:** sadece öneri — değişiklik yetkisi YOK (Ceyhun'un kararı).
-- **Sonraki:** analiz/rakip/hafıza (Faz 2) — TODO.md.
+- **Danışman (Faz 2):** huni teşhisi ("neden rezervasyon yok"), rakip kontrolü (SerpAPI), Claude ile derin analiz, hafıza (settings.neslihan_memory), sabah brifingi. `lib/neslihan/advisor.ts`, `lib/neslihan/memory.ts`.
+- **Sıradaki:** Instagram'da sıfırdan post; WhatsApp EN SONA (Ceyhun'un kararı).
+- **tsc uyarısı:** `_ads/` taslak dosyaları tsc'yi bozuyor; kontrol için bu klasörleri exclude eden geçici tsconfig kullan.
 
 ## Supabase Tabloları (Önemli Sütunlar)
 - **articles:** id, title, slug, content, hero_image_url, hero_image_alt, status, created_at, published_at

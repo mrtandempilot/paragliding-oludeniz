@@ -5,12 +5,10 @@
 - [x] Gmail okuma/cevaplama + onaylı işlemler (rezervasyon durumu, Instagram paylaş, blog konusu)
 - [ ] Canlıda ilk sesli mail cevabı testi (kendine test maili atıp cevaplat)
 - [ ] Yeni Instagram postu oluşturma (görsel üretimi + caption) — şu an sadece hazır taslağı paylaşabiliyor
-- [ ] Müşteriye WhatsApp gönderme (24 saat penceresi / template sorunu çözülünce)
+- [ ] (EN SONA) Müşteriye WhatsApp gönderme (24 saat penceresi / template sorunu çözülünce)
 - [ ] İçerik pilotunu sesle çalıştırma (uzun süren iş → arka planda tetikleme)
-- [ ] Faz 2 — Danışman:
-  - [ ] "Neden rezervasyon gelmedi?" analizi (GA4 sayfa yolu/hunisi + Google Ads arama terimleri)
-  - [ ] Rakip analizi (SERP_API_KEY ile sıralamalar; fiyat/yorum karşılaştırması)
-  - [ ] Derin analizi Claude'a devret (arka plan), sonucu sesli özetle + ekranda göster
-  - [ ] Hafıza: notlar, hatırlatmalar, önceki öneriler (Supabase tablo)
-  - [ ] Sabah brifingi
+- [x] Faz 2 — Danışman: huni teşhisi, rakip kontrolü, Claude derin analiz, hafıza, sabah brifingi
+- [ ] Faz 2 canlı test: "neden rezervasyon gelmedi", "rakipler", "detaylı analiz", "not al", brifing
+- [ ] Hafızayı ayrı Supabase tablosuna taşı (şu an settings.neslihan_memory JSON)
+- [ ] Rakip fiyatlarını da çek (SerpAPI sonuç sayfalarından veya manuel liste)
 - [ ] Maliyet takibi: Realtime kullanımını `usage_logs`'a yaz

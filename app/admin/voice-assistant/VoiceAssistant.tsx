@@ -10,7 +10,19 @@ type Line = { id: string; role: 'user' | 'assistant'; text: string; done: boolea
 type Pending = { id: string; token: string; summary: string; at: number }
 type Shown = { id: string; display: Display }
 
-const GREETING = 'Ceyhun Bey\'i tek cümleyle kısaca selamla ve nasıl yardımcı olabileceğini sor.'
+const GREETING = 'Ceyhun Bey\'i tek cümleyle kısaca selamla; bugünkü veya geciken hatırlatma varsa onu da söyle; sonra nasıl yardımcı olabileceğini sor.'
+const BRIEFING = 'Günün ilk konuşması: Ceyhun Bey\'i selamla ve sabah brifingini yap (talimattaki "Sabah brifingi" bölümüne göre araçları çağır), sonra nasıl yardımcı olabileceğini sor.'
+
+// First conversation of the day (Istanbul date, per browser) gets the morning briefing.
+const BRIEF_KEY = 'neslihan_last_briefing'
+function openingInstructions() {
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Istanbul' }).format(new Date())
+  try {
+    if (localStorage.getItem(BRIEF_KEY) === today) return GREETING
+    localStorage.setItem(BRIEF_KEY, today)
+  } catch { /* storage blocked: just brief */ }
+  return BRIEFING
+}
 
 // Spoken confirmation check — done here, not by the model, so an action only
 // runs after Ceyhun Bey really said yes. Negatives are checked first
@@ -213,7 +225,9 @@ export default function VoiceAssistant() {
       dc.onmessage = e => { try { onEvent(JSON.parse(e.data)) } catch { /* ignore malformed */ } }
       dc.onopen = () => {
         setStatus('live')
-        send({ type: 'response.create', response: { instructions: GREETING } })
+        // a system note (not response.instructions, which would replace the persona + memory)
+        send({ type: 'conversation.item.create', item: { type: 'message', role: 'system', content: [{ type: 'input_text', text: openingInstructions() }] } })
+        send({ type: 'response.create' })
       }
 
       const offer = await pc.createOffer()
