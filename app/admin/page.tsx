@@ -120,7 +120,7 @@ export default async function AdminDashboardPage() {
   const calEnd = calEndDate.toISOString().slice(0, 10)
 
   const q = await Promise.allSettled([
-    /* 0 */ supabase.from('bookings').select('id,first_name,last_name,flight_date,flight_type,guests,total_price,status,phone').gte('flight_date', today).lte('flight_date', in7).neq('status', 'cancelled').order('flight_date', { ascending: true }).limit(40),
+    /* 0 */ supabase.from('bookings').select('*').gte('flight_date', today).lte('flight_date', in7).neq('status', 'cancelled').order('flight_date', { ascending: true }).limit(40),
     /* 1 */ supabase.from('bookings').select('id,first_name,last_name,flight_date,flight_type,guests,total_price,status,created_at').gte('created_at', monthAgo).order('created_at', { ascending: false }),
     /* 2 */ supabase.from('bookings').select('id', { count: 'exact', head: true }).eq('status', 'pending').lt('flight_date', today),
     /* 3 */ supabase.from('settings').select('key,value').in('key', ['pilot_enabled', 'pilot_slots', 'dm_general_enabled', 'dm_keyword_enabled', 'dm_keywords']),
@@ -140,6 +140,7 @@ export default async function AdminDashboardPage() {
     /* 17 */ supabase.from('agent_logs').select('status').gte('created_at', weekAgo).limit(2000),
     /* 18 */ supabase.from('blog_posts').select('id', { count: 'exact', head: true }),
     /* 19 */ getSearchConsole(),
+    /* 20 */ supabase.from('bookings').select('*').eq('status', 'pending').gte('flight_date', today).order('flight_date', { ascending: true }).limit(20),
   ])
   const val = (i: number): any => (q[i].status === 'fulfilled' ? (q[i] as PromiseFulfilledResult<any>).value : null)
   const data = (i: number): any[] => val(i)?.data || []
@@ -157,6 +158,7 @@ export default async function AdminDashboardPage() {
   const bookings = {
     todayFlights: upcoming.filter((b: any) => (b.flight_date || '').slice(0, 10) === today),
     upcoming,
+    pendingList: data(20),
     newToday: live.filter((b: any) => new Date(b.created_at) >= new Date(todayStartIso)).length,
     newWeek: live.filter((b: any) => new Date(b.created_at).getTime() >= weekStart).length,
     newMonth: live.length,
