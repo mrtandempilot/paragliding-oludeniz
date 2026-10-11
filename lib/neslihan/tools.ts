@@ -3,6 +3,7 @@
 // `display` (what the live screen renders next to the conversation).
 
 import { getSupabase, istanbulDate, getSearchConsole, getBabadagWindLadder } from '@/lib/admin/dashboard-data'
+import { listEmails, readEmail, type MailFolder } from './gmail'
 
 export type DisplayStat = { label: string; value: string; hint?: string; tone?: 'good' | 'bad' | 'warn' }
 export type DisplayChart = { kind: 'bar' | 'line'; label: string; points: { x: string; y: number }[] }
@@ -58,7 +59,7 @@ async function getBookings(args: any): Promise<ToolOutput> {
     result: {
       from, to, status, count: rows.length, guests, pending, revenue_usd: revenue,
       bookings: rows.map((b: any) => ({
-        name: `${b.first_name || ''} ${b.last_name || ''}`.trim(), date: String(b.flight_date).slice(0, 10),
+        id: b.id, name: `${b.first_name || ''} ${b.last_name || ''}`.trim(), date: String(b.flight_date).slice(0, 10),
         type: b.flight_type, guests: b.guests || 1, price_usd: Number(b.total_price) || 0, status: b.status,
         phone: b.phone || null, notes: b.notes || null,
       })),
@@ -285,6 +286,69 @@ async function getContentStatus(): Promise<ToolOutput> {
   }
 }
 
+const shortDate = (iso: string) =>
+  iso ? new Date(iso).toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '—'
+
+async function getEmails(args: any): Promise<ToolOutput> {
+  const folder: MailFolder | undefined = ['inbox', 'sent', 'all'].includes(args?.folder) ? args.folder : undefined
+  const mails = await listEmails({
+    folder,
+    unreadOnly: !!args?.unread_only,
+    search: typeof args?.search === 'string' && args.search.trim() ? args.search.trim() : undefined,
+    days: Number(args?.days) || undefined,
+    limit: Number(args?.limit) || undefined,
+  })
+  const unread = mails.filter(m => m.unread).length
+  return {
+    result: { folder: folder || (args?.search ? 'all' : 'inbox'), count: mails.length, unread, emails: mails },
+    display: {
+      title: folder === 'sent' ? 'Gönderilen mailler' : args?.unread_only ? 'Okunmamış mailler' : 'Gelen kutusu',
+      subtitle: args?.search ? `Arama: ${args.search}` : undefined,
+      stats: [{ label: 'Mail', value: fmt(mails.length) }, { label: 'Okunmamış', value: fmt(unread), tone: unread ? 'warn' : 'good' }],
+      table: {
+        columns: ['', folder === 'sent' ? 'Kime' : 'Kimden', 'Konu', 'Tarih'],
+        rows: mails.map(m => [m.unread ? '●' : '', (folder === 'sent' ? m.to : m.from).replace(/<.*>/, '').trim() || m.from, m.subject, shortDate(m.date)]),
+      },
+      note: mails.length ? undefined : 'Bu kriterlere uyan mail yok.',
+    },
+  }
+}
+
+async function getEmail(args: any): Promise<ToolOutput> {
+  const uid = Number(args?.uid)
+  if (!uid) throw new Error('Mail numarası (uid) gerekli')
+  const folder: MailFolder = ['sent', 'all'].includes(args?.folder) ? args.folder : 'inbox'
+  const m = await readEmail(uid, folder)
+  return {
+    result: { uid: m.uid, folder, from: m.from, reply_to: m.replyTo, to: m.to, subject: m.subject, date: m.date, attachments: m.attachments, text: m.text },
+    display: {
+      title: m.subject,
+      subtitle: `${m.from} · ${shortDate(m.date)}`,
+      note: m.text + (m.attachments.length ? `
+
+📎 ${m.attachments.join(', ')}` : ''),
+    },
+  }
+}
+
+async function getInstagramPosts(args: any): Promise<ToolOutput> {
+  const status = ['draft', 'scheduled', 'posted', 'failed'].includes(args?.status) ? args.status : 'draft'
+  const { data, error } = await getSupabase().from('instagram_posts')
+    .select('id,caption,post_type,status,image_url,created_at,posted_at')
+    .eq('status', status).order('created_at', { ascending: false }).limit(10)
+  if (error) throw new Error(error.message)
+  const posts = (data || []).map((p: any) => ({ id: p.id, type: p.post_type, caption: String(p.caption || '').slice(0, 300), image_url: p.image_url, created: p.created_at }))
+  const STATUS: Record<string, string> = { draft: 'Taslak', scheduled: 'Planlı', posted: 'Paylaşılan', failed: 'Başarısız' }
+  return {
+    result: { status, posts },
+    display: {
+      title: `Instagram · ${STATUS[status]} gönderiler`,
+      table: { columns: ['#', 'Tür', 'Metin', 'Tarih'], rows: posts.map((p, i) => [i + 1, p.type || '—', p.caption.slice(0, 90) + (p.caption.length > 90 ? '…' : ''), shortDate(p.created)]) },
+      note: posts.length ? undefined : 'Bu durumda gönderi yok.',
+    },
+  }
+}
+
 export async function runNeslihanTool(name: string, args: any, ctx: ToolContext): Promise<ToolOutput> {
   switch (name) {
     case 'get_bookings': return getBookings(args)
@@ -295,6 +359,9 @@ export async function runNeslihanTool(name: string, args: any, ctx: ToolContext)
     case 'get_site_traffic': return getSiteTraffic(ctx)
     case 'get_search_console': return getSearchConsoleTool()
     case 'get_content_status': return getContentStatus()
+    case 'list_emails': return getEmails(args)
+    case 'read_email': return getEmail(args)
+    case 'list_instagram_posts': return getInstagramPosts(args)
     default: throw new Error(`Bilinmeyen araç: ${name}`)
   }
 }

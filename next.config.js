@@ -4,6 +4,8 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Node-only mail libraries used by the Neslihan voice assistant (IMAP/SMTP)
+  experimental: { serverComponentsExternalPackages: ['imapflow', 'mailparser'] },
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 31536000,

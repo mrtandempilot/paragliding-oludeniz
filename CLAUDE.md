@@ -105,7 +105,9 @@ Müşteriler işletme WhatsApp numarasına (+90 536 461 6674) yazdığında Clau
 - **Ne:** Türkçe konuşan şirket asistanı (OpenAI Realtime, ses `marin`). Konuşurken veriyi sağdaki "Canlı ekran"da gösterir.
 - **Dosyalar:** `lib/neslihan/persona.ts` (kişilik + araç şemaları), `lib/neslihan/tools.ts` (veri araçları), `app/api/admin/neslihan/{session,tool}`, `app/admin/voice-assistant/`.
 - **Env:** `OPENAI_API_KEY` (zorunlu), `NESLIHAN_VOICE`, `OPENAI_REALTIME_MODEL` (isteğe bağlı).
-- **Faz 1:** sadece okuma. Faz 2 (analiz/rakip/hafıza) ve Faz 3 (onaylı işlemler) TODO.md'de.
+- **Yetkiler:** her şeyi okur + Gmail'in tamamını okur. İşlemler (mail gönder/cevapla, rezervasyon durumu, Instagram taslağı paylaş, blog konusu) önce ekranda hazırlanır, Ceyhun sesli "evet" deyince yapılır (`lib/neslihan/actions.ts`, `lib/neslihan/gmail.ts`).
+- **Reklamlar:** sadece öneri — değişiklik yetkisi YOK (Ceyhun'un kararı).
+- **Sonraki:** analiz/rakip/hafıza (Faz 2) — TODO.md.
 
 ## Supabase Tabloları (Önemli Sütunlar)
 - **articles:** id, title, slug, content, hero_image_url, hero_image_alt, status, created_at, published_at

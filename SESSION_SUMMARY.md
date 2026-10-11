@@ -1,5 +1,14 @@
 # Session Summary
 
+## 2026-10-11 (2) — Neslihan Faz 1.5: Gmail + onaylı işlemler
+- Faz 1 canlıda test edildi, çalışıyor (Ceyhun onayladı).
+- Gmail: tüm mailleri okuma (IMAP, `imapflow` + `mailparser`), arama tüm etiketlerde (All Mail), cevap/yeni mail gönderme (nodemailer). Hesap: GMAIL_USER (+ GMAIL_APP_PASSWORD). Lokal test: IMAP bağlantısı OK.
+- Onaylı işlemler: mail gönder/cevapla, rezervasyon durumu (confirmed/completed/cancelled), Instagram taslağını paylaş, blog konusu ekle.
+- Onay modeli (Ceyhun'un kararı: sesli "evet" yeterli): prepare_* → HMAC imzalı 10 dk'lık token (sadece tarayıcıda) → kullanıcının kendi transkriptinde "evet/onaylıyorum/gönder/tamam" aranır (olumsuzlar önce) → /api/admin/neslihan/execute. Ekranda Onayla/İptal düğmeleri de var.
+- Reklamlar: sadece öneri (Ceyhun'un kararı), değişiklik yok.
+- Her işlem `agent_logs`'a `agent: 'neslihan'` olarak yazılır.
+- Gerçek sesli mail gönderme henüz canlıda test edilmedi.
+
 ## 2026-10-11 — Voice Asistan "Neslihan Hanım" (Faz 1)
 
 **Ne yapıldı**

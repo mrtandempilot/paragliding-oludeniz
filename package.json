@@ -12,7 +12,9 @@
     "@anthropic-ai/sdk": "^0.30.0",
     "@supabase/supabase-js": "^2.45.0",
     "clsx": "^2.1.1",
+    "imapflow": "^1.7.8",
     "lucide-react": "^0.400.0",
+    "mailparser": "^3.9.38",
     "marked": "^18.0.6",
     "next": "14.2.5",
     "next-intl": "^4.13.0",
@@ -25,6 +27,7 @@
     "tailwind-merge": "^2.4.0"
   },
   "devDependencies": {
+    "@types/mailparser": "^3.9.0",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.15",
     "@types/react": "^18",

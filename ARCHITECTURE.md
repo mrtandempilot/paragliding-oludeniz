@@ -14,4 +14,7 @@ Tarayıcı (/admin/voice-assistant)
 ```
 - `lib/neslihan/persona.ts` — sistem talimatı (persona, şirket bilgisi, kurallar) + araç şemaları.
 - `lib/neslihan/tools.ts` — salt-okunur araçlar; her biri `{ result, display }` döner. Yeni araç = şemayı persona.ts'e, uygulamayı tools.ts'e ekle.
+- `lib/neslihan/gmail.ts` — IMAP okuma (inbox / sent / all = tüm etiketler, Gmail arama dili `gmraw`), SMTP gönderme. GMAIL_USER + GMAIL_APP_PASSWORD.
+- `lib/neslihan/actions.ts` — onaylı işlemler. `prepare_*` → `{summary, display, token}` (HMAC imzalı, 10 dk; secret: NESLIHAN_ACTION_SECRET || CRON_SECRET || ADMIN_PASSWORD). `POST /api/admin/neslihan/execute {token}` imzayı doğrular ve uygular, `agent_logs`'a yazar.
+- Onay kapısı tarayıcıda (`VoiceAssistant.tsx` → `confirmByVoice`): model `confirm_action` çağırınca, öneriden sonraki son kullanıcı cümlesinde açık "evet" yoksa işlem çalışmaz. Model token'ı hiç görmez.
 - Auth: tüm `/admin` ve `/api/admin` rotaları middleware'de `admin_session` cookie ile korunur. `OPENAI_API_KEY` tarayıcıya hiç gitmez.

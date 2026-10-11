@@ -59,15 +59,15 @@ export default function LiveDisplay({ display, compact = false }: { display: Dis
       {!compact && table && table.rows.length > 0 && (
         <div className="mt-5 overflow-x-auto">
           <table className="w-full min-w-[420px] text-left text-sm">
-            <thead>
+            {table.columns.some(Boolean) && <thead>
               <tr className="border-b border-[#1E3654] text-[11px] uppercase tracking-wide text-[#5F7894]">
-                {table.columns.map(c => <th key={c} className="py-2 pr-4 font-medium">{c}</th>)}
+                {table.columns.map((c, i) => <th key={i} className="py-2 pr-4 font-medium">{c}</th>)}
               </tr>
-            </thead>
+            </thead>}
             <tbody>
               {table.rows.map((r, i) => (
                 <tr key={i} className="border-b border-[#1E3654]/60 last:border-0">
-                  {r.map((cell, j) => <td key={j} className="py-2 pr-4 text-[#C9D6E4]">{cell}</td>)}
+                  {r.map((cell, j) => <td key={j} className="whitespace-pre-wrap py-2 pr-4 align-top text-[#C9D6E4]">{cell}</td>)}
                 </tr>
               ))}
             </tbody>
@@ -75,7 +75,7 @@ export default function LiveDisplay({ display, compact = false }: { display: Dis
         </div>
       )}
 
-      {note && <p className="mt-4 text-sm text-[#8098B3]">{note}</p>}
+      {note && <p className={`mt-4 whitespace-pre-wrap break-words text-sm text-[#C9D6E4] ${compact ? 'line-clamp-3' : 'max-h-[60vh] overflow-y-auto'}`}>{note}</p>}
     </section>
   )
 }

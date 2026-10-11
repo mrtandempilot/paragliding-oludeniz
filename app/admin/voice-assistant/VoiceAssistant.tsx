@@ -1,15 +1,28 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Mic, MicOff, PhoneOff, Send, Loader2, AudioLines } from 'lucide-react'
+import { Mic, MicOff, PhoneOff, Send, Loader2, AudioLines, Check, X } from 'lucide-react'
 import LiveDisplay from './LiveDisplay'
 import type { Display } from '@/lib/neslihan/tools'
 
 type Status = 'idle' | 'connecting' | 'live' | 'error'
-type Line = { id: string; role: 'user' | 'assistant'; text: string; done: boolean }
+type Line = { id: string; role: 'user' | 'assistant'; text: string; done: boolean; at: number }
+type Pending = { id: string; token: string; summary: string; at: number }
 type Shown = { id: string; display: Display }
 
 const GREETING = 'Ceyhun Bey\'i tek cümleyle kısaca selamla ve nasıl yardımcı olabileceğini sor.'
+
+// Spoken confirmation check — done here, not by the model, so an action only
+// runs after Ceyhun Bey really said yes. Negatives are checked first
+// ("gönderme" must not match "gönder").
+const B = '(?=$|[\\s,.!?])' // word end, so "ok" doesn't match "okudun"
+const NO_RE = new RegExp(`(^|[\\s,.!?])(hayır|hayir|iptal|vazgeç|vazgec|değiştir|degistir|yapma|gönderme|gonderme|istemiyorum|(dur|bekle|no)${B})`)
+const YES_RE = new RegExp(`(^|[\\s,.!?])(evet|onayl|gönder|gonder|tamam|kabul|peki|yes|((ok|okey|olur|yap|yapın|yapabilirsin)${B}))`)
+const isYes = (t: string) => {
+  const s = t.toLocaleLowerCase('tr-TR')
+  return !NO_RE.test(s) && YES_RE.test(s)
+}
+const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
 export default function VoiceAssistant() {
   const [status, setStatus] = useState<Status>('idle')
@@ -21,6 +34,10 @@ export default function VoiceAssistant() {
   const [lines, setLines] = useState<Line[]>([])
   const [shown, setShown] = useState<Shown[]>([])
   const [text, setText] = useState('')
+  const [pending, setPending] = useState<Pending | null>(null)
+  const pendingRef = useRef<Pending | null>(null)
+  const linesRef = useRef<Line[]>([])
+  const setPendingBoth = (p: Pending | null) => { pendingRef.current = p; setPending(p) }
 
   const pcRef = useRef<RTCPeerConnection | null>(null)
   const dcRef = useRef<RTCDataChannel | null>(null)
@@ -28,12 +45,15 @@ export default function VoiceAssistant() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const transcriptEnd = useRef<HTMLDivElement | null>(null)
 
-  useEffect(() => { transcriptEnd.current?.scrollIntoView({ behavior: 'smooth', block: 'end' }) }, [lines])
+  useEffect(() => {
+    linesRef.current = lines
+    transcriptEnd.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+  }, [lines])
 
   const upsertLine = useCallback((id: string, role: Line['role'], update: (prev: string) => string, done = false) => {
     setLines(ls => {
       const i = ls.findIndex(l => l.id === id)
-      if (i === -1) return [...ls, { id, role, text: update(''), done }]
+      if (i === -1) return [...ls, { id, role, text: update(''), done, at: Date.now() }]
       const next = ls.slice()
       next[i] = { ...next[i], text: update(next[i].text), done: done || next[i].done }
       return next
@@ -45,20 +65,64 @@ export default function VoiceAssistant() {
     if (dc && dc.readyState === 'open') dc.send(JSON.stringify(event))
   }, [])
 
+  const showResult = useCallback((id: string, ok: boolean, message: string) => {
+    setShown(s => [{ id: `${id}-done`, display: { title: ok ? '✅ Tamamlandı' : '❌ Yapılamadı', note: message } }, ...s].slice(0, 12))
+  }, [])
+
+  const execute = useCallback(async (p: Pending) => {
+    setPendingBoth(null)
+    try {
+      const res = await fetch('/api/admin/neslihan/execute', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: p.token }),
+      })
+      const out = await res.json()
+      showResult(p.id, !!out.ok, out.message || '')
+      return out as { ok: boolean; message: string }
+    } catch (e: any) {
+      const out = { ok: false, message: e?.message || 'İşlem çalıştırılamadı' }
+      showResult(p.id, false, out.message)
+      return out
+    }
+  }, [showResult])
+
+  // confirm_action from the model: run only if the user's own words since the
+  // proposal contain a clear yes (waits briefly for the transcript to land).
+  const confirmByVoice = useCallback(async () => {
+    const p = pendingRef.current
+    if (!p) return { error: 'Onay bekleyen işlem yok.' }
+    let reply: Line | undefined
+    for (let i = 0; i < 20; i++) {
+      reply = [...linesRef.current].reverse().find(l => l.role === 'user' && l.at >= p.at)
+      if (reply?.done) break
+      await sleep(200)
+    }
+    if (!reply?.done || !isYes(reply.text)) {
+      return { error: 'Ceyhun Bey\'in açık bir "evet" onayı duyulmadı; işlem yapılmadı. Tekrar "Onaylıyor musunuz?" diye sor.' }
+    }
+    return execute(p)
+  }, [execute])
+
   // Run every function call from a finished response, then let Neslihan answer.
   const handleFunctionCalls = useCallback(async (calls: { call_id: string; name: string; arguments: string }[]) => {
     setBusyTools(n => n + calls.length)
     await Promise.all(calls.map(async call => {
       let output: unknown
       try {
-        const res = await fetch('/api/admin/neslihan/tool', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: call.name, args: JSON.parse(call.arguments || '{}') }),
-        })
-        const data = await res.json()
-        output = data.result
-        if (data.display) setShown(s => [{ id: call.call_id, display: data.display }, ...s].slice(0, 12))
+        if (call.name === 'confirm_action') {
+          output = await confirmByVoice()
+        } else {
+          const res = await fetch('/api/admin/neslihan/tool', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: call.name, args: JSON.parse(call.arguments || '{}') }),
+          })
+          const data = await res.json()
+          output = data.result
+          if (data.display) setShown(s => [{ id: call.call_id, display: data.display }, ...s].slice(0, 12))
+          if (data.proposal) setPendingBoth({ id: call.call_id, token: data.proposal.token, summary: data.proposal.summary, at: Date.now() })
+        }
       } catch (e: any) {
         output = { error: e?.message || 'Araç çalıştırılamadı' }
       } finally {
@@ -67,7 +131,26 @@ export default function VoiceAssistant() {
       send({ type: 'conversation.item.create', item: { type: 'function_call_output', call_id: call.call_id, output: JSON.stringify(output) } })
     }))
     send({ type: 'response.create' })
+  }, [send, confirmByVoice])
+
+  // On-screen Onayla / İptal — tell Neslihan what happened so she can say it.
+  const notify = useCallback((msg: string) => {
+    send({ type: 'conversation.item.create', item: { type: 'message', role: 'user', content: [{ type: 'input_text', text: msg }] } })
+    send({ type: 'response.create' })
   }, [send])
+
+  const approveOnScreen = async () => {
+    const p = pendingRef.current
+    if (!p) return
+    const out = await execute(p)
+    notify(`[Ekrandan onaylandı] ${p.summary} → ${out.ok ? 'başarılı' : 'hata'}: ${out.message}. Sonucu bana tek cümleyle söyle.`)
+  }
+  const cancelOnScreen = () => {
+    const p = pendingRef.current
+    if (!p) return
+    setPendingBoth(null)
+    notify(`[Ekrandan iptal edildi] ${p.summary}. Kısaca "iptal ettim" de.`)
+  }
 
   const onEvent = useCallback((ev: any) => {
     switch (ev.type) {
@@ -98,7 +181,7 @@ export default function VoiceAssistant() {
     micRef.current?.getTracks().forEach(t => t.stop())
     if (audioRef.current) audioRef.current.srcObject = null
     dcRef.current = null; pcRef.current = null; micRef.current = null
-    setStatus('idle'); setUserSpeaking(false); setAssistantSpeaking(false); setMuted(false)
+    setStatus('idle'); setUserSpeaking(false); setAssistantSpeaking(false); setMuted(false); setPendingBoth(null)
   }, [])
 
   useEffect(() => stop, [stop])
@@ -216,7 +299,7 @@ export default function VoiceAssistant() {
           <div className="flex min-h-[200px] flex-1 flex-col overflow-hidden rounded-2xl border border-[#1E3654] bg-[#0F2238]">
             <div className="flex-1 space-y-3 overflow-y-auto p-4 text-sm">
               {lines.length === 0 && (
-                <p className="text-[#5F7894]">Örnek: “Yarın kaç uçuş var?”, “Rüzgâr nasıl?”, “Google reklamları bu hafta nasıl gitti?”</p>
+                <p className="text-[#5F7894]">Örnek: “Yarın kaç uçuş var?”, “Yeni mail var mı?”, “Rüzgâr nasıl?”, “Google reklamları bu hafta nasıl gitti?”</p>
               )}
               {lines.map(l => (
                 <div key={l.id} className={l.role === 'user' ? 'text-right' : ''}>
@@ -248,6 +331,17 @@ export default function VoiceAssistant() {
             <h2 className="text-sm font-semibold uppercase tracking-[0.15em] text-[#8098B3]">Canlı ekran</h2>
             {busyTools > 0 && <span className="inline-flex items-center gap-2 text-xs text-[#FBBF24]"><Loader2 className="h-3.5 w-3.5 animate-spin" /> Veri getiriliyor</span>}
           </div>
+          {pending && (
+            <div className="rounded-2xl border border-[#FBBF24]/50 bg-[#FBBF24]/10 p-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-[#FBBF24]">Onay bekliyor</p>
+              <p className="mt-1 text-sm text-[#E7EEF6]">{pending.summary}</p>
+              <p className="mt-1 text-xs text-[#8098B3]">“Evet” deyin ya da aşağıdan seçin.</p>
+              <div className="mt-3 flex gap-2">
+                <button onClick={approveOnScreen} className="inline-flex items-center gap-1.5 rounded-lg bg-[#2DD4BF] px-3 py-1.5 text-sm font-medium text-[#0B1A2C]"><Check className="h-4 w-4" /> Onayla</button>
+                <button onClick={cancelOnScreen} className="inline-flex items-center gap-1.5 rounded-lg border border-[#1E3654] px-3 py-1.5 text-sm text-[#F87171] hover:bg-[#1E3654]"><X className="h-4 w-4" /> İptal</button>
+              </div>
+            </div>
+          )}
           {latest ? (
             <>
               <LiveDisplay key={latest.id} display={latest.display} />

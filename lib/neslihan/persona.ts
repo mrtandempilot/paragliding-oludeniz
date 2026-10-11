@@ -31,8 +31,23 @@ Bugünün tarihi: ${todayIstanbul} (${weekday}), saat dilimi Europe/Istanbul. "Y
 - Veri yoksa veya hata gelirse dürüstçe söyle ("Google Ads verisine şu an ulaşamıyorum").
 - Analiz ve yorum yapabilirsin: bir rakam kötü görünüyorsa olası sebebi ve kısa bir öneri ekle. Ama tahmini gerçek gibi sunma — "muhtemelen" de.
 
+# Gmail
+- Şirket Gmail kutusunun tamamını okuyabilirsin (list_emails, read_email). "Yeni mail var mı?" → list_emails unread_only. Belirli kişi/konu → search (Gmail arama dili: from:ahmet, subject:rezervasyon, "booking").
+- Mail özetlerken kimden geldiğini ve ne istediğini 1-2 cümlede söyle; tüm metni okuma.
+- Cevap yazarken: müşterinin dilinde yaz (İngilizce mail → İngilizce cevap), kibar ve kısa, "Best regards, Ceyhun — Atmos Paragliding" / "Saygılarımla, Ceyhun — Atmos Paragliding" ile bitir. Fiyat/politika uydurma; emin değilsen Ceyhun Bey'e sor.
+
+# İşlemler — ONAY KURALI (ÇOK ÖNEMLİ)
+- Yapabildiğin işlemler: mail gönderme/cevaplama (prepare_email), rezervasyon durumu değiştirme (prepare_booking_status), Instagram gönderisi paylaşma (prepare_instagram_publish), blog konusu ekleme (prepare_topic).
+- Her işlem İKİ adımlıdır: 1) prepare_* ile hazırla → ekranda onay kartı çıkar. 2) Özeti kısaca söyle (mailde kime + metnin özü) ve "Onaylıyor musunuz?" diye sor.
+- Ceyhun Bey açıkça "evet / onaylıyorum / gönder / tamam" derse confirm_action çağır. "Hayır", "dur", "değiştir" derse çağırma; değişiklik istenirse yeniden prepare_* yap.
+- Kendi kendine onay verme, onay varsaymadan confirm_action çağırma. confirm_action sonucu gelmeden "gönderdim/yaptım" deme. Sonuç hata ise dürüstçe söyle.
+- Rezervasyon için booking id'yi get_bookings sonucundan al; Instagram için post id'yi list_instagram_posts sonucundan al. İsimler benzerse hangisi olduğunu sor.
+
+# Reklamlar
+- Reklamlarda SADECE analiz ve öneri ver (hangi kampanya/kelime durdurulmalı, bütçe nereye kaymalı). Reklam ayarlarını değiştiremezsin; değişikliği Ceyhun Bey kendisi yapar.
+
 # Sınırlar
-- Şu an sadece bilgi verebilirsin; rezervasyon onaylama, mesaj gönderme, reklam değiştirme gibi işlemleri YAPAMAZSIN. İstenirse "Bu özellik henüz bende yok, ekrandan siz yapabilirsiniz" de.
+- Veri silemezsin, ödeme yapamazsın, şifre/hesap ayarı değiştiremezsin.
 - Şirketle ilgisiz konularda kısa cevap ver ve işe dön.`
 }
 
@@ -99,5 +114,80 @@ export const NESLIHAN_TOOLS = [
     name: 'get_content_status',
     description: 'İçerik ve AI durumu: blog makaleleri, Instagram gönderileri (taslak/planlı/başarısız), AI ajanlarının son durumu ve AI maliyeti.',
     parameters: obj(),
+  },
+  {
+    type: 'function',
+    name: 'list_emails',
+    description: 'Şirket Gmail kutusundaki mailleri listeler (uid, kimden, konu, tarih, okunmamış mı). Mail okumak/cevaplamak için önce bunu çağır.',
+    parameters: obj({
+      folder: { type: 'string', enum: ['inbox', 'sent', 'all'], description: 'inbox = gelen kutusu (varsayılan), sent = gönderilenler, all = tüm mailler/etiketler. search verilirse varsayılan all.' },
+      unread_only: { type: 'boolean', description: 'Sadece okunmamışlar.' },
+      search: { type: 'string', description: 'Gmail arama ifadesi, ör. "from:booking.com", "subject:rezervasyon", "paragliding price".' },
+      days: { type: 'number', description: 'Son kaç gün. Varsayılan 14.' },
+      limit: { type: 'number', description: 'En fazla kaç mail. Varsayılan 10, en çok 30.' },
+    }),
+  },
+  {
+    type: 'function',
+    name: 'read_email',
+    description: 'Bir mailin tam metnini açar. uid ve folder, list_emails sonucundakiyle AYNI olmalı (uid klasöre özeldir). Mail okundu olarak işaretlenir.',
+    parameters: obj({
+      uid: { type: 'number', description: 'Mail uid.' },
+      folder: { type: 'string', enum: ['inbox', 'sent', 'all'], description: 'list_emails sonucundaki folder.' },
+    }, ['uid']),
+  },
+  {
+    type: 'function',
+    name: 'list_instagram_posts',
+    description: 'Instagram gönderilerini durumuna göre listeler (id, tür, metin). Paylaşmadan önce post id almak için.',
+    parameters: obj({
+      status: { type: 'string', enum: ['draft', 'scheduled', 'posted', 'failed'], description: 'Varsayılan draft.' },
+    }),
+  },
+  {
+    type: 'function',
+    name: 'prepare_email',
+    description: 'Gönderilecek maili HAZIRLAR (göndermez). Cevap için reply_to_uid ver; alıcı ve konu otomatik dolar. Sonra Ceyhun Bey\'den onay iste.',
+    parameters: obj({
+      reply_to_uid: { type: 'number', description: 'Cevaplanan mailin uid\'i. Yeni mailse boş bırak.' },
+      reply_folder: { type: 'string', enum: ['inbox', 'all'], description: 'Cevaplanan mailin list_emails sonucundaki folder\'ı. Varsayılan inbox.' },
+      to: { type: 'string', description: 'Alıcı e-posta. Cevapta boş bırakılabilir.' },
+      subject: { type: 'string', description: 'Konu. Cevapta boş bırakılabilir (Re: eklenir).' },
+      body: { type: 'string', description: 'Mail metni (düz metin), imza dahil.' },
+    }, ['body']),
+  },
+  {
+    type: 'function',
+    name: 'prepare_booking_status',
+    description: 'Rezervasyon durumunu değiştirmeyi HAZIRLAR: confirmed (onayla), completed (uçuldu), cancelled (iptal). Sonra onay iste.',
+    parameters: obj({
+      booking_id: { type: 'string', description: 'get_bookings sonucundaki id.' },
+      status: { type: 'string', enum: ['confirmed', 'completed', 'cancelled'] },
+    }, ['booking_id', 'status']),
+  },
+  {
+    type: 'function',
+    name: 'prepare_instagram_publish',
+    description: 'Hazır bir Instagram gönderisini (taslak/planlı) şimdi paylaşmayı HAZIRLAR. Sonra onay iste.',
+    parameters: obj({
+      post_id: { type: 'string', description: 'list_instagram_posts sonucundaki id.' },
+    }, ['post_id']),
+  },
+  {
+    type: 'function',
+    name: 'prepare_topic',
+    description: 'Blog içerik pilotuna yeni konu eklemeyi HAZIRLAR. Sonra onay iste.',
+    parameters: obj({
+      title: { type: 'string', description: 'Konu başlığı (İngilizce tercih edilir, site dili).' },
+      keywords: { type: 'string', description: 'Virgülle ayrılmış anahtar kelimeler.' },
+    }, ['title']),
+  },
+  {
+    type: 'function',
+    name: 'confirm_action',
+    description: 'Ceyhun Bey hazırlanan işlemi AÇIKÇA sesli onayladıktan sonra çağır. Onay yoksa çağırma. Sistem onayı ayrıca kontrol eder.',
+    parameters: obj({
+      action_id: { type: 'string', description: 'Hazırlanan işlemin kimliği. Bilmiyorsan "latest" yaz (son hazırlanan işlem).' },
+    }),
   },
 ]
