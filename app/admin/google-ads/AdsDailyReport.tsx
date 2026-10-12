@@ -208,8 +208,8 @@ export default function AdsDailyReport() {
                 <YAxis {...axisProps} width={36} allowDecimals={false} />
                 <Tooltip content={<Tip />} />
                 <Legend iconType="plainline" wrapperStyle={{ fontSize: 12, color: C.ink2 }} />
-                <Line type="monotone" dataKey="clicks" name="Tıklama" stroke={C.s1} strokeWidth={2} dot={false} activeDot={{ r: 4, stroke: C.surface, strokeWidth: 2 }} />
-                <Line type="monotone" dataKey="conversions" name="Dönüşüm" stroke={C.s2} strokeWidth={2} dot={false} activeDot={{ r: 4, stroke: C.surface, strokeWidth: 2 }} />
+                <Line type="linear" dataKey="clicks" name="Tıklama" stroke={C.s1} strokeWidth={2} dot={false} activeDot={{ r: 4, stroke: C.surface, strokeWidth: 2 }} />
+                <Line type="linear" dataKey="conversions" name="Dönüşüm" stroke={C.s2} strokeWidth={2} dot={false} activeDot={{ r: 4, stroke: C.surface, strokeWidth: 2 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -222,7 +222,7 @@ export default function AdsDailyReport() {
             <BarChart data={isData} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
               <CartesianGrid stroke={C.grid} vertical={false} />
               <XAxis dataKey="date" {...axisProps} minTickGap={16} />
-              <YAxis {...axisProps} width={40} domain={[0, 100]} tickFormatter={(v) => `%${v}`} />
+              <YAxis {...axisProps} width={52} domain={[0, 100]} ticks={[0, 25, 50, 75, 100]} tickFormatter={(v) => `%${v}`} />
               <Tooltip cursor={{ fill: 'rgba(0,0,0,0.04)' }} content={<Tip fmt={(v: number) => `%${v}`} />} />
               <Legend iconType="square" wrapperStyle={{ fontSize: 12, color: C.ink2 }} />
               <Bar dataKey="won" name="Kazanılan" stackId="a" fill={C.s1} maxBarSize={24} stroke={C.surface} strokeWidth={2} />

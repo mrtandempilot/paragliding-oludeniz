@@ -25,6 +25,7 @@ const COMPETITORS = ['united pilots', 'hanuman', 'gravity', 'touryus', 'dragon',
 const IRRELEVANT = ['hang gliding', 'skydiv', 'uçaktan', 'ucaktan', 'air games', 'airgames', 'festival', 'kaç metre', 'kac metre', 'yükseklik', 'yukseklik', 'height', 'marmaris', 'bodrum', 'kaş', 'kemer', 'antalya', 'alanya', 'kaza', 'ölüm', 'course', 'kurs', 'license', 'lisans', 'job', 'iş ilan']
 const TURKISH = /[çğıöşü]|fiyat|paraşüt|parasut|yamaç|yamac|ne kadar|kaç|kac /i
 
+const QS_TR: Record<string, string> = { ABOVE_AVERAGE: 'ortalama üstü', AVERAGE: 'ortalama', BELOW_AVERAGE: 'ortalama altı' }
 const n = (v: any) => Number(v || 0)
 const micros = (v: any) => n(v) / 1e6
 
@@ -221,7 +222,7 @@ export async function buildAdsReport() {
   if ((kpis.lostBudget7 || 0) > 0.2) F.push({ severity: 'warning', title: `Gösterimlerin ${pct(kpis.lostBudget7)}'i bütçe yüzünden kaçıyor`, detail: `Günlük bütçe ${tl(kpis.budgetDaily)} gün bitmeden tükeniyor.`, action: 'Önce boşa giden aramaları kes; trafik kaliteliyse bütçeyi artır.' })
   if (kpis.absTop7 != null && kpis.absTop7 < 0.2 && impr7 > 50) F.push({ severity: 'warning', title: `Reklam sadece ${pct(kpis.absTop7)} oranında en üstte`, detail: 'Çoğu zaman rakiplerin altında görünüyoruz.' })
   if (impr7 > 100 && kpis.ctr7 < 0.05) F.push({ severity: 'warning', title: `Tıklanma oranı düşük: %${(kpis.ctr7 * 100).toFixed(1)}`, detail: 'Turizm reklamlarında genelde %6-8 beklenir.', action: 'Başlıkları güçlendir (FREE Video & Photo, fiyat, yorumlar).' })
-  for (const k of keywordRows.filter((k: any) => k.status === 'ENABLED' && k.qs != null && k.qs <= 4 && k.impressions > 0).slice(0, 3)) F.push({ severity: 'serious', title: `"${k.text}" kalite puanı ${k.qs}/10`, detail: `Açılış sayfası: ${k.lp || '–'} · beklenen TO: ${k.ctrPred || '–'} · 30 günde ${tl(k.cost)}`, action: 'Kelimeyi durdur veya reklam metnine/sayfaya ekle.' })
+  for (const k of keywordRows.filter((k: any) => k.status === 'ENABLED' && k.qs != null && k.qs <= 4 && k.impressions > 0).slice(0, 3)) F.push({ severity: 'serious', title: `"${k.text}" kalite puanı ${k.qs}/10`, detail: `Açılış sayfası: ${QS_TR[k.lp] || '–'} · beklenen tıklanma: ${QS_TR[k.ctrPred] || '–'} · 30 günde ${tl(k.cost)}`, action: 'Kelimeyi durdur veya reklam metnine/sayfaya ekle.' })
   for (const f of ['competitor', 'irrelevant', 'turkish']) {
     const b = termBuckets[f]; if (!b?.impressions) continue
     const lbl = f === 'competitor' ? 'Rakip marka aramaları' : f === 'irrelevant' ? 'Alakasız aramalar' : 'Türkçe aramalar (reklam İngilizce)'
@@ -251,9 +252,9 @@ export async function buildAdsReport() {
 
   report.summary = await safe('Gemini özet', async () => {
     const out = await geminiGenerate({
-      system: 'Sen Atmos Paragliding (Ölüdeniz tandem yamaç paraşütü, $150 her şey dahil) için Google Ads danışmanısın. Sahibi Ceyhun; samimi, kısa, net Türkçe yaz. Sadece verilen rakamları kullan, uydurma. Para birimi TL. 4-6 cümle: durum, en büyük sorun, bugün yapılacak 1-2 iş. Madde işareti kullanma.',
+      system: 'Sen Atmos Paragliding (Ölüdeniz tandem yamaç paraşütü, $150 her şey dahil) için Google Ads danışmanısın. Sahibi Ceyhun; samimi, kısa, net Türkçe yaz. Sadece verilen rakamları kullan, uydurma. Para birimi TL. Selamlama yazma, doğrudan konuya gir. 4-6 cümle: durum, en büyük sorun, bugün yapılacak 1-2 iş. Madde işareti kullanma.',
       contents: [{ role: 'user', parts: [{ text: JSON.stringify({ kpis, findings: F.map(f => f.title + ' — ' + f.detail), ga4: ga && { sessions: ga.sessions, avgDuration: ga.avgDuration, funnel: ga.funnel }, siteBookings7: bookings7 }) }] }],
-      maxOutputTokens: 700,
+      maxOutputTokens: 4000,
     })
     return textOf(out)
   }, null as any)
