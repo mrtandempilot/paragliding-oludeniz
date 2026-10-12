@@ -4,7 +4,7 @@ import { useLocale } from 'next-intl'
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Phone, Mail, MessageCircle, CheckCircle, Clock, Shield, ArrowRight, AlertCircle } from 'lucide-react'
+import { Phone, Mail, MessageCircle, CheckCircle, Clock, Shield, ArrowRight, AlertCircle, Camera, Sparkles } from 'lucide-react'
 
 // One flight, one fixed price.
 const PRICE = 150
@@ -128,13 +128,35 @@ export default function BookingForm() {
 
             <form onSubmit={handleSubmit} className="space-y-5">
 
-              {/* Flight: single product */}
-              <div className="rounded-xl border-2 border-orange-500 bg-orange-50 p-4 flex items-center justify-between gap-4">
-                <div>
-                  <p className="font-semibold text-slate-900">Tandem Paragliding Flight from Babadağ</p>
-                  <p className="text-slate-500 text-xs mt-0.5">25–30 min · photo &amp; video, hotel transfer, mountain fee included</p>
+              {/* Flight: single product — eye-catching offer card */}
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 via-orange-500 to-pink-600 p-5 sm:p-6 text-white shadow-xl shadow-orange-500/30">
+                <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-yellow-300/30 blur-2xl" />
+                <div className="pointer-events-none absolute -left-8 -bottom-12 h-36 w-36 rounded-full bg-sky-400/30 blur-2xl" />
+
+                <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-yellow-300 px-3 py-1.5 text-sm sm:text-base font-extrabold uppercase tracking-wide text-slate-900 shadow-md animate-pulse">
+                      <Camera className="w-4 h-4 sm:w-5 sm:h-5" /> Free Video &amp; Photos
+                    </span>
+                    <p className="mt-3 text-xl sm:text-2xl font-extrabold leading-tight">Tandem Paragliding Flight from Babadağ</p>
+                    <p className="mt-1 text-sm text-white/90">Fly over the Blue Lagoon · 25–30 min with a licensed pilot</p>
+                    <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold">
+                      <li className="flex items-center gap-1"><CheckCircle className="w-4 h-4 text-yellow-300" /> HD video &amp; photos</li>
+                      <li className="flex items-center gap-1"><CheckCircle className="w-4 h-4 text-yellow-300" /> Hotel pickup</li>
+                      <li className="flex items-center gap-1"><CheckCircle className="w-4 h-4 text-yellow-300" /> Mountain fee</li>
+                    </ul>
+                  </div>
+
+                  <div className="shrink-0 rounded-2xl bg-white px-5 py-3 text-center shadow-lg">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">All inclusive</p>
+                    <p className="text-4xl font-black text-orange-500 leading-none">${PRICE}</p>
+                    <p className="text-xs font-medium text-slate-500">per person</p>
+                  </div>
                 </div>
-                <p className="text-orange-500 font-bold text-xl whitespace-nowrap">${PRICE}<span className="text-xs font-medium text-slate-500"> / person</span></p>
+
+                <p className="relative mt-4 flex items-center gap-2 text-sm font-bold">
+                  <Sparkles className="w-4 h-4 text-yellow-300" /> No payment now: book in 1 minute, pay on flight day
+                </p>
               </div>
 
               {/* Date + Guests */}
@@ -264,7 +286,7 @@ export default function BookingForm() {
                 {loading ? (
                   <span>Sending request...</span>
                 ) : (
-                  <>Send Booking Request <ArrowRight className="w-5 h-5" /></>
+                  <>Book Now <ArrowRight className="w-5 h-5" /></>
                 )}
               </button>
 
