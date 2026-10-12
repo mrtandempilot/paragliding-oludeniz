@@ -79,7 +79,7 @@ export default async function ContentPilotPage() {
     },
     {
       label: 'AI Cost (30 days)',
-      value: `$${stats.totalCostMonth.toFixed(3)}`,
+      value: `$${stats.totalCostMonth.toFixed(2)}`,
       icon: DollarSign,
       color: 'bg-green-50 text-green-600',
       href: '/admin/content-pilot/logs',
