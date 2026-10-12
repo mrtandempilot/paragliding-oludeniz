@@ -857,7 +857,7 @@ export default function CommandCenter(p: Props) {
                 )}
               </Panel>
 
-              <Panel title="Otomatik DM" icon={MessageCircle} href="/admin/dm-automation" className="lg:col-span-4">
+              <Panel title="Otomatik DM" icon={MessageCircle} href="/admin/instagram#dm" className="lg:col-span-4">
                 <ul className="space-y-3 text-[13px]">
                   {[{ l: 'Her yoruma DM', on: p.dm.general }, { l: 'Anahtar kelimeye DM', on: p.dm.keyword }].map(x => (
                     <li key={x.l} className="flex items-center justify-between">

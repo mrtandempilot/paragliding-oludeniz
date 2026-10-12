@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import InstagramClient from './InstagramClient'
 import InstagramSettings from '@/components/admin/InstagramSettings'
 import TokenStatusWidget from './TokenStatusWidget'
+import DmAutomation from '@/components/admin/DmAutomation'
 import type { InstagramPost } from '@/lib/supabase'
 
 export const metadata = {
@@ -40,6 +41,17 @@ export default async function InstagramPage() {
 
       {/* Post Manager */}
       <InstagramClient posts={(posts as InstagramPost[]) || []} />
+
+      {/* Auto DM (was a separate menu item) */}
+      <div id="dm" className="border-t border-slate-200 pt-8 scroll-mt-6">
+        <h2 className="text-lg font-bold text-slate-900 mb-1">Otomatik DM</h2>
+        <p className="text-sm text-slate-500 mb-5">
+          Biri yoruma yazdığında otomatik DM gönder — fiyat soranlar anında bilgi alsın.
+        </p>
+        <div className="max-w-2xl">
+          <DmAutomation />
+        </div>
+      </div>
 
       {/* Location Settings */}
       <div className="border-t border-slate-200 pt-8">

@@ -32,7 +32,6 @@ const navItems = [
   { href: '/admin/calendar', label: 'Takvim', icon: CalendarDays },
   { href: '/admin/content-pilot', label: 'ContentPilot AI', icon: Bot },
   { href: '/admin/instagram', label: 'Instagram', icon: Instagram },
-  { href: '/admin/dm-automation', label: 'Otomatik DM', icon: MessageCircle },
   { href: '/admin/blog', label: 'Blog', icon: FileText },
   { href: '/admin/meta-ads', label: 'Meta Reklamlar', icon: Megaphone },
   { href: '/admin/google-ads', label: 'Google Ads', icon: Search },
