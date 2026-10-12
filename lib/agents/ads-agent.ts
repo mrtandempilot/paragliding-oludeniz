@@ -82,8 +82,8 @@ export async function runAdsAgent() {
       actions.length ? `\n<b>Bugün kendim yaptım</b>\n${actions.map(a => '✅ ' + esc(a)).join('\n')}` : '\nBugün otomatik değişiklik gerekmedi.',
       `\nDetay: atmosparagliding.com/admin/google-ads`,
     ].filter(Boolean).join('\n')
-    await telegram(msg)
+    const telegramOk = await telegram(msg)
 
-    return { findings: report.findings.length, actions, errors: report.errors }
+    return { telegramOk, findings: report.findings.length, actions, errors: report.errors }
   })
 }

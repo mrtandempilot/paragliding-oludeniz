@@ -46,7 +46,9 @@ export async function runReservationAgent() {
     // reminders for tomorrow (once per booking)
     const reminded: string[] = await getSetting(REMINDED_KEY, [])
     const sent: string[] = []
+    const mailErrors: string[] = []
     const pass = process.env.GMAIL_APP_PASSWORD, user = process.env.GMAIL_USER || 'mrtandempilot@gmail.com'
+    if (!pass) mailErrors.push('GMAIL_APP_PASSWORD yok')
     if (pass) {
       const tx = nodemailer.createTransport({ service: 'gmail', auth: { user, pass } })
       for (const b of tomB) {
@@ -55,7 +57,7 @@ export async function runReservationAgent() {
         try {
           await tx.sendMail({ from: `"Atmos Paragliding" <${user}>`, to: b.email, replyTo: 'atmosparagliding@gmail.com', subject: `Reminder: your paragliding flight is tomorrow (${dateStr})`, html: reminderHtml(b, dateStr) })
           sent.push(b.id); reminded.push(b.id)
-        } catch { /* keep going */ }
+        } catch (e: any) { mailErrors.push(e.message) }
       }
       if (sent.length) await setSetting(REMINDED_KEY, reminded.slice(-500))
     }
@@ -69,8 +71,8 @@ export async function runReservationAgent() {
       sent.length ? `\n✅ ${sent.length} müşteriye yarın için hatırlatma e-postası gönderdim.` : '',
       pend?.length ? `\n⏳ <b>${pend.length} rezervasyon 2 saatten uzun süredir onay bekliyor</b>\n${pend.map(line).join('\n')}\n→ admin/bookings` : '',
     ].filter(Boolean).join('\n')
-    await telegram(msg)
+    const telegramOk = await telegram(msg + (mailErrors.length ? `\n⚠️ E-posta gönderilemedi: ${esc(mailErrors[0])}` : ''))
 
-    return { today: todayB.length, tomorrow: tomB.length, remindersSent: sent.length, pendingOver2h: pend?.length || 0, weather }
+    return { telegramOk, mailErrors, today: todayB.length, tomorrow: tomB.length, remindersSent: sent.length, pendingOver2h: pend?.length || 0, weather }
   })
 }
