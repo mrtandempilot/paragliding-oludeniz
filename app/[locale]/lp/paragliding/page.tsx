@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { CheckCircle, XCircle, MessageCircle, ArrowDown, ShieldCheck, CalendarCheck, Camera, Bus, Mountain } from 'lucide-react'
 import BookingForm from '../../book-now/BookingForm'
+import { bookingText } from '../../book-now/bookingFormText'
 
 // Google Ads landing page. Deliberately noindex (and not in sitemap) so it never
 // competes with the organic / AI-cited pages (/prices, /book-now, /oludeniz-paragliding).
@@ -109,6 +110,7 @@ export default async function AdsLandingPage({ params }: { params: Promise<{ loc
   const { locale } = await params
   const c = C[(locale as L)] || C.en
   const waHref = WA + encodeURIComponent(c.waText)
+  const T = bookingText(locale)
 
   return (
     <main className="bg-white">
@@ -116,11 +118,31 @@ export default async function AdsLandingPage({ params }: { params: Promise<{ loc
       <section className="relative overflow-hidden">
         <Image src="https://v3b.fal.media/files/b/0a9d7c0d/dOEuj7ebfM-MdyvUcunPD.jpg" alt="Tandem paragliding over the Blue Lagoon, Ölüdeniz" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-slate-900/55 to-slate-900/80" />
-        <div className="relative container-default py-10 md:py-24 text-center text-white">
-          <span className="inline-block text-xs md:text-sm font-semibold bg-white/15 backdrop-blur px-4 py-1.5 rounded-full mb-5">{c.badge}</span>
-          <h1 className="text-3xl md:text-5xl font-bold leading-tight max-w-3xl mx-auto">{c.h1}</h1>
-          <p className="mt-5 text-base md:text-xl text-white/90 max-w-2xl mx-auto">{c.sub}</p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+        <div className="relative container-default pt-24 pb-8 md:pt-32 md:pb-24 text-center text-white">
+          <span className="hidden md:inline-block text-sm font-semibold bg-white/15 backdrop-blur px-4 py-1.5 rounded-full mb-5">{c.badge}</span>
+          {/* FREE VIDEO & PHOTO — banner-style badge, big on mobile */}
+          <div className="flex justify-center mb-5">
+            <div className="relative inline-block -rotate-3">
+              <span className="absolute -left-5 top-2 h-1.5 w-4 rotate-[20deg] rounded-full bg-yellow-300" />
+              <span className="absolute -left-5 top-1/2 h-1.5 w-4 rounded-full bg-yellow-300" />
+              <span className="absolute -left-5 bottom-2 h-1.5 w-4 -rotate-[20deg] rounded-full bg-yellow-300" />
+              <span className="absolute -right-5 top-2 h-1.5 w-4 -rotate-[20deg] rounded-full bg-yellow-300" />
+              <span className="absolute -right-5 bottom-2 h-1.5 w-4 rotate-[20deg] rounded-full bg-yellow-300" />
+              <div
+                className="flex items-center gap-3 bg-[#0b1d4a] px-6 py-3 shadow-2xl"
+                style={{ clipPath: 'polygon(2% 8%, 12% 0%, 35% 5%, 60% 0%, 88% 4%, 100% 0%, 97% 30%, 100% 62%, 96% 100%, 70% 95%, 42% 100%, 15% 94%, 0% 100%, 3% 66%, 0% 35%)' }}
+              >
+                <Camera className="w-10 h-10 md:w-12 md:h-12 text-white" strokeWidth={2.5} />
+                <div className="leading-none italic text-left">
+                  <p className="text-4xl md:text-5xl font-black text-yellow-300 tracking-tight">{T.free}</p>
+                  <p className="text-lg md:text-2xl font-black text-white tracking-tight">{T.videoPhoto}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h1 className="text-2xl md:text-5xl font-bold leading-tight max-w-3xl mx-auto">{c.h1}</h1>
+          <p className="hidden md:block mt-5 text-xl text-white/90 max-w-2xl mx-auto">{c.sub}</p>
+          <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <a href="#reserve" className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-7 py-4 rounded-xl text-lg transition">
               {c.book} <ArrowDown className="w-5 h-5" />
             </a>
@@ -128,7 +150,7 @@ export default async function AdsLandingPage({ params }: { params: Promise<{ loc
               <MessageCircle className="w-5 h-5" /> {c.wa}
             </a>
           </div>
-          <ul className="mt-8 flex flex-col md:flex-row gap-2 md:gap-6 justify-center text-sm text-white/90">
+          <ul className="hidden md:flex mt-8 flex-row gap-6 justify-center text-sm text-white/90">
             {c.trust.map((t: string) => (
               <li key={t} className="inline-flex items-center justify-center gap-1.5"><CalendarCheck className="w-4 h-4 text-orange-300" />{t}</li>
             ))}
