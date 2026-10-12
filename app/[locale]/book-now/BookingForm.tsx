@@ -6,24 +6,26 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Phone, Mail, MessageCircle, CheckCircle, Clock, Shield, ArrowRight, AlertCircle } from 'lucide-react'
 
-const FLIGHT_OPTIONS = [
-  { value: 'standard', label: 'Standard Tandem — 2000m', price: 150, duration: '25–30 min' },
-  { value: 'high', label: 'High Altitude — 2000m', price: 150, duration: '25–30 min' },
-  { value: 'sunset', label: 'Sunset Flight — 2000m', price: 150, duration: '25–30 min' },
+// One flight, one price. The customer only picks a preferred time of day.
+// Sunset maps to flight_type 'sunset'; morning/midday map to 'standard'
+// (both $150 in /api/bookings).
+const PRICE = 150
+const TIME_OPTIONS = [
+  { value: 'morning', label: 'Morning', hint: 'Calm air, clear views', flight_type: 'standard' },
+  { value: 'midday', label: 'Midday', hint: 'Warm, bright light', flight_type: 'standard' },
+  { value: 'sunset', label: 'Sunset', hint: 'Golden-hour photos', flight_type: 'sunset' },
 ]
 
-function calcTotal(flightType: string, guests: number) {
-  const flight = FLIGHT_OPTIONS.find(f => f.value === flightType)
-  if (!flight) return 0
-
-  return flight.price * guests
+function calcTotal(_flightType: string, guests: number) {
+  return PRICE * guests
 }
 
 export default function BookingForm() {
   const locale = useLocale()
   const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const [form, setForm] = useState({
-    flight_type: '',
+    flight_type: 'standard',
+    time_pref: 'morning',
     flight_date: '',
     guests: '1',
     first_name: '',
@@ -49,7 +51,6 @@ export default function BookingForm() {
     e.preventDefault()
     setError('')
 
-    if (!form.flight_type) return setError('Please select a flight type.')
     if (!form.flight_date) return setError('Please select your preferred date.')
     if (!form.first_name || !form.last_name) return setError('Please enter your full name.')
     if (!form.email) return setError('Please enter your email address.')
@@ -59,7 +60,10 @@ export default function BookingForm() {
       const res = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          notes: `[Preferred time: ${TIME_OPTIONS.find(t => t.value === form.time_pref)?.label || form.time_pref}]${form.notes ? ' ' + form.notes : ''}`,
+        }),
       })
       const data = await res.json()
 
@@ -136,28 +140,34 @@ export default function BookingForm() {
 
             <form onSubmit={handleSubmit} className="space-y-5">
 
-              {/* Flight Type */}
+              {/* Flight: single product + preferred time */}
+              <div className="rounded-xl border-2 border-orange-500 bg-orange-50 p-4 flex items-center justify-between gap-4">
+                <div>
+                  <p className="font-semibold text-slate-900">Tandem Paragliding Flight from Babadağ</p>
+                  <p className="text-slate-500 text-xs mt-0.5">25–30 min · photo &amp; video, hotel transfer, mountain fee included</p>
+                </div>
+                <p className="text-orange-500 font-bold text-xl whitespace-nowrap">${PRICE}<span className="text-xs font-medium text-slate-500"> / person</span></p>
+              </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Flight Type *</label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {FLIGHT_OPTIONS.map(opt => (
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Preferred Time</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {TIME_OPTIONS.map(opt => (
                     <button
                       key={opt.value}
                       type="button"
-                      onClick={() => set('flight_type', opt.value)}
-                      className={`p-4 rounded-xl border-2 text-left transition-all ${
-                        form.flight_type === opt.value
+                      onClick={() => setForm(prev => ({ ...prev, time_pref: opt.value, flight_type: opt.flight_type }))}
+                      className={`p-3 rounded-xl border-2 text-center transition-all ${
+                        form.time_pref === opt.value
                           ? 'border-orange-500 bg-orange-50'
                           : 'border-slate-200 hover:border-slate-300'
                       }`}
                     >
                       <p className="font-semibold text-slate-900 text-sm">{opt.label}</p>
-                      <p className="text-slate-500 text-xs mt-0.5">{opt.duration}</p>
-                      <p className="text-orange-500 font-bold mt-1">${opt.price} / person</p>
-                      <p className="text-green-600 text-[11px] mt-0.5">Photo &amp; video included free</p>
+                      <p className="text-slate-500 text-[11px] mt-0.5">{opt.hint}</p>
                     </button>
                   ))}
                 </div>
+                <p className="text-xs text-slate-500 mt-1.5">Same price at any time. Exact time is confirmed by your pilot based on the wind.</p>
               </div>
 
               {/* Date + Guests */}
@@ -353,9 +363,7 @@ export default function BookingForm() {
               <h3 className="font-bold text-slate-900 mb-4">Quick Price Guide</h3>
               <div className="space-y-2 text-sm">
                 {[
-                  { name: 'Standard (2000m)', price: '$150' },
-                  { name: 'High Altitude (2000m)', price: '$150' },
-                  { name: 'Sunset Flight (2000m)', price: '$150' },
+                  { name: 'Tandem flight, all-inclusive', price: '$150' },
                 ].map(p => (
                   <div key={p.name} className="flex justify-between text-slate-700">
                     <span>{p.name}</span>
