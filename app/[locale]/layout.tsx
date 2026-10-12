@@ -5,6 +5,7 @@ import { routing } from '@/i18n/routing'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import WhatsAppButton from '@/components/shared/WhatsAppButton'
+import SourceCapture from '@/components/shared/SourceCapture'
 
 // Build-time'da her locale icin statik sayfa uretir (generateStaticParams olmadan
 // next-intl'in headers() kullanimi yuzunden TUM site her istekte dinamik render
@@ -37,6 +38,7 @@ export default async function LocaleLayout({
       {children}
       <Footer />
       <WhatsAppButton />
+      <SourceCapture />
     </NextIntlClientProvider>
   )
 }

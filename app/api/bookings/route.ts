@@ -5,6 +5,7 @@ import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import nodemailer from 'nodemailer'
 import crypto from 'crypto'
+import { classifyChannel, saveBookingSource } from '@/lib/admin/booking-source'
 
 function getSupabase() {
     return createClient(
@@ -240,6 +241,9 @@ export async function POST(request: Request) {
               console.error('[Bookings] Supabase error:', error)
               return NextResponse.json({ error: 'Failed to save booking' }, { status: 500 })
       }
+
+      // Which channel brought this booking (Google Ads, Instagram, ChatGPT…) — for the admin money view
+      try { await saveBookingSource(booking.id, classifyChannel(body.source)) } catch (srcErr) { console.error('[Bookings] source save failed:', srcErr) }
 
       // Write instantly to the "skywalkers" Google Calendar — no need to wait
       // for the hourly PC-based sync task anymore.

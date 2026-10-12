@@ -5,6 +5,7 @@ import { useLocale } from 'next-intl'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { bookingText } from './bookingFormText'
+import { readSource } from '@/components/shared/SourceCapture'
 import { Phone, Mail, MessageCircle, CheckCircle, Clock, Shield, ArrowRight, AlertCircle, Camera, Sparkles } from 'lucide-react'
 
 // One flight, one fixed price.
@@ -79,7 +80,7 @@ export default function BookingForm() {
       const res = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, source: readSource() }),
       })
       const data = await res.json()
 

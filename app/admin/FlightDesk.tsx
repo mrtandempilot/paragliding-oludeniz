@@ -1,7 +1,7 @@
 'use client'
 
-// Uçuş Masası — admin ana sayfası.
-// 1) Uçulur mu?  2) Kimi nereden kaçta alıyoruz?  3) Şimdi ne yapmam lazım?
+// Uçuş Masası — admin ana sayfası. Önce para: ne kazandık, ne geliyor, reklam ne
+// getiriyor. Sonra yapılacaklar ve günün uçuş listesi; hava sadece yardımcı bilgi.
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -10,6 +10,7 @@ import {
   ArrowUp, RefreshCw, Loader2, AlertTriangle, Phone, CalendarDays, MessageCircle, Ticket, Check, X,
   Users, Wind, Sunrise, Sunset, ListChecks, Radar, Search, Megaphone, Instagram, FileText, BarChart3,
   CircleDollarSign, Clock3, CheckCircle2, ChevronDown, CloudRain, Hotel, UserRound, Banknote,
+  Plus, TrendingUp, TrendingDown, Wallet, CalendarClock, Target,
 } from 'lucide-react'
 import TicketModal, { type Booking as TicketBooking } from './bookings/TicketModal'
 import { langOf, waMessage, waUrl, LANG_LABEL, TEMPLATE_LABEL, type Template } from './flightDeskText'
@@ -32,6 +33,8 @@ type Hour = { hour: number; tone: Tone; why: string[]; t1200: number; d1200: num
 type Day = { date: string; verdict: Tone; okHours: number; warnHours: number; window: { from: number; to: number } | null; sunrise: string | null; sunset: string | null; maxGust: number | null; maxRain: number | null; hours: Hour[] }
 type Station = { label: string; elevation: string; temperatureC: number | null; windSpeedKmh: number | null; windGustKmh: number | null; windDirectionDeg: number | null }
 
+type Sum = { revenue: number; guests: number; count: number }
+
 type Props = {
   today: string
   upcoming: Booking[]; laterPending: Booking[]; unclosed: Booking[]
@@ -40,10 +43,22 @@ type Props = {
   live: { stations: Station[]; fetchedAt: string } | null
   waInbox: { id: string; from: string; summary: string; at: string }[]
   agents: { total: number; errors: { agent: string; action: string; error?: string; at: string }[] }
-  pulse: {
-    week: { bookings: number; guests: number }; prevWeek: { bookings: number; guests: number }
-    flown30: { guests: number; revenue: number }
-    ads: { spend7: number | null; clicks7: number | null; conv7: number | null; generatedAt: string | null; issues: string[] } | null
+  sources: Record<string, string>
+  money: {
+    usdTry: number | null
+    earnedMonth: Sum; earnedLastSame: Sum; earnedLastFull: Sum
+    aheadConfirmed: Sum; aheadPending: Sum
+    week: { bookings: number; guests: number }; prevWeek: { bookings: number }
+    last30: { bookings: number; value: number; cancelled: number }; prev30: { bookings: number }
+    trend: { date: string; bookings: number; guests: number; value: number; adCost: number | null }[]
+    channels: { channel: string; bookings: number; value: number }[]
+    tracked: number
+    ads: {
+      spend7: number | null; spendPrev7: number | null; clicks7: number | null; conv7: number | null
+      spend30: number; clicks30: number; budgetDaily: number | null
+      googleBookings30: number; googleValue30: number
+      generatedAt: string | null; issues: string[]; actions: string[]
+    } | null
   }
 }
 
@@ -172,6 +187,101 @@ function HourStrip({ day, isToday }: { day: Day; isToday: boolean }) {
   )
 }
 
+/* ── 30-day bookings vs ad spend (two aligned single-series bar charts, one shared hover) ── */
+const C_BOOK = '#E5640C', C_ADS = '#3B8BE0' // validated against #10233A (dark), CVD ΔE 26
+function TrendChart({ rows, today }: { rows: Props['money']['trend']; today: string }) {
+  const [hover, setHover] = useState<number | null>(null)
+  const maxB = Math.max(1, ...rows.map(r => r.bookings))
+  const maxA = Math.max(1, ...rows.map(r => r.adCost || 0))
+  const hasAds = rows.some(r => (r.adCost || 0) > 0)
+  const fmt = (iso: string) => new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(iso + 'T12:00:00Z'))
+  const h = hover != null ? rows[hover] : null
+  const Bars = ({ val, max, color, height, label }: { val: (r: any) => number; max: number; color: string; height: number; label: string }) => (
+    <div>
+      <div className="mb-1 flex items-baseline justify-between text-[11px] text-[#8098B3]"><span>{label}</span><span className="tabular-nums text-[#5F7894]">en yüksek {nf(max)}</span></div>
+      <div className="flex items-end gap-[2px] border-b border-[#35506F]" style={{ height }}>
+        {rows.map((r, i) => {
+          const v = val(r)
+          return (
+            <div key={r.date} className="flex h-full flex-1 items-end" onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)} onClick={() => setHover(i)}>
+              <div className="w-full rounded-t-[3px]" style={{ height: v > 0 ? Math.max(3, (v / max) * (height - 4)) : 0, background: color, opacity: hover == null || hover === i ? 1 : 0.45 }} />
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+  return (
+    <div className="relative" role="img" aria-label="Son 30 gün: günlük yeni rezervasyon ve reklam harcaması">
+      <div className="space-y-3">
+        <Bars val={r => r.bookings} max={maxB} color={C_BOOK} height={84} label="Gelen rezervasyon / gün" />
+        {hasAds && <Bars val={r => r.adCost || 0} max={maxA} color={C_ADS} height={52} label="Google Ads harcaması / gün (₺)" />}
+      </div>
+      <div className="mt-1.5 flex justify-between text-[11px] tabular-nums text-[#5F7894]">
+        <span>{fmt(rows[0].date)}</span><span>{fmt(rows[14].date)}</span><span>{rows[rows.length - 1].date === today ? 'bugün' : fmt(rows[rows.length - 1].date)}</span>
+      </div>
+      {h && (
+        <div className="pointer-events-none absolute -top-2 z-10 w-44 -translate-x-1/2 rounded-lg border border-[#1E3654] bg-[#0B1A2C] px-3 py-2 text-[12px] shadow-xl" style={{ left: `${Math.min(88, Math.max(12, ((hover! + 0.5) / rows.length) * 100))}%` }}>
+          <div className="mb-1 text-[#8098B3]">{fmt(h.date)}</div>
+          <div className="flex items-center justify-between gap-2"><span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm" style={{ background: C_BOOK }} />rezervasyon</span><span className="tabular-nums text-white">{h.bookings}{h.bookings ? ` · $${nf(h.value)}` : ''}</span></div>
+          {hasAds && <div className="mt-0.5 flex items-center justify-between gap-2"><span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm" style={{ background: C_ADS }} />reklam</span><span className="tabular-nums text-white">{h.adCost != null ? `₺${nf(h.adCost)}` : '—'}</span></div>}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ── quick booking (WhatsApp / phone / agency / walk-in) ───────────────── */
+const CHANNELS = ['WhatsApp', 'Telefon', 'Acenta / otel', 'Yürüyerek gelen', 'Instagram DM', 'Diğer']
+function QuickAdd({ today, onClose, onSaved }: { today: string; onClose: () => void; onSaved: () => void }) {
+  const [f, setF] = useState({ name: '', phone: '', flight_date: today, guests: '1', price_per_person: String(PRICE), channel: 'WhatsApp', notes: '' })
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const set = (k: keyof typeof f, v: string) => setF(x => ({ ...x, [k]: v }))
+  async function save(e: React.FormEvent) {
+    e.preventDefault(); setSaving(true); setError(null)
+    try {
+      const r = await fetch('/api/admin/quick-booking', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(f) })
+      const j = await r.json().catch(() => ({}))
+      if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`)
+      onSaved()
+    } catch (e: any) { setError(e?.message || 'Kaydedilemedi') }
+    setSaving(false)
+  }
+  const input = 'w-full rounded-lg border border-[#1E3654] bg-[#0B1A2C] px-3 py-2 text-[14px] text-white outline-none focus:border-[#2DD4BF] [color-scheme:dark]'
+  const total = (Number(f.price_per_person) || 0) * (parseInt(f.guests) || 1)
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-0 sm:items-center sm:p-4" onClick={onClose}>
+      <form onSubmit={save} onClick={e => e.stopPropagation()} className="w-full max-w-md rounded-t-2xl border border-[#1E3654] bg-[#10233A] p-5 sm:rounded-2xl">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className={`${sora.className} text-[18px] font-semibold`}>Rezervasyon ekle</h2>
+          <button type="button" onClick={onClose} className="text-[#8098B3] hover:text-white" aria-label="Kapat"><X className="h-5 w-5" /></button>
+        </div>
+        <p className="mb-4 text-[12px] text-[#8098B3]">WhatsApp, telefon, acenta ya da yürüyerek gelen müşteri. Kaydedince ciroya ve uçuş listesine girer, müşteriye e-posta gitmez.</p>
+        <div className="grid grid-cols-2 gap-3">
+          <label className="col-span-2 text-[12px] text-[#8098B3]">Ad soyad<input required autoFocus value={f.name} onChange={e => set('name', e.target.value)} className={`${input} mt-1`} /></label>
+          <label className="text-[12px] text-[#8098B3]">Telefon<input value={f.phone} onChange={e => set('phone', e.target.value)} placeholder="+44…" className={`${input} mt-1`} /></label>
+          <label className="text-[12px] text-[#8098B3]">Uçuş günü<input type="date" required value={f.flight_date} onChange={e => set('flight_date', e.target.value)} className={`${input} mt-1`} /></label>
+          <label className="text-[12px] text-[#8098B3]">Kişi<input type="number" min={1} max={30} value={f.guests} onChange={e => set('guests', e.target.value)} className={`${input} mt-1`} /></label>
+          <label className="text-[12px] text-[#8098B3]">Kişi başı $<input type="number" min={0} value={f.price_per_person} onChange={e => set('price_per_person', e.target.value)} className={`${input} mt-1`} /></label>
+          <label className="col-span-2 text-[12px] text-[#8098B3]">Nereden geldi
+            <div className="mt-1 flex flex-wrap gap-1.5">
+              {CHANNELS.map(c => (
+                <button type="button" key={c} onClick={() => set('channel', c)} className={`rounded-lg px-2.5 py-1.5 text-[12px] ${f.channel === c ? 'bg-[#F97316] text-white' : 'border border-[#1E3654] text-[#C9D6E4] hover:border-[#35506F]'}`}>{c}</button>
+              ))}
+            </div>
+          </label>
+          <label className="col-span-2 text-[12px] text-[#8098B3]">Not<input value={f.notes} onChange={e => set('notes', e.target.value)} placeholder="Otel, acenta adı…" className={`${input} mt-1`} /></label>
+        </div>
+        {error && <p className="mt-3 text-[13px] text-[#F87171]">{error}</p>}
+        <button disabled={saving} className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-[#F97316] py-3 text-[14px] font-semibold text-white hover:bg-[#EA6A0F] disabled:opacity-60">
+          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}Kaydet · ${nf(total)}
+        </button>
+      </form>
+    </div>
+  )
+}
+
 /* ── main ──────────────────────────────────────────────────────────────── */
 export default function FlightDesk(p: Props) {
   const router = useRouter()
@@ -185,23 +295,31 @@ export default function FlightDesk(p: Props) {
   const [ticketFor, setTicketFor] = useState<Booking | null>(null)
   const [handled, setHandled] = useState<string[]>([])
   const [refreshing, setRefreshing] = useState(false)
-  const [ext, setExt] = useState<{ ga4?: any; meta?: any; ig?: any }>({})
+  const [ext, setExt] = useState<{ ga4?: any; meta?: any; metaSpend?: any; ig?: any }>({})
   const [showAllUnclosed, setShowAllUnclosed] = useState(false)
+  const [showWeather, setShowWeather] = useState(false)
+  const [adding, setAdding] = useState(false)
 
+  async function loadExt() {
+    const [ga4, meta, metaSpend, ig] = await Promise.all([
+      getJson('/api/admin/seo-data?type=ga4-overview'),
+      getJson('/api/admin/meta-ads?type=account'),
+      getJson('/api/admin/meta-ads?type=insights&date_preset=last_30d'),
+      getJson('/api/admin/instagram/token-status'),
+    ])
+    setExt({ ga4, meta, metaSpend, ig })
+  }
   useEffect(() => { setOps(p.ops) }, [p.ops])
   useEffect(() => {
     setNow(new Date())
     const t = setInterval(() => setNow(new Date()), 30000)
-    ;(async () => {
-      const [ga4, meta, ig] = await Promise.all([
-        getJson('/api/admin/seo-data?type=ga4-overview'),
-        getJson('/api/admin/meta-ads?type=account'),
-        getJson('/api/admin/instagram/token-status'),
-      ])
-      setExt({ ga4, meta, ig })
-    })()
+    try { setShowWeather(localStorage.getItem('desk-weather') === '1') } catch {}
+    loadExt()
     return () => clearInterval(t)
   }, [])
+  function toggleWeather() {
+    setShowWeather(v => { try { localStorage.setItem('desk-weather', v ? '0' : '1') } catch {} return !v })
+  }
 
   const st = (b: Booking) => statusOverride[b.id] || b.status
   const week = useMemo(() => Array.from({ length: 7 }, (_, i) => addDays(p.today, i)), [p.today])
@@ -213,6 +331,7 @@ export default function FlightDesk(p: Props) {
   }, [p.upcoming])
   const live = (d: string) => (byDay[d] || []).filter(b => st(b) !== 'cancelled')
   const guestsOn = (d: string) => live(d).reduce((s, b) => s + guestsOf(b), 0)
+  const valueOf = (b: Booking) => Number(b.total_price) || PRICE * guestsOf(b)
 
   /* actions */
   async function setStatus(b: Booking, status: string) {
@@ -241,51 +360,42 @@ export default function FlightDesk(p: Props) {
   }
   async function refreshAll() {
     setRefreshing(true); setStatusOverride({}); router.refresh()
-    const [ga4, meta, ig] = await Promise.all([getJson('/api/admin/seo-data?type=ga4-overview'), getJson('/api/admin/meta-ads?type=account'), getJson('/api/admin/instagram/token-status')])
-    setExt({ ga4, meta, ig }); setRefreshing(false)
+    await loadExt(); setRefreshing(false)
   }
+
+  /* money */
+  const M = p.money
+  const pctChange = (a: number, b: number) => (b > 0 ? Math.round(((a - b) / b) * 100) : null)
+  const monthDelta = pctChange(M.earnedMonth.revenue, M.earnedLastSame.revenue)
+  const toUsd = (tl: number | null | undefined) => (tl != null && M.usdTry ? tl / M.usdTry : null)
+  const ads = M.ads
+  const spend30Usd = toUsd(ads?.spend30)
+  const roas = spend30Usd && spend30Usd > 0 && ads ? ads.googleValue30 / spend30Usd : null
+  const metaSpend30 = (ext.metaSpend?.data || []).reduce((s: number, r: any) => s + Number(r.spend || 0), 0)
+  const metaStatus = ext.meta && !ext.meta.error ? Number(ext.meta.account_status) : null
+  const visitors = ext.ga4?.overview?.activeUsers
+  const monthName = new Intl.DateTimeFormat('tr-TR', { month: 'long', timeZone: 'UTC' }).format(new Date(p.today + 'T12:00:00Z'))
 
   /* selected day */
   const sel = outlookBy[day]
   const dayList = live(day).slice().sort((a, b) => (ops[a.id]?.pickup || '99').localeCompare(ops[b.id]?.pickup || '99') || fullName(a).localeCompare(fullName(b)))
   const dayGuests = dayList.reduce((s, b) => s + guestsOf(b), 0)
-  const dayExpected = dayList.reduce((s, b) => s + (Number(b.total_price) || PRICE * guestsOf(b)), 0)
-  const dayPaid = dayList.filter(b => ops[b.id]?.paid).reduce((s, b) => s + (Number(b.total_price) || PRICE * guestsOf(b)), 0)
+  const dayExpected = dayList.reduce((s, b) => s + valueOf(b), 0)
+  const dayPaid = dayList.filter(b => ops[b.id]?.paid).reduce((s, b) => s + valueOf(b), 0)
   const noPickup = dayList.filter(b => !ops[b.id]?.pickup).length
   const noPilot = dayList.filter(b => !ops[b.id]?.pilot).length
   const pilots = useMemo(() => Array.from(new Set(Object.values(ops).map(o => o.pilot).filter(Boolean) as string[])).sort(), [ops])
   const stations = p.live ? [...p.live.stations].sort((a, b) => STATION_ORDER.indexOf(a.label) - STATION_ORDER.indexOf(b.label)) : []
 
-  /* to-do inbox */
+  /* to-do inbox — money first */
   type Item = { key: string; tone: Tone; title: string; sub?: string; body?: React.ReactNode }
   const items: Item[] = []
-  const unclosed = p.unclosed.filter(b => !['completed', 'cancelled'].includes(st(b)))
-  if (unclosed.length) {
-    const shown = showAllUnclosed ? unclosed : unclosed.slice(0, 3)
-    items.push({
-      key: 'unclosed', tone: 'warn', title: `${unclosed.length} geçmiş uçuş kapatılmadı`, sub: 'Uçtu mu, iptal mi? İşaretle ki ciro ve istatistik doğru olsun.',
-      body: (
-        <ul className="mt-2 space-y-1.5">
-          {shown.map(b => (
-            <li key={b.id} className="flex items-center justify-between gap-2 text-[13px]">
-              <span className="min-w-0 truncate">{fullName(b)} <span className="text-[#5F7894]">· {b.flight_date.slice(5)} · {guestsOf(b)} kişi</span></span>
-              <span className="flex shrink-0 gap-1">
-                <button disabled={busy === b.id} onClick={() => setStatus(b, 'completed')} className={`${btn} border border-[#7DD3FC]/40 text-[#7DD3FC] hover:bg-[#7DD3FC]/10`}>Uçtu</button>
-                <button disabled={busy === b.id} onClick={() => setStatus(b, 'cancelled')} className={`${btn} border border-[#1E3654] text-[#8098B3] hover:border-[#F87171] hover:text-[#F87171]`}>İptal</button>
-              </span>
-            </li>
-          ))}
-          {unclosed.length > 3 && <li><button onClick={() => setShowAllUnclosed(v => !v)} className="text-[12px] text-[#8098B3] hover:text-white">{showAllUnclosed ? 'daha az' : `${unclosed.length - 3} tane daha`}</button></li>}
-        </ul>
-      ),
-    })
-  }
   const pendings = [...p.upcoming, ...p.laterPending].filter(b => st(b) === 'pending')
   for (const b of pendings.slice(0, 6)) {
     const hrs = b.created_at ? (Date.now() - new Date(b.created_at).getTime()) / 3600000 : 0
     items.push({
       key: 'p' + b.id, tone: hrs > 2 ? 'bad' : 'warn',
-      title: `Onay bekliyor: ${fullName(b)}`, sub: `${dayFull(b.flight_date.slice(0, 10), p.today)} · ${guestsOf(b)} kişi · geldi ${ago(b.created_at)}${hrs > 2 ? ' (2 saat sözü geçti)' : ''}`,
+      title: `$${nf(valueOf(b))} onay bekliyor: ${fullName(b)}`, sub: `${dayFull(b.flight_date.slice(0, 10), p.today)} · ${guestsOf(b)} kişi · geldi ${ago(b.created_at)}${hrs > 2 ? ' (2 saat sözü geçti)' : ''}`,
       body: (
         <div className="mt-2 flex flex-wrap gap-1.5">
           <button disabled={busy === b.id} onClick={() => setStatus(b, 'confirmed')} className={`${btn} bg-[#2DD4BF] text-[#0B1A2C] hover:bg-[#5EEAD4]`}>{busy === b.id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}Onayla</button>
@@ -301,66 +411,72 @@ export default function FlightDesk(p: Props) {
   if (pendings.length > 6) items.push({ key: 'pmore', tone: 'warn', title: `${pendings.length - 6} rezervasyon daha onay bekliyor`, body: <Link href="/admin/bookings" className="mt-1 inline-block text-[12px] text-[#8098B3] underline">Rezervasyonlar</Link> })
   for (const w of p.waInbox.filter(w => !handled.includes(w.id))) {
     items.push({
-      key: 'wa' + w.id, tone: 'warn', title: `WhatsApp: +${w.from} cevap bekliyor`, sub: `${w.summary} · ${ago(w.at)}`,
+      key: 'wa' + w.id, tone: 'bad', title: `Potansiyel müşteri: +${w.from} WhatsApp'ta cevap bekliyor`, sub: `${w.summary} · ${ago(w.at)}`,
       body: (
-        <div className="mt-2 flex gap-1.5">
+        <div className="mt-2 flex flex-wrap gap-1.5">
           <a href={waUrl(w.from)} target="_blank" rel="noopener noreferrer" className={`${btn} bg-[#25D366] text-[#0B1A2C]`}><MessageCircle className="h-3.5 w-3.5" />Konuşmayı aç</a>
+          <button onClick={() => setAdding(true)} className={ghost}><Plus className="h-3.5 w-3.5" />Rezervasyona çevir</button>
           <button onClick={() => markHandled(w.id)} className={ghost}><Check className="h-3.5 w-3.5" />İlgilendim</button>
         </div>
       ),
     })
   }
+  const unclosed = p.unclosed.filter(b => !['completed', 'cancelled'].includes(st(b)))
+  if (unclosed.length) {
+    const shown = showAllUnclosed ? unclosed : unclosed.slice(0, 3)
+    items.push({
+      key: 'unclosed', tone: 'warn', title: `${unclosed.length} geçmiş uçuş kapatılmadı`, sub: 'Uçtu mu, iptal mi? İşaretlemezsen ciro yanlış görünür.',
+      body: (
+        <ul className="mt-2 space-y-1.5">
+          {shown.map(b => (
+            <li key={b.id} className="flex items-center justify-between gap-2 text-[13px]">
+              <span className="min-w-0 truncate">{fullName(b)} <span className="text-[#5F7894]">· {b.flight_date.slice(5)} · ${nf(valueOf(b))}</span></span>
+              <span className="flex shrink-0 gap-1">
+                <button disabled={busy === b.id} onClick={() => setStatus(b, 'completed')} className={`${btn} border border-[#7DD3FC]/40 text-[#7DD3FC] hover:bg-[#7DD3FC]/10`}>Uçtu</button>
+                <button disabled={busy === b.id} onClick={() => setStatus(b, 'cancelled')} className={`${btn} border border-[#1E3654] text-[#8098B3] hover:border-[#F87171] hover:text-[#F87171]`}>İptal</button>
+              </span>
+            </li>
+          ))}
+          {unclosed.length > 3 && <li><button onClick={() => setShowAllUnclosed(v => !v)} className="text-[12px] text-[#8098B3] hover:text-white">{showAllUnclosed ? 'daha az' : `${unclosed.length - 3} tane daha`}</button></li>}
+        </ul>
+      ),
+    })
+  }
+  for (const t of ads?.issues || []) items.push({ key: 'ads' + t, tone: 'bad', title: `Google Ads: ${t}`, sub: 'Para harcanıyor ama rezervasyon gelmiyor.', body: <Link href="/admin/google-ads" className="mt-1 inline-block text-[12px] text-[#8098B3] underline">Günlük rapor</Link> })
+  if (metaStatus != null && metaStatus !== 1) items.push({ key: 'meta', tone: 'warn', title: 'Meta reklamları durmuş', sub: metaStatus === 3 ? `Ödenmemiş bakiye${ext.meta.balance ? ` ₺${nf(Number(ext.meta.balance))}` : ''}` : `Hesap durumu ${metaStatus}`, body: <Link href="/admin/meta-ads" className="mt-1 inline-block text-[12px] text-[#8098B3] underline">Meta reklamları</Link> })
   for (const d of week.slice(0, 3)) {
     const o = outlookBy[d], g = guestsOn(d)
-    if (o && o.verdict !== 'ok' && g > 0) {
-      const reason = o.hours.flatMap(h => h.why)[0]
-      items.push({
-        key: 'wx' + d, tone: o.verdict === 'bad' ? 'bad' : 'warn',
-        title: `${dayName(d, p.today)} hava ${o.verdict === 'bad' ? 'uçuşa uygun görünmüyor' : 'riskli'}, ${g} yolcu var`,
-        sub: `${reason ? reason + ' · ' : ''}${o.window ? `en iyi aralık ${hh(o.window.from)}–${hh(o.window.to + 1)}` : 'uygun saat yok'}. Gerekirse müşterilere haber ver.`,
-        body: <button onClick={() => setDay(d)} className={`${ghost} mt-2`}>Listeyi aç</button>,
-      })
-    }
-  }
-  for (const d of week.slice(0, 2)) {
-    const miss = live(d).filter(b => st(b) === 'confirmed' && !ops[b.id]?.pickup)
-    if (miss.length) items.push({
-      key: 'pk' + d, tone: d === p.today ? 'bad' : 'warn',
-      title: `${dayName(d, p.today)} ${miss.length} rezervasyonun alış saati yok`, sub: 'Saati ve oteli yaz, müşteriye tek tuşla gönder.',
+    if (o && o.verdict !== 'ok' && g > 0) items.push({
+      key: 'wx' + d, tone: o.verdict === 'bad' ? 'bad' : 'warn',
+      title: `${dayName(d, p.today)} ${g} yolcu var, hava ${o.verdict === 'bad' ? 'uygun görünmüyor' : 'riskli'}`,
+      sub: `${o.window ? `En iyi aralık ${hh(o.window.from)}–${hh(o.window.to + 1)}.` : 'Uygun saat yok.'} Gerekirse müşteriyi başka güne al, parayı kaçırma.`,
       body: <button onClick={() => setDay(d)} className={`${ghost} mt-2`}>Listeyi aç</button>,
     })
   }
+  for (const d of week.slice(0, 2)) {
+    const miss = live(d).filter(b => st(b) === 'confirmed' && !ops[b.id]?.pickup)
+    if (miss.length) items.push({ key: 'pk' + d, tone: d === p.today ? 'bad' : 'warn', title: `${dayName(d, p.today)} ${miss.length} müşterinin alış saati yok`, sub: 'Saati ve oteli yaz, müşteriye tek tuşla gönder.', body: <button onClick={() => setDay(d)} className={`${ghost} mt-2`}>Listeyi aç</button> })
+  }
   for (const a of p.agents.errors) items.push({ key: 'ag' + a.agent, tone: 'warn', title: `${a.agent} ajanı hata verdi`, sub: `${(a.error || a.action || '').slice(0, 110)} · ${ago(a.at)}`, body: <Link href="/admin/mission-control" className="mt-1 inline-block text-[12px] text-[#8098B3] underline">Mission Control</Link> })
-  const metaBad = ext.meta && !ext.meta.error && Number(ext.meta.account_status) !== 1
-  if (metaBad) items.push({ key: 'meta', tone: 'warn', title: 'Meta reklam hesabı yayında değil', sub: Number(ext.meta.account_status) === 3 ? `Ödenmemiş bakiye${ext.meta.balance ? ` ₺${nf(Number(ext.meta.balance))}` : ''}` : `Durum kodu ${ext.meta.account_status}`, body: <Link href="/admin/meta-ads" className="mt-1 inline-block text-[12px] text-[#8098B3] underline">Meta reklamları</Link> })
-  for (const t of p.pulse.ads?.issues || []) items.push({ key: 'ads' + t, tone: 'warn', title: `Google Ads: ${t}`, body: <Link href="/admin/google-ads" className="mt-1 inline-block text-[12px] text-[#8098B3] underline">Günlük rapor</Link> })
-  if (ext.ig?.valid === false) items.push({ key: 'ig', tone: 'bad', title: 'Instagram bağlantısı kopmuş', sub: 'Otomatik paylaşım ve DM çalışmaz.', body: <Link href="/admin/instagram" className="mt-1 inline-block text-[12px] text-[#8098B3] underline">Instagram</Link> })
-  else if (ext.ig?.daysLeft != null && ext.ig.daysLeft < 10) items.push({ key: 'ig2', tone: 'warn', title: `Instagram bağlantısı ${ext.ig.daysLeft} gün sonra bitiyor`, body: <Link href="/admin/instagram" className="mt-1 inline-block text-[12px] text-[#8098B3] underline">Yenile</Link> })
+  if (ext.ig?.valid === false) items.push({ key: 'ig', tone: 'warn', title: 'Instagram bağlantısı kopmuş', body: <Link href="/admin/instagram" className="mt-1 inline-block text-[12px] text-[#8098B3] underline">Instagram</Link> })
   const order: Record<Tone, number> = { bad: 0, warn: 1, ok: 2 }
   items.sort((a, b) => order[a.tone] - order[b.tone])
 
-  /* pulse */
-  const pw = p.pulse
-  const delta = pw.week.bookings - pw.prevWeek.bookings
-  const cpb = pw.ads?.spend7 != null && pw.week.bookings > 0 ? pw.ads.spend7 / pw.week.bookings : null
-  const visitors = ext.ga4?.overview?.activeUsers
-  const healthy = p.agents.total - p.agents.errors.length
-
   const dateTitle = now ? new Intl.DateTimeFormat('tr-TR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Istanbul' }).format(now) : ''
   const clock = now ? new Intl.DateTimeFormat('tr-TR', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Istanbul' }).format(now) : ''
-
   const shortcuts = [
-    { href: '/admin/ticket', label: 'Bilet bas', icon: Ticket },
     { href: '/admin/bookings', label: 'Rezervasyonlar', icon: ListChecks },
-    { href: '/admin/calendar', label: 'Takvim', icon: CalendarDays },
-    { href: '/live-weather', label: 'Canlı hava', icon: Wind },
+    { href: '/admin/ticket', label: 'Bilet bas', icon: Ticket },
     { href: '/admin/google-ads', label: 'Google Ads', icon: Search },
     { href: '/admin/meta-ads', label: 'Meta', icon: Megaphone },
-    { href: '/admin/instagram', label: 'Instagram', icon: Instagram },
-    { href: '/admin/blog', label: 'Blog', icon: FileText },
+    { href: '/admin/calendar', label: 'Takvim', icon: CalendarDays },
     { href: '/admin/analyze', label: 'Analiz', icon: BarChart3 },
-    { href: '/admin/mission-control', label: 'Ajanlar', icon: Radar },
+    { href: '/admin/instagram', label: 'Instagram', icon: Instagram },
+    { href: '/admin/mission-control', label: `Ajanlar ${p.agents.total - p.agents.errors.length}/${p.agents.total}`, icon: Radar },
   ]
+  const Delta = ({ v }: { v: number | null }) => v == null ? null : (
+    <span className={`inline-flex items-center gap-0.5 ${v >= 0 ? 'text-[#2DD4BF]' : 'text-[#F87171]'}`}>{v >= 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}%{Math.abs(v)}</span>
+  )
 
   return (
     <div className="-m-4 min-h-screen bg-[#0B1A2C] px-3 py-5 text-[#E7EEF6] sm:px-6 md:-m-8 lg:px-8 lg:py-8">
@@ -372,103 +488,145 @@ export default function FlightDesk(p: Props) {
             <p className="text-[13px] capitalize text-[#8098B3]">{dateTitle}</p>
             <h1 className={`${sora.className} mt-1 text-[24px] font-semibold tracking-tight sm:text-[28px]`}>Uçuş Masası</h1>
           </div>
-          <div className="flex items-center gap-3">
-            <span className={`${sora.className} text-[24px] font-light tabular-nums text-[#8098B3]`} aria-label="Saat (İstanbul)">{clock}</span>
-            <button onClick={refreshAll} className="flex items-center gap-2 rounded-lg border border-[#1E3654] px-3 py-2 text-[13px] text-[#8098B3] hover:border-[#2DD4BF] hover:text-[#E7EEF6]">
-              <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} aria-hidden /><span className="hidden sm:inline">Yenile</span>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <span className={`${sora.className} hidden text-[24px] font-light tabular-nums text-[#8098B3] sm:inline`} aria-label="Saat (İstanbul)">{clock}</span>
+            <button onClick={refreshAll} className="flex items-center gap-2 rounded-lg border border-[#1E3654] px-3 py-2 text-[13px] text-[#8098B3] hover:border-[#2DD4BF] hover:text-[#E7EEF6]" aria-label="Yenile">
+              <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} aria-hidden />
+            </button>
+            <button onClick={() => setAdding(true)} className="flex items-center gap-2 rounded-lg bg-[#F97316] px-3.5 py-2 text-[13px] font-semibold text-white hover:bg-[#EA6A0F]">
+              <Plus className="h-4 w-4" aria-hidden />Rezervasyon ekle
             </button>
           </div>
         </header>
 
-        {/* 7-day strip: demand × weather — drives everything below */}
-        <nav className="-mx-3 flex gap-2 overflow-x-auto px-3 pb-1 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-7 sm:px-0" aria-label="Gün seç">
-          {week.map(d => {
-            const o = outlookBy[d], g = guestsOn(d), active = d === day
-            const pend = live(d).some(b => st(b) === 'pending')
-            return (
-              <button
-                key={d} onClick={() => setDay(d)} aria-pressed={active}
-                className={`relative flex min-w-[88px] shrink-0 flex-col rounded-2xl border px-3 py-2.5 text-left transition-colors ${active ? 'border-[#F97316] bg-[#F97316]/10' : 'border-[#1E3654] bg-[#10233A]/70 hover:border-[#35506F]'}`}
-              >
-                <span className="flex items-center justify-between gap-2 text-[12px] capitalize text-[#C9D6E4]">
-                  {dayName(d, p.today, 'short')}<span className="tabular-nums text-[#5F7894]">{Number(d.slice(8))}</span>
-                </span>
-                <span className="mt-1.5 flex items-end gap-1.5">
-                  <span className={`${sora.className} text-[22px] leading-none tabular-nums ${g ? 'text-white' : 'text-[#35506F]'}`}>{g || '0'}</span>
-                  <span className="pb-0.5 text-[11px] text-[#5F7894]">yolcu</span>
-                </span>
-                <span className="mt-2 flex items-center gap-1.5 text-[11px]" style={{ color: o ? TONE_COLOR[o.verdict] : '#5F7894' }}>
-                  <span className="h-2 w-2 rounded-full" style={{ background: o ? TONE_COLOR[o.verdict] : '#35506F' }} aria-hidden />
-                  {o ? VERDICT[o.verdict] : 'tahmin yok'}
-                </span>
-                {pend && <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-[#FBBF24]" aria-label="onay bekleyen var" />}
-              </button>
-            )
-          })}
-        </nav>
+        {/* ── MONEY ── */}
+        <section aria-label="Para" className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[#1E3654] bg-[#1E3654] lg:grid-cols-4">
+          <div className="col-span-2 bg-gradient-to-br from-[#1B2E22] to-[#10233A] p-4 sm:p-5 lg:col-span-1">
+            <div className="flex items-center gap-2 text-[12px] text-[#8098B3]"><Wallet className="h-4 w-4" />{monthName} ayında kazanılan</div>
+            <div className={`${sora.className} mt-2 text-[34px] font-light leading-none tabular-nums text-white sm:text-[40px]`}>${nf(M.earnedMonth.revenue)}</div>
+            <div className="mt-2 flex flex-wrap gap-x-2 text-[12px] text-[#8098B3]">
+              <span>{M.earnedMonth.guests} yolcu uçtu</span>
+              <span>· geçen ay aynı dönem ${nf(M.earnedLastSame.revenue)} <Delta v={monthDelta} /></span>
+            </div>
+            <div className="text-[11px] text-[#5F7894]">geçen ay toplam ${nf(M.earnedLastFull.revenue)}</div>
+          </div>
+          <div className="bg-[#0F2136] p-4 sm:p-5">
+            <div className="flex items-center gap-2 text-[12px] text-[#8098B3]"><CalendarClock className="h-4 w-4" />Önümüzdeki 30 gün</div>
+            <div className={`${sora.className} mt-2 text-[26px] font-light leading-none tabular-nums`}>${nf(M.aheadConfirmed.revenue + M.aheadPending.revenue)}</div>
+            <div className="mt-2 text-[12px] text-[#8098B3]">${nf(M.aheadConfirmed.revenue)} onaylı{M.aheadPending.revenue ? <span className="text-[#FBBF24]"> · ${nf(M.aheadPending.revenue)} onay bekliyor</span> : null}</div>
+            <div className="text-[11px] text-[#5F7894]">{M.aheadConfirmed.guests + M.aheadPending.guests} yolcu</div>
+          </div>
+          <div className="bg-[#0F2136] p-4 sm:p-5">
+            <div className="flex items-center gap-2 text-[12px] text-[#8098B3]"><Users className="h-4 w-4" />Yeni rezervasyon, 30 gün</div>
+            <div className={`${sora.className} mt-2 text-[26px] font-light leading-none tabular-nums`}>{M.last30.bookings} <span className="text-[16px] text-[#8098B3]">· ${nf(M.last30.value)}</span></div>
+            <div className="mt-2 text-[12px] text-[#8098B3]">önceki 30 gün {M.prev30.bookings} <Delta v={pctChange(M.last30.bookings, M.prev30.bookings)} /></div>
+            <div className="text-[11px] text-[#5F7894]">bu hafta {M.week.bookings} (geçen hafta {M.prevWeek.bookings}){M.last30.cancelled ? ` · ${M.last30.cancelled} iptal` : ''}</div>
+          </div>
+          <div className="col-span-2 bg-[#0F2136] p-4 sm:p-5 lg:col-span-1">
+            <div className="flex items-center gap-2 text-[12px] text-[#8098B3]"><Target className="h-4 w-4" />Reklam, 30 gün</div>
+            <div className={`${sora.className} mt-2 text-[26px] font-light leading-none tabular-nums`}>{ads ? `₺${nf(ads.spend30 + metaSpend30)}` : '—'}{spend30Usd != null && <span className="text-[16px] text-[#8098B3]"> ≈ ${nf(toUsd((ads?.spend30 || 0) + metaSpend30) || 0)}</span>}</div>
+            <div className="mt-2 text-[12px] text-[#8098B3]">
+              {ads ? <>Google'dan {ads.googleBookings30} rezervasyon{ads.googleBookings30 ? ` · $${nf(ads.googleValue30)}` : ''}</> : 'rapor yok'}
+              {roas != null && ads?.googleBookings30 ? <span className={roas >= 3 ? 'text-[#2DD4BF]' : 'text-[#FBBF24]'}> · her $1 → ${nf(roas, 1)}</span> : null}
+            </div>
+            <div className="text-[11px] text-[#5F7894]">{M.tracked < M.last30.bookings ? 'kaynak takibi 12 Ekim\'de başladı, eski kayıtlarda yok' : `${ads?.clicks30 ?? 0} tıklama`}</div>
+          </div>
+        </section>
 
         <div className="grid gap-4 lg:grid-cols-12">
-          {/* LEFT: weather + manifest */}
+          {/* LEFT */}
           <div className="order-2 space-y-4 lg:order-1 lg:col-span-8">
-
-            {/* flyability */}
-            <section className="rounded-2xl border border-[#1E3654] bg-gradient-to-br from-[#10233A] to-[#0F2136] p-4 sm:p-5" aria-label="Uçulur mu">
-              {!sel ? (
-                <p className="flex items-center gap-2 text-[13px] text-[#FBBF24]"><AlertTriangle className="h-4 w-4" />{p.outlook.error || 'Bu gün için tahmin yok.'}</p>
-              ) : (
-                <>
-                  <div className="flex flex-wrap items-start justify-between gap-4">
-                    <div>
-                      <p className="text-[13px] text-[#8098B3]">{(n => n.charAt(0).toLocaleUpperCase('tr-TR') + n.slice(1))(dayName(day, p.today))} uçulur mu?</p>
-                      <p className={`${sora.className} mt-1 text-[30px] font-semibold leading-none sm:text-[36px]`} style={{ color: TONE_COLOR[sel.verdict] }}>{VERDICT[sel.verdict]}</p>
-                      <p className="mt-2 text-[13px] text-[#C9D6E4]">
-                        {sel.window ? <>En iyi aralık <b className="tabular-nums">{hh(sel.window.from)}–{hh(sel.window.to + 1)}</b></> : 'Uygun saat görünmüyor'}
-                        <span className="text-[#5F7894]"> · {sel.okHours} saat uygun, {sel.warnHours} saat dikkat</span>
-                      </p>
-                    </div>
-                    <div className="flex gap-4 text-[13px] text-[#C9D6E4]">
-                      {sel.sunrise && <span className="flex items-center gap-1.5"><Sunrise className="h-4 w-4 text-[#FBBF24]" aria-hidden /><span className="tabular-nums">{sel.sunrise}</span></span>}
-                      {sel.sunset && <span className="flex items-center gap-1.5" title="Gün batımı uçuşu için"><Sunset className="h-4 w-4 text-[#F97316]" aria-hidden /><span className="tabular-nums">{sel.sunset}</span></span>}
-                      {sel.maxRain != null && sel.maxRain >= 30 && <span className="flex items-center gap-1.5 text-[#7DD3FC]"><CloudRain className="h-4 w-4" aria-hidden />%{Math.round(sel.maxRain)}</span>}
-                    </div>
-                  </div>
-                  <div className="mt-4"><HourStrip day={sel} isToday={day === p.today} /></div>
-                  {day === p.today && stations.length > 0 && (
-                    <div className="mt-4 grid grid-cols-3 gap-2 border-t border-[#1E3654] pt-3">
-                      {stations.map(s => (
-                        <div key={s.label} className="min-w-0">
-                          <div className="text-[11px] text-[#5F7894]">{STATION_TR[s.label] || s.label}, şu an</div>
-                          <div className="mt-0.5 flex items-center gap-1.5">
-                            <span className={`${sora.className} text-[18px] tabular-nums`}>{s.windSpeedKmh != null ? Math.round(s.windSpeedKmh) : '—'}</span>
-                            <span className="text-[11px] text-[#5F7894]">km/s</span>
-                            {s.windDirectionDeg != null && <ArrowUp className="h-3.5 w-3.5 text-[#C9D6E4]" style={{ transform: `rotate(${(s.windDirectionDeg + 180) % 360}deg)` }} aria-hidden />}
-                            {s.windGustKmh != null && <span className="text-[11px] text-[#8098B3]">hamle {Math.round(s.windGustKmh)}</span>}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+            <Card title="Son 30 gün: rezervasyon ve reklam" icon={TrendingUp} right={<Link href="/admin/google-ads" className="text-[12px] text-[#8098B3] hover:text-white">reklam raporu →</Link>}>
+              <TrendChart rows={M.trend} today={p.today} />
+              <div className="mt-5 grid gap-5 border-t border-[#1E3654] pt-4 sm:grid-cols-2">
+                <div>
+                  <div className="mb-2 text-[12px] text-[#8098B3]">Rezervasyonlar nereden geliyor (30 gün)</div>
+                  {M.channels.length === 0 ? <p className="text-[13px] text-[#5F7894]">Henüz rezervasyon yok.</p> : (
+                    <ul className="space-y-2">
+                      {M.channels.map(c => {
+                        const max = Math.max(1, ...M.channels.map(x => x.value))
+                        return (
+                          <li key={c.channel}>
+                            <div className="mb-1 flex justify-between gap-2 text-[13px]"><span className={c.channel.startsWith('Takip yok') ? 'text-[#5F7894]' : 'text-[#E7EEF6]'}>{c.channel}</span><span className="tabular-nums text-[#8098B3]">{c.bookings} · ${nf(c.value)}</span></div>
+                            <div className="h-1.5 rounded-full bg-[#1E3654]"><div className="h-1.5 rounded-full" style={{ width: `${(c.value / max) * 100}%`, background: c.channel.startsWith('Takip yok') ? '#35506F' : C_BOOK }} /></div>
+                          </li>
+                        )
+                      })}
+                    </ul>
                   )}
-                  <p className="mt-3 text-[11px] text-[#5F7894]">{p.outlook.model} modeli tahmini, {ago(p.outlook.fetchedAt)} güncellendi. Son karar her zaman pilotun.</p>
-                </>
-              )}
-            </section>
+                </div>
+                <div>
+                  <div className="mb-2 text-[12px] text-[#8098B3]">Reklamlar</div>
+                  <ul className="space-y-2 text-[13px]">
+                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Google Ads, 7 gün</span><span className="tabular-nums">{ads?.spend7 != null ? `₺${nf(ads.spend7)}` : '—'}{ads?.spendPrev7 != null && ads.spend7 != null ? <span className="text-[#5F7894]"> (önceki ₺{nf(ads.spendPrev7)})</span> : null}</span></li>
+                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Tıklama / dönüşüm, 7 gün</span><span className="tabular-nums">{ads?.clicks7 ?? '—'} / <span className={ads?.conv7 ? 'text-[#2DD4BF]' : 'text-[#F87171]'}>{ads?.conv7 ?? '—'}</span></span></li>
+                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Günlük bütçe</span><span className="tabular-nums">{ads?.budgetDaily != null ? `₺${nf(ads.budgetDaily)}` : '—'}</span></li>
+                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Meta</span><span className={metaStatus === 1 ? 'text-[#2DD4BF]' : metaStatus != null ? 'text-[#F87171]' : 'text-[#5F7894]'}>{metaStatus === 1 ? `yayında · ₺${nf(metaSpend30)} / 30g` : metaStatus === 3 ? 'durdu, bakiye ödenmemiş' : metaStatus != null ? 'durdu' : '…'}</span></li>
+                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Site ziyaretçisi, 7 gün</span><span className="tabular-nums">{visitors != null ? nf(visitors) : '…'}</span></li>
+                  </ul>
+                  {ads?.actions?.length ? <p className="mt-3 text-[11px] leading-snug text-[#5F7894]">Reklam ajanı bugün: {ads.actions.join(' · ').slice(0, 220)}</p> : null}
+                </div>
+              </div>
+            </Card>
 
-            {/* manifest */}
+            {/* ops: 7 days + manifest (weather is secondary) */}
             <section className="rounded-2xl border border-[#1E3654] bg-[#10233A]/70" aria-label="Uçuş listesi">
-              <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[#1E3654] px-4 py-3 sm:px-5">
+              <nav className="flex gap-1.5 overflow-x-auto border-b border-[#1E3654] p-3 [scrollbar-width:none]" aria-label="Gün seç">
+                {week.map(d => {
+                  const o = outlookBy[d], g = guestsOn(d), active = d === day
+                  const v = live(d).reduce((s, b) => s + valueOf(b), 0)
+                  const pend = live(d).some(b => st(b) === 'pending')
+                  return (
+                    <button key={d} onClick={() => setDay(d)} aria-pressed={active}
+                      className={`relative flex min-w-[78px] flex-1 shrink-0 flex-col rounded-xl px-2.5 py-2 text-left ${active ? 'bg-[#F97316] text-white' : 'bg-[#0B1A2C]/60 text-[#C9D6E4] hover:bg-[#13294A]'}`}>
+                      <span className="flex items-center justify-between text-[12px] capitalize">{dayName(d, p.today, 'short')}<span className={`h-2 w-2 rounded-full ${o ? '' : 'opacity-30'}`} style={{ background: o ? TONE_COLOR[o.verdict] : '#8098B3' }} title={o ? `Hava: ${VERDICT[o.verdict]}` : 'tahmin yok'} /></span>
+                      <span className={`${sora.className} mt-1 text-[18px] leading-none tabular-nums ${!g && !active ? 'text-[#35506F]' : ''}`}>{g}<span className="ml-1 text-[11px] font-normal opacity-70">yolcu</span></span>
+                      <span className={`mt-1 text-[11px] tabular-nums ${active ? 'text-white/80' : 'text-[#5F7894]'}`}>{v ? `$${nf(v)}` : '—'}</span>
+                      {pend && <span className="absolute right-1.5 top-6 h-1.5 w-1.5 rounded-full bg-[#FBBF24]" aria-label="onay bekleyen var" />}
+                    </button>
+                  )
+                })}
+              </nav>
+              <div className="flex flex-wrap items-center justify-between gap-2 px-4 pt-3 sm:px-5">
                 <h2 className={`${sora.className} text-[18px] font-semibold capitalize`}>{dayFull(day, p.today)}</h2>
                 <span className="flex flex-wrap gap-x-3 text-[12px] tabular-nums text-[#8098B3]">
                   <span>{dayList.length} rezervasyon · {dayGuests} yolcu</span>
                   {dayList.length > 0 && <span className={dayPaid >= dayExpected ? 'text-[#2DD4BF]' : ''}><Banknote className="mr-1 inline h-3.5 w-3.5" aria-hidden />${nf(dayPaid)} / ${nf(dayExpected)} tahsil</span>}
                   {noPickup > 0 && <span className="text-[#FBBF24]">{noPickup} alış saati yok</span>}
-                  {noPilot > 0 && <span className="text-[#FBBF24]">{noPilot} pilot atanmadı</span>}
+                  {noPilot > 0 && <span className="text-[#FBBF24]">{noPilot} pilot yok</span>}
                 </span>
               </div>
+              {/* compact weather line */}
+              {sel && (
+                <div className="px-4 pt-2 sm:px-5">
+                  <button onClick={toggleWeather} className="flex w-full flex-wrap items-center gap-x-3 gap-y-1 rounded-lg bg-[#0B1A2C]/50 px-3 py-2 text-left text-[12px] text-[#8098B3] hover:bg-[#0B1A2C]" aria-expanded={showWeather}>
+                    <Wind className="h-3.5 w-3.5" aria-hidden />
+                    <span>Hava: <b style={{ color: TONE_COLOR[sel.verdict] }}>{VERDICT[sel.verdict]}</b></span>
+                    {sel.window && <span className="tabular-nums">en iyi {hh(sel.window.from)}–{hh(sel.window.to + 1)}</span>}
+                    {sel.sunset && <span className="flex items-center gap-1 tabular-nums"><Sunset className="h-3.5 w-3.5" aria-hidden />{sel.sunset}</span>}
+                    <span className="ml-auto flex items-center gap-1">saat saat<ChevronDown className={`h-3.5 w-3.5 transition-transform ${showWeather ? 'rotate-180' : ''}`} /></span>
+                  </button>
+                  {showWeather && (
+                    <div className="mt-2 rounded-lg bg-[#0B1A2C]/40 p-3">
+                      <HourStrip day={sel} isToday={day === p.today} />
+                      {day === p.today && stations.length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[12px] text-[#8098B3]">
+                          {stations.map(s => <span key={s.label}>{STATION_TR[s.label] || s.label} şu an <b className="tabular-nums text-white">{s.windSpeedKmh != null ? Math.round(s.windSpeedKmh) : '—'}</b> km/s{s.windGustKmh != null ? `, hamle ${Math.round(s.windGustKmh)}` : ''}</span>)}
+                        </div>
+                      )}
+                      <p className="mt-2 text-[11px] text-[#5F7894]">{p.outlook.model} modeli tahmini. Son karar pilotun.</p>
+                    </div>
+                  )}
+                </div>
+              )}
               {err && <p className="flex items-center gap-2 px-4 pt-3 text-[13px] text-[#FBBF24] sm:px-5"><AlertTriangle className="h-4 w-4" />{err}</p>}
               {dayList.length === 0 ? (
-                <p className="px-4 py-8 text-center text-[13px] text-[#5F7894] sm:px-5">Bu gün için kayıtlı uçuş yok.</p>
+                <div className="px-4 py-8 text-center sm:px-5">
+                  <p className="text-[13px] text-[#5F7894]">Bu gün için kayıtlı uçuş yok.</p>
+                  <button onClick={() => setAdding(true)} className={`${ghost} mt-3`}><Plus className="h-3.5 w-3.5" />Rezervasyon ekle</button>
+                </div>
               ) : (
-                <ul className="divide-y divide-[#1E3654]">
+                <ul className="mt-2 divide-y divide-[#1E3654] border-t border-[#1E3654]">
                   {dayList.map(b => {
                     const s = st(b), o = ops[b.id] || {}, isBusy = busy === b.id
                     return (
@@ -480,8 +638,9 @@ export default function FlightDesk(p: Props) {
                               <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                                 <span className="truncate text-[15px] text-white">{fullName(b)}</span>
                                 <span className="inline-flex items-center gap-1 text-[12px] tabular-nums text-[#8098B3]"><Users className="h-3 w-3" aria-hidden />{guestsOf(b)}</span>
-                                <span className="text-[12px] text-[#5F7894]">{TYPE_TR[b.flight_type || 'standard'] || b.flight_type}</span>
+                                <span className="text-[12px] tabular-nums text-[#C9D6E4]">${nf(valueOf(b))}</span>
                                 <span className="text-[12px]" style={{ color: STATUS_COLOR[s] || '#8098B3' }}>{STATUS_TR[s] || s}</span>
+                                {p.sources[b.id] && <span className="rounded bg-[#1E3654] px-1.5 text-[11px] text-[#C9D6E4]">{p.sources[b.id]}</span>}
                                 {b.phone && <span className="text-[11px] text-[#5F7894]">{LANG_LABEL[langOf(b.phone)]}</span>}
                               </div>
                               {b.notes && <p className="mt-0.5 line-clamp-2 text-[12px] italic text-[#8098B3]">“{b.notes}”</p>}
@@ -495,7 +654,6 @@ export default function FlightDesk(p: Props) {
                             <button onClick={() => setTicketFor(b)} className={ghost} aria-label="Bilet"><Ticket className="h-3.5 w-3.5" /></button>
                           </div>
                         </div>
-                        {/* ops fields */}
                         <div className="mt-2.5 grid grid-cols-2 gap-2 pl-[18px] sm:grid-cols-[96px_1fr_150px_auto]">
                           <label className="flex items-center gap-1.5 rounded-lg border border-[#1E3654] bg-[#0B1A2C]/60 px-2 py-1.5 focus-within:border-[#2DD4BF]">
                             <Clock3 className="h-3.5 w-3.5 shrink-0 text-[#5F7894]" aria-hidden />
@@ -503,7 +661,7 @@ export default function FlightDesk(p: Props) {
                               onBlur={e => { if (e.target.value !== (o.pickup || '')) saveOps(b.id, { pickup: e.target.value }) }}
                               className="w-full min-w-0 bg-transparent text-[13px] tabular-nums text-white outline-none [color-scheme:dark]" />
                           </label>
-                          <label className="col-span-1 flex items-center gap-1.5 rounded-lg border border-[#1E3654] bg-[#0B1A2C]/60 px-2 py-1.5 focus-within:border-[#2DD4BF]">
+                          <label className="flex items-center gap-1.5 rounded-lg border border-[#1E3654] bg-[#0B1A2C]/60 px-2 py-1.5 focus-within:border-[#2DD4BF]">
                             <Hotel className="h-3.5 w-3.5 shrink-0 text-[#5F7894]" aria-hidden />
                             <input type="text" placeholder="Otel" aria-label="Otel" defaultValue={o.hotel || ''} key={'h' + b.id + (o.hotel || '')}
                               onBlur={e => { if (e.target.value.trim() !== (o.hotel || '')) saveOps(b.id, { hotel: e.target.value.trim() }) }}
@@ -515,11 +673,9 @@ export default function FlightDesk(p: Props) {
                               onBlur={e => { if (e.target.value.trim() !== (o.pilot || '')) saveOps(b.id, { pilot: e.target.value.trim() }) }}
                               className="w-full min-w-0 bg-transparent text-[13px] text-white placeholder:text-[#35506F] outline-none" />
                           </label>
-                          <button
-                            onClick={() => saveOps(b.id, { paid: !o.paid })} aria-pressed={!!o.paid}
-                            className={`${btn} ${o.paid ? 'bg-[#2DD4BF]/15 text-[#2DD4BF] ring-1 ring-[#2DD4BF]/40' : 'border border-[#1E3654] text-[#8098B3] hover:text-white'}`}
-                          >
-                            <CircleDollarSign className="h-3.5 w-3.5" />{o.paid ? 'Ödendi' : `$${nf(Number(b.total_price) || PRICE * guestsOf(b))} al`}
+                          <button onClick={() => saveOps(b.id, { paid: !o.paid })} aria-pressed={!!o.paid}
+                            className={`${btn} ${o.paid ? 'bg-[#2DD4BF]/15 text-[#2DD4BF] ring-1 ring-[#2DD4BF]/40' : 'border border-[#1E3654] text-[#8098B3] hover:text-white'}`}>
+                            <CircleDollarSign className="h-3.5 w-3.5" />{o.paid ? 'Ödendi' : `$${nf(valueOf(b))} al`}
                           </button>
                         </div>
                       </li>
@@ -531,7 +687,7 @@ export default function FlightDesk(p: Props) {
             </section>
           </div>
 
-          {/* RIGHT: to-do + pulse */}
+          {/* RIGHT */}
           <div className="order-1 space-y-4 lg:order-2 lg:col-span-4">
             <Card title="Yapılacaklar" icon={ListChecks} right={items.length ? <span className="rounded-full bg-[#FBBF24]/15 px-2 text-[12px] tabular-nums text-[#FBBF24]">{items.length}</span> : null}>
               {items.length === 0 ? (
@@ -551,37 +707,7 @@ export default function FlightDesk(p: Props) {
                 </ul>
               )}
             </Card>
-
-            <Card title="Nabız" icon={CircleDollarSign}>
-              <dl className="grid grid-cols-2 gap-x-4 gap-y-4">
-                <div>
-                  <dt className="text-[12px] text-[#8098B3]">Yeni rezervasyon, 7 gün</dt>
-                  <dd className={`${sora.className} mt-1 text-[24px] font-light tabular-nums`}>{pw.week.bookings}</dd>
-                  <dd className="text-[11px] text-[#5F7894]">{pw.week.guests} yolcu · geçen hafta {pw.prevWeek.bookings}{delta !== 0 && <span className={delta > 0 ? 'text-[#2DD4BF]' : 'text-[#F87171]'}> ({delta > 0 ? '+' : ''}{delta})</span>}</dd>
-                </div>
-                <div>
-                  <dt className="text-[12px] text-[#8098B3]">Uçan yolcu, 30 gün</dt>
-                  <dd className={`${sora.className} mt-1 text-[24px] font-light tabular-nums`}>{pw.flown30.guests}</dd>
-                  <dd className="text-[11px] text-[#5F7894]">${nf(pw.flown30.revenue)} ciro</dd>
-                </div>
-                <div>
-                  <dt className="text-[12px] text-[#8098B3]">Google Ads, 7 gün</dt>
-                  <dd className={`${sora.className} mt-1 text-[24px] font-light tabular-nums`}>{pw.ads?.spend7 != null ? `₺${nf(pw.ads.spend7)}` : '—'}</dd>
-                  <dd className="text-[11px] text-[#5F7894]">{cpb != null ? `rezervasyon başı ₺${nf(cpb)}` : pw.ads?.spend7 ? 'bu hafta rezervasyon yok' : ''}{pw.ads?.conv7 != null ? ` · ${nf(pw.ads.conv7)} dönüşüm` : ''}</dd>
-                </div>
-                <div>
-                  <dt className="text-[12px] text-[#8098B3]">Site ziyaretçisi, 7 gün</dt>
-                  <dd className={`${sora.className} mt-1 text-[24px] font-light tabular-nums`}>{visitors != null ? nf(visitors) : ext.ga4 ? '—' : '…'}</dd>
-                  <dd className="text-[11px] text-[#5F7894]">{ext.ga4?.overview?.sessions != null ? `${nf(ext.ga4.overview.sessions)} oturum` : ext.ga4?.error ? 'alınamadı' : ''}</dd>
-                </div>
-              </dl>
-              <Link href="/admin/mission-control" className="mt-4 flex items-center justify-between rounded-xl border border-[#1E3654] px-3 py-2 text-[13px] hover:border-[#2DD4BF]">
-                <span className="flex items-center gap-2 text-[#C9D6E4]"><Radar className="h-4 w-4 text-[#8098B3]" />Ajanlar</span>
-                <span className={healthy === p.agents.total ? 'text-[#2DD4BF]' : 'text-[#FBBF24]'}>{healthy}/{p.agents.total} sağlıklı</span>
-              </Link>
-            </Card>
-
-            <nav aria-label="Kısayollar" className="grid grid-cols-2 gap-2 sm:grid-cols-5 lg:grid-cols-2">
+            <nav aria-label="Kısayollar" className="grid grid-cols-2 gap-2">
               {shortcuts.map(s => (
                 <Link key={s.href} href={s.href} className="flex items-center gap-2 rounded-xl border border-[#1E3654] px-3 py-2 text-[13px] text-[#C9D6E4] hover:border-[#F97316] hover:text-white">
                   <s.icon className="h-4 w-4 text-[#8098B3]" aria-hidden />{s.label}
@@ -592,6 +718,7 @@ export default function FlightDesk(p: Props) {
         </div>
       </div>
 
+      {adding && <QuickAdd today={day} onClose={() => setAdding(false)} onSaved={() => { setAdding(false); router.refresh() }} />}
       {ticketFor && (
         <TicketModal
           booking={{
