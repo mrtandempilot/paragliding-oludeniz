@@ -6,16 +6,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Phone, Mail, MessageCircle, CheckCircle, Clock, Shield, ArrowRight, AlertCircle } from 'lucide-react'
 
-// One flight, one price. The customer only picks a preferred time of day.
-// Sunset maps to flight_type 'sunset'; morning/midday map to 'standard'
-// (both $150 in /api/bookings).
+// One flight, one fixed price.
 const PRICE = 150
-const TIME_OPTIONS = [
-  { value: 'morning', label: 'Morning', hint: 'Calm air, clear views', flight_type: 'standard' },
-  { value: 'midday', label: 'Midday', hint: 'Warm, bright light', flight_type: 'standard' },
-  { value: 'sunset', label: 'Sunset', hint: 'Golden-hour photos', flight_type: 'sunset' },
-]
-
 function calcTotal(_flightType: string, guests: number) {
   return PRICE * guests
 }
@@ -25,7 +17,6 @@ export default function BookingForm() {
   const lp = (href: string) => locale === 'en' ? href : `/${locale}${href}`
   const [form, setForm] = useState({
     flight_type: 'standard',
-    time_pref: 'morning',
     flight_date: '',
     guests: '1',
     first_name: '',
@@ -60,10 +51,7 @@ export default function BookingForm() {
       const res = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          notes: `[Preferred time: ${TIME_OPTIONS.find(t => t.value === form.time_pref)?.label || form.time_pref}]${form.notes ? ' ' + form.notes : ''}`,
-        }),
+        body: JSON.stringify(form),
       })
       const data = await res.json()
 
@@ -140,34 +128,13 @@ export default function BookingForm() {
 
             <form onSubmit={handleSubmit} className="space-y-5">
 
-              {/* Flight: single product + preferred time */}
+              {/* Flight: single product */}
               <div className="rounded-xl border-2 border-orange-500 bg-orange-50 p-4 flex items-center justify-between gap-4">
                 <div>
                   <p className="font-semibold text-slate-900">Tandem Paragliding Flight from Babadağ</p>
                   <p className="text-slate-500 text-xs mt-0.5">25–30 min · photo &amp; video, hotel transfer, mountain fee included</p>
                 </div>
                 <p className="text-orange-500 font-bold text-xl whitespace-nowrap">${PRICE}<span className="text-xs font-medium text-slate-500"> / person</span></p>
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Preferred Time</label>
-                <div className="grid grid-cols-3 gap-2">
-                  {TIME_OPTIONS.map(opt => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => setForm(prev => ({ ...prev, time_pref: opt.value, flight_type: opt.flight_type }))}
-                      className={`p-3 rounded-xl border-2 text-center transition-all ${
-                        form.time_pref === opt.value
-                          ? 'border-orange-500 bg-orange-50'
-                          : 'border-slate-200 hover:border-slate-300'
-                      }`}
-                    >
-                      <p className="font-semibold text-slate-900 text-sm">{opt.label}</p>
-                      <p className="text-slate-500 text-[11px] mt-0.5">{opt.hint}</p>
-                    </button>
-                  ))}
-                </div>
-                <p className="text-xs text-slate-500 mt-1.5">Same price at any time. Exact time is confirmed by your pilot based on the wind.</p>
               </div>
 
               {/* Date + Guests */}
