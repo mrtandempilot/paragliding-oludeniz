@@ -121,7 +121,7 @@ export default async function AdsLandingPage({ params }: { params: Promise<{ loc
           <h1 className="text-3xl md:text-5xl font-bold leading-tight max-w-3xl mx-auto">{c.h1}</h1>
           <p className="mt-5 text-base md:text-xl text-white/90 max-w-2xl mx-auto">{c.sub}</p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <a href="#book" className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-7 py-4 rounded-xl text-lg transition">
+            <a href="#reserve" className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-7 py-4 rounded-xl text-lg transition">
               {c.book} <ArrowDown className="w-5 h-5" />
             </a>
             <a href={waHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold px-7 py-4 rounded-xl text-lg transition">

@@ -2,7 +2,7 @@
 'use client'
 import { useLocale } from 'next-intl'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Phone, Mail, MessageCircle, CheckCircle, Clock, Shield, ArrowRight, AlertCircle, Camera, Sparkles } from 'lucide-react'
 
@@ -28,6 +28,32 @@ export default function BookingForm() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState<{ whatsapp_url: string; total: number } | null>(null)
   const [error, setError] = useState('')
+
+  // Mobile: land straight on the offer card when the visitor opens /book-now
+  // (or follows a #reserve link). Also handles tapping "Book Now" again while
+  // already on this page, where Next.js would otherwise do nothing.
+  useEffect(() => {
+    const toCard = (smooth: boolean) =>
+      document.getElementById('reserve')?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' })
+    const onBookPage = /\/book-now\/?$/.test(window.location.pathname)
+    if (window.location.hash === '#reserve' || (onBookPage && window.innerWidth < 1024)) {
+      const t = setTimeout(() => toCard(false), 50)
+      return () => clearTimeout(t)
+    }
+  }, [])
+  useEffect(() => {
+    function onClick(e: MouseEvent) {
+      const a = (e.target as HTMLElement | null)?.closest?.('a') as HTMLAnchorElement | null
+      if (!a) return
+      const url = new URL(a.href, window.location.href)
+      if (url.origin === window.location.origin && url.pathname === window.location.pathname && /\/book-now\/?$/.test(url.pathname)) {
+        e.preventDefault()
+        document.getElementById('reserve')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }
+    document.addEventListener('click', onClick)
+    return () => document.removeEventListener('click', onClick)
+  }, [])
 
   const set = (field: string, value: string | boolean) =>
     setForm(prev => ({ ...prev, [field]: value }))
@@ -129,7 +155,7 @@ export default function BookingForm() {
             <form onSubmit={handleSubmit} className="space-y-5">
 
               {/* Flight: single product — eye-catching offer card */}
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 via-orange-500 to-pink-600 p-5 sm:p-6 text-white shadow-xl shadow-orange-500/30">
+              <div id="reserve" className="scroll-mt-28 relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 via-orange-500 to-pink-600 p-5 sm:p-6 text-white shadow-xl shadow-orange-500/30">
                 <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-yellow-300/30 blur-2xl" />
                 <div className="pointer-events-none absolute -left-8 -bottom-12 h-36 w-36 rounded-full bg-sky-400/30 blur-2xl" />
 
