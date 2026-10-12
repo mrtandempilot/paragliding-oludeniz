@@ -166,16 +166,21 @@ export default function AgentOffice() {
         if (atDesk) {
           const rows = a.state === 'sleeping' ? SLEEP : a.state === 'working' ? (Math.floor(t / 220 + i) % 2 ? SIT_A : SIT_B) : SIT_A
           const bob = a.state === 'working' && Math.floor(t / 220 + i) % 2 ? 1 : 0
-          drawSprite(ctx, rows, s.x + 13, s.y - 8 + bob + (a.state === 'sleeping' ? 4 : 0), pal)
-          drawDesk(ctx, s.x, s.y, a.state === 'working', a.state === 'error', t)
+          if (a.state === 'sleeping') {
+            drawDesk(ctx, s.x, s.y, false, false, t)
+            drawSprite(ctx, rows, s.x + 2, s.y + 6, pal) // head down on the desk
+          } else {
+            drawSprite(ctx, rows, s.x + 13, s.y - 8 + bob, pal)
+            drawDesk(ctx, s.x, s.y, a.state === 'working', a.state === 'error', t)
+          }
         } else {
           drawDesk(ctx, s.x, s.y, false, false, t)
           // idle: wander around own desk area
-          const w = walkers.current[a.id] ||= { x: s.x + 13, y: s.y + 26, tx: s.x + 13, ty: s.y + 26, wait: 0 }
+          const w = walkers.current[a.id] ||= { x: s.x + 13, y: s.y + 34, tx: s.x + 13, ty: s.y + 34, wait: 0 }
           if (w.wait > 0) w.wait--
           else {
             const dx = w.tx - w.x, dy = w.ty - w.y, d = Math.hypot(dx, dy)
-            if (d < 0.6) { w.wait = 60 + Math.floor(Math.random() * 180); w.tx = s.x + 2 + Math.random() * 28; w.ty = s.y + 24 + Math.random() * 8 }
+            if (d < 0.6) { w.wait = 60 + Math.floor(Math.random() * 180); w.tx = s.x + 2 + Math.random() * 28; w.ty = s.y + 33 + Math.random() * 4 }
             else { w.x += (dx / d) * 0.25; w.y += (dy / d) * 0.25 }
           }
           const moving = w.wait === 0
