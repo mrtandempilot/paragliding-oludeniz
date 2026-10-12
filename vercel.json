@@ -1,37 +1,43 @@
 {
-    "redirects":  [
-                      {
-                          "source":  "/:path((?!_next/|api/|favicon\\.ico|robots\\.txt|sitemap\\.xml).*)",
-                          "has":  [
-                                      {
-                                          "type":  "host",
-                                          "value":  "www.paragliding-oludeniz.com"
-                                      }
-                                  ],
-                          "destination":  "https://www.atmosparagliding.com/:path",
-                          "permanent":  true
-                      },
-                      {
-                          "source":  "/:path((?!_next/|api/|favicon\\.ico|robots\\.txt|sitemap\\.xml).*)",
-                          "has":  [
-                                      {
-                                          "type":  "host",
-                                          "value":  "paragliding-oludeniz.com"
-                                      }
-                                  ],
-                          "destination":  "https://www.atmosparagliding.com/:path",
-                          "permanent":  true
-                      },
-                      {
-                          "source":  "/:path((?!_next/|api/|favicon\\.ico|robots\\.txt|sitemap\\.xml).*)",
-                          "has":  [
-                                      {
-                                          "type":  "host",
-                                          "value":  "atmosparagliding.com"
-                                      }
-                                  ],
-                          "destination":  "https://www.atmosparagliding.com/:path",
-                          "permanent":  true
-                      }
-                  ]
+  "redirects": [
+    {
+      "source": "/:path((?!_next/|api/|favicon\\.ico|robots\\.txt|sitemap\\.xml).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.paragliding-oludeniz.com"
+        }
+      ],
+      "destination": "https://www.atmosparagliding.com/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path((?!_next/|api/|favicon\\.ico|robots\\.txt|sitemap\\.xml).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "paragliding-oludeniz.com"
+        }
+      ],
+      "destination": "https://www.atmosparagliding.com/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path((?!_next/|api/|favicon\\.ico|robots\\.txt|sitemap\\.xml).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "atmosparagliding.com"
+        }
+      ],
+      "destination": "https://www.atmosparagliding.com/:path",
+      "permanent": true
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/ads-report",
+      "schedule": "0 4 * * *"
+    }
+  ]
 }

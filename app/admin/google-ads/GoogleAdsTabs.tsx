@@ -1,24 +1,26 @@
 'use client'
 
 import { useState } from 'react'
-import { BarChart2, Users, MapPin } from 'lucide-react'
+import { BarChart2, Users, MapPin, Sparkles } from 'lucide-react'
 import GoogleAdsDashboardClient from './GoogleAdsDashboardClient'
+import AdsDailyReport from './AdsDailyReport'
 import CompetitorAnalysis from './CompetitorAnalysis'
 import MapsAds from './MapsAds'
 
 const TABS = [
+  { id: 'report', label: 'Günlük Rapor', icon: Sparkles, badge: 'HER SABAH' },
   { id: 'campaigns', label: 'Kampanyalarım', icon: BarChart2 },
   { id: 'maps', label: 'Maps Reklamları', icon: MapPin, badge: 'YENİ' },
   { id: 'competitors', label: 'Rakip Analizi', icon: Users },
 ]
 
 export default function GoogleAdsTabs() {
-  const [active, setActive] = useState('campaigns')
+  const [active, setActive] = useState('report')
 
   return (
     <div className="space-y-6">
       {/* Tab bar */}
-      <div className="flex gap-1 bg-slate-100 p-1 rounded-xl w-fit">
+      <div className="flex flex-wrap gap-1 bg-slate-100 p-1 rounded-xl w-fit">
         {TABS.map(tab => {
           const Icon = tab.icon
           return (
@@ -43,6 +45,7 @@ export default function GoogleAdsTabs() {
         })}
       </div>
 
+      {active === 'report' && <AdsDailyReport />}
       {active === 'campaigns' && <GoogleAdsDashboardClient />}
       {active === 'maps' && <MapsAds />}
       {active === 'competitors' && <CompetitorAnalysis />}
