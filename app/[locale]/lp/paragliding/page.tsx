@@ -116,7 +116,7 @@ export default async function AdsLandingPage({ params }: { params: Promise<{ loc
       <section className="relative overflow-hidden">
         <Image src="https://v3b.fal.media/files/b/0a9d7c0d/dOEuj7ebfM-MdyvUcunPD.jpg" alt="Tandem paragliding over the Blue Lagoon, Ölüdeniz" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-slate-900/55 to-slate-900/80" />
-        <div className="relative container-default py-20 md:py-28 text-center text-white">
+        <div className="relative container-default py-10 md:py-24 text-center text-white">
           <span className="inline-block text-xs md:text-sm font-semibold bg-white/15 backdrop-blur px-4 py-1.5 rounded-full mb-5">{c.badge}</span>
           <h1 className="text-3xl md:text-5xl font-bold leading-tight max-w-3xl mx-auto">{c.h1}</h1>
           <p className="mt-5 text-base md:text-xl text-white/90 max-w-2xl mx-auto">{c.sub}</p>
@@ -134,6 +134,12 @@ export default async function AdsLandingPage({ params }: { params: Promise<{ loc
             ))}
           </ul>
         </div>
+      </section>
+
+      {/* BOOKING FORM — right under the hero so visitors see it without scrolling far
+          (fires Google Ads + GA4 conversion on submit) */}
+      <section id="book" className="scroll-mt-20 bg-slate-50 border-b border-slate-200">
+        <BookingForm />
       </section>
 
       {/* INCLUDED */}
@@ -193,11 +199,6 @@ export default async function AdsLandingPage({ params }: { params: Promise<{ loc
         </ol>
       </section>
 
-      {/* BOOKING FORM (fires Google Ads + GA4 conversion on submit) */}
-      <section id="book" className="scroll-mt-20 bg-slate-50 border-t border-slate-200 pt-12">
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 text-center">{c.formTitle}</h2>
-        <BookingForm />
-      </section>
     </main>
   )
 }
