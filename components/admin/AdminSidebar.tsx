@@ -20,13 +20,12 @@ import {
   Ticket,
   AudioLines,
   Menu,
-  X, Building2 } from 'lucide-react'
+  X } from 'lucide-react'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/voice-assistant', label: 'Voice Asistan', icon: AudioLines },
   { href: '/admin/mission-control', label: 'Mission Control', icon: Radar },
-  { href: '/admin/agent-office', label: 'Ajan Ofisi', icon: Building2 },
   { href: '/admin/bookings', label: 'Rezervasyonlar', icon: CalendarCheck },
   { href: '/admin/ticket', label: 'Bilet Bas', icon: Ticket },
   { href: '/admin/calendar', label: 'Takvim', icon: CalendarDays },
