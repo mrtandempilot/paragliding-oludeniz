@@ -135,9 +135,24 @@ export default function BookingForm() {
 
                 <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div>
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-yellow-300 px-3 py-1.5 text-sm sm:text-base font-extrabold uppercase tracking-wide text-slate-900 shadow-md animate-pulse">
-                      <Camera className="w-4 h-4 sm:w-5 sm:h-5" /> Free Video &amp; Photos
-                    </span>
+                    {/* Banner-style badge: navy brush stroke, yellow FREE */}
+                    <div className="relative inline-block -rotate-3 mt-1 ml-3">
+                      <span className="absolute -left-4 top-1 h-1 w-3 rotate-[20deg] rounded-full bg-yellow-300" />
+                      <span className="absolute -left-4 top-4 h-1 w-3 rounded-full bg-yellow-300" />
+                      <span className="absolute -left-4 top-7 h-1 w-3 -rotate-[20deg] rounded-full bg-yellow-300" />
+                      <span className="absolute -right-4 top-1 h-1 w-3 -rotate-[20deg] rounded-full bg-yellow-300" />
+                      <span className="absolute -right-4 bottom-2 h-1 w-3 rotate-[20deg] rounded-full bg-yellow-300" />
+                      <div
+                        className="flex items-center gap-2.5 bg-[#0b1d4a] px-5 py-2.5 shadow-xl"
+                        style={{ clipPath: 'polygon(2% 8%, 12% 0%, 35% 5%, 60% 0%, 88% 4%, 100% 0%, 97% 30%, 100% 62%, 96% 100%, 70% 95%, 42% 100%, 15% 94%, 0% 100%, 3% 66%, 0% 35%)' }}
+                      >
+                        <Camera className="w-8 h-8 sm:w-9 sm:h-9 text-white" strokeWidth={2.5} />
+                        <div className="leading-none italic">
+                          <p className="text-3xl sm:text-4xl font-black text-yellow-300 tracking-tight">FREE</p>
+                          <p className="text-base sm:text-lg font-black text-white tracking-tight">VIDEO &amp; PHOTO</p>
+                        </div>
+                      </div>
+                    </div>
                     <p className="mt-3 text-xl sm:text-2xl font-extrabold leading-tight">Tandem Paragliding Flight from Babadağ</p>
                     <p className="mt-1 text-sm text-white/90">Fly over the Blue Lagoon · 25–30 min with a licensed pilot</p>
                     <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold">
