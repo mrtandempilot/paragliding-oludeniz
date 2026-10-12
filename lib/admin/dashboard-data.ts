@@ -66,10 +66,10 @@ export async function getSearchConsole() {
 export const BABADAG = { lat: 36.535, lon: 29.175 }
 
 const LEVELS = [1000, 925, 900, 850, 800, 700]
-const UPPER_VARS = LEVELS.flatMap(l => [`wind_speed_${l}hPa`, `wind_direction_${l}hPa`, `geopotential_height_${l}hPa`, `temperature_${l}hPa`]).join(',')
+export const UPPER_VARS = LEVELS.flatMap(l => [`wind_speed_${l}hPa`, `wind_direction_${l}hPa`, `geopotential_height_${l}hPa`, `temperature_${l}hPa`]).join(',')
 
 // Wind/temperature at altitude z (m) for hour index i of an Open-Meteo pressure-level response.
-function windAloft(hourly: any, i: number) {
+export function windAloft(hourly: any, i: number) {
   const pts = LEVELS.map(l => {
     const spd = hourly[`wind_speed_${l}hPa`]?.[i], dir = hourly[`wind_direction_${l}hPa`]?.[i]
     const rad = (dir * Math.PI) / 180

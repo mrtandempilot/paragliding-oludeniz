@@ -230,6 +230,7 @@ export async function POST(request: Request) {
                       base_price: basePrice,
                       addon_price: addonPrice,
                       total_price: totalPrice,
+                      currency: 'USD',
                       status: 'pending',
             })
             .select()
