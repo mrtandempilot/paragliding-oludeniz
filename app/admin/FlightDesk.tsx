@@ -419,7 +419,7 @@ export default function FlightDesk(p: Props) {
                 <>
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div>
-                      <p className="text-[13px] capitalize text-[#8098B3]">{dayName(day, p.today)} uçulur mu?</p>
+                      <p className="text-[13px] text-[#8098B3]">{(n => n.charAt(0).toLocaleUpperCase('tr-TR') + n.slice(1))(dayName(day, p.today))} uçulur mu?</p>
                       <p className={`${sora.className} mt-1 text-[30px] font-semibold leading-none sm:text-[36px]`} style={{ color: TONE_COLOR[sel.verdict] }}>{VERDICT[sel.verdict]}</p>
                       <p className="mt-2 text-[13px] text-[#C9D6E4]">
                         {sel.window ? <>En iyi aralık <b className="tabular-nums">{hh(sel.window.from)}–{hh(sel.window.to + 1)}</b></> : 'Uygun saat görünmüyor'}
