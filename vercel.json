@@ -38,6 +38,14 @@
     {
       "path": "/api/cron/ads-report",
       "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/cron/reservation-agent",
+      "schedule": "0 5 * * *"
+    },
+    {
+      "path": "/api/cron/orchestrator?slot=06:00",
+      "schedule": "0 6 * * *"
     }
   ]
 }

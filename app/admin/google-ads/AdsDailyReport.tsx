@@ -185,6 +185,14 @@ export default function AdsDailyReport() {
         </ul>
       </Card>
 
+      {rep.agentActions && (
+        <Card title="Reklam ajanı bugün ne yaptı?" sub="Güvenli, geri alınabilir değişiklikleri kendisi yapar. Bütçe ve teklife dokunmaz.">
+          <ul className="space-y-1.5 text-sm">
+            {rep.agentActions.length ? rep.agentActions.map((x: string, i: number) => <li key={i} className="text-slate-800">✅ {x}</li>) : <li className="text-slate-500">Bugün otomatik değişiklik gerekmedi.</li>}
+          </ul>
+        </Card>
+      )}
+
       <div className="grid lg:grid-cols-2 gap-6">
         <Card title="Günlük harcama" sub="Son 30 gün, TL">
           <div className="h-56">

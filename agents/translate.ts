@@ -1,7 +1,9 @@
 import Anthropic from '@anthropic-ai/sdk'
+import { llmClient } from '@/lib/llm'
 import { createClient } from '@supabase/supabase-js'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
+// Gemini by default (Anthropic credits ran out); LLM_PROVIDER=anthropic switches back
+const anthropic = llmClient()
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!

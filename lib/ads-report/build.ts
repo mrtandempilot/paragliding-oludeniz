@@ -35,6 +35,7 @@ function supa() {
   })
 }
 
+export async function adsToken(refresh: string) { return token(refresh) }
 async function token(refresh: string) {
   const r = await fetch('https://oauth2.googleapis.com/token', {
     method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, cache: 'no-store',
@@ -45,7 +46,7 @@ async function token(refresh: string) {
   return j.access_token as string
 }
 
-async function gaql(at: string, query: string): Promise<any[]> {
+export async function gaql(at: string, query: string): Promise<any[]> {
   const cid = (process.env.GOOGLE_ADS_CUSTOMER_ID || '').replace(/-/g, '')
   const r = await fetch(`${ADS_API}/customers/${cid}/googleAds:search`, {
     method: 'POST', cache: 'no-store',

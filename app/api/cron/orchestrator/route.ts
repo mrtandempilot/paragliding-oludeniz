@@ -55,6 +55,10 @@ export async function GET(request: Request) {
     return NextResponse.json({ ok: false, reason: `slot ${slot} not active` })
   }
 
+  // Guard: Vercel cron + Hermes may both call this — only one article per 12h
+  const { data: recent } = await supabase.from('agent_logs').select('created_at').eq('agent', 'orchestrator').eq('status', 'done').gte('created_at', new Date(Date.now() - 12 * 3600000).toISOString()).limit(1)
+  if (recent?.length) return NextResponse.json({ ok: false, reason: 'already ran in the last 12h' })
+
   console.log(`[Cron ${slot}] Running ContentPilot at`, new Date().toISOString())
 
   try {
