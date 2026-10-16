@@ -14,6 +14,15 @@ async function g(path: string, token: string, init?: RequestInit) {
 
 async function findWaba(token: string, phoneId: string): Promise<string | null> {
   if (process.env.WHATSAPP_BUSINESS_ACCOUNT_ID) return process.env.WHATSAPP_BUSINESS_ACCOUNT_ID
+  // The token's own scopes list the WhatsApp Business Accounts it can manage
+  const dbg = await g(`debug_token?input_token=${encodeURIComponent(token)}`, token)
+  const scopes: any[] = dbg.data?.data?.granular_scopes || []
+  const ids = new Set<string>()
+  for (const sc of scopes) if (/whatsapp/.test(sc.scope)) for (const id of sc.target_ids || []) ids.add(String(id))
+  for (const id of Array.from(ids)) {
+    const ph = await g(`${id}/phone_numbers?fields=id`, token)
+    if ((ph.data?.data || []).some((p: any) => p.id === phoneId)) return id
+  }
   const businesses = [process.env.META_BUSINESS_ID || '728026526701126']
   const me = await g('me/businesses?fields=id', token)
   for (const b of me.data?.data || []) if (!businesses.includes(b.id)) businesses.push(b.id)
