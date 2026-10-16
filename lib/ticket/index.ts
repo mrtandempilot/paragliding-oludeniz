@@ -3,7 +3,8 @@
 
 export const SITE_URL = 'https://www.atmosparagliding.com'
 export const MEETING_POINT = 'Atmos Paragliding office, Ölüdeniz'
-export const MEETING_MAP_URL = 'https://share.google/pHdzU16xnZulXsq1m'
+// Plain dropped pin (no business name/card) at the meeting point
+export const MEETING_MAP_URL = 'https://www.google.com/maps/search/?api=1&query=36.5466658%2C29.1227577'
 export const WA_TEMPLATE_NAME = process.env.WHATSAPP_TICKET_TEMPLATE || 'atmos_booking_ticket'
 export const WA_TEMPLATE_LANG = 'en'
 
