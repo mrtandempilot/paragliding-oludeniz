@@ -27,12 +27,13 @@ async function findWaba(token: string, phoneId: string): Promise<string | null> 
     diag.push({ waba: id, phones: ph.ok ? ph.data?.data : ph.data?.error?.message })
     if ((ph.data?.data || []).some((p: any) => p.id === phoneId)) return id
   }
-  const businesses = [process.env.META_BUSINESS_ID || '728026526701126']
+  const businesses = [process.env.META_BUSINESS_ID || '1736558853707170', '728026526701126']
   const me = await g('me/businesses?fields=id', token)
   for (const b of me.data?.data || []) if (!businesses.includes(b.id)) businesses.push(b.id)
   for (const biz of businesses) {
     for (const edge of ['owned_whatsapp_business_accounts', 'client_whatsapp_business_accounts']) {
       const w = await g(`${biz}/${edge}?fields=id`, token)
+      diag.push({ biz, edge, wabas: w.ok ? w.data?.data : w.data?.error?.message })
       for (const acc of w.data?.data || []) {
         const ph = await g(`${acc.id}/phone_numbers?fields=id`, token)
         if ((ph.data?.data || []).some((p: any) => p.id === phoneId)) return acc.id
