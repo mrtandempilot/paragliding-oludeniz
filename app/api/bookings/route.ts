@@ -435,7 +435,8 @@ export async function POST(request: Request) {
               guests: guestCount, total_price: totalPrice,
       }
       let ticketWa: { ok: boolean; via?: string; error?: string } = { ok: false, error: 'not attempted' }
-      try {
+      // Customer WhatsApp needs a real (non-test) API number; off until one exists.
+      if (process.env.WHATSAPP_TICKET_ENABLED === 'true') try {
               ticketWa = await sendTicketWhatsApp(ticketBooking)
               if (!ticketWa.ok) console.warn('[Bookings] Ticket WhatsApp not sent:', ticketWa.error)
       } catch (e: any) {
@@ -458,7 +459,7 @@ export async function POST(request: Request) {
       } catch (e) {
               console.warn('[Bookings] Ticket email error:', e)
       }
-      try {
+      if (process.env.WHATSAPP_TICKET_ENABLED === 'true') try {
               await supabase.from('agent_logs').insert({
                         agent: 'ticket',
                         action: `ticket ${booking.id} whatsapp=${ticketWa.ok ? ticketWa.via : 'failed'}`,
@@ -478,7 +479,8 @@ export async function POST(request: Request) {
                   `Time: ${timeLabel}\n` +
                   `Guests: ${guestCount}\n` +
                   `Name: ${first_name} ${last_name}\n` +
-                  `Total: $${totalPrice}\n\n` +
+                  `Total: $${totalPrice}\n` +
+                  `Ticket: ${ticketUrl(booking.id)}\n\n` +
                   `Please confirm my booking. Thank you!`
                 )
 
