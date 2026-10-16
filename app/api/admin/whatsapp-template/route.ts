@@ -12,15 +12,19 @@ async function g(path: string, token: string, init?: RequestInit) {
   return { ok: r.ok, data: await r.json().catch(() => ({})) }
 }
 
+const diag: any[] = []
 async function findWaba(token: string, phoneId: string): Promise<string | null> {
+  diag.length = 0
   if (process.env.WHATSAPP_BUSINESS_ACCOUNT_ID) return process.env.WHATSAPP_BUSINESS_ACCOUNT_ID
   // The token's own scopes list the WhatsApp Business Accounts it can manage
   const dbg = await g(`debug_token?input_token=${encodeURIComponent(token)}`, token)
   const scopes: any[] = dbg.data?.data?.granular_scopes || []
+  diag.push({ debug_token: dbg.ok ? { valid: dbg.data?.data?.is_valid, type: dbg.data?.data?.type, expires: dbg.data?.data?.expires_at, scopes } : dbg.data?.error?.message })
   const ids = new Set<string>()
   for (const sc of scopes) if (/whatsapp/.test(sc.scope)) for (const id of sc.target_ids || []) ids.add(String(id))
   for (const id of Array.from(ids)) {
-    const ph = await g(`${id}/phone_numbers?fields=id`, token)
+    const ph = await g(`${id}/phone_numbers?fields=id,display_phone_number`, token)
+    diag.push({ waba: id, phones: ph.ok ? ph.data?.data : ph.data?.error?.message })
     if ((ph.data?.data || []).some((p: any) => p.id === phoneId)) return id
   }
   const businesses = [process.env.META_BUSINESS_ID || '728026526701126']
@@ -44,7 +48,7 @@ export async function GET(req: Request) {
   if (!token || !phoneId) return NextResponse.json({ error: 'WHATSAPP_ACCESS_TOKEN / WHATSAPP_PHONE_NUMBER_ID missing' }, { status: 500 })
 
   const waba = await findWaba(token, phoneId)
-  if (!waba) return NextResponse.json({ error: 'WhatsApp Business Account not found — set WHATSAPP_BUSINESS_ACCOUNT_ID in Vercel' }, { status: 404 })
+  if (!waba) return NextResponse.json({ error: 'WhatsApp Business Account not found — set WHATSAPP_BUSINESS_ACCOUNT_ID in Vercel', phoneId, diag }, { status: 404 })
 
   const existing = await g(`${waba}/message_templates?name=${WA_TEMPLATE_NAME}&fields=name,status,language,rejected_reason`, token)
   const create = new URL(req.url).searchParams.get('create') === '1'
