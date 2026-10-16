@@ -49,6 +49,10 @@ export async function GET(req: Request) {
   const phoneId = process.env.WHATSAPP_PHONE_NUMBER_ID
   if (!token || !phoneId) return NextResponse.json({ error: 'WHATSAPP_ACCESS_TOKEN / WHATSAPP_PHONE_NUMBER_ID missing' }, { status: 500 })
 
+  if (new URL(req.url).searchParams.get('phone') === '1') {
+    const ph = await g(`${phoneId}?fields=display_phone_number,verified_name,code_verification_status,quality_rating,status`, token)
+    return NextResponse.json({ phoneId, ok: ph.ok, phone: ph.ok ? ph.data : ph.data?.error?.message })
+  }
   const waba = await findWaba(token, phoneId)
   if (!waba) return NextResponse.json({ error: 'WhatsApp Business Account not found — set WHATSAPP_BUSINESS_ACCOUNT_ID in Vercel', phoneId, diag }, { status: 404 })
 
