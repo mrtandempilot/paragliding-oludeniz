@@ -15,7 +15,8 @@ async function g(path: string, token: string, init?: RequestInit) {
 const diag: any[] = []
 async function findWaba(token: string, phoneId: string): Promise<string | null> {
   diag.length = 0
-  if (process.env.WHATSAPP_BUSINESS_ACCOUNT_ID) return process.env.WHATSAPP_BUSINESS_ACCOUNT_ID
+  // skywlakers WhatsApp Business Account (Business Settings → WhatsApp accounts)
+  return process.env.WHATSAPP_BUSINESS_ACCOUNT_ID || '879567751458725'
   // The token's own scopes list the WhatsApp Business Accounts it can manage
   const dbg = await g(`debug_token?input_token=${encodeURIComponent(token)}`, token)
   const scopes: any[] = dbg.data?.data?.granular_scopes || []
