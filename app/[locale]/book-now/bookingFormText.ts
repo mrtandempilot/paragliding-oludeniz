@@ -3,6 +3,7 @@ export type BookingText = typeof EN
 
 const EN = {
   reserve: 'Reserve Your Flight',
+  viewTicket: '🎫 View your ticket & meeting point',
   free: 'FREE',
   videoPhoto: 'VIDEO & PHOTO',
   flightTitle: 'Tandem Paragliding Flight from Babadağ',
@@ -64,6 +65,7 @@ const EN = {
 
 const TR: BookingText = {
   reserve: 'Uçuşunu Ayırt',
+  viewTicket: '🎫 Biletini ve buluşma noktasını gör',
   free: 'ÜCRETSİZ',
   videoPhoto: 'VİDEO & FOTOĞRAF',
   flightTitle: "Babadağ'dan Tandem Yamaç Paraşütü Uçuşu",
@@ -125,6 +127,7 @@ const TR: BookingText = {
 
 const DE: BookingText = {
   reserve: 'Flug reservieren',
+  viewTicket: '🎫 Ticket & Treffpunkt ansehen',
   free: 'GRATIS',
   videoPhoto: 'VIDEO & FOTOS',
   flightTitle: 'Tandem-Gleitschirmflug vom Babadağ',
@@ -186,6 +189,7 @@ const DE: BookingText = {
 
 const RU: BookingText = {
   reserve: 'Забронировать полёт',
+  viewTicket: '🎫 Билет и место встречи',
   free: 'БЕСПЛАТНО',
   videoPhoto: 'ВИДЕО И ФОТО',
   flightTitle: 'Тандемный полёт на параплане с Бабадага',
@@ -247,6 +251,7 @@ const RU: BookingText = {
 
 const ZH: BookingText = {
   reserve: '预订您的飞行',
+  viewTicket: '🎫 查看机票和集合地点',
   free: '免费',
   videoPhoto: '视频和照片',
   flightTitle: '巴巴达山双人滑翔伞飞行',

@@ -6,6 +6,7 @@ import { cookies } from 'next/headers'
 import nodemailer from 'nodemailer'
 import crypto from 'crypto'
 import { classifyChannel, saveBookingSource } from '@/lib/admin/booking-source'
+import { sendTicketWhatsApp, ticketEmailHtml, ticketRef, ticketUrl } from '@/lib/ticket'
 
 function getSupabase() {
     return createClient(
@@ -427,6 +428,45 @@ export async function POST(request: Request) {
               console.warn('[Bookings] Telegram notify error (non-fatal):', tgErr)
       }
 
+      // Send the customer their ticket (WhatsApp + email) with the meeting point
+      const ticketBooking = {
+              id: booking.id, created_at: booking.created_at, first_name, last_name, email, phone,
+              flight_date, flight_time: booking.flight_time ?? flight_time, notes: booking.notes,
+              guests: guestCount, total_price: totalPrice,
+      }
+      let ticketWa: { ok: boolean; via?: string; error?: string } = { ok: false, error: 'not attempted' }
+      try {
+              ticketWa = await sendTicketWhatsApp(ticketBooking)
+              if (!ticketWa.ok) console.warn('[Bookings] Ticket WhatsApp not sent:', ticketWa.error)
+      } catch (e: any) {
+              ticketWa = { ok: false, error: e?.message || String(e) }
+              console.warn('[Bookings] Ticket WhatsApp error:', e)
+      }
+      try {
+              const GMAIL_USER = process.env.GMAIL_USER || 'mrtandempilot@gmail.com'
+              const GMAIL_PASS = process.env.GMAIL_APP_PASSWORD
+              if (GMAIL_PASS && email) {
+                        const tx = nodemailer.createTransport({ service: 'gmail', auth: { user: GMAIL_USER, pass: GMAIL_PASS } })
+                        await tx.sendMail({
+                                    from: `"Atmos Paragliding" <${GMAIL_USER}>`,
+                                    to: email,
+                                    replyTo: 'atmosparagliding@gmail.com',
+                                    subject: `Your paragliding ticket ${ticketRef(ticketBooking)} — Atmos Paragliding`,
+                                    html: ticketEmailHtml(ticketBooking),
+                        })
+              }
+      } catch (e) {
+              console.warn('[Bookings] Ticket email error:', e)
+      }
+      try {
+              await supabase.from('agent_logs').insert({
+                        agent: 'ticket',
+                        action: `ticket ${booking.id} whatsapp=${ticketWa.ok ? ticketWa.via : 'failed'}`,
+                        status: ticketWa.ok ? 'success' : 'error',
+                        error: ticketWa.ok ? null : (ticketWa.error || '').slice(0, 500),
+              })
+      } catch {}
+
       // Build WhatsApp pre-fill message for customer
       const dateFormatted = new Date(flight_date).toLocaleDateString('en-GB', {
               weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
@@ -446,6 +486,8 @@ export async function POST(request: Request) {
               ok: true,
               booking_id: booking.id,
               total_price: totalPrice,
+              ticket_url: ticketUrl(booking.id),
+              ticket_whatsapp: ticketWa.ok,
               whatsapp_url: `https://wa.me/905364616674?text=${waMessage}`,
       })
     } catch (err: any) {

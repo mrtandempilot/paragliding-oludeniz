@@ -33,7 +33,7 @@ export default function BookingForm() {
     notes: '',
   })
   const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState<{ whatsapp_url: string; total: number } | null>(null)
+  const [success, setSuccess] = useState<{ whatsapp_url: string; total: number; ticket_url?: string } | null>(null)
   const [error, setError] = useState('')
 
   // Mobile: land straight on the offer card when the visitor opens /book-now
@@ -91,7 +91,7 @@ export default function BookingForm() {
 
       if (!res.ok) throw new Error(data.error || T.errGeneric)
 
-      setSuccess({ whatsapp_url: data.whatsapp_url, total: data.total_price })
+      setSuccess({ whatsapp_url: data.whatsapp_url, total: data.total_price, ticket_url: data.ticket_url })
 
       // Analytics: booking conversion tracking (was missing on this page —
       // only the unused legacy /book-now copy had it)
@@ -130,6 +130,12 @@ export default function BookingForm() {
             <p className="text-4xl font-bold text-green-700 mb-3">${success.total}</p>
             <p className="text-green-700 text-sm">{T.payOnDay}</p>
           </div>
+
+          {success.ticket_url && (
+            <a href={success.ticket_url} className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-xl mb-6">
+              {T.viewTicket}
+            </a>
+          )}
 
           <p className="text-slate-600 mb-4">
             {T.instant}
