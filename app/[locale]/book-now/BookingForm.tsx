@@ -8,6 +8,9 @@ import { bookingText } from './bookingFormText'
 import { readSource } from '@/components/shared/SourceCapture'
 import { Phone, Mail, MessageCircle, CheckCircle, Clock, Shield, ArrowRight, AlertCircle, Camera, Sparkles } from 'lucide-react'
 
+// Bookable flight time slots (local Ölüdeniz time)
+const TIME_SLOTS = ['08:00', '10:00', '12:00', '14:00', '16:00']
+
 // One flight, one fixed price.
 const PRICE = 150
 function calcTotal(_flightType: string, guests: number) {
@@ -21,6 +24,7 @@ export default function BookingForm() {
   const [form, setForm] = useState({
     flight_type: 'standard',
     flight_date: '',
+    flight_time: '',
     guests: '1',
     first_name: '',
     last_name: '',
@@ -72,6 +76,7 @@ export default function BookingForm() {
     setError('')
 
     if (!form.flight_date) return setError(T.errDate)
+    if (!form.flight_time) return setError(T.errTime)
     if (!form.first_name || !form.last_name) return setError(T.errName)
     if (!form.email) return setError(T.errEmail)
 
@@ -229,6 +234,28 @@ export default function BookingForm() {
                     ))}
                     <option value="9">{T.guests9}</option>
                   </select>
+                </div>
+              </div>
+
+              {/* Time slot */}
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">{T.time}</label>
+                <div className="grid grid-cols-5 gap-2" role="radiogroup" aria-label={T.time}>
+                  {TIME_SLOTS.map(slot => {
+                    const active = form.flight_time === slot
+                    return (
+                      <button
+                        key={slot}
+                        type="button"
+                        role="radio"
+                        aria-checked={active}
+                        onClick={() => set('flight_time', slot)}
+                        className={`rounded-xl border px-1 py-3 text-sm font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-orange-400 ${active ? 'bg-orange-500 border-orange-500 text-white' : 'bg-white border-slate-300 text-slate-700 hover:border-orange-400'}`}
+                      >
+                        {slot}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 

@@ -5,7 +5,7 @@ export type Template = 'confirm' | 'pickup' | 'weather' | 'thanks'
 
 export const LANG_LABEL: Record<Lang, string> = { en: 'EN', tr: 'TR', de: 'DE', ru: 'RU', zh: '中文' }
 export const TEMPLATE_LABEL: Record<Template, string> = {
-  confirm: 'Onay + otel sor', pickup: 'Alış saati', weather: 'Hava: ertele', thanks: 'Teşekkür',
+  confirm: 'Onay', pickup: 'Buluşma saati', weather: 'Hava: ertele', thanks: 'Teşekkür',
 }
 
 /** Telefonu wa.me için uluslararası rakamlara çevirir (0 ile başlayan yerel TR numarası → 90…). */
@@ -34,7 +34,7 @@ const people = (lang: Lang, n: number) => ({
   ru: `${n} чел.`,
   zh: `${n} 人`,
 }[lang])
-const yourHotel: Record<Lang, string> = { en: 'your hotel', tr: 'otelinizden', de: 'Ihrem Hotel', ru: 'у вашего отеля', zh: '您的酒店' }
+const yourHotel: Record<Lang, string> = { en: 'our office in Ölüdeniz', tr: 'Ölüdeniz ofisimiz', de: 'unserem Büro in Ölüdeniz', ru: 'наш офис в Олюденизе', zh: '我们在厄卢代尼兹的办公室' }
 
 export function waMessage(t: Template, lang: Lang, x: { name: string; date: string; guests: number; time?: string; hotel?: string }) {
   const n = (x.name || '').trim().split(/\s+/)[0] || ''
@@ -44,18 +44,18 @@ export function waMessage(t: Template, lang: Lang, x: { name: string; date: stri
   const hotel = x.hotel?.trim() || yourHotel[lang]
   const M: Record<Template, Record<Lang, string>> = {
     confirm: {
-      en: `Hi ${n}! 🪂 Your tandem paragliding flight with Atmos Paragliding on ${date} (${g}) is confirmed. Which hotel are you staying at? We'll send your exact pickup time the day before. $150 per person, pay on the day — HD photos & video, hotel pickup and the mountain fee are included.`,
-      tr: `Merhaba ${n}! 🪂 Atmos Paragliding ile ${date} tarihli yamaç paraşütü uçuşunuz (${g}) onaylandı. Hangi otelde kalıyorsunuz? Kesin alış saatini bir gün önce bildireceğiz. Kişi başı $150, ödeme uçuş günü. HD foto ve video, otelden alış ve dağ girişi dahil.`,
-      de: `Hallo ${n}! 🪂 Ihr Tandem-Paragliding-Flug mit Atmos Paragliding am ${date} (${g}) ist bestätigt. In welchem Hotel wohnen Sie? Die genaue Abholzeit schicken wir Ihnen am Vortag. 150 $ pro Person, Zahlung am Flugtag – HD-Fotos & Video, Hotelabholung und Bergeintritt sind inklusive.`,
-      ru: `Здравствуйте, ${n}! 🪂 Ваш тандемный полёт на параплане с Atmos Paragliding ${date} (${g}) подтверждён. В каком отеле вы остановились? Точное время трансфера сообщим накануне. $150 с человека, оплата в день полёта — HD фото и видео, трансфер из отеля и вход на гору включены.`,
-      zh: `您好 ${n}！🪂 您在 ${date} 与 Atmos Paragliding 的双人滑翔伞飞行（${g}）已确认。请问您住在哪家酒店？我们会在前一天告知准确的接送时间。每人 150 美元，飞行当天付款——含高清照片和视频、酒店接送及山顶门票。`,
+      en: `Hi ${n}! 🪂 Your tandem paragliding flight with Atmos Paragliding on ${date} (${g}) is confirmed. We meet at our office in Ölüdeniz and drive you up the mountain from there — we'll send your exact meeting time the day before. $150 per person, pay on the day — HD photos & video, the mountain transfer and the mountain fee are included.`,
+      tr: `Merhaba ${n}! 🪂 Atmos Paragliding ile ${date} tarihli yamaç paraşütü uçuşunuz (${g}) onaylandı. Ölüdeniz ofisimizde buluşuyoruz, oradan sizi dağa çıkarıyoruz — kesin buluşma saatini bir gün önce bildireceğiz. Kişi başı $150, ödeme uçuş günü. HD foto ve video, dağa transfer ve dağ girişi dahil.`,
+      de: `Hallo ${n}! 🪂 Ihr Tandem-Paragliding-Flug mit Atmos Paragliding am ${date} (${g}) ist bestätigt. Treffpunkt ist unser Büro in Ölüdeniz, von dort bringen wir Sie auf den Berg – die genaue Uhrzeit schicken wir Ihnen am Vortag. 150 $ pro Person, Zahlung am Flugtag – HD-Fotos & Video, Bergtransfer und Bergeintritt sind inklusive.`,
+      ru: `Здравствуйте, ${n}! 🪂 Ваш тандемный полёт на параплане с Atmos Paragliding ${date} (${g}) подтверждён. Встречаемся в нашем офисе в Олюденизе, оттуда везём вас на гору — точное время встречи сообщим накануне. $150 с человека, оплата в день полёта — HD фото и видео, трансфер на гору и сбор за въезд включены.`,
+      zh: `您好 ${n}！🪂 您在 ${date} 与 Atmos Paragliding 的双人滑翔伞飞行（${g}）已确认。我们在厄卢代尼兹的办公室集合，从那里送您上山——准确的集合时间会在前一天告知。每人 150 美元，飞行当天付款——含高清照片和视频、上山接送及山顶门票。`,
     },
     pickup: {
-      en: `Hi ${n}! Pickup for your paragliding flight on ${date}: ${time} at ${hotel}. 🚐 Please wear trainers and bring a light jacket. If the wind changes we'll message you here. See you! 🪂`,
-      tr: `Merhaba ${n}! ${date} uçuşunuz için alış saati: ${time}, ${hotel}. 🚐 Spor ayakkabı giyin, ince bir ceket alın. Rüzgâr değişirse buradan haber veririz. Görüşmek üzere! 🪂`,
-      de: `Hallo ${n}! Abholung für Ihren Paragliding-Flug am ${date}: ${time} an ${hotel}. 🚐 Bitte Turnschuhe tragen und eine leichte Jacke mitnehmen. Falls sich der Wind ändert, melden wir uns hier. Bis bald! 🪂`,
-      ru: `Здравствуйте, ${n}! Трансфер на полёт ${date}: ${time}, ${hotel}. 🚐 Наденьте кроссовки и возьмите лёгкую куртку. Если ветер изменится, напишем здесь. До встречи! 🪂`,
-      zh: `您好 ${n}！${date} 飞行的接送时间：${time}，地点：${hotel}。🚐 请穿运动鞋并带一件薄外套。如风况有变我们会在此通知您。到时见！🪂`,
+      en: `Hi ${n}! Meeting time for your paragliding flight on ${date}: ${time} at ${hotel}. 🚐 Please wear trainers and bring a light jacket. If the wind changes we'll message you here. See you! 🪂`,
+      tr: `Merhaba ${n}! ${date} uçuşunuz için buluşma saati: ${time}, ${hotel}. 🚐 Spor ayakkabı giyin, ince bir ceket alın. Rüzgâr değişirse buradan haber veririz. Görüşmek üzere! 🪂`,
+      de: `Hallo ${n}! Treffpunkt für Ihren Paragliding-Flug am ${date}: ${time} bei ${hotel}. 🚐 Bitte Turnschuhe tragen und eine leichte Jacke mitnehmen. Falls sich der Wind ändert, melden wir uns hier. Bis bald! 🪂`,
+      ru: `Здравствуйте, ${n}! Время встречи на полёт ${date}: ${time}, ${hotel}. 🚐 Наденьте кроссовки и возьмите лёгкую куртку. Если ветер изменится, напишем здесь. До встречи! 🪂`,
+      zh: `您好 ${n}！${date} 飞行的集合时间：${time}，地点：${hotel}。🚐 请穿运动鞋并带一件薄外套。如风况有变我们会在此通知您。到时见！🪂`,
     },
     weather: {
       en: `Hi ${n}, unfortunately the wind on Babadağ won't be safe for flying on ${date}. 😕 We can move your flight to another day free of charge, or give you a full refund. Which day suits you?`,

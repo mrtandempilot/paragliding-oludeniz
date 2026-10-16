@@ -25,8 +25,8 @@ function reminderHtml(b: any, dateStr: string) {
   <p>Hi ${esc(b.first_name?.trim())},</p>
   <p>Just a friendly reminder: your <b>tandem paragliding flight</b> with Atmos Paragliding is <b>tomorrow, ${esc(dateStr)}</b> (${b.guests} ${b.guests === 1 ? 'person' : 'people'}).</p>
   <ul>
-    <li>Your HD photos &amp; video, hotel pickup and the mountain fee are all included.</li>
-    <li>We'll message you on WhatsApp with your exact pickup time. Wear comfortable trainers and bring a light jacket.</li>
+    <li>Your HD photos &amp; video, the mountain transfer and the mountain fee are all included.</li>
+    <li>We meet at our office in Ölüdeniz — we'll message you on WhatsApp with your exact meeting time. Wear comfortable trainers and bring a light jacket.</li>
     <li>Flights depend on the weather — if conditions aren't safe we'll reschedule or refund you in full.</li>
   </ul>
   <p>Questions? Reply to this email or WhatsApp us: <a href="https://wa.me/905364616674">+90 536 461 66 74</a></p>

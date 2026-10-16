@@ -102,6 +102,7 @@ async function createCalendarEventForBooking(booking: {
     guests: number
     flight_type: string
     flight_date: string
+    flight_time?: string | null
     phone: string | null
     notes: string | null
     total_price: number
@@ -122,6 +123,7 @@ async function createCalendarEventForBooking(booking: {
     const endDate = endDateObj.toISOString().slice(0, 10)
 
   const descriptionLines = [
+        `Saat: ${booking.flight_time || 'belirtilmedi'}`,
         `Telefon: ${booking.phone || 'belirtilmedi'}`,
         `Durum: ${booking.status}`,
         `Toplam: $${booking.total_price}`,
@@ -190,6 +192,7 @@ export async function POST(request: Request) {
       const {
               flight_type,
               flight_date,
+              flight_time: rawTime,
               guests,
               first_name,
               last_name,
@@ -206,6 +209,11 @@ export async function POST(request: Request) {
               return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
       }
 
+      // Flight time slot (08:00 / 10:00 / 12:00 / 14:00 / 16:00)
+      const ALLOWED_TIMES = ['08:00', '10:00', '12:00', '14:00', '16:00']
+      const flight_time: string | null = ALLOWED_TIMES.includes(String(rawTime)) ? String(rawTime) : null
+      const timeLabel = flight_time || 'not selected'
+
       // Calculate price — one fixed all-inclusive price per person, no add-ons, no discounts
       const guestCount = parseInt(guests) || 1
           const basePerPerson = FLIGHT_PRICES[flight_type] || 150
@@ -214,9 +222,7 @@ export async function POST(request: Request) {
           const totalPrice = basePrice
 
       // Save to Supabase
-      const { data: booking, error } = await supabase
-            .from('bookings')
-            .insert({
+      const baseRow: Record<string, any> = {
                       flight_type,
                       flight_date,
                       guests: guestCount,
@@ -233,9 +239,23 @@ export async function POST(request: Request) {
                       total_price: totalPrice,
                       currency: 'USD',
                       status: 'pending',
-            })
+            }
+      // Save the slot in its own column; if the column doesn't exist yet,
+      // fall back to keeping the time at the start of the notes.
+      let { data: booking, error } = await supabase
+            .from('bookings')
+            .insert({ ...baseRow, flight_time })
             .select()
             .single()
+      if (error && /flight_time/.test(String(error.message || ''))) {
+              const timedNotes = flight_time ? `[Saat ${flight_time}]${notes ? ' ' + notes : ''}` : (notes || null)
+              ;({ data: booking, error } = await supabase
+                    .from('bookings')
+                    .insert({ ...baseRow, notes: timedNotes })
+                    .select()
+                    .single())
+      }
+
 
       if (error) {
               console.error('[Bookings] Supabase error:', error)
@@ -255,6 +275,7 @@ export async function POST(request: Request) {
                         guests: guestCount,
                         flight_type,
                         flight_date,
+                        flight_time,
                         phone: phone || null,
                         notes: notes || null,
                         total_price: totalPrice,
@@ -287,12 +308,12 @@ export async function POST(request: Request) {
                 await transporter.sendMail({
                             from: `"Atmos Paragliding" <${GMAIL_USER}>`,
                             to: GMAIL_USER,
-                            subject: `New Booking: ${first_name} ${last_name} - ${dateStr} - $${totalPrice}`,
+                            subject: `New Booking: ${first_name} ${last_name} - ${dateStr} ${flight_time || ''} - $${totalPrice}`,
                             html: `
                                         <h2>New Booking Request</h2>
                                                     <table style="border-collapse:collapse; width:100%; font-family:sans-serif; font-size:14px;">
                                                                   <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Flight</td><td style="padding:8px;">${FLIGHT_LABELS[flight_type]}</td></tr>
-                                                                                <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Date</td><td style="padding:8px;">${dateStr}</td></tr>
+                                                                                <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Date</td><td style="padding:8px;">${dateStr} — ${timeLabel}</td></tr>
                                                                                               <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Guests</td><td style="padding:8px;">${guestCount}</td></tr>
                                                                                                             <tr><td style="padding:8px; background:#f8f9fa; font-weight:bold;">Includes</td><td style="padding:8px;">${includedText}</td></tr>
                                                                                                                           <tr><td colspan="2" style="padding:8px; border-top:2px solid #e9ecef;"></td></tr>
@@ -336,6 +357,7 @@ export async function POST(request: Request) {
                             `New booking request!\n` +
                             `${FLIGHT_LABELS[flight_type]}\n` +
                             `Date: ${dateForWa}\n` +
+                            `Time: ${timeLabel}\n` +
                             `Guests: ${guestCount}\n` +
                             `Name: ${first_name} ${last_name}\n` +
                             `Phone: ${phone || 'not provided'}\n` +
@@ -382,6 +404,7 @@ export async function POST(request: Request) {
                                   `🪂 Yeni rezervasyon!\n` +
                                   `${FLIGHT_LABELS[flight_type]}\n` +
                                   `Tarih: ${dateForTg}\n` +
+                                  `Saat: ${flight_time || 'belirtilmedi'}\n` +
                                   `Misafir: ${guestCount}\n` +
                                   `İsim: ${first_name} ${last_name}\n` +
                                   `Telefon: ${phone || 'belirtilmedi'}\n` +
@@ -412,6 +435,7 @@ export async function POST(request: Request) {
                   `Hi! I just submitted a booking request on your website.\n\n` +
                   `Flight: ${FLIGHT_LABELS[flight_type]} (all-inclusive: photo & video, mountain fee, transfer)\n` +
                   `Date: ${dateFormatted}\n` +
+                  `Time: ${timeLabel}\n` +
                   `Guests: ${guestCount}\n` +
                   `Name: ${first_name} ${last_name}\n` +
                   `Total: $${totalPrice}\n\n` +

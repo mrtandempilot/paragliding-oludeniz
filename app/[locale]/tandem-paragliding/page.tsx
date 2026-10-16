@@ -61,7 +61,7 @@ const CONTENT: Record<string, PageContent> = {
       { question: 'What happens if the weather is bad?', answer: 'Safety comes first: if conditions are not suitable, your flight is rescheduled to the next available slot free of charge. If you cannot rebook, you are not charged.' },
       { question: 'Can I bring my phone or camera?', answer: 'Yes, but it must be secured with a strap or zipped pocket. Most guests prefer our photo & video package \u2014 the pilot films hands-free with a gimbal camera while you just enjoy the view.' },
       { question: 'How do I book and do I pay a deposit?', answer: 'Book online in two minutes or message us on WhatsApp. You can secure your slot without prepayment in most seasons; July\u2013August dates may require a small deposit due to demand.' },
-      { question: 'Where exactly do we meet?', answer: 'We meet in central Oludeniz near Belcekiz Beach \u2014 the exact meeting point and time are confirmed on WhatsApp the evening before your flight. Hotel pickup around Oludeniz can be arranged.' },
+      { question: 'Where exactly do we meet?', answer: 'We meet in central Oludeniz near Belcekiz Beach \u2014 the exact meeting point and time are confirmed on WhatsApp the evening before your flight.' },
     ],
   },
   tr: {
@@ -100,7 +100,7 @@ const CONTENT: Record<string, PageContent> = {
       { question: 'Hava kötü olursa ne olur?', answer: 'Önce güvenlik: koşullar uygun değilse uçuşunuz ücretsiz olarak bir sonraki müsait saate ertelenir. Yeni tarih bulamazsanız ücret alınmaz.' },
       { question: 'Telefonumu veya kameramı getirebilir miyim?', answer: 'Evet, ancak askılı veya fermuarlı cepte sabitlenmelidir. Çoğu misafir foto-video paketimizi tercih eder \u2014 pilot gimbal kamerayla çekerken siz manzaranın tadını çıkarırsınız.' },
       { question: 'Nasıl rezervasyon yapılır, kapora gerekir mi?', answer: 'İki dakikada online rezervasyon yapabilir veya WhatsApp\u2019tan yazabilirsiniz. Çoğu dönemde ön ödemesiz yer ayırtabilirsiniz; Temmuz\u2013Ağustos için talep nedeniyle küçük bir kapora istenebilir.' },
-      { question: 'Tam olarak nerede buluşuyoruz?', answer: 'Ölüdeniz merkezde, Belcekız Plajı yakınında buluşuyoruz \u2014 kesin nokta ve saat uçuştan önceki akşam WhatsApp\u2019tan teyit edilir. Ölüdeniz çevresinde otelden alma ayarlanabilir.' },
+      { question: 'Tam olarak nerede buluşuyoruz?', answer: 'Ölüdeniz merkezde, Belcekız Plajı yakınında buluşuyoruz \u2014 kesin nokta ve saat uçuştan önceki akşam WhatsApp\u2019tan teyit edilir.' },
     ],
   },
   de: {
@@ -139,7 +139,7 @@ const CONTENT: Record<string, PageContent> = {
       { question: 'Was passiert bei schlechtem Wetter?', answer: 'Sicherheit zuerst: Bei ungeeigneten Bedingungen wird Ihr Flug kostenlos verschoben. Finden Sie keinen neuen Termin, zahlen Sie nichts.' },
       { question: 'Kann ich Handy oder Kamera mitnehmen?', answer: 'Ja, aber nur gut gesichert. Die meisten Gaste wahlen unser Foto-Video-Paket \u2014 der Pilot filmt mit Gimbal-Kamera, Sie geniessen die Aussicht.' },
       { question: 'Wie buche ich \u2014 mit Anzahlung?', answer: 'Online in zwei Minuten oder per WhatsApp. Meist ohne Vorauszahlung; fur Juli\u2013August kann wegen der Nachfrage eine kleine Anzahlung notig sein.' },
-      { question: 'Wo genau treffen wir uns?', answer: 'Im Zentrum von Oludeniz nahe dem Belcekiz-Strand \u2014 Treffpunkt und Uhrzeit bestatigen wir am Vorabend per WhatsApp. Hotelabholung rund um Oludeniz ist moglich.' },
+      { question: 'Wo genau treffen wir uns?', answer: 'Im Zentrum von Oludeniz nahe dem Belcekiz-Strand \u2014 Treffpunkt und Uhrzeit bestatigen wir am Vorabend per WhatsApp.' },
     ],
   },
   ru: {
@@ -216,7 +216,7 @@ const CONTENT: Record<string, PageContent> = {
       { question: "如果天气不好怎么办？", answer: "安全第一：如果条件不合适，您的飞行将免费改期到下一个可用时段。如果您无法改约，则不收取任何费用。" },
       { question: "我可以带手机或相机吗？", answer: "可以，但必须用绑带或拉链口袋固定好。大多数客人更喜欢我们的照片和视频套餐——飞行员用云台相机免手持拍摄，您只需尽情欣赏风景。" },
       { question: "如何预订？需要付定金吗？", answer: "两分钟即可在线预订，或通过 WhatsApp 给我们发消息。大多数季节无需预付即可锁定时段；7–8 月因需求旺盛，可能需要支付少量定金。" },
-      { question: "我们具体在哪里集合？", answer: "我们在厄卢代尼兹市中心贝尔杰克兹海滩附近集合——具体集合地点和时间会在飞行前一天晚上通过 WhatsApp 确认。可安排厄卢代尼兹周边的酒店接送。" },
+      { question: "我们具体在哪里集合？", answer: "我们在厄卢代尼兹市中心贝尔杰克兹海滩附近集合——具体集合地点和时间会在飞行前一天晚上通过 WhatsApp 确认。" },
     ],
   },
 }

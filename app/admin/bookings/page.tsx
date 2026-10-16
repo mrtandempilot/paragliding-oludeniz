@@ -13,6 +13,7 @@ interface Booking {
   phone: string
   flight_type: string
   flight_date: string
+  flight_time?: string | null
   guests: number
   addon_photo: boolean
   addon_video: boolean
@@ -168,6 +169,9 @@ export default function BookingsPage() {
                       {new Date(b.flight_date).toLocaleDateString('en-GB', {
                         weekday: 'short', day: 'numeric', month: 'long', year: 'numeric',
                       })}
+                      {(b.flight_time || b.notes?.match(/^\[Saat (\d{2}:\d{2})\]/)?.[1]) && (
+                        <span className="ml-2 text-orange-600">🕐 {b.flight_time || b.notes?.match(/^\[Saat (\d{2}:\d{2})\]/)?.[1]}</span>
+                      )}
                     </p>
                   </div>
                   <div className="bg-slate-50 rounded-xl p-3">
