@@ -351,7 +351,8 @@ export default function MobileApp({ data }: { data: AppData }) {
   const [online, setOnline] = useState(true)
   // per-tab view state lives here so it survives re-renders and tab switches
   const [revMode, setRevMode] = useState<'value' | 'bookings'>('value')
-  const [flightDay, setFlightDay] = useState(data.today)
+  // 'all' = every flight of the coming 7 days, grouped by day
+  const [flightDay, setFlightDay] = useState<string>('all')
   const [adsOn, setAdsOn] = useState<Record<string, boolean>>({ clicks: true, cost: true, conversions: true })
   const [seoPeriod, setSeoPeriod] = useState<'7' | '28' | '90'>('28')
   const [seoOn, setSeoOn] = useState<Record<string, boolean>>({ clicks: true, impressions: true, ctr: false, position: true })
@@ -369,7 +370,9 @@ export default function MobileApp({ data }: { data: AppData }) {
     scroller.current?.scrollTo({ top: 0 })
   }, [])
 
-  const refresh = useCallback(() => { setRefreshing(true); router.refresh() }, [router])
+  // manual refresh = full reload, so a newly deployed version of the app is loaded too
+  const refresh = useCallback(() => { setRefreshing(true); window.location.reload() }, [])
+  const softRefresh = useCallback(() => { router.refresh() }, [router])
 
   useEffect(() => {
     const t = new URLSearchParams(window.location.search).get('tab') as Tab | null
@@ -379,7 +382,7 @@ export default function MobileApp({ data }: { data: AppData }) {
     setOnline(navigator.onLine)
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('/admin-sw.js', { scope: '/admin/' }).catch(() => {})
     const onPrompt = (e: Event) => { e.preventDefault(); setInstallEvt(e) }
-    const onVis = () => { if (document.visibilityState === 'visible' && Date.now() - loadedAt.current > 60000) refresh() }
+    const onVis = () => { if (document.visibilityState === 'visible' && Date.now() - loadedAt.current > 60000) softRefresh() }
     const onOn = () => setOnline(true)
     const onOff = () => setOnline(false)
     window.addEventListener('beforeinstallprompt', onPrompt)
@@ -392,7 +395,7 @@ export default function MobileApp({ data }: { data: AppData }) {
       window.removeEventListener('online', onOn)
       window.removeEventListener('offline', onOff)
     }
-  }, [refresh])
+  }, [softRefresh])
 
   // fresh server data arrived
   useEffect(() => { setRefreshing(false); setStatusOverride({}); loadedAt.current = Date.now() }, [data.generatedAt])
@@ -518,7 +521,7 @@ export default function MobileApp({ data }: { data: AppData }) {
             d={delta(m.earnedMonth.revenue, m.earnedLastSame.revenue)}
             sub={data.usdTry ? `≈ ${tl(m.earnedMonth.revenue * data.usdTry)}` : `${m.earnedMonth.guests} kişi uçtu`}
             spark={m.trend.map(t => t.value)} />
-          <Kpi icon={Plane} color={C.orange} label="Bugün uçacak" value={`${guestsOn(today)} kişi`} onClick={() => { setFlightDay(today); setTab('flights') }}
+          <Kpi icon={Plane} color={C.orange} label="Bugün uçacak" value={`${guestsOn(today)} kişi`} onClick={() => { setFlightDay('all'); setTab('flights') }}
             sub={`${todayList.length} rez. · yarın ${guestsOn(tomorrow)} kişi`} spark={Array.from({ length: 7 }, (_, i) => guestsOn(addDays(today, i)))} />
           <Kpi icon={CalendarDays} color={C.blue} label="Yeni rezervasyon · 30g" value={nf(m.last30.bookings)}
             d={delta(m.last30.bookings, m.prev30.bookings)} sub={`${usd(m.last30.value)} değerinde`} spark={m.trend.map(t => t.bookings)} />
@@ -629,8 +632,10 @@ export default function MobileApp({ data }: { data: AppData }) {
 
   const renderFlights = () => {
     const days = Array.from({ length: 7 }, (_, i) => addDays(today, i))
-    const day = days.includes(flightDay) ? flightDay : today
-    const list = data.upcoming.filter(b => b.flight_date === day).sort((a, b) => (slotOf(a) || data.ops[a.id]?.pickup || '99').localeCompare(slotOf(b) || data.ops[b.id]?.pickup || '99'))
+    const day = days.includes(flightDay) ? flightDay : 'all'
+    const sortDay = (list: Booking[]) => list.slice().sort((a, b) => (slotOf(a) || data.ops[a.id]?.pickup || '99').localeCompare(slotOf(b) || data.ops[b.id]?.pickup || '99'))
+    const shownDays = day === 'all' ? days.filter(d => data.upcoming.some(b => b.flight_date === d)) : [day]
+    const weekGuests = days.reduce((s, d) => s + guestsOn(d), 0)
     const later = data.laterPending.filter(b => st(b) === 'pending')
     return (
       <>
@@ -653,25 +658,39 @@ export default function MobileApp({ data }: { data: AppData }) {
         )}
 
         <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <button type="button" onClick={() => setFlightDay('all')} className="flex w-[62px] shrink-0 flex-col items-center justify-center rounded-2xl border py-2.5"
+            style={day === 'all' ? { background: C.orange, borderColor: C.orange, color: '#fff' } : { background: C.card, borderColor: C.line }}>
+            <span className="text-[11px] font-semibold uppercase" style={{ color: day === 'all' ? 'rgba(255,255,255,.85)' : C.dim }}>7 gün</span>
+            <span className="text-[18px] font-bold">Tümü</span>
+            <span className="text-[11px] font-semibold tabular-nums" style={{ color: day === 'all' ? '#fff' : weekGuests ? C.text : C.dim }}>{weekGuests ? `${weekGuests} kişi` : '—'}</span>
+          </button>
           {days.map(d => {
             const on = d === day, g = guestsOn(d), pend = onDay(d).filter(b => st(b) === 'pending').length
             return (
               <button key={d} type="button" onClick={() => setFlightDay(d)} className="relative flex w-[62px] shrink-0 flex-col items-center rounded-2xl border py-2.5"
-                style={on ? { background: C.orange, borderColor: C.orange, color: '#fff' } : { background: C.card, borderColor: C.line }}>
+                style={on ? { background: C.orange, borderColor: C.orange, color: '#fff' } : { background: C.card, borderColor: g ? 'rgba(249,115,22,.45)' : C.line }}>
                 <span className="text-[11px] font-semibold uppercase" style={{ color: on ? 'rgba(255,255,255,.85)' : C.dim }}>{d === today ? 'Bugün' : dayShort(d)}</span>
                 <span className="text-[18px] font-bold tabular-nums">{dateObj(d).getUTCDate()}</span>
-                <span className="text-[11px] font-semibold tabular-nums" style={{ color: on ? '#fff' : g ? C.text : C.dim }}>{g ? `${g} kişi` : '—'}</span>
+                <span className="text-[11px] font-semibold tabular-nums" style={{ color: on ? '#fff' : g ? C.orange : C.dim }}>{g ? `${g} kişi` : '—'}</span>
                 {pend > 0 && <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full" style={{ background: on ? '#fff' : C.amber }} />}
               </button>
             )
           })}
         </div>
 
-        <div className="flex items-baseline justify-between gap-2 px-1 pt-1">
-          <h2 className="text-[15px] font-semibold capitalize">{dayLong(day)}</h2>
-          <span className="shrink-0 text-[12px] tabular-nums" style={{ color: C.muted }}>{guestsOn(day)} kişi · {usd(live(list).reduce((s, b) => s + valueOf(b), 0))}</span>
-        </div>
-        {list.length === 0 ? <Card><Empty icon={Plane} text="Bu gün için rezervasyon yok" /></Card> : list.map(b => renderBooking(b))}
+        {shownDays.length === 0 && <Card><Empty icon={Plane} text={day === 'all' ? 'Önümüzdeki 7 günde uçuş yok' : 'Bu gün için rezervasyon yok'} /></Card>}
+        {shownDays.map(d => {
+          const list = sortDay(data.upcoming.filter(b => b.flight_date === d))
+          return (
+            <div key={d} className="space-y-3">
+              <div className="flex items-baseline justify-between gap-2 px-1 pt-1">
+                <h2 className="text-[15px] font-semibold capitalize">{d === today ? 'Bugün · ' : d === tomorrow ? 'Yarın · ' : ''}{dayLong(d)}</h2>
+                <span className="shrink-0 text-[12px] tabular-nums" style={{ color: C.muted }}>{guestsOn(d)} kişi · {usd(live(list).reduce((s, b) => s + valueOf(b), 0))}</span>
+              </div>
+              {list.length === 0 ? <Card><Empty icon={Plane} text="Bu gün için rezervasyon yok" /></Card> : list.map(b => renderBooking(b))}
+            </div>
+          )
+        })}
 
         {later.length > 0 && (
           <>
