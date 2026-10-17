@@ -20,10 +20,12 @@ import {
   Ticket,
   AudioLines,
   Menu,
+  Smartphone,
   X } from 'lucide-react'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/app', label: 'Mobil Uygulama', icon: Smartphone },
   { href: '/admin/voice-assistant', label: 'Voice Asistan', icon: AudioLines },
   { href: '/admin/mission-control', label: 'Mission Control', icon: Radar },
   { href: '/admin/bookings', label: 'Rezervasyonlar', icon: CalendarCheck },
@@ -46,6 +48,9 @@ export default function AdminSidebar() {
   useEffect(() => { setOpen(false) }, [pathname])
 
   const isActive = (href: string) => (href === '/admin' ? pathname === '/admin' : pathname.startsWith(href))
+
+  // The mobile app (/admin/app) is full screen with its own bottom navigation.
+  if (pathname.startsWith('/admin/app')) return null
 
   return (
     <>

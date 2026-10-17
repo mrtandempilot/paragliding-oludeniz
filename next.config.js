@@ -117,6 +117,14 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Admin PWA service worker lives at the root but only controls /admin/
+        source: '/admin-sw.js',
+        headers: [
+          { key: 'Service-Worker-Allowed', value: '/admin/' },
+          { key: 'Cache-Control', value: 'no-cache' },
+        ],
+      },
+      {
         source: '/(.*)',
         headers: [
           { key: 'X-Content-Type-Options', value: 'nosniff' },

@@ -1,0 +1,22 @@
+{
+  "name": "Atmos Admin",
+  "short_name": "Atmos",
+  "description": "Atmos Paragliding işletme paneli",
+  "id": "/admin/app",
+  "start_url": "/admin/app",
+  "scope": "/admin/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B1220",
+  "theme_color": "#0B1220",
+  "lang": "tr",
+  "icons": [
+    { "src": "/admin-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/admin-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/admin-icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Uçuşlar", "url": "/admin/app?tab=flights", "icons": [{ "src": "/admin-icon-192.png", "sizes": "192x192" }] },
+    { "name": "Reklamlar", "url": "/admin/app?tab=ads", "icons": [{ "src": "/admin-icon-192.png", "sizes": "192x192" }] }
+  ]
+}

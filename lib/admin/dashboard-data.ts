@@ -49,7 +49,7 @@ export async function getSearchConsole() {
       q(ago(30), ['page'], 6),
     ])
     return {
-      daily: daily.map(r => ({ date: r.keys[0], clicks: r.clicks || 0, impressions: r.impressions || 0 })).sort((a, b) => a.date.localeCompare(b.date)),
+      daily: daily.map(r => ({ date: r.keys[0], clicks: r.clicks || 0, impressions: r.impressions || 0, position: r.position || 0 })).sort((a, b) => a.date.localeCompare(b.date)),
       queries: queries.map(r => ({ key: r.keys[0], clicks: r.clicks || 0, impressions: r.impressions || 0, position: r.position || 0 })),
       pages: pages.map(r => ({ key: String(r.keys[0]).replace(/^https?:\/\/(www\.)?atmosparagliding\.com/, '') || '/', clicks: r.clicks || 0, impressions: r.impressions || 0, position: r.position || 0 })),
       error: null as string | null,
