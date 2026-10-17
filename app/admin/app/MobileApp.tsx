@@ -506,7 +506,8 @@ export default function MobileApp({ data }: { data: AppData }) {
   const renderHome = () => {
     const byPickup = (a: Booking, b: Booking) => (slotOf(a) || data.ops[a.id]?.pickup || '99').localeCompare(slotOf(b) || data.ops[b.id]?.pickup || '99')
     const todayList = onDay(today).sort(byPickup), tomorrowList = onDay(tomorrow).sort(byPickup)
-    const next = [...todayList.map(b => ({ b, d: today })), ...tomorrowList.map(b => ({ b, d: tomorrow }))].slice(0, 5)
+    // next flights across the coming 7 days (not only today/tomorrow)
+    const next = live(data.upcoming).slice().sort((a, b) => a.flight_date.localeCompare(b.flight_date) || byPickup(a, b)).slice(0, 5).map(b => ({ b, d: b.flight_date }))
     const spend7: number | null = data.ads?.kpis?.spend7 ?? null
     const revTotal = m.trend.reduce((s, t) => s + (revMode === 'value' ? t.value : t.bookings), 0)
     const aheadTotal = m.aheadConfirmed.revenue + m.aheadPending.revenue
@@ -545,13 +546,13 @@ export default function MobileApp({ data }: { data: AppData }) {
 
         <Card>
           <CardTitle icon={Clock} title="Sıradaki uçuşlar" right={<button type="button" onClick={() => setTab('flights')} className="flex items-center text-[12.5px] font-semibold" style={{ color: C.orange }}>Tümü<ChevronRight className="h-4 w-4" /></button>} />
-          {next.length === 0 ? <Empty icon={CalendarDays} text="Bugün ve yarın uçuş yok" /> : (
+          {next.length === 0 ? <Empty icon={CalendarDays} text="Önümüzdeki 7 günde uçuş yok" /> : (
             <div className="-mx-2 space-y-0.5">
               {next.map(({ b, d }) => (
                 <button key={b.id} type="button" onClick={() => { setFlightDay(d); setTab('flights') }} className="flex w-full items-center gap-3 rounded-xl px-2 py-2.5 text-left active:bg-white/5">
                   <div className="w-12 shrink-0 text-center">
                     <div className="text-[13px] font-bold tabular-nums">{slotOf(b) || data.ops[b.id]?.pickup || '––:––'}</div>
-                    <div className="text-[10px] font-semibold uppercase" style={{ color: d === today ? C.orange : C.dim }}>{d === today ? 'bugün' : 'yarın'}</div>
+                    <div className="text-[10px] font-semibold uppercase" style={{ color: d === today ? C.orange : d === tomorrow ? C.amber : C.dim }}>{d === today ? 'bugün' : d === tomorrow ? 'yarın' : `${dayShort(d)} ${dateObj(d).getUTCDate()}`}</div>
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-[14px] font-medium">{fullName(b)}</div>
