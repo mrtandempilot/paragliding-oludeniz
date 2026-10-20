@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { X, Download, Copy, Plus, Trash2 } from 'lucide-react'
+import Time24Select from '../Time24Select'
 
 export interface Booking {
   id: string
@@ -12,6 +13,7 @@ export interface Booking {
   phone: string
   flight_type: string
   flight_date: string
+  flight_time?: string | null
   guests: number
   addon_photo: boolean
   addon_video: boolean
@@ -59,7 +61,9 @@ export default function TicketModal({ booking, onClose, inline = false }: { book
   const [custName, setCustName] = useState(`${booking.first_name} ${booking.last_name}`.trim())
   const [agency, setAgency] = useState('')
   const [flightDate, setFlightDate] = useState((booking.flight_date || '').slice(0, 10))
-  const [flightTime, setFlightTime] = useState('10:00')
+  const [flightTime, setFlightTime] = useState(
+    booking.flight_time || (booking.notes || '').match(/\[Saat (\d{2}:\d{2})\]/)?.[1] || '10:00'
+  )
   const [pax, setPax] = useState(booking.guests || 1)
   const [ref, setRef] = useState(generateRef(booking.id))
   const [location, setLocation] = useState('Ölüdeniz Beach / Hotel pickup')
@@ -180,7 +184,7 @@ export default function TicketModal({ booking, onClose, inline = false }: { book
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Saat</label>
-                <input type="time" value={flightTime} onChange={e => setFlightTime(e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
+                <Time24Select value={flightTime} onChange={setFlightTime} selectClassName="flex-1 min-w-0 border border-slate-200 rounded-lg px-2 py-2 text-sm bg-white tabular-nums" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import TicketModal, { type Booking as TicketBooking } from './bookings/TicketModal'
 import { langOf, waMessage, waUrl, LANG_LABEL, TEMPLATE_LABEL, type Template } from './flightDeskText'
+import Time24Select from './Time24Select'
 
 const sora = Sora({ subsets: ['latin', 'latin-ext'], weight: ['300', '400', '600', '700'], display: 'swap' })
 
@@ -657,9 +658,9 @@ export default function FlightDesk(p: Props) {
                         <div className="mt-2.5 grid grid-cols-2 gap-2 pl-[18px] sm:grid-cols-[96px_1fr_150px_auto]">
                           <label className="flex items-center gap-1.5 rounded-lg border border-[#1E3654] bg-[#0B1A2C]/60 px-2 py-1.5 focus-within:border-[#2DD4BF]">
                             <Clock3 className="h-3.5 w-3.5 shrink-0 text-[#5F7894]" aria-hidden />
-                            <input type="time" aria-label="Alış saati" defaultValue={o.pickup || ''} key={'t' + b.id + (o.pickup || '')}
-                              onBlur={e => { if (e.target.value !== (o.pickup || '')) saveOps(b.id, { pickup: e.target.value }) }}
-                              className="w-full min-w-0 bg-transparent text-[13px] tabular-nums text-white outline-none [color-scheme:dark]" />
+                            <Time24Select ariaLabel="Alış saati" allowEmpty value={o.pickup || ''}
+                              onChange={v => { if (v !== (o.pickup || '')) saveOps(b.id, { pickup: v }) }}
+                              selectClassName="min-w-0 flex-1 appearance-none bg-transparent text-[13px] tabular-nums text-white outline-none [color-scheme:dark] [&>option]:bg-[#0B1A2C]" />
                           </label>
                           <label className="flex items-center gap-1.5 rounded-lg border border-[#1E3654] bg-[#0B1A2C]/60 px-2 py-1.5 focus-within:border-[#2DD4BF]">
                             <Hotel className="h-3.5 w-3.5 shrink-0 text-[#5F7894]" aria-hidden />
