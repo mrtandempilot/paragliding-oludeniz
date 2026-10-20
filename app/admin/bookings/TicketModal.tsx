@@ -54,6 +54,7 @@ function fmtDate(iso: string) {
 export default function TicketModal({ booking, onClose, inline = false }: { booking: Booking; onClose?: () => void; inline?: boolean }) {
   const ticketRef = useRef<HTMLDivElement>(null)
   const [ready, setReady] = useState(false)
+  const [busy, setBusy] = useState(false)
 
   const [custName, setCustName] = useState(`${booking.first_name} ${booking.last_name}`.trim())
   const [agency, setAgency] = useState('')
@@ -97,17 +98,32 @@ export default function TicketModal({ booking, onClose, inline = false }: { book
   }
 
   async function downloadTicket() {
+    if (busy) return
     const el = ticketRef.current
     const html2canvas = (window as any).html2canvas
     if (!el || !html2canvas) {
       alert('Bilet görseli hazırlanıyor, birkaç saniye sonra tekrar dene.')
       return
     }
-    const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff', useCORS: true })
-    const link = document.createElement('a')
-    link.download = `${ref}.png`
-    link.href = canvas.toDataURL('image/png')
-    link.click()
+    // Show "Hazırlanıyor…" first and let the browser paint it, then do the heavy
+    // canvas work — otherwise the click looks frozen (INP).
+    setBusy(true)
+    await new Promise<void>(r => requestAnimationFrame(() => setTimeout(r, 0)))
+    try {
+      const canvas: HTMLCanvasElement = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff', useCORS: true })
+      const blob = await new Promise<Blob | null>(r => canvas.toBlob(r, 'image/png'))
+      if (!blob) throw new Error('empty image')
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.download = `${ref}.png`
+      link.href = url
+      link.click()
+      setTimeout(() => URL.revokeObjectURL(url), 5000)
+    } catch {
+      alert('Görsel oluşturulamadı, tekrar dene.')
+    } finally {
+      setBusy(false)
+    }
   }
 
   function copyAsText() {
@@ -209,8 +225,8 @@ export default function TicketModal({ booking, onClose, inline = false }: { book
               <textarea value={note} onChange={e => setNote(e.target.value)} rows={2} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" />
             </div>
 
-            <button onClick={downloadTicket} className="w-full flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg mt-2">
-              <Download className="w-4 h-4" /> Bileti Görsel Olarak İndir
+            <button onClick={downloadTicket} disabled={busy} className="w-full flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 disabled:opacity-60 text-white font-semibold py-3 rounded-lg mt-2">
+              <Download className="w-4 h-4" /> {busy ? 'Hazırlanıyor…' : 'Bileti Görsel Olarak İndir'}
             </button>
             <button onClick={copyAsText} className="w-full flex items-center justify-center gap-2 bg-sky-700 hover:bg-sky-800 text-white font-semibold py-2.5 rounded-lg">
               <Copy className="w-4 h-4" /> WhatsApp Metni Olarak Kopyala
