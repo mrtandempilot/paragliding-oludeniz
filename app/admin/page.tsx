@@ -18,6 +18,12 @@ async function usdTry(): Promise<number | null> {
   } catch { return null }
 }
 
+// Dış servisler (hava durumu, kur, reklam raporu) yavaşlarsa paneli bekletmesin:
+// 3 sn içinde gelmezse o kart boş kalır, sayfa yine hemen açılır.
+function within<T>(p: Promise<T>, ms = 3000): Promise<T | null> {
+  return Promise.race([p, new Promise<null>(r => setTimeout(() => r(null), ms))])
+}
+
 // Admin ana sayfası. Önce para (ciro, rezervasyon, reklam), sonra operasyon.
 export default async function AdminDashboardPage() {
   const supabase = getSupabase()
@@ -43,10 +49,10 @@ export default async function AdminDashboardPage() {
     /* 5 */ supabase.from('settings').select('key,value').in('key', [OPS_KEY, WA_HANDLED_KEY, SOURCES_KEY]),
     /* 6 */ supabase.from('agent_logs').select('id,agent,action,status,error,created_at').neq('status', 'running').order('created_at', { ascending: false }).limit(150),
     /* 7 */ supabase.from('agent_logs').select('id,output,created_at').eq('agent', 'whatsapp').gte('created_at', h72).order('created_at', { ascending: false }).limit(50),
-    /* 8 */ getFlightOutlook(7),
-    /* 9 */ getBabadagWindLadder(),
-    /* 10 */ loadAdsReport(),
-    /* 11 */ usdTry(),
+    /* 8 */ within(getFlightOutlook(7)),
+    /* 9 */ within(getBabadagWindLadder()),
+    /* 10 */ within(loadAdsReport()),
+    /* 11 */ within(usdTry()),
   ])
   const val = (i: number): any => (q[i].status === 'fulfilled' ? (q[i] as PromiseFulfilledResult<any>).value : null)
   const rows = (i: number): any[] => val(i)?.data || []
