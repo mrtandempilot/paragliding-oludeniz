@@ -333,7 +333,10 @@ function NewBookings({ list, onSeen, renderCard }: {
 export default function FlightDesk(p: Props) {
   const router = useRouter()
   const [now, setNow] = useState<Date | null>(null)
-  const [day, setDay] = useState(p.today)
+  // Açılışta rezervasyonu olan ilk günü göster (bugün boşsa boş ekran görmeyesin)
+  const [day, setDay] = useState(() =>
+    Array.from({ length: 7 }, (_, i) => addDays(p.today, i))
+      .find(d => p.upcoming.some(b => b.flight_date.slice(0, 10) === d && b.status !== 'cancelled')) || p.today)
   const [ops, setOps] = useState<Record<string, Ops>>(p.ops)
   const [statusOverride, setStatusOverride] = useState<Record<string, string>>({})
   const [busy, setBusy] = useState<string | null>(null)
@@ -681,15 +684,30 @@ export default function FlightDesk(p: Props) {
               <nav className="flex gap-1.5 overflow-x-auto border-b border-[#E2E8F0] p-3 [scrollbar-width:none]" aria-label="Gün seç">
                 {week.map(d => {
                   const o = outlookBy[d], g = guestsOn(d), active = d === day
-                  const v = live(d).reduce((s, b) => s + valueOf(b), 0)
-                  const pend = live(d).some(b => st(b) === 'pending')
+                  const list = live(d)
+                  const v = list.reduce((s, b) => s + valueOf(b), 0)
+                  const pend = list.some(b => st(b) === 'pending')
+                  const names = list.map(b => (b.first_name || fullName(b)).trim().split(' ')[0]).join(', ')
+                  const busyDay = g > 0
+                  const tone = active
+                    ? 'bg-[#F97316] text-white border-2 border-[#F97316] shadow-md'
+                    : busyDay
+                      ? 'bg-[#FFF7ED] text-[#9A3412] border-2 border-[#FB923C] hover:bg-[#FFEDD5]'
+                      : 'bg-transparent text-[#94A3B8] border border-dashed border-[#CBD5E1] hover:bg-[#F8FAFC]'
                   return (
                     <button key={d} onClick={() => setDay(d)} aria-pressed={active}
-                      className={`relative flex min-w-[78px] flex-1 shrink-0 flex-col rounded-xl px-2.5 py-2 text-left ${active ? 'bg-[#F97316] text-white' : 'bg-[#F8FAFC] text-[#334155] hover:bg-[#F1F5F9]'}`}>
-                      <span className="flex items-center justify-between text-[12px] capitalize">{dayName(d, p.today, 'short')}<span className={`h-2 w-2 rounded-full ${o ? '' : 'opacity-30'}`} style={{ background: o ? TONE_COLOR[o.verdict] : '#64748B' }} title={o ? `Hava: ${VERDICT[o.verdict]}` : 'tahmin yok'} /></span>
-                      <span className={`${sora.className} mt-1 text-[18px] leading-none tabular-nums ${!g && !active ? 'text-[#94A3B8]' : ''}`}>{g}<span className="ml-1 text-[11px] font-normal opacity-70">yolcu</span></span>
-                      <span className={`mt-1 text-[11px] tabular-nums ${active ? 'text-white/80' : 'text-[#64748B]'}`}>{v ? `$${nf(v)}` : '—'}</span>
-                      {pend && <span className="absolute right-1.5 top-6 h-1.5 w-1.5 rounded-full bg-[#FBBF24]" aria-label="onay bekleyen var" />}
+                      className={`relative flex min-w-[92px] flex-1 shrink-0 flex-col rounded-xl px-2.5 py-2 text-left ${tone}`}>
+                      <span className={`flex items-center justify-between text-[12px] font-medium capitalize ${!active && busyDay ? 'text-[#C2410C]' : ''}`}>{dayName(d, p.today, 'short')}<span className={`h-2 w-2 rounded-full ${o ? '' : 'opacity-30'}`} style={{ background: o ? TONE_COLOR[o.verdict] : '#64748B' }} title={o ? `Hava: ${VERDICT[o.verdict]}` : 'tahmin yok'} /></span>
+                      {busyDay ? (
+                        <>
+                          <span className={`${sora.className} mt-1 text-[24px] font-semibold leading-none tabular-nums ${active ? '' : 'text-[#C2410C]'}`}>{g}<span className="ml-1 text-[11px] font-normal opacity-80">yolcu</span></span>
+                          <span className={`mt-1 text-[12px] font-semibold tabular-nums ${active ? 'text-white' : 'text-[#9A3412]'}`}>${nf(v)}</span>
+                          <span className={`mt-0.5 truncate text-[11px] ${active ? 'text-white/90' : 'text-[#9A3412]/80'}`} title={names}>{names}</span>
+                          {pend && <span className={`mt-1 self-start rounded-full px-1.5 text-[10px] font-semibold ${active ? 'bg-white/25 text-white' : 'bg-[#FEF3C7] text-[#B45309]'}`}>onay bekliyor</span>}
+                        </>
+                      ) : (
+                        <span className={`mt-1 text-[13px] ${active ? 'text-white/90' : ''}`}>boş</span>
+                      )}
                     </button>
                   )
                 })}
