@@ -2,7 +2,7 @@
 
 // Uçuş Masası — admin ana sayfası. Önce para: ne kazandık, ne geliyor, reklam ne
 // getiriyor. Sonra yapılacaklar ve günün uçuş listesi; hava sadece yardımcı bilgi.
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, startTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Sora } from 'next/font/google'
@@ -303,6 +303,33 @@ function QuickAdd({ today, onClose, onSaved }: { today: string; onClose: () => v
 }
 
 /* ── main ──────────────────────────────────────────────────────────────── */
+// Yeni rezervasyon kutusu ayrı bileşen: "Gördüm" deyince kart anında kaybolur
+// (sadece bu küçük kutu yeniden çizilir), ana panel arkadan güncellenir — INP.
+function NewBookings({ list, onSeen, renderCard }: {
+  list: Booking[]
+  onSeen: (ids: string[]) => void
+  renderCard: (b: Booking, hide: () => void) => React.ReactNode
+}) {
+  const [hidden, setHidden] = useState<string[]>([])
+  const visible = list.filter(b => !hidden.includes(b.id))
+  if (!visible.length) return null
+  const hide = (ids: string[]) => { setHidden(h => [...h, ...ids]); onSeen(ids) }
+  return (
+    <section aria-label="Yeni rezervasyonlar" className="rounded-2xl border-2 border-[#F97316] bg-[#F97316]/10 p-4 sm:p-5">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className={`${sora.className} flex items-center gap-2.5 text-[18px] font-semibold text-white`}>
+          <span className="relative flex h-3 w-3"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#F97316] opacity-75" /><span className="relative inline-flex h-3 w-3 rounded-full bg-[#F97316]" /></span>
+          {visible.length} yeni rezervasyon
+        </h2>
+        {visible.length > 1 && <button onClick={() => hide(visible.map(b => b.id))} className={ghost}><Check className="h-3.5 w-3.5" />Hepsini gördüm</button>}
+      </div>
+      <ul className="mt-3 grid gap-2 md:grid-cols-2">
+        {visible.map(b => renderCard(b, () => hide([b.id])))}
+      </ul>
+    </section>
+  )
+}
+
 export default function FlightDesk(p: Props) {
   const router = useRouter()
   const [now, setNow] = useState<Date | null>(null)
@@ -378,7 +405,7 @@ export default function FlightDesk(p: Props) {
     } catch {}
   }
   async function markSeen(ids: string[]) {
-    setSeenIds(s => Array.from(new Set([...s, ...ids])))
+    startTransition(() => setSeenIds(s => Array.from(new Set([...s, ...ids]))))
     await fetch('/api/admin/flight-ops', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seen: ids }) }).catch(() => {})
   }
   useEffect(() => {
@@ -583,21 +610,11 @@ export default function FlightDesk(p: Props) {
         </header>
 
         {/* ── YENİ REZERVASYONLAR ── */}
-        {unseen.length > 0 && (
-          <section aria-label="Yeni rezervasyonlar" className="rounded-2xl border-2 border-[#F97316] bg-[#F97316]/10 p-4 sm:p-5">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h2 className={`${sora.className} flex items-center gap-2.5 text-[18px] font-semibold text-white`}>
-                <span className="relative flex h-3 w-3"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#F97316] opacity-75" /><span className="relative inline-flex h-3 w-3 rounded-full bg-[#F97316]" /></span>
-                {unseen.length} yeni rezervasyon
-              </h2>
-              {unseen.length > 1 && <button onClick={() => markSeen(unseen.map(b => b.id))} className={ghost}><Check className="h-3.5 w-3.5" />Hepsini gördüm</button>}
-            </div>
-            <ul className="mt-3 grid gap-2 md:grid-cols-2">
-              {unseen.map(b => {
-                const d = b.flight_date.slice(0, 10)
-                const time = b.flight_time || (b.notes || '').match(/\[Saat (\d{2}:\d{2})\]/)?.[1]
-                const s = st(b)
-                return (
+        <NewBookings list={unseen} onSeen={markSeen} renderCard={(b, hide) => {
+          const d = b.flight_date.slice(0, 10)
+          const time = b.flight_time || (b.notes || '').match(/\[Saat (\d{2}:\d{2})\]/)?.[1]
+          const s = st(b)
+          return (
                   <li key={b.id} className="rounded-xl border border-[#1E3654] bg-[#0B1A2C]/80 p-3">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
@@ -616,14 +633,11 @@ export default function FlightDesk(p: Props) {
                       {b.phone && <a href={`tel:${b.phone.replace(/[^\d+]/g, '')}`} className={ghost} aria-label={`${fullName(b)} ara`}><Phone className="h-3.5 w-3.5" /></a>}
                       <button onClick={() => setTicketFor(b)} className={ghost}><Ticket className="h-3.5 w-3.5" />Bilet</button>
                       {week.includes(d) && <button onClick={() => { setDay(d); document.getElementById('ucus-listesi')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }} className={ghost}>Listede gör</button>}
-                      <button onClick={() => markSeen([b.id])} className={`${btn} ml-auto bg-[#F97316] text-white hover:bg-[#EA6A0F]`}><Check className="h-3.5 w-3.5" />Gördüm</button>
+                      <button onClick={hide} className={`${btn} ml-auto bg-[#F97316] text-white hover:bg-[#EA6A0F]`}><Check className="h-3.5 w-3.5" />Gördüm</button>
                     </div>
                   </li>
-                )
-              })}
-            </ul>
-          </section>
-        )}
+          )
+        }} />
 
         {/* ── MONEY ── */}
         <section aria-label="Para" className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[#1E3654] bg-[#1E3654] lg:grid-cols-4">
