@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 
 import { NextResponse } from 'next/server'
 import { getSetting, setSetting } from '@/lib/agents/core'
-import { OPS_KEY, WA_HANDLED_KEY, type FlightOps } from '@/lib/admin/flight-ops'
+import { OPS_KEY, WA_HANDLED_KEY, BOOKING_SEEN_KEY, type FlightOps } from '@/lib/admin/flight-ops'
 
 const clean = (v: unknown, max = 80) => (typeof v === 'string' ? v.trim().slice(0, max) : undefined)
 
@@ -18,6 +18,12 @@ export async function GET() {
 // { id, patch: { pickup?, hotel?, pilot?, paid?, note? } }  veya  { waHandled: "<agent_logs id>" }
 export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}))
+  if (Array.isArray(body.seen)) {
+    const list = await getSetting<string[]>(BOOKING_SEEN_KEY, [])
+    for (const id of body.seen.map(String).slice(0, 50)) if (!list.includes(id)) list.push(id)
+    await setSetting(BOOKING_SEEN_KEY, list.slice(-500))
+    return NextResponse.json({ ok: true })
+  }
   if (body.waHandled) {
     const list = await getSetting<string[]>(WA_HANDLED_KEY, [])
     if (!list.includes(String(body.waHandled))) list.push(String(body.waHandled))

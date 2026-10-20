@@ -1,6 +1,6 @@
 import { getSupabase, istanbulDate, getBabadagWindLadder } from '@/lib/admin/dashboard-data'
 import { getFlightOutlook } from '@/lib/admin/flight-outlook'
-import { OPS_KEY, WA_HANDLED_KEY } from '@/lib/admin/flight-ops'
+import { OPS_KEY, WA_HANDLED_KEY, BOOKING_SEEN_KEY } from '@/lib/admin/flight-ops'
 import { SOURCES_KEY } from '@/lib/admin/booking-source'
 import { loadAdsReport } from '@/lib/ads-report/build'
 import { AGENTS } from '@/lib/agents/registry'
@@ -46,13 +46,14 @@ export default async function AdminDashboardPage() {
     /* 2 */ supabase.from('bookings').select('*').lt('flight_date', today).in('status', ['pending', 'confirmed']).order('flight_date', { ascending: false }).limit(60),
     /* 3 */ supabase.from('bookings').select('id,created_at,flight_date,guests,total_price,status').gte('created_at', d60).limit(2000),
     /* 4 */ supabase.from('bookings').select('id,flight_date,guests,total_price,status').gte('flight_date', lastMonthStart).lte('flight_date', in30).neq('status', 'cancelled').limit(2000),
-    /* 5 */ supabase.from('settings').select('key,value').in('key', [OPS_KEY, WA_HANDLED_KEY, SOURCES_KEY]),
+    /* 5 */ supabase.from('settings').select('key,value').in('key', [OPS_KEY, WA_HANDLED_KEY, SOURCES_KEY, BOOKING_SEEN_KEY]),
     /* 6 */ supabase.from('agent_logs').select('id,agent,action,status,error,created_at').neq('status', 'running').order('created_at', { ascending: false }).limit(150),
     /* 7 */ supabase.from('agent_logs').select('id,output,created_at').eq('agent', 'whatsapp').gte('created_at', h72).order('created_at', { ascending: false }).limit(50),
     /* 8 */ within(getFlightOutlook(7)),
     /* 9 */ within(getBabadagWindLadder()),
     /* 10 */ within(loadAdsReport()),
     /* 11 */ within(usdTry()),
+    /* 12 */ supabase.from('bookings').select('*').gte('created_at', h72).neq('status', 'cancelled').order('created_at', { ascending: false }).limit(30),
   ])
   const val = (i: number): any => (q[i].status === 'fulfilled' ? (q[i] as PromiseFulfilledResult<any>).value : null)
   const rows = (i: number): any[] => val(i)?.data || []
@@ -117,6 +118,8 @@ export default async function AdminDashboardPage() {
     <FlightDesk
       today={today}
       upcoming={rows(0)}
+      fresh={rows(12)}
+      seen={Array.isArray(settings[BOOKING_SEEN_KEY]) ? settings[BOOKING_SEEN_KEY].map(String) : []}
       laterPending={rows(1)}
       unclosed={rows(2)}
       ops={settings[OPS_KEY] && typeof settings[OPS_KEY] === 'object' ? settings[OPS_KEY] : {}}

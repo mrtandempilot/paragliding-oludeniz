@@ -2,7 +2,7 @@
 
 // Uçuş Masası — admin ana sayfası. Önce para: ne kazandık, ne geliyor, reklam ne
 // getiriyor. Sonra yapılacaklar ve günün uçuş listesi; hava sadece yardımcı bilgi.
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Sora } from 'next/font/google'
@@ -10,7 +10,7 @@ import {
   ArrowUp, RefreshCw, Loader2, AlertTriangle, Phone, CalendarDays, MessageCircle, Ticket, Check, X,
   Users, Wind, Sunrise, Sunset, ListChecks, Radar, Search, Megaphone, Instagram, FileText, BarChart3,
   CircleDollarSign, Clock3, CheckCircle2, ChevronDown, CloudRain, Hotel, UserRound, Banknote,
-  Plus, TrendingUp, TrendingDown, Wallet, CalendarClock, Target,
+  Plus, TrendingUp, TrendingDown, Wallet, CalendarClock, Target, Bell, BellRing,
 } from 'lucide-react'
 import TicketModal, { type Booking as TicketBooking } from './bookings/TicketModal'
 import { langOf, waMessage, waUrl, LANG_LABEL, TEMPLATE_LABEL, type Template } from './flightDeskText'
@@ -27,7 +27,7 @@ const VERDICT: Record<Tone, string> = { ok: 'Uçulur', warn: 'Dikkatli', bad: 'Z
 type Booking = {
   id: string; first_name?: string; last_name?: string; email?: string; phone?: string; flight_date: string; flight_type?: string
   guests?: number; total_price?: number; base_price?: number; addon_price?: number; status: string; notes?: string
-  addon_photo?: boolean; addon_video?: boolean; addon_bundle?: boolean; created_at?: string
+  addon_photo?: boolean; addon_video?: boolean; addon_bundle?: boolean; created_at?: string; flight_time?: string | null
 }
 type Ops = { pickup?: string; hotel?: string; pilot?: string; paid?: boolean; note?: string }
 type Hour = { hour: number; tone: Tone; why: string[]; t1200: number; d1200: number; t1900: number; head: number; beach: number | null; gust: number | null; rain: number | null }
@@ -39,6 +39,7 @@ type Sum = { revenue: number; guests: number; count: number }
 type Props = {
   today: string
   upcoming: Booking[]; laterPending: Booking[]; unclosed: Booking[]
+  fresh: Booking[]; seen: string[]
   ops: Record<string, Ops>
   outlook: { days: Day[]; model: string; fetchedAt: string; error: string | null }
   live: { stations: Station[]; fetchedAt: string } | null
@@ -93,6 +94,24 @@ const dayFull = (iso: string, today: string) => {
 const fullName = (b: Booking) => [b.first_name, b.last_name].filter(Boolean).join(' ').trim() || 'İsimsiz'
 const guestsOf = (b: Booking) => b.guests || 1
 const hh = (h: number) => `${String(h).padStart(2, '0')}:00`
+
+// Kısa üçlü "ding" — ses dosyası gerekmez.
+function chime() {
+  try {
+    const Ctx = window.AudioContext || (window as any).webkitAudioContext
+    const ctx = new Ctx()
+    ;[880, 1175, 1568].forEach((f, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain()
+      o.type = 'sine'; o.frequency.value = f
+      const t = ctx.currentTime + i * 0.18
+      g.gain.setValueAtTime(0.0001, t)
+      g.gain.exponentialRampToValueAtTime(0.35, t + 0.02)
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.4)
+      o.connect(g).connect(ctx.destination); o.start(t); o.stop(t + 0.45)
+    })
+    setTimeout(() => ctx.close().catch(() => {}), 1500)
+  } catch {}
+}
 
 async function getJson(url: string) {
   try {
@@ -300,6 +319,11 @@ export default function FlightDesk(p: Props) {
   const [showAllUnclosed, setShowAllUnclosed] = useState(false)
   const [showWeather, setShowWeather] = useState(false)
   const [adding, setAdding] = useState(false)
+  const [fresh, setFresh] = useState<Booking[]>(p.fresh)
+  const [seenIds, setSeenIds] = useState<string[]>(p.seen)
+  const [notifPerm, setNotifPerm] = useState<string>('unsupported')
+  const knownRef = useRef<Set<string>>(new Set(p.fresh.map(b => b.id)))
+  const titleRef = useRef<string>('')
 
   async function loadExt() {
     const [ga4, meta, metaSpend, ig] = await Promise.all([
@@ -311,6 +335,52 @@ export default function FlightDesk(p: Props) {
     setExt({ ga4, meta, metaSpend, ig })
   }
   useEffect(() => { setOps(p.ops) }, [p.ops])
+  useEffect(() => { setFresh(p.fresh); p.fresh.forEach(b => knownRef.current.add(b.id)) }, [p.fresh])
+  useEffect(() => { setSeenIds(s => Array.from(new Set([...s, ...p.seen]))) }, [p.seen])
+
+  /* yeni rezervasyon sinyali: 30 sn'de bir kontrol, gelince ses + bildirim + sekme başlığı */
+  useEffect(() => {
+    try { setNotifPerm('Notification' in window ? Notification.permission : 'unsupported') } catch {}
+    let alive = true
+    async function tick() {
+      const j = await getJson('/api/admin/new-bookings')
+      if (!alive || !Array.isArray(j?.bookings)) return
+      setFresh(j.bookings)
+      if (Array.isArray(j.seen)) setSeenIds(s => Array.from(new Set([...s, ...j.seen.map(String)])))
+      const added = (j.bookings as Booking[]).filter(b => !knownRef.current.has(b.id))
+      added.forEach(b => knownRef.current.add(b.id))
+      if (added.length) {
+        chime()
+        try {
+          if ('Notification' in window && Notification.permission === 'granted') {
+            for (const b of added.slice(0, 3)) {
+              const n = new Notification(`🪂 Yeni rezervasyon: ${fullName(b)}`, {
+                body: `${b.flight_date.slice(0, 10)}${b.flight_time ? ' · ' + b.flight_time : ''} · ${guestsOf(b)} kişi · $${nf(Number(b.total_price) || PRICE * guestsOf(b))}`,
+                tag: 'booking-' + b.id, requireInteraction: true,
+              })
+              n.onclick = () => { window.focus(); n.close() }
+            }
+          }
+        } catch {}
+        router.refresh()
+      }
+    }
+    const t = setInterval(tick, 30000)
+    const onVis = () => { if (document.visibilityState === 'visible') tick() }
+    document.addEventListener('visibilitychange', onVis)
+    return () => { alive = false; clearInterval(t); document.removeEventListener('visibilitychange', onVis) }
+  }, [])
+  async function askNotif() {
+    try {
+      const r = await Notification.requestPermission()
+      setNotifPerm(r)
+      if (r === 'granted') { chime(); new Notification('Bildirimler açık', { body: 'Yeni rezervasyon gelince burada ve sesli haber vereceğim.' }) }
+    } catch {}
+  }
+  async function markSeen(ids: string[]) {
+    setSeenIds(s => Array.from(new Set([...s, ...ids])))
+    await fetch('/api/admin/flight-ops', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ seen: ids }) }).catch(() => {})
+  }
   useEffect(() => {
     setNow(new Date())
     const t = setInterval(() => setNow(new Date()), 30000)
@@ -333,6 +403,11 @@ export default function FlightDesk(p: Props) {
   const live = (d: string) => (byDay[d] || []).filter(b => st(b) !== 'cancelled')
   const guestsOn = (d: string) => live(d).reduce((s, b) => s + guestsOf(b), 0)
   const valueOf = (b: Booking) => Number(b.total_price) || PRICE * guestsOf(b)
+  const unseen = fresh.filter(b => !seenIds.includes(b.id) && st(b) !== 'cancelled')
+  useEffect(() => {
+    if (!titleRef.current) titleRef.current = document.title.replace(/^\(\d+\) 🔔 [^|]*\| /, '')
+    document.title = unseen.length ? `(${unseen.length}) 🔔 Yeni rezervasyon | ${titleRef.current}` : titleRef.current
+  }, [unseen.length])
 
   /* actions */
   async function setStatus(b: Booking, status: string) {
@@ -491,6 +566,13 @@ export default function FlightDesk(p: Props) {
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
             <span className={`${sora.className} hidden text-[24px] font-light tabular-nums text-[#8098B3] sm:inline`} aria-label="Saat (İstanbul)">{clock}</span>
+            {notifPerm === 'default' && (
+              <button onClick={askNotif} className="flex items-center gap-2 rounded-lg border border-[#F97316] px-3 py-2 text-[13px] text-[#F97316] hover:bg-[#F97316]/10">
+                <Bell className="h-4 w-4" aria-hidden />Bildirim aç
+              </button>
+            )}
+            {notifPerm === 'granted' && <span className="hidden items-center gap-1 text-[12px] text-[#2DD4BF] sm:flex" title="Yeni rezervasyon gelince sesli bildirim"><BellRing className="h-4 w-4" aria-hidden />açık</span>}
+            {notifPerm === 'denied' && <span className="hidden text-[11px] text-[#5F7894] sm:inline" title="Tarayıcı ayarlarından bu site için bildirimlere izin ver">bildirim kapalı</span>}
             <button onClick={refreshAll} className="flex items-center gap-2 rounded-lg border border-[#1E3654] px-3 py-2 text-[13px] text-[#8098B3] hover:border-[#2DD4BF] hover:text-[#E7EEF6]" aria-label="Yenile">
               <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} aria-hidden />
             </button>
@@ -499,6 +581,49 @@ export default function FlightDesk(p: Props) {
             </button>
           </div>
         </header>
+
+        {/* ── YENİ REZERVASYONLAR ── */}
+        {unseen.length > 0 && (
+          <section aria-label="Yeni rezervasyonlar" className="rounded-2xl border-2 border-[#F97316] bg-[#F97316]/10 p-4 sm:p-5">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h2 className={`${sora.className} flex items-center gap-2.5 text-[18px] font-semibold text-white`}>
+                <span className="relative flex h-3 w-3"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#F97316] opacity-75" /><span className="relative inline-flex h-3 w-3 rounded-full bg-[#F97316]" /></span>
+                {unseen.length} yeni rezervasyon
+              </h2>
+              {unseen.length > 1 && <button onClick={() => markSeen(unseen.map(b => b.id))} className={ghost}><Check className="h-3.5 w-3.5" />Hepsini gördüm</button>}
+            </div>
+            <ul className="mt-3 grid gap-2 md:grid-cols-2">
+              {unseen.map(b => {
+                const d = b.flight_date.slice(0, 10)
+                const time = b.flight_time || (b.notes || '').match(/\[Saat (\d{2}:\d{2})\]/)?.[1]
+                const s = st(b)
+                return (
+                  <li key={b.id} className="rounded-xl border border-[#1E3654] bg-[#0B1A2C]/80 p-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="truncate text-[15px] font-semibold text-white">{fullName(b)}</p>
+                        <p className="mt-0.5 text-[13px] text-[#C9D6E4]"><span className="capitalize">{dayFull(d, p.today)}</span>{time ? ` · ${time}` : ''} · {guestsOf(b)} kişi</p>
+                        <p className="mt-0.5 text-[12px] text-[#8098B3]">geldi {ago(b.created_at)}{p.sources[b.id] ? ` · ${p.sources[b.id]}` : ''}{b.notes ? ` · “${b.notes.replace(/\[Saat \d{2}:\d{2}\]\s*/, '').slice(0, 70)}”` : ''}</p>
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <div className={`${sora.className} text-[22px] leading-none tabular-nums text-white`}>${nf(valueOf(b))}</div>
+                        <span className="mt-1 inline-block text-[11px]" style={{ color: STATUS_COLOR[s] }}>{STATUS_TR[s] || s}</span>
+                      </div>
+                    </div>
+                    <div className="mt-2.5 flex flex-wrap gap-1.5">
+                      {s === 'pending' && <button disabled={busy === b.id} onClick={() => setStatus(b, 'confirmed')} className={`${btn} bg-[#2DD4BF] text-[#0B1A2C] hover:bg-[#5EEAD4]`}>{busy === b.id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}Onayla</button>}
+                      <WaMenu b={b} ops={ops[b.id]} only={['confirm']} />
+                      {b.phone && <a href={`tel:${b.phone.replace(/[^\d+]/g, '')}`} className={ghost} aria-label={`${fullName(b)} ara`}><Phone className="h-3.5 w-3.5" /></a>}
+                      <button onClick={() => setTicketFor(b)} className={ghost}><Ticket className="h-3.5 w-3.5" />Bilet</button>
+                      {week.includes(d) && <button onClick={() => { setDay(d); document.getElementById('ucus-listesi')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }} className={ghost}>Listede gör</button>}
+                      <button onClick={() => markSeen([b.id])} className={`${btn} ml-auto bg-[#F97316] text-white hover:bg-[#EA6A0F]`}><Check className="h-3.5 w-3.5" />Gördüm</button>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          </section>
+        )}
 
         {/* ── MONEY ── */}
         <section aria-label="Para" className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[#1E3654] bg-[#1E3654] lg:grid-cols-4">
@@ -537,41 +662,8 @@ export default function FlightDesk(p: Props) {
         <div className="grid gap-4 lg:grid-cols-12">
           {/* LEFT */}
           <div className="order-2 space-y-4 lg:order-1 lg:col-span-8">
-            <Card title="Son 30 gün: rezervasyon ve reklam" icon={TrendingUp} right={<Link href="/admin/google-ads" className="text-[12px] text-[#8098B3] hover:text-white">reklam raporu →</Link>}>
-              <TrendChart rows={M.trend} today={p.today} />
-              <div className="mt-5 grid gap-5 border-t border-[#1E3654] pt-4 sm:grid-cols-2">
-                <div>
-                  <div className="mb-2 text-[12px] text-[#8098B3]">Rezervasyonlar nereden geliyor (30 gün)</div>
-                  {M.channels.length === 0 ? <p className="text-[13px] text-[#5F7894]">Henüz rezervasyon yok.</p> : (
-                    <ul className="space-y-2">
-                      {M.channels.map(c => {
-                        const max = Math.max(1, ...M.channels.map(x => x.value))
-                        return (
-                          <li key={c.channel}>
-                            <div className="mb-1 flex justify-between gap-2 text-[13px]"><span className={c.channel.startsWith('Takip yok') ? 'text-[#5F7894]' : 'text-[#E7EEF6]'}>{c.channel}</span><span className="tabular-nums text-[#8098B3]">{c.bookings} · ${nf(c.value)}</span></div>
-                            <div className="h-1.5 rounded-full bg-[#1E3654]"><div className="h-1.5 rounded-full" style={{ width: `${(c.value / max) * 100}%`, background: c.channel.startsWith('Takip yok') ? '#35506F' : C_BOOK }} /></div>
-                          </li>
-                        )
-                      })}
-                    </ul>
-                  )}
-                </div>
-                <div>
-                  <div className="mb-2 text-[12px] text-[#8098B3]">Reklamlar</div>
-                  <ul className="space-y-2 text-[13px]">
-                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Google Ads, 7 gün</span><span className="tabular-nums">{ads?.spend7 != null ? `₺${nf(ads.spend7)}` : '—'}{ads?.spendPrev7 != null && ads.spend7 != null ? <span className="text-[#5F7894]"> (önceki ₺{nf(ads.spendPrev7)})</span> : null}</span></li>
-                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Tıklama / dönüşüm, 7 gün</span><span className="tabular-nums">{ads?.clicks7 ?? '—'} / <span className={ads?.conv7 ? 'text-[#2DD4BF]' : 'text-[#F87171]'}>{ads?.conv7 ?? '—'}</span></span></li>
-                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Günlük bütçe</span><span className="tabular-nums">{ads?.budgetDaily != null ? `₺${nf(ads.budgetDaily)}` : '—'}</span></li>
-                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Meta</span><span className={metaStatus === 1 ? 'text-[#2DD4BF]' : metaStatus != null ? 'text-[#F87171]' : 'text-[#5F7894]'}>{metaStatus === 1 ? `yayında · ₺${nf(metaSpend30)} / 30g` : metaStatus === 3 ? 'durdu, bakiye ödenmemiş' : metaStatus != null ? 'durdu' : '…'}</span></li>
-                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Site ziyaretçisi, 7 gün</span><span className="tabular-nums">{visitors != null ? nf(visitors) : '…'}</span></li>
-                  </ul>
-                  {ads?.actions?.length ? <p className="mt-3 text-[11px] leading-snug text-[#5F7894]">Reklam ajanı bugün: {ads.actions.join(' · ').slice(0, 220)}</p> : null}
-                </div>
-              </div>
-            </Card>
-
             {/* ops: 7 days + manifest (weather is secondary) */}
-            <section className="rounded-2xl border border-[#1E3654] bg-[#10233A]/70" aria-label="Uçuş listesi">
+            <section id="ucus-listesi" className="scroll-mt-4 rounded-2xl border border-[#1E3654] bg-[#10233A]/70" aria-label="Uçuş listesi">
               <nav className="flex gap-1.5 overflow-x-auto border-b border-[#1E3654] p-3 [scrollbar-width:none]" aria-label="Gün seç">
                 {week.map(d => {
                   const o = outlookBy[d], g = guestsOn(d), active = d === day
@@ -686,6 +778,40 @@ export default function FlightDesk(p: Props) {
               )}
               <datalist id="desk-pilots">{pilots.map(x => <option key={x} value={x} />)}</datalist>
             </section>
+
+            <Card title="Son 30 gün: rezervasyon ve reklam" icon={TrendingUp} right={<Link href="/admin/google-ads" className="text-[12px] text-[#8098B3] hover:text-white">reklam raporu →</Link>}>
+              <TrendChart rows={M.trend} today={p.today} />
+              <div className="mt-5 grid gap-5 border-t border-[#1E3654] pt-4 sm:grid-cols-2">
+                <div>
+                  <div className="mb-2 text-[12px] text-[#8098B3]">Rezervasyonlar nereden geliyor (30 gün)</div>
+                  {M.channels.length === 0 ? <p className="text-[13px] text-[#5F7894]">Henüz rezervasyon yok.</p> : (
+                    <ul className="space-y-2">
+                      {M.channels.map(c => {
+                        const max = Math.max(1, ...M.channels.map(x => x.value))
+                        return (
+                          <li key={c.channel}>
+                            <div className="mb-1 flex justify-between gap-2 text-[13px]"><span className={c.channel.startsWith('Takip yok') ? 'text-[#5F7894]' : 'text-[#E7EEF6]'}>{c.channel}</span><span className="tabular-nums text-[#8098B3]">{c.bookings} · ${nf(c.value)}</span></div>
+                            <div className="h-1.5 rounded-full bg-[#1E3654]"><div className="h-1.5 rounded-full" style={{ width: `${(c.value / max) * 100}%`, background: c.channel.startsWith('Takip yok') ? '#35506F' : C_BOOK }} /></div>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  )}
+                </div>
+                <div>
+                  <div className="mb-2 text-[12px] text-[#8098B3]">Reklamlar</div>
+                  <ul className="space-y-2 text-[13px]">
+                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Google Ads, 7 gün</span><span className="tabular-nums">{ads?.spend7 != null ? `₺${nf(ads.spend7)}` : '—'}{ads?.spendPrev7 != null && ads.spend7 != null ? <span className="text-[#5F7894]"> (önceki ₺{nf(ads.spendPrev7)})</span> : null}</span></li>
+                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Tıklama / dönüşüm, 7 gün</span><span className="tabular-nums">{ads?.clicks7 ?? '—'} / <span className={ads?.conv7 ? 'text-[#2DD4BF]' : 'text-[#F87171]'}>{ads?.conv7 ?? '—'}</span></span></li>
+                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Günlük bütçe</span><span className="tabular-nums">{ads?.budgetDaily != null ? `₺${nf(ads.budgetDaily)}` : '—'}</span></li>
+                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Meta</span><span className={metaStatus === 1 ? 'text-[#2DD4BF]' : metaStatus != null ? 'text-[#F87171]' : 'text-[#5F7894]'}>{metaStatus === 1 ? `yayında · ₺${nf(metaSpend30)} / 30g` : metaStatus === 3 ? 'durdu, bakiye ödenmemiş' : metaStatus != null ? 'durdu' : '…'}</span></li>
+                    <li className="flex justify-between gap-2"><span className="text-[#C9D6E4]">Site ziyaretçisi, 7 gün</span><span className="tabular-nums">{visitors != null ? nf(visitors) : '…'}</span></li>
+                  </ul>
+                  {ads?.actions?.length ? <p className="mt-3 text-[11px] leading-snug text-[#5F7894]">Reklam ajanı bugün: {ads.actions.join(' · ').slice(0, 220)}</p> : null}
+                </div>
+              </div>
+            </Card>
+
           </div>
 
           {/* RIGHT */}
@@ -728,7 +854,7 @@ export default function FlightDesk(p: Props) {
             flight_date: ticketFor.flight_date, guests: ticketFor.guests || 1, addon_photo: !!ticketFor.addon_photo,
             addon_video: !!ticketFor.addon_video, addon_bundle: !!ticketFor.addon_bundle, base_price: Number(ticketFor.base_price) || 0,
             addon_price: Number(ticketFor.addon_price) || 0, total_price: Number(ticketFor.total_price) || 0, notes: ticketFor.notes || '',
-            status: ticketFor.status,
+            status: ticketFor.status, flight_time: ticketFor.flight_time ?? null,
           } satisfies TicketBooking}
           onClose={() => setTicketFor(null)}
         />
