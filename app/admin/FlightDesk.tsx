@@ -15,6 +15,7 @@ import {
 import TicketModal, { type Booking as TicketBooking } from './bookings/TicketModal'
 import { langOf, waMessage, waUrl, LANG_LABEL, TEMPLATE_LABEL, type Template } from './flightDeskText'
 import Time24Select from './Time24Select'
+import MetaAdsCard from './MetaAdsCard'
 import { MY_CUT_PER_GUEST } from '@/lib/admin/earnings'
 
 const sora = Sora({ subsets: ['latin', 'latin-ext'], weight: ['300', '400', '600', '700'], display: 'swap' })
@@ -690,7 +691,7 @@ export default function FlightDesk(p: Props) {
         })()}
 
         {/* ── MONEY ── */}
-        <section aria-label="Para" className="grid gap-px overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#E2E8F0] shadow-sm sm:grid-cols-2">
+        <section aria-label="Para" className="grid gap-px overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#E2E8F0] shadow-sm sm:grid-cols-3">
           <div className="bg-white p-4 sm:p-5">
             <div className="flex items-center gap-2 text-[12px] text-[#475569]"><Users className="h-4 w-4" />Yeni rezervasyon, 30 gün</div>
             <div className={`${sora.className} mt-2 text-[26px] font-light leading-none tabular-nums`}>{M.last30.bookings}</div>
@@ -698,13 +699,14 @@ export default function FlightDesk(p: Props) {
             <div className="text-[11px] text-[#64748B]">bu hafta {M.week.bookings} (geçen hafta {M.prevWeek.bookings}){M.last30.cancelled ? ` · ${M.last30.cancelled} iptal` : ''}</div>
           </div>
           <div className="bg-white p-4 sm:p-5">
-            <div className="flex items-center gap-2 text-[12px] text-[#475569]"><Target className="h-4 w-4" />Reklam, 30 gün</div>
-            <div className={`${sora.className} mt-2 text-[26px] font-light leading-none tabular-nums`}>{ads ? `₺${nf(ads.spend30 + metaSpend30)}` : '—'}{spend30Usd != null && <span className="text-[16px] text-[#475569]"> ≈ ${nf(toUsd((ads?.spend30 || 0) + metaSpend30) || 0)}</span>}</div>
+            <div className="flex items-center gap-2 text-[12px] text-[#475569]"><Target className="h-4 w-4" />Google Ads, 30 gün</div>
+            <div className={`${sora.className} mt-2 text-[26px] font-light leading-none tabular-nums`}>{ads ? `₺${nf(ads.spend30)}` : '—'}{spend30Usd != null && <span className="text-[16px] text-[#475569]"> ≈ ${nf(spend30Usd)}</span>}</div>
             <div className="mt-2 text-[12px] text-[#475569]">
               {ads ? <>Google'dan {ads.googleBookings30} rezervasyon</> : 'rapor yok'}
             </div>
             <div className="text-[11px] text-[#64748B]">{M.tracked < M.last30.bookings ? 'kaynak takibi 12 Ekim\'de başladı, eski kayıtlarda yok' : `${ads?.clicks30 ?? 0} tıklama`}</div>
           </div>
+          <MetaAdsCard usdTry={M.usdTry} />
         </section>
 
         <div className="grid gap-4 lg:grid-cols-12">

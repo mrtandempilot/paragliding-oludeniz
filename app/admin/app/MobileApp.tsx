@@ -11,6 +11,7 @@ import {
   Search, BarChart3, Monitor, Share, PlusSquare, CircleDollarSign, Target, Inbox,
 } from 'lucide-react'
 import { MY_CUT_PER_GUEST } from '@/lib/admin/earnings'
+import MetaAdsCard from '../MetaAdsCard'
 
 /* ───────────────────────── types ───────────────────────── */
 
@@ -747,10 +748,13 @@ export default function MobileApp({ data }: { data: AppData }) {
   const renderAds = () => {
     const a = data.ads
     if (!a) return (
+      <>
+      <MetaAdsCard dark usdTry={data.usdTry} />
       <Card>
         <Empty icon={Megaphone} text="Google Ads raporu henüz yok" />
         <Link href="/admin/google-ads" className="block text-center text-[13px] font-semibold" style={{ color: C.orange }}>Google Ads paneli</Link>
       </Card>
+      </>
     )
     const k = a.kpis
     const series = ADS_SERIES.filter(s => adsOn[s.key])
@@ -760,6 +764,7 @@ export default function MobileApp({ data }: { data: AppData }) {
     const pct = (v: number | null | undefined) => (v == null ? '–' : '%' + nf(v * 100))
     return (
       <>
+        <MetaAdsCard dark usdTry={data.usdTry} />
         <div className="flex items-center gap-2 px-1 text-[12px]" style={{ color: C.dim }}>
           <span className="flex h-5 w-5 items-center justify-center rounded-md bg-white">
             <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden><path fill="#FBBC04" d="M3.3 16.6 9.5 5.9l3.9 2.2-6.2 10.7z" /><path fill="#4285F4" d="m20.7 16.6-6.2-10.7-3.9 2.2 6.2 10.7z" /><circle cx="5.3" cy="17.8" r="2.3" fill="#34A853" /></svg>
