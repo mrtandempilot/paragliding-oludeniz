@@ -15,6 +15,7 @@ import {
 import TicketModal, { type Booking as TicketBooking } from './bookings/TicketModal'
 import { langOf, waMessage, waUrl, LANG_LABEL, TEMPLATE_LABEL, type Template } from './flightDeskText'
 import Time24Select from './Time24Select'
+import { MY_CUT_PER_GUEST } from '@/lib/admin/earnings'
 
 const sora = Sora({ subsets: ['latin', 'latin-ext'], weight: ['300', '400', '600', '700'], display: 'swap' })
 
@@ -48,7 +49,7 @@ type Props = {
   sources: Record<string, string>
   money: {
     usdTry: number | null
-    earnedMonth: Sum; earnedLastSame: Sum; earnedLastFull: Sum
+    earnedMonth: Sum; earnedLastSame: Sum; earnedLastFull: Sum; earned30: Sum
     aheadConfirmed: Sum; aheadPending: Sum
     week: { bookings: number; guests: number }; prevWeek: { bookings: number }
     last30: { bookings: number; value: number; cancelled: number }; prev30: { bookings: number }
@@ -472,11 +473,9 @@ export default function FlightDesk(p: Props) {
   /* money */
   const M = p.money
   const pctChange = (a: number, b: number) => (b > 0 ? Math.round(((a - b) / b) * 100) : null)
-  const monthDelta = pctChange(M.earnedMonth.revenue, M.earnedLastSame.revenue)
   const toUsd = (tl: number | null | undefined) => (tl != null && M.usdTry ? tl / M.usdTry : null)
   const ads = M.ads
   const spend30Usd = toUsd(ads?.spend30)
-  const roas = spend30Usd && spend30Usd > 0 && ads ? ads.googleValue30 / spend30Usd : null
   const metaSpend30 = (ext.metaSpend?.data || []).reduce((s: number, r: any) => s + Number(r.spend || 0), 0)
   const metaStatus = ext.meta && !ext.meta.error ? Number(ext.meta.account_status) : null
   const visitors = ext.ga4?.overview?.activeUsers
@@ -642,35 +641,56 @@ export default function FlightDesk(p: Props) {
           )
         }} />
 
+        {/* ── MY CUT: Ceyhun'un kendi kazancı (yolcu başı $25) ── */}
+        {(() => {
+          const cut = (g: number) => g * MY_CUT_PER_GUEST
+          const mine = cut(M.earnedMonth.guests), mineLast = cut(M.earnedLastSame.guests)
+          const aheadMine = cut(M.aheadConfirmed.guests + M.aheadPending.guests)
+          const mine30 = cut(M.earned30.guests)
+          const ad30Usd = ads ? toUsd(ads.spend30 + metaSpend30) : null
+          const net30 = ad30Usd != null ? mine30 - ad30Usd : null
+          return (
+            <section aria-label="Senin kazancın" className="overflow-hidden rounded-2xl border-2 border-[#F97316] bg-gradient-to-br from-[#FFF7ED] to-white shadow-sm">
+              <div className="grid gap-px bg-[#FED7AA] sm:grid-cols-2 lg:grid-cols-4">
+                <div className="bg-[#FFF7ED] p-4 sm:p-5">
+                  <div className="flex items-center gap-2 text-[12px] font-semibold text-[#C2410C]"><Wallet className="h-4 w-4" />SENİN KAZANCIN · {monthName}</div>
+                  <div className={`${sora.className} mt-2 text-[40px] font-semibold leading-none tabular-nums text-[#C2410C]`}>${nf(mine)}</div>
+                  <div className="mt-2 text-[12px] text-[#475569]">{M.earnedMonth.guests} yolcu × ${MY_CUT_PER_GUEST} · geçen ay aynı dönem ${nf(mineLast)} <Delta v={pctChange(mine, mineLast)} /></div>
+                  <div className="text-[11px] text-[#64748B]">geçen ay toplam ${nf(cut(M.earnedLastFull.guests))}{M.usdTry ? ` · bu ay ≈ ₺${nf(mine * M.usdTry)}` : ''}</div>
+                </div>
+                <div className="bg-white p-4 sm:p-5">
+                  <div className="flex items-center gap-2 text-[12px] text-[#475569]"><CalendarClock className="h-4 w-4" />Önümüzdeki 30 gün gelecek payın</div>
+                  <div className={`${sora.className} mt-2 text-[28px] font-light leading-none tabular-nums text-[#0F172A]`}>${nf(aheadMine)}</div>
+                  <div className="mt-2 text-[12px] text-[#475569]">${nf(cut(M.aheadConfirmed.guests))} onaylı{M.aheadPending.guests ? <span className="text-[#B45309]"> · ${nf(cut(M.aheadPending.guests))} onay bekliyor</span> : null}</div>
+                </div>
+                <div className="bg-white p-4 sm:p-5">
+                  <div className="flex items-center gap-2 text-[12px] text-[#475569]"><Users className="h-4 w-4" />Son 30 gün payın</div>
+                  <div className={`${sora.className} mt-2 text-[28px] font-light leading-none tabular-nums text-[#0F172A]`}>${nf(mine30)}</div>
+                  <div className="mt-2 text-[12px] text-[#475569]">{M.earned30.guests} yolcu uçtu</div>
+                </div>
+                <div className="bg-white p-4 sm:p-5">
+                  <div className="flex items-center gap-2 text-[12px] text-[#475569]"><Target className="h-4 w-4" />Reklam düşünce net · 30 gün</div>
+                  <div className={`${sora.className} mt-2 text-[28px] font-semibold leading-none tabular-nums ${net30 == null ? 'text-[#94A3B8]' : net30 >= 0 ? 'text-[#0F766E]' : 'text-[#DC2626]'}`}>{net30 == null ? '—' : `${net30 < 0 ? '−' : ''}$${nf(Math.abs(net30))}`}</div>
+                  <div className="mt-2 text-[12px] text-[#475569]">{ad30Usd != null ? <>payın ${nf(mine30)} − reklam ≈ ${nf(ad30Usd)}</> : 'reklam/kur verisi yok'}</div>
+                </div>
+              </div>
+            </section>
+          )
+        })()}
+
         {/* ── MONEY ── */}
-        <section aria-label="Para" className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#E2E8F0] shadow-sm lg:grid-cols-4">
-          <div className="col-span-2 bg-gradient-to-br from-[#ECFDF5] to-white p-4 sm:p-5 lg:col-span-1">
-            <div className="flex items-center gap-2 text-[12px] text-[#475569]"><Wallet className="h-4 w-4" />{monthName} ayında kazanılan</div>
-            <div className={`${sora.className} mt-2 text-[34px] font-light leading-none tabular-nums text-[#0F172A] sm:text-[40px]`}>${nf(M.earnedMonth.revenue)}</div>
-            <div className="mt-2 flex flex-wrap gap-x-2 text-[12px] text-[#475569]">
-              <span>{M.earnedMonth.guests} yolcu uçtu</span>
-              <span>· geçen ay aynı dönem ${nf(M.earnedLastSame.revenue)} <Delta v={monthDelta} /></span>
-            </div>
-            <div className="text-[11px] text-[#64748B]">geçen ay toplam ${nf(M.earnedLastFull.revenue)}</div>
-          </div>
-          <div className="bg-white p-4 sm:p-5">
-            <div className="flex items-center gap-2 text-[12px] text-[#475569]"><CalendarClock className="h-4 w-4" />Önümüzdeki 30 gün</div>
-            <div className={`${sora.className} mt-2 text-[26px] font-light leading-none tabular-nums`}>${nf(M.aheadConfirmed.revenue + M.aheadPending.revenue)}</div>
-            <div className="mt-2 text-[12px] text-[#475569]">${nf(M.aheadConfirmed.revenue)} onaylı{M.aheadPending.revenue ? <span className="text-[#B45309]"> · ${nf(M.aheadPending.revenue)} onay bekliyor</span> : null}</div>
-            <div className="text-[11px] text-[#64748B]">{M.aheadConfirmed.guests + M.aheadPending.guests} yolcu</div>
-          </div>
+        <section aria-label="Para" className="grid gap-px overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#E2E8F0] shadow-sm sm:grid-cols-2">
           <div className="bg-white p-4 sm:p-5">
             <div className="flex items-center gap-2 text-[12px] text-[#475569]"><Users className="h-4 w-4" />Yeni rezervasyon, 30 gün</div>
-            <div className={`${sora.className} mt-2 text-[26px] font-light leading-none tabular-nums`}>{M.last30.bookings} <span className="text-[16px] text-[#475569]">· ${nf(M.last30.value)}</span></div>
+            <div className={`${sora.className} mt-2 text-[26px] font-light leading-none tabular-nums`}>{M.last30.bookings}</div>
             <div className="mt-2 text-[12px] text-[#475569]">önceki 30 gün {M.prev30.bookings} <Delta v={pctChange(M.last30.bookings, M.prev30.bookings)} /></div>
             <div className="text-[11px] text-[#64748B]">bu hafta {M.week.bookings} (geçen hafta {M.prevWeek.bookings}){M.last30.cancelled ? ` · ${M.last30.cancelled} iptal` : ''}</div>
           </div>
-          <div className="col-span-2 bg-white p-4 sm:p-5 lg:col-span-1">
+          <div className="bg-white p-4 sm:p-5">
             <div className="flex items-center gap-2 text-[12px] text-[#475569]"><Target className="h-4 w-4" />Reklam, 30 gün</div>
             <div className={`${sora.className} mt-2 text-[26px] font-light leading-none tabular-nums`}>{ads ? `₺${nf(ads.spend30 + metaSpend30)}` : '—'}{spend30Usd != null && <span className="text-[16px] text-[#475569]"> ≈ ${nf(toUsd((ads?.spend30 || 0) + metaSpend30) || 0)}</span>}</div>
             <div className="mt-2 text-[12px] text-[#475569]">
-              {ads ? <>Google'dan {ads.googleBookings30} rezervasyon{ads.googleBookings30 ? ` · $${nf(ads.googleValue30)}` : ''}</> : 'rapor yok'}
-              {roas != null && ads?.googleBookings30 ? <span className={roas >= 3 ? 'text-[#0F766E]' : 'text-[#B45309]'}> · her $1 → ${nf(roas, 1)}</span> : null}
+              {ads ? <>Google'dan {ads.googleBookings30} rezervasyon</> : 'rapor yok'}
             </div>
             <div className="text-[11px] text-[#64748B]">{M.tracked < M.last30.bookings ? 'kaynak takibi 12 Ekim\'de başladı, eski kayıtlarda yok' : `${ads?.clicks30 ?? 0} tıklama`}</div>
           </div>

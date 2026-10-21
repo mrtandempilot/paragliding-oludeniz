@@ -10,6 +10,7 @@ import {
   Download, ExternalLink, Building2, UserRound, Banknote, Ticket, AudioLines, Radar, Bot, Instagram, FileText,
   Search, BarChart3, Monitor, Share, PlusSquare, CircleDollarSign, Target, Inbox,
 } from 'lucide-react'
+import { MY_CUT_PER_GUEST } from '@/lib/admin/earnings'
 
 /* ───────────────────────── types ───────────────────────── */
 
@@ -32,7 +33,7 @@ export type AppData = {
   sources: Record<string, string>
   waInbox: { id: string; from: string; summary: string; at: string }[]
   money: {
-    earnedMonth: Sum; earnedLastSame: Sum; aheadConfirmed: Sum; aheadPending: Sum
+    earnedMonth: Sum; earnedLastSame: Sum; earned30: Sum; aheadConfirmed: Sum; aheadPending: Sum
     last30: { bookings: number; value: number }; prev30: { bookings: number; value: number }
     trend: { date: string; bookings: number; value: number; adCost: number | null }[]
     channels: { channel: string; bookings: number; value: number }[]
@@ -516,15 +517,39 @@ export default function MobileApp({ data }: { data: AppData }) {
     const aheadTotal = m.aheadConfirmed.revenue + m.aheadPending.revenue
     return (
       <>
+        {(() => {
+          const cut = (g: number) => g * MY_CUT_PER_GUEST
+          const mine = cut(m.earnedMonth.guests), mineLast = cut(m.earnedLastSame.guests)
+          const aheadMine = cut(m.aheadConfirmed.guests + m.aheadPending.guests)
+          const mine30 = cut(m.earned30.guests)
+          const ad30 = (data.ads?.daily || []).reduce((s, x) => s + (x.cost || 0), 0)
+          const ad30Usd = data.ads && data.usdTry ? ad30 / data.usdTry : null
+          const net30 = ad30Usd != null ? mine30 - ad30Usd : null
+          return (
+            <Card style={{ background: 'linear-gradient(135deg, rgba(249,115,22,.22), rgba(249,115,22,.06))', borderColor: C.orange }}>
+              <div className="flex items-start justify-between">
+                <div className="text-[12px] font-bold tracking-wide" style={{ color: C.orange }}>SENİN KAZANCIN · BU AY</div>
+                <Delta value={delta(mine, mineLast)} />
+              </div>
+              <div className="mt-1 text-[34px] font-extrabold leading-none tabular-nums" style={{ color: C.text }}>{usd(mine)}</div>
+              <div className="mt-1 text-[12px] tabular-nums" style={{ color: C.muted }}>{m.earnedMonth.guests} yolcu × ${MY_CUT_PER_GUEST}{data.usdTry ? ` · ≈ ${tl(mine * data.usdTry)}` : ''}</div>
+              <div className="mt-3 grid grid-cols-3 gap-2 border-t pt-3" style={{ borderColor: 'rgba(249,115,22,.35)' }}>
+                <div><div className="text-[11px]" style={{ color: C.muted }}>Gelecek 30g</div><div className="text-[17px] font-bold tabular-nums" style={{ color: C.text }}>{usd(aheadMine)}</div></div>
+                <div><div className="text-[11px]" style={{ color: C.muted }}>Son 30g</div><div className="text-[17px] font-bold tabular-nums" style={{ color: C.text }}>{usd(mine30)}</div></div>
+                <div><div className="text-[11px]" style={{ color: C.muted }}>Reklam sonrası</div><div className="text-[17px] font-bold tabular-nums" style={{ color: net30 == null ? C.dim : net30 >= 0 ? C.green : C.red }}>{net30 == null ? '–' : `${net30 < 0 ? '−' : ''}${usd(Math.abs(net30))}`}</div></div>
+              </div>
+            </Card>
+          )
+        })()}
+
         <div className="grid grid-cols-2 gap-3">
-          <Kpi icon={Wallet} color={C.green} label="Bu ay ciro" value={usd(m.earnedMonth.revenue)}
-            d={delta(m.earnedMonth.revenue, m.earnedLastSame.revenue)}
-            sub={data.usdTry ? `≈ ${tl(m.earnedMonth.revenue * data.usdTry)}` : `${m.earnedMonth.guests} kişi uçtu`}
-            spark={m.trend.map(t => t.value)} />
+          <Kpi icon={Wallet} color={C.green} label="Bu ay uçan" value={`${m.earnedMonth.guests} kişi`}
+            d={delta(m.earnedMonth.guests, m.earnedLastSame.guests)}
+            sub={`geçen ay aynı dönem ${m.earnedLastSame.guests}`} />
           <Kpi icon={Plane} color={C.orange} label="Bugün uçacak" value={`${guestsOn(today)} kişi`} onClick={() => { setFlightDay('all'); setTab('flights') }}
             sub={`${todayList.length} rez. · yarın ${guestsOn(tomorrow)} kişi`} spark={Array.from({ length: 7 }, (_, i) => guestsOn(addDays(today, i)))} />
           <Kpi icon={CalendarDays} color={C.blue} label="Yeni rezervasyon · 30g" value={nf(m.last30.bookings)}
-            d={delta(m.last30.bookings, m.prev30.bookings)} sub={`${usd(m.last30.value)} değerinde`} spark={m.trend.map(t => t.bookings)} />
+            d={delta(m.last30.bookings, m.prev30.bookings)} sub="son 30 günde gelen" spark={m.trend.map(t => t.bookings)} />
           <Kpi icon={Megaphone} color={C.violet} label="Reklam · 7 gün" value={spend7 == null ? '–' : tl(spend7)} onClick={() => setTab('ads')}
             d={spend7 != null ? delta(spend7, data.ads?.kpis?.spendPrev7 || 0) : null} invert
             sub={data.ads ? `${nf(data.ads.kpis.conv7 || 0)} dönüşüm · ${nf(data.ads.kpis.clicks7 || 0)} tık` : 'rapor yok'}
@@ -602,8 +627,8 @@ export default function MobileApp({ data }: { data: AppData }) {
         <Card>
           <CardTitle icon={CircleDollarSign} title="Önümüzdeki 30 gün" color={C.sky} />
           <div className="grid grid-cols-2 gap-3">
-            <div><div className="text-[11.5px]" style={{ color: C.muted }}>Onaylı</div><div className="text-[20px] font-bold tabular-nums" style={{ color: '#4ADE80' }}>{usd(m.aheadConfirmed.revenue)}</div><div className="text-[11px]" style={{ color: C.dim }}>{m.aheadConfirmed.guests} kişi</div></div>
-            <div><div className="text-[11.5px]" style={{ color: C.muted }}>Onay bekliyor</div><div className="text-[20px] font-bold tabular-nums" style={{ color: '#FBBF24' }}>{usd(m.aheadPending.revenue)}</div><div className="text-[11px]" style={{ color: C.dim }}>{m.aheadPending.guests} kişi</div></div>
+            <div><div className="text-[11.5px]" style={{ color: C.muted }}>Onaylı</div><div className="text-[20px] font-bold tabular-nums" style={{ color: '#4ADE80' }}>{usd(m.aheadConfirmed.guests * MY_CUT_PER_GUEST)}</div><div className="text-[11px]" style={{ color: C.dim }}>{m.aheadConfirmed.guests} kişi · senin payın</div></div>
+            <div><div className="text-[11.5px]" style={{ color: C.muted }}>Onay bekliyor</div><div className="text-[20px] font-bold tabular-nums" style={{ color: '#FBBF24' }}>{usd(m.aheadPending.guests * MY_CUT_PER_GUEST)}</div><div className="text-[11px]" style={{ color: C.dim }}>{m.aheadPending.guests} kişi · senin payın</div></div>
           </div>
           {aheadTotal > 0 && (
             <div className="mt-3 flex h-2 overflow-hidden rounded-full" style={{ background: C.card2 }}>

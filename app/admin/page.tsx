@@ -39,13 +39,15 @@ export default async function AdminDashboardPage() {
   const lastMonthSameDay = `${lm.y}-${String(lm.m).padStart(2, '0')}-${String(Math.min(d, lastMonthDays)).padStart(2, '0')}`
   const d60 = new Date(now - 60 * 86400000).toISOString()
   const h72 = new Date(now - 72 * 3600000).toISOString()
+  const d29 = istanbulDate(-29)
+  const from4 = d29 < lastMonthStart ? d29 : lastMonthStart
 
   const q = await Promise.allSettled([
     /* 0 */ supabase.from('bookings').select('*').gte('flight_date', today).lte('flight_date', in6).neq('status', 'cancelled').order('flight_date').limit(200),
     /* 1 */ supabase.from('bookings').select('*').eq('status', 'pending').gt('flight_date', in6).order('flight_date').limit(20),
     /* 2 */ supabase.from('bookings').select('*').lt('flight_date', today).in('status', ['pending', 'confirmed']).order('flight_date', { ascending: false }).limit(60),
     /* 3 */ supabase.from('bookings').select('id,created_at,flight_date,guests,total_price,status').gte('created_at', d60).limit(2000),
-    /* 4 */ supabase.from('bookings').select('id,flight_date,guests,total_price,status').gte('flight_date', lastMonthStart).lte('flight_date', in30).neq('status', 'cancelled').limit(2000),
+    /* 4 */ supabase.from('bookings').select('id,flight_date,guests,total_price,status').gte('flight_date', from4).lte('flight_date', in30).neq('status', 'cancelled').limit(2000),
     /* 5 */ supabase.from('settings').select('key,value').in('key', [OPS_KEY, WA_HANDLED_KEY, SOURCES_KEY, BOOKING_SEEN_KEY]),
     /* 6 */ supabase.from('agent_logs').select('id,agent,action,status,error,created_at').neq('status', 'running').order('created_at', { ascending: false }).limit(150),
     /* 7 */ supabase.from('agent_logs').select('id,output,created_at').eq('agent', 'whatsapp').gte('created_at', h72).order('created_at', { ascending: false }).limit(50),
@@ -80,6 +82,7 @@ export default async function AdminDashboardPage() {
   const earnedMonth = sumOf(byFlight.filter(b => b.flight_date >= monthStart && b.flight_date <= today && EARNED.includes(b.status)))
   const earnedLastSame = sumOf(byFlight.filter(b => b.flight_date >= lastMonthStart && b.flight_date <= lastMonthSameDay && EARNED.includes(b.status)))
   const earnedLastFull = sumOf(byFlight.filter(b => b.flight_date >= lastMonthStart && b.flight_date < monthStart && EARNED.includes(b.status)))
+  const earned30 = sumOf(byFlight.filter(b => b.flight_date >= d29 && b.flight_date <= today && EARNED.includes(b.status)))
   const ahead = byFlight.filter(b => b.flight_date > today && b.flight_date <= in30)
   const aheadConfirmed = sumOf(ahead.filter(b => b.status === 'confirmed'))
   const aheadPending = sumOf(ahead.filter(b => b.status === 'pending'))
@@ -130,7 +133,7 @@ export default async function AdminDashboardPage() {
       agents={{ total: AGENTS.length, errors: agentErrors.map((l: any) => ({ agent: l.agent, action: l.action, error: l.error, at: l.created_at })) }}
       money={{
         usdTry: val(11),
-        earnedMonth, earnedLastSame, earnedLastFull,
+        earnedMonth, earnedLastSame, earnedLastFull, earned30,
         aheadConfirmed, aheadPending,
         week: { bookings: thisWeek.length, guests: thisWeek.reduce((s, b) => s + (b.guests || 1), 0) },
         prevWeek: { bookings: prevWeek.length },
