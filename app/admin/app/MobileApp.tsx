@@ -526,19 +526,21 @@ export default function MobileApp({ data }: { data: AppData }) {
           const ad30Usd = data.ads && data.usdTry ? ad30 / data.usdTry : null
           const net30 = ad30Usd != null ? mine30 - ad30Usd : null
           const r = data.usdTry
-          const TL = ({ u }: { u: number }) => r ? <div className="text-[11.5px] tabular-nums" style={{ color: C.muted }}>{u < 0 ? '−' : ''}{tl(Math.abs(u) * r)}</div> : null
+          // ana rakam TL (kur yoksa $), altında küçük $
+          const main = (u: number) => (u < 0 ? '−' : '') + (r ? tl(Math.abs(u) * r) : usd(Math.abs(u)))
+          const TL = ({ u }: { u: number }) => r ? <div className="text-[11.5px] tabular-nums" style={{ color: C.muted }}>{u < 0 ? '−' : ''}{usd(Math.abs(u))}</div> : null
           return (
             <Card style={{ background: 'linear-gradient(135deg, rgba(249,115,22,.22), rgba(249,115,22,.06))', borderColor: C.orange }}>
               <div className="flex items-start justify-between">
                 <div className="text-[12px] font-bold tracking-wide" style={{ color: C.orange }}>SENİN KAZANCIN · BU AY</div>
                 <Delta value={delta(mine, mineLast)} />
               </div>
-              <div className="mt-1 text-[34px] font-extrabold leading-none tabular-nums" style={{ color: C.text }}>{usd(mine)}</div>
-              <div className="mt-1 text-[12px] tabular-nums" style={{ color: C.muted }}>{m.earnedMonth.guests} yolcu × ${MY_CUT_PER_GUEST}{data.usdTry ? ` · ≈ ${tl(mine * data.usdTry)}` : ''}</div>
+              <div className="mt-1 text-[34px] font-extrabold leading-none tabular-nums" style={{ color: C.text }}>{main(mine)}</div>
+              <div className="mt-1 text-[12px] tabular-nums" style={{ color: C.muted }}>{r ? `${usd(mine)} · ` : ''}{m.earnedMonth.guests} yolcu × ${MY_CUT_PER_GUEST}</div>
               <div className="mt-3 grid grid-cols-3 gap-2 border-t pt-3" style={{ borderColor: 'rgba(249,115,22,.35)' }}>
-                <div><div className="text-[11px]" style={{ color: C.muted }}>Gelecek 30g</div><div className="text-[17px] font-bold tabular-nums" style={{ color: C.text }}>{usd(aheadMine)}</div><TL u={aheadMine} /></div>
-                <div><div className="text-[11px]" style={{ color: C.muted }}>Son 30g</div><div className="text-[17px] font-bold tabular-nums" style={{ color: C.text }}>{usd(mine30)}</div><TL u={mine30} /></div>
-                <div><div className="text-[11px]" style={{ color: C.muted }}>Reklam sonrası</div><div className="text-[17px] font-bold tabular-nums" style={{ color: net30 == null ? C.dim : net30 >= 0 ? C.green : C.red }}>{net30 == null ? '–' : `${net30 < 0 ? '−' : ''}${usd(Math.abs(net30))}`}</div>{net30 != null && <TL u={net30} />}</div>
+                <div><div className="text-[11px]" style={{ color: C.muted }}>Gelecek 30g</div><div className="text-[17px] font-bold tabular-nums" style={{ color: C.text }}>{main(aheadMine)}</div><TL u={aheadMine} /></div>
+                <div><div className="text-[11px]" style={{ color: C.muted }}>Son 30g</div><div className="text-[17px] font-bold tabular-nums" style={{ color: C.text }}>{main(mine30)}</div><TL u={mine30} /></div>
+                <div><div className="text-[11px]" style={{ color: C.muted }}>Reklam sonrası</div><div className="text-[17px] font-bold tabular-nums" style={{ color: net30 == null ? C.dim : net30 >= 0 ? C.green : C.red }}>{net30 == null ? '–' : main(net30)}</div>{net30 != null && <TL u={net30} />}</div>
               </div>
             </Card>
           )
@@ -629,8 +631,8 @@ export default function MobileApp({ data }: { data: AppData }) {
         <Card>
           <CardTitle icon={CircleDollarSign} title="Önümüzdeki 30 gün" color={C.sky} />
           <div className="grid grid-cols-2 gap-3">
-            <div><div className="text-[11.5px]" style={{ color: C.muted }}>Onaylı</div><div className="text-[20px] font-bold tabular-nums" style={{ color: '#4ADE80' }}>{usd(m.aheadConfirmed.guests * MY_CUT_PER_GUEST)}</div>{data.usdTry ? <div className="text-[11.5px] tabular-nums" style={{ color: C.muted }}>{tl(m.aheadConfirmed.guests * MY_CUT_PER_GUEST * data.usdTry)}</div> : null}<div className="text-[11px]" style={{ color: C.dim }}>{m.aheadConfirmed.guests} kişi · senin payın</div></div>
-            <div><div className="text-[11.5px]" style={{ color: C.muted }}>Onay bekliyor</div><div className="text-[20px] font-bold tabular-nums" style={{ color: '#FBBF24' }}>{usd(m.aheadPending.guests * MY_CUT_PER_GUEST)}</div>{data.usdTry ? <div className="text-[11.5px] tabular-nums" style={{ color: C.muted }}>{tl(m.aheadPending.guests * MY_CUT_PER_GUEST * data.usdTry)}</div> : null}<div className="text-[11px]" style={{ color: C.dim }}>{m.aheadPending.guests} kişi · senin payın</div></div>
+            <div><div className="text-[11.5px]" style={{ color: C.muted }}>Onaylı</div><div className="text-[20px] font-bold tabular-nums" style={{ color: '#4ADE80' }}>{data.usdTry ? tl(m.aheadConfirmed.guests * MY_CUT_PER_GUEST * data.usdTry) : usd(m.aheadConfirmed.guests * MY_CUT_PER_GUEST)}</div>{data.usdTry ? <div className="text-[11.5px] tabular-nums" style={{ color: C.muted }}>{usd(m.aheadConfirmed.guests * MY_CUT_PER_GUEST)}</div> : null}<div className="text-[11px]" style={{ color: C.dim }}>{m.aheadConfirmed.guests} kişi · senin payın</div></div>
+            <div><div className="text-[11.5px]" style={{ color: C.muted }}>Onay bekliyor</div><div className="text-[20px] font-bold tabular-nums" style={{ color: '#FBBF24' }}>{data.usdTry ? tl(m.aheadPending.guests * MY_CUT_PER_GUEST * data.usdTry) : usd(m.aheadPending.guests * MY_CUT_PER_GUEST)}</div>{data.usdTry ? <div className="text-[11.5px] tabular-nums" style={{ color: C.muted }}>{usd(m.aheadPending.guests * MY_CUT_PER_GUEST)}</div> : null}<div className="text-[11px]" style={{ color: C.dim }}>{m.aheadPending.guests} kişi · senin payın</div></div>
           </div>
           {aheadTotal > 0 && (
             <div className="mt-3 flex h-2 overflow-hidden rounded-full" style={{ background: C.card2 }}>

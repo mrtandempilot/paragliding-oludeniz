@@ -649,34 +649,36 @@ export default function FlightDesk(p: Props) {
           const mine30 = cut(M.earned30.guests)
           const ad30Usd = ads ? toUsd(ads.spend30 + metaSpend30) : null
           const net30 = ad30Usd != null ? mine30 - ad30Usd : null
-          const TL = ({ u }: { u: number }) => M.usdTry ? <div className="mt-1 text-[15px] font-medium tabular-nums text-[#475569]">≈ ₺{nf(u * M.usdTry)}</div> : null
+          // ana rakam TL (kur yoksa $), altında küçük $
+          const main = (u: number) => (u < 0 ? '−' : '') + (M.usdTry ? `₺${nf(Math.abs(u) * M.usdTry)}` : `$${nf(Math.abs(u))}`)
+          const TL = ({ u }: { u: number }) => M.usdTry ? <div className="mt-1 text-[15px] font-medium tabular-nums text-[#475569]">{u < 0 ? '−' : ''}${nf(Math.abs(u))}</div> : null
           return (
             <section aria-label="Senin kazancın" className="overflow-hidden rounded-2xl border-2 border-[#F97316] bg-gradient-to-br from-[#FFF7ED] to-white shadow-sm">
               <div className="grid gap-px bg-[#FED7AA] sm:grid-cols-2 lg:grid-cols-4">
                 <div className="bg-[#FFF7ED] p-4 sm:p-5">
                   <div className="flex items-center gap-2 text-[12px] font-semibold text-[#C2410C]"><Wallet className="h-4 w-4" />SENİN KAZANCIN · {monthName}</div>
-                  <div className={`${sora.className} mt-2 text-[40px] font-semibold leading-none tabular-nums text-[#C2410C]`}>${nf(mine)}</div>
+                  <div className={`${sora.className} mt-2 text-[40px] font-semibold leading-none tabular-nums text-[#C2410C]`}>{main(mine)}</div>
                   <TL u={mine} />
-                  <div className="mt-2 text-[12px] text-[#475569]">{M.earnedMonth.guests} yolcu × ${MY_CUT_PER_GUEST} · geçen ay aynı dönem ${nf(mineLast)} <Delta v={pctChange(mine, mineLast)} /></div>
-                  <div className="text-[11px] text-[#64748B]">geçen ay toplam ${nf(cut(M.earnedLastFull.guests))}{M.usdTry ? ` (≈ ₺${nf(cut(M.earnedLastFull.guests) * M.usdTry)})` : ''}</div>
+                  <div className="mt-2 text-[12px] text-[#475569]">{M.earnedMonth.guests} yolcu × ${MY_CUT_PER_GUEST} · geçen ay aynı dönem {main(mineLast)} <Delta v={pctChange(mine, mineLast)} /></div>
+                  <div className="text-[11px] text-[#64748B]">geçen ay toplam {main(cut(M.earnedLastFull.guests))}</div>
                 </div>
                 <div className="bg-white p-4 sm:p-5">
                   <div className="flex items-center gap-2 text-[12px] text-[#475569]"><CalendarClock className="h-4 w-4" />Önümüzdeki 30 gün gelecek payın</div>
-                  <div className={`${sora.className} mt-2 text-[28px] font-light leading-none tabular-nums text-[#0F172A]`}>${nf(aheadMine)}</div>
+                  <div className={`${sora.className} mt-2 text-[28px] font-light leading-none tabular-nums text-[#0F172A]`}>{main(aheadMine)}</div>
                   <TL u={aheadMine} />
-                  <div className="mt-2 text-[12px] text-[#475569]">${nf(cut(M.aheadConfirmed.guests))} onaylı{M.aheadPending.guests ? <span className="text-[#B45309]"> · ${nf(cut(M.aheadPending.guests))} onay bekliyor</span> : null}</div>
+                  <div className="mt-2 text-[12px] text-[#475569]">{main(cut(M.aheadConfirmed.guests))} onaylı{M.aheadPending.guests ? <span className="text-[#B45309]"> · {main(cut(M.aheadPending.guests))} onay bekliyor</span> : null}</div>
                 </div>
                 <div className="bg-white p-4 sm:p-5">
                   <div className="flex items-center gap-2 text-[12px] text-[#475569]"><Users className="h-4 w-4" />Son 30 gün payın</div>
-                  <div className={`${sora.className} mt-2 text-[28px] font-light leading-none tabular-nums text-[#0F172A]`}>${nf(mine30)}</div>
+                  <div className={`${sora.className} mt-2 text-[28px] font-light leading-none tabular-nums text-[#0F172A]`}>{main(mine30)}</div>
                   <TL u={mine30} />
                   <div className="mt-2 text-[12px] text-[#475569]">{M.earned30.guests} yolcu uçtu</div>
                 </div>
                 <div className="bg-white p-4 sm:p-5">
                   <div className="flex items-center gap-2 text-[12px] text-[#475569]"><Target className="h-4 w-4" />Reklam düşünce net · 30 gün</div>
-                  <div className={`${sora.className} mt-2 text-[28px] font-semibold leading-none tabular-nums ${net30 == null ? 'text-[#94A3B8]' : net30 >= 0 ? 'text-[#0F766E]' : 'text-[#DC2626]'}`}>{net30 == null ? '—' : `${net30 < 0 ? '−' : ''}$${nf(Math.abs(net30))}`}</div>
-                  {net30 != null && M.usdTry ? <div className="mt-1 text-[15px] font-medium tabular-nums text-[#475569]">≈ {net30 < 0 ? '−' : ''}₺{nf(Math.abs(net30) * M.usdTry)}</div> : null}
-                  <div className="mt-2 text-[12px] text-[#475569]">{ad30Usd != null ? <>payın ${nf(mine30)} − reklam ≈ ${nf(ad30Usd)}</> : 'reklam/kur verisi yok'}</div>
+                  <div className={`${sora.className} mt-2 text-[28px] font-semibold leading-none tabular-nums ${net30 == null ? 'text-[#94A3B8]' : net30 >= 0 ? 'text-[#0F766E]' : 'text-[#DC2626]'}`}>{net30 == null ? '—' : main(net30)}</div>
+                  {net30 != null && <TL u={net30} />}
+                  <div className="mt-2 text-[12px] text-[#475569]">{ad30Usd != null ? <>payın {main(mine30)} − reklam {main(ad30Usd)}</> : 'reklam/kur verisi yok'}</div>
                 </div>
               </div>
             </section>
