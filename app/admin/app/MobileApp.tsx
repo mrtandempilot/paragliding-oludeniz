@@ -459,6 +459,10 @@ export default function MobileApp({ data }: { data: AppData }) {
   const greet = hour < 5 ? 'İyi geceler' : hour < 12 ? 'Günaydın' : hour < 18 ? 'İyi günler' : 'İyi akşamlar'
   const TITLES: Record<Tab, string> = { home: 'Özet', flights: 'Uçuşlar', ads: 'Reklamlar', seo: 'SEO', more: 'Diğer' }
 
+  // Ceyhun'un payı (yolcu başı $25) — TL, kur yoksa $
+  const cash = (u: number) => data.usdTry ? tl(u * data.usdTry) : usd(u)
+  const mineOf = (b: Booking) => guestsOf(b) * MY_CUT_PER_GUEST
+
   /* ───────── booking card ───────── */
   const renderBooking = (b: Booking, past = false) => {
     const s = st(b), o = data.ops[b.id] || {}, phone = digits(b.phone), src = data.sources[b.id]
@@ -472,7 +476,7 @@ export default function MobileApp({ data }: { data: AppData }) {
             <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12px]" style={{ color: C.muted }}>
               {slotOf(b) && <span className="flex items-center gap-1 font-semibold" style={{ color: C.orange }}><Plane className="h-3.5 w-3.5" />{slotOf(b)}</span>}
               <span className="flex items-center gap-1"><Users className="h-3.5 w-3.5" />{guestsOf(b)} kişi</span>
-              <span className="tabular-nums">{usd(valueOf(b))}</span>
+              <span className="tabular-nums">{cash(mineOf(b))}</span>
               {past && <span>{dayNum(b.flight_date)}</span>}
               {src && <span style={{ color: C.dim }}>· {src}</span>}
             </div>
@@ -714,7 +718,7 @@ export default function MobileApp({ data }: { data: AppData }) {
             <div key={d} className="space-y-3">
               <div className="flex items-baseline justify-between gap-2 px-1 pt-1">
                 <h2 className="text-[15px] font-semibold capitalize">{d === today ? 'Bugün · ' : d === tomorrow ? 'Yarın · ' : ''}{dayLong(d)}</h2>
-                <span className="shrink-0 text-[12px] tabular-nums" style={{ color: C.muted }}>{guestsOn(d)} kişi · {usd(live(list).reduce((s, b) => s + valueOf(b), 0))}</span>
+                <span className="shrink-0 text-[12px] tabular-nums" style={{ color: C.muted }}>{guestsOn(d)} kişi · {cash(live(list).reduce((s, b) => s + mineOf(b), 0))}</span>
               </div>
               {list.length === 0 ? <Card><Empty icon={Plane} text="Bu gün için rezervasyon yok" /></Card> : list.map(b => renderBooking(b))}
             </div>

@@ -386,7 +386,7 @@ export default function FlightDesk(p: Props) {
           if ('Notification' in window && Notification.permission === 'granted') {
             for (const b of added.slice(0, 3)) {
               const n = new Notification(`🪂 Yeni rezervasyon: ${fullName(b)}`, {
-                body: `${b.flight_date.slice(0, 10)}${b.flight_time ? ' · ' + b.flight_time : ''} · ${guestsOf(b)} kişi · $${nf(Number(b.total_price) || PRICE * guestsOf(b))}`,
+                body: `${b.flight_date.slice(0, 10)}${b.flight_time ? ' · ' + b.flight_time : ''} · ${guestsOf(b)} kişi · payın ${cash(mineOf(b))}`,
                 tag: 'booking-' + b.id, requireInteraction: true,
               })
               n.onclick = () => { window.focus(); n.close() }
@@ -434,6 +434,9 @@ export default function FlightDesk(p: Props) {
   const live = (d: string) => (byDay[d] || []).filter(b => st(b) !== 'cancelled')
   const guestsOn = (d: string) => live(d).reduce((s, b) => s + guestsOf(b), 0)
   const valueOf = (b: Booking) => Number(b.total_price) || PRICE * guestsOf(b)
+  // Ceyhun'un payı (yolcu başı $25) — ekranda TL olarak, kur yoksa $
+  const mineOf = (b: Booking) => guestsOf(b) * MY_CUT_PER_GUEST
+  const cash = (u: number) => p.money.usdTry ? `₺${nf(u * p.money.usdTry)}` : `$${nf(u)}`
   const unseen = fresh.filter(b => !seenIds.includes(b.id) && st(b) !== 'cancelled')
   useEffect(() => {
     if (!titleRef.current) titleRef.current = document.title.replace(/^\(\d+\) 🔔 [^|]*\| /, '')
@@ -500,7 +503,7 @@ export default function FlightDesk(p: Props) {
     const hrs = b.created_at ? (Date.now() - new Date(b.created_at).getTime()) / 3600000 : 0
     items.push({
       key: 'p' + b.id, tone: hrs > 2 ? 'bad' : 'warn',
-      title: `$${nf(valueOf(b))} onay bekliyor: ${fullName(b)}`, sub: `${dayFull(b.flight_date.slice(0, 10), p.today)} · ${guestsOf(b)} kişi · geldi ${ago(b.created_at)}${hrs > 2 ? ' (2 saat sözü geçti)' : ''}`,
+      title: `${cash(mineOf(b))} onay bekliyor: ${fullName(b)}`, sub: `${dayFull(b.flight_date.slice(0, 10), p.today)} · ${guestsOf(b)} kişi · geldi ${ago(b.created_at)}${hrs > 2 ? ' (2 saat sözü geçti)' : ''}`,
       body: (
         <div className="mt-2 flex flex-wrap gap-1.5">
           <button disabled={busy === b.id} onClick={() => setStatus(b, 'confirmed')} className={`${btn} bg-[#2DD4BF] text-[#0B1A2C] hover:bg-[#5EEAD4]`}>{busy === b.id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}Onayla</button>
@@ -535,7 +538,7 @@ export default function FlightDesk(p: Props) {
         <ul className="mt-2 space-y-1.5">
           {shown.map(b => (
             <li key={b.id} className="flex items-center justify-between gap-2 text-[13px]">
-              <span className="min-w-0 truncate">{fullName(b)} <span className="text-[#64748B]">· {b.flight_date.slice(5)} · ${nf(valueOf(b))}</span></span>
+              <span className="min-w-0 truncate">{fullName(b)} <span className="text-[#64748B]">· {b.flight_date.slice(5)} · {cash(mineOf(b))}</span></span>
               <span className="flex shrink-0 gap-1">
                 <button disabled={busy === b.id} onClick={() => setStatus(b, 'completed')} className={`${btn} border border-[#7DD3FC]/40 text-[#0369A1] hover:bg-[#7DD3FC]/10`}>Uçtu</button>
                 <button disabled={busy === b.id} onClick={() => setStatus(b, 'cancelled')} className={`${btn} border border-[#E2E8F0] text-[#475569] hover:border-[#F87171] hover:text-[#DC2626]`}>İptal</button>
@@ -625,7 +628,8 @@ export default function FlightDesk(p: Props) {
                         <p className="mt-0.5 text-[12px] text-[#475569]">geldi {ago(b.created_at)}{p.sources[b.id] ? ` · ${p.sources[b.id]}` : ''}{b.notes ? ` · “${b.notes.replace(/\[Saat \d{2}:\d{2}\]\s*/, '').slice(0, 70)}”` : ''}</p>
                       </div>
                       <div className="shrink-0 text-right">
-                        <div className={`${sora.className} text-[22px] leading-none tabular-nums text-[#0F172A]`}>${nf(valueOf(b))}</div>
+                        <div className={`${sora.className} text-[22px] leading-none tabular-nums text-[#0F172A]`}>{cash(mineOf(b))}</div>
+                        {p.money.usdTry ? <div className="mt-0.5 text-[11px] tabular-nums text-[#64748B]">${nf(mineOf(b))} payın</div> : null}
                         <span className="mt-1 inline-block text-[11px]" style={{ color: STATUS_COLOR[s] }}>{STATUS_TR[s] || s}</span>
                       </div>
                     </div>
@@ -712,7 +716,7 @@ export default function FlightDesk(p: Props) {
                 {week.map(d => {
                   const o = outlookBy[d], g = guestsOn(d), active = d === day
                   const list = live(d)
-                  const v = list.reduce((s, b) => s + valueOf(b), 0)
+                  const v = list.reduce((s, b) => s + mineOf(b), 0)
                   const pend = list.some(b => st(b) === 'pending')
                   const names = list.map(b => (b.first_name || fullName(b)).trim().split(' ')[0]).join(', ')
                   const busyDay = g > 0
@@ -728,7 +732,7 @@ export default function FlightDesk(p: Props) {
                       {busyDay ? (
                         <>
                           <span className={`${sora.className} mt-1 text-[24px] font-semibold leading-none tabular-nums ${active ? '' : 'text-[#C2410C]'}`}>{g}<span className="ml-1 text-[11px] font-normal opacity-80">yolcu</span></span>
-                          <span className={`mt-1 text-[12px] font-semibold tabular-nums ${active ? 'text-white' : 'text-[#9A3412]'}`}>${nf(v)}</span>
+                          <span className={`mt-1 text-[12px] font-semibold tabular-nums ${active ? 'text-white' : 'text-[#9A3412]'}`}>{cash(v)}</span>
                           <span className={`mt-0.5 truncate text-[11px] ${active ? 'text-white/90' : 'text-[#9A3412]/80'}`} title={names}>{names}</span>
                           {pend && <span className={`mt-1 self-start rounded-full px-1.5 text-[10px] font-semibold ${active ? 'bg-white/25 text-white' : 'bg-[#FEF3C7] text-[#B45309]'}`}>onay bekliyor</span>}
                         </>
@@ -790,7 +794,7 @@ export default function FlightDesk(p: Props) {
                               <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                                 <span className="truncate text-[15px] text-[#0F172A]">{fullName(b)}</span>
                                 <span className="inline-flex items-center gap-1 text-[12px] tabular-nums text-[#475569]"><Users className="h-3 w-3" aria-hidden />{guestsOf(b)}</span>
-                                <span className="text-[12px] tabular-nums text-[#334155]">${nf(valueOf(b))}</span>
+                                <span className="text-[12px] tabular-nums text-[#334155]">{cash(mineOf(b))}</span>
                                 <span className="text-[12px]" style={{ color: STATUS_COLOR[s] || '#64748B' }}>{STATUS_TR[s] || s}</span>
                                 {p.sources[b.id] && <span className="rounded bg-[#E2E8F0] px-1.5 text-[11px] text-[#334155]">{p.sources[b.id]}</span>}
                                 {b.phone && <span className="text-[11px] text-[#64748B]">{LANG_LABEL[langOf(b.phone)]}</span>}
