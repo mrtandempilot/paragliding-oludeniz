@@ -49,6 +49,22 @@ export async function GET(req: Request) {
   const phoneId = process.env.WHATSAPP_PHONE_NUMBER_ID
   if (!token || !phoneId) return NextResponse.json({ error: 'WHATSAPP_ACCESS_TOKEN / WHATSAPP_PHONE_NUMBER_ID missing' }, { status: 500 })
 
+  // Teşhis: token geçerli mi, hesapta hangi numaralar var, webhook (subscribed_apps) bağlı mı
+  if (new URL(req.url).searchParams.get('diag') === '1') {
+    const waba = process.env.WHATSAPP_BUSINESS_ACCOUNT_ID || '879567751458725'
+    const [dbg, phones, subs] = await Promise.all([
+      g(`debug_token?input_token=${encodeURIComponent(token)}`, token),
+      g(`${waba}/phone_numbers?fields=id,display_phone_number,verified_name,status,quality_rating,platform_type,code_verification_status`, token),
+      g(`${waba}/subscribed_apps`, token),
+    ])
+    const d = dbg.data?.data || {}
+    return NextResponse.json({
+      configuredPhoneId: phoneId, waba,
+      token: dbg.ok ? { valid: d.is_valid, type: d.type, app: d.application, expires_at: d.expires_at, scopes: (d.granular_scopes || []).map((x: any) => x.scope + ':' + (x.target_ids || []).join('|')) } : dbg.data?.error?.message,
+      phones: phones.ok ? phones.data?.data : phones.data?.error?.message,
+      subscribedApps: subs.ok ? subs.data?.data : subs.data?.error?.message,
+    })
+  }
   if (new URL(req.url).searchParams.get('phone') === '1') {
     const ph = await g(`${phoneId}?fields=display_phone_number,verified_name,code_verification_status,quality_rating,status`, token)
     return NextResponse.json({ phoneId, ok: ph.ok, phone: ph.ok ? ph.data : ph.data?.error?.message })
