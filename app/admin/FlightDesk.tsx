@@ -551,7 +551,7 @@ export default function FlightDesk(p: Props) {
     })
   }
   for (const t of ads?.issues || []) items.push({ key: 'ads' + t, tone: 'bad', title: `Google Ads: ${t}`, sub: 'Para harcanıyor ama rezervasyon gelmiyor.', body: <Link href="/admin/google-ads" className="mt-1 inline-block text-[12px] text-[#475569] underline">Günlük rapor</Link> })
-  if (metaStatus != null && metaStatus !== 1) items.push({ key: 'meta', tone: 'warn', title: 'Meta reklamları durmuş', sub: metaStatus === 3 ? `Ödenmemiş bakiye${ext.meta.balance ? ` ₺${nf(Number(ext.meta.balance))}` : ''}` : `Hesap durumu ${metaStatus}`, body: <Link href="/admin/meta-ads" className="mt-1 inline-block text-[12px] text-[#475569] underline">Meta reklamları</Link> })
+  if (metaStatus != null && metaStatus !== 1) items.push({ key: 'meta', tone: 'warn', title: 'Meta reklamları durmuş', sub: metaStatus === 3 ? `Ödenmemiş bakiye${ext.meta.balance ? ` ₺${nf(Number(ext.meta.balance) / 100, 2)}` : ''}` : `Hesap durumu ${metaStatus}`, body: <Link href="/admin/meta-ads" className="mt-1 inline-block text-[12px] text-[#475569] underline">Meta reklamları</Link> })
   for (const d of week.slice(0, 3)) {
     const o = outlookBy[d], g = guestsOn(d)
     if (o && o.verdict !== 'ok' && g > 0) items.push({
